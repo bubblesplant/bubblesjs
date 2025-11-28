@@ -1,0 +1,90 @@
+import type { Entities } from '../Label/Entity'
+import type { Text } from '../Label/Text'
+import type { TextLine } from '../Line/LineText'
+
+export class TextSelector {
+  private readonly allowOverlapping: boolean
+  private readonly graphemeMode: boolean
+
+  constructor(allowOverlapping: boolean, graphemeMode: boolean) {
+    this.allowOverlapping = allowOverlapping
+    this.graphemeMode = graphemeMode
+  }
+
+  /**
+   * Returns the offsets of the selected text.
+   * @param {Entities} entities - To decide whether or not the offsets overlap the entities.
+   * @param {Text} text - To convert the code point offsets to the grapheme offsets.
+   * @returns {[number, number]} - The offsets of the selected text.
+   */
+  getOffsets(entities: Entities, text: Text): [number, number] {
+    const [startOffset, endOffset] = this.getRange()
+    if (this.validate(startOffset, endOffset, entities)) {
+      return this.convert(startOffset, endOffset, text)
+    }
+    else {
+      throw new RangeError(`[${startOffset}, ${endOffset}] is invalid.`)
+    }
+  }
+
+  private getRange(): [number, number] {
+    const selection = window.getSelection()
+    // get elements.
+    const startElement = selection!.anchorNode!.parentNode
+    const endElement = selection!.focusNode!.parentNode
+
+    // Get TextLine objects.
+    // This depends on BaseText.vue component.
+    // See the component in detail.
+    const startLine = (
+      startElement as unknown as { annotatorElement: TextLine }
+    ).annotatorElement
+    const endLine = (endElement as unknown as { annotatorElement: TextLine })
+      .annotatorElement
+
+    // get offsets.
+    const startOffset = startLine.startOffset + selection!.anchorOffset
+    const endOffset = endLine.startOffset + selection!.focusOffset
+
+    selection?.removeAllRanges()
+    if (startOffset > endOffset) {
+      return [endOffset, startOffset]
+    }
+    else {
+      return [startOffset, endOffset]
+    }
+  }
+
+  private validate(
+    startOffset: number,
+    endOffset: number,
+    entities: Entities,
+  ): boolean {
+    if (startOffset >= endOffset) {
+      return false
+    }
+    if (this.allowOverlapping) {
+      return true
+    }
+    if (entities.intersectAny(startOffset, endOffset)) {
+      return false
+    }
+    return true
+  }
+
+  private convert(
+    startOffset: number,
+    endOffset: number,
+    text: Text,
+  ): [number, number] {
+    if (this.graphemeMode) {
+      return [
+        text.toGraphemeOffset(startOffset)!,
+        text.toGraphemeOffset(endOffset)!,
+      ]
+    }
+    else {
+      return [startOffset, endOffset]
+    }
+  }
+}
