@@ -6,7 +6,7 @@ const { content } = defineProps<{
 
 <template>
   <div class="flex justify-end">
-    <div class="max-w-500px rounded-[16px_0px_16px_16px] bg-[#0000000a] p-16px">
+    <div class="max-w-80% break-all rounded-[16px_0px_16px_16px] bg-[#0000000a] p-16px">
       {{ content }}
     </div>
   </div>

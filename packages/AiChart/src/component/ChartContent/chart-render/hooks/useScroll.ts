@@ -31,7 +31,7 @@ export function useScroll(chartContainer: TemplateRef<HTMLDivElement | null>, ch
   }
 
   function containerScrollListener() {
-    const threshold = 80 // 为什么是80 要留一个最新生成的一行的高度
+    const threshold = 40 // 为什么是80 要留一个最新生成的一行的高度
     const scrollTop = chartContainer.value?.scrollTop ?? 0
     const containerHeight = chartContainer.value?.offsetHeight ?? 0
     const wrapperHeight = chartWrapper.value?.offsetHeight ?? 0

@@ -64,6 +64,7 @@
     }
   },
   "dependencies": {
-    "@biomejs/biome": "^2.2.7"
+    "@biomejs/biome": "^2.2.7",
+    "vue": "^3.5.24"
   }
 }

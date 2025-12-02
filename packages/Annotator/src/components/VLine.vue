@@ -1,16 +1,15 @@
 <script setup lang="ts">
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+
 import type { Entity } from '../utils/Label/Entity'
 import type { LabelList } from '../utils/Label/Label'
 import type { RelationListItem } from '../utils/Label/Relation'
 import type { Font } from '../utils/Line/Font'
 import type { GeometricEntity } from '../utils/Line/LineEntity'
-import type { LineRelation } from '../utils/Line/LineRelation'
-import type { TextLine } from '../utils/Line/LineText'
-
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
-
 import { EntityLine } from '../utils/Line/LineEntity'
+import type { LineRelation } from '../utils/Line/LineRelation'
 import { RelationLine } from '../utils/Line/LineRelation'
+import type { TextLine } from '../utils/Line/LineText'
 import BaseEntity from './BaseEntity.vue'
 import BaseRelation from './BaseRelation.vue'
 import BaseText from './BaseText.vue'
@@ -45,12 +44,12 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  'clickRelation': [event: Event, relation: RelationListItem]
-  'contextmenuRelation': [relation: RelationListItem]
-  'setSelectedRelation': [relation: RelationListItem | null]
-  'clickEntity': [event: Event, entity: Entity]
-  'contextmenuEntity': [entity: Entity]
-  'setSelectedEntity': [entity: Entity | null]
+  clickRelation: [event: Event, relation: RelationListItem]
+  contextmenuRelation: [relation: RelationListItem]
+  setSelectedRelation: [relation: RelationListItem | null]
+  clickEntity: [event: Event, entity: Entity]
+  contextmenuEntity: [entity: Entity]
+  setSelectedEntity: [entity: Entity | null]
   'update:height': [id: string, height: number]
 }>()
 
@@ -64,8 +63,7 @@ const geometricEntities = computed((): GeometricEntity[] => {
   if (element.value) {
     const view = new EntityLine(props.textLine, props.rtl)
     return view.render(element.value, props.entities, props.entityLabels)
-  }
-  else {
+  } else {
     return []
   }
 })
@@ -82,15 +80,14 @@ const lineRelations = computed((): LineRelation[] => {
 })
 
 const maxRelationLevel = computed(() => {
-  return Math.max(...lineRelations.value.map(r => r.level), 0)
+  return Math.max(...lineRelations.value.map((r) => r.level), 0)
 })
 
 const y = computed(() => {
-  const level = Math.max(...lineRelations.value.map(item => item.level))
+  const level = Math.max(...lineRelations.value.map((item) => item.level))
   if (level < 0) {
     return 0
-  }
-  else {
+  } else {
     return 20 + props.font.fontSize * (level + 1.5)
   }
 })
@@ -122,9 +119,7 @@ function noText(entity: Entity): boolean {
 
 function setElement() {
   nextTick(() => {
-    element.value = document.getElementById(
-      basetextId.value,
-    ) as unknown as SVGTextElement
+    element.value = document.getElementById(basetextId.value) as unknown as SVGTextElement
   })
 }
 
@@ -137,17 +132,14 @@ function labelText(entity: Entity): string {
 }
 
 function isSelectedRelation(relation: RelationListItem): boolean {
-  return props.selectedRelation === relation
+  return props.selectedRelation?.id === relation.id
 }
 
 function isSelectedEntity(entity: Entity): boolean {
   if (props.selectedRelation) {
     return props.selectedRelation.consistOf(entity)
-  }
-  else {
-    return (
-      props.selectedEntities.filter(e => e.id === entity.id).length > 0
-    )
+  } else {
+    return props.selectedEntities.filter((e) => e.id === entity.id).length > 0
   }
 }
 
@@ -167,9 +159,7 @@ watch(
   () => props.entities,
   () => {
     nextTick(() => {
-      const svg = document.getElementById(
-        svgId.value,
-      ) as unknown as SVGSVGElement
+      const svg = document.getElementById(svgId.value) as unknown as SVGSVGElement
       const height = svg.getBBox().height + 30
       svg.setAttribute('style', `height: ${height}px`)
       emit('update:height', id.value, height)

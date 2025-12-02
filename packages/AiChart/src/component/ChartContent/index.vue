@@ -4,20 +4,26 @@ import type { ChartItemType, ChartRequestType, conversationDetailRequestType, cr
 import { AiChartProvideKey, ChartStatusMap, defaultChartContext } from '../../context'
 import ChartInput from './chart-input/index.vue'
 import ChartRender from './chart-render/index.vue'
+import RecommendInput from './recommend-input/index.vue'
 
-const { createConversationRequest, chartRequest, conversationDetailRequest, isInitChartInputCenter = true, markdownCodeRenderConfig } = defineProps<{
+const { createConversationRequest, chartRequest, conversationDetailRequest, isInitChartInputCenter = true, markdownCodeRenderConfig, chartLogoComponent, chartInputLayout = 'vertical',
+} = defineProps<{
   isInitChartInputCenter?: boolean
   createConversationRequest: createConversationRequestType
   chartRequest: ChartRequestType
   conversationDetailRequest: conversationDetailRequestType
   markdownCodeRenderConfig?: InstanceType<typeof ChartRender>['markdownCodeRenderConfig']
+  recommendsOption?: {
+    fieldName?: InstanceType<typeof RecommendInput>['fieldName']
+    recommends?: InstanceType<typeof RecommendInput>['recommends']
+  }
+  chartLogoComponent?: any
+  chartInputLayout?: InstanceType<typeof ChartInput>['layout']
 }>()
 
 const chartContext = inject(AiChartProvideKey, defaultChartContext)
 
 const chartData = ref<ChartItemType[]>([])
-
-const isInitStatus = computed(() => chartContext.chartStatus.value === ChartStatusMap.INIT)
 
 const currentChart = reactive<currentChartType>({
   request: undefined,
@@ -111,6 +117,10 @@ function handleStop() {
   chartContext.chartStatus.value = ChartStatusMap.WAIT
 }
 
+function handleClickRecommend(message: string) {
+  handleSend(message)
+}
+
 watch(() => chartContext.chartStatus.value, (val) => {
   if (val === ChartStatusMap.HISTORY) {
     getHistoryChart()
@@ -121,6 +131,10 @@ watch(() => chartContext.chartStatus.value, (val) => {
   }
 }, {
   immediate: true,
+})
+
+const isInitCenterStatus = computed(() => {
+  return isInitChartInputCenter && chartContext.chartStatus.value === ChartStatusMap.INIT
 })
 </script>
 
@@ -139,15 +153,29 @@ watch(() => chartContext.chartStatus.value, (val) => {
       </div>
 
       <div
-        class="w-full"
+        class="w-full flex flex-col gap-30px"
         :style="{
-          transform: isInitStatus && isInitChartInputCenter ? 'translate3d(0, -40vh, 0)' : 'translate3d(0, 0, 0)',
+          transform: isInitCenterStatus ? 'translate3d(0, -23vh, 0)' : 'translate3d(0, 0, 0)',
           transition: 'transform 500ms cubic-bezier(0.22, 1, 0.36, 1)',
         }"
       >
+        <div v-if="isInitCenterStatus" class="flex justify-center">
+          <component :is="chartLogoComponent" />
+        </div>
         <ChartInput
-          v-model:message="chartMessage" :chart-status="chartContext?.chartStatus.value" @send="handleSend" @stop="handleStop"
+          v-model:message="chartMessage"
+          :chart-status="chartContext?.chartStatus.value"
+          :layout="chartInputLayout"
+          @send="handleSend"
+          @stop="handleStop"
         />
+        <div v-if="isInitCenterStatus" class="ml--50px w-[calc(100%+100px)]">
+          <RecommendInput
+            :field-name="recommendsOption?.fieldName"
+            :recommends="recommendsOption?.recommends"
+            @click-recommend="handleClickRecommend"
+          />
+        </div>
       </div>
     </div>
   </div>

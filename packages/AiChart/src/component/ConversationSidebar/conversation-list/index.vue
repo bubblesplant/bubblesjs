@@ -62,7 +62,7 @@ const conversationDataComputed = computed(() => {
 </script>
 
 <template>
-  <div class="conversation-list p-[0_20px]">
+  <div class="conversation-list p-[0_10px]">
     <div class="display flex flex-col gap-10px">
       <div v-for="[key, value] in conversationDataComputed" :key="key" class="flex flex-col gap-5px">
         <div className="mb-10px color-#555 text-13px font-bold text-[000000e6] text-12px">
