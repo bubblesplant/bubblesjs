@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.4
+
+### Patch Changes
+
+- [#34](https://github.com/435012357/bubblesjs/pull/34) [`9c8b14d`](https://github.com/435012357/bubblesjs/commit/9c8b14d553a2d41cd05745a556a733eca37f810a) Thanks [@github-actions](https://github.com/apps/github-actions)! - 更新 vue-eslint 模板 增加 biomejs 配置
+
 ## 0.1.3
 
 ### Patch Changes
