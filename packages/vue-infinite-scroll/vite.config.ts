@@ -1,0 +1,47 @@
+import path from 'node:path'
+
+import { PlusProComponentsResolver } from '@plus-pro-components/resolver'
+import Vue from '@vitejs/plugin-vue'
+import UnoCSS from 'unocss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
+import { defineConfig, loadEnv } from 'vite'
+import Inspect from 'vite-plugin-inspect'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+
+// https://vite.dev/config/
+export default defineConfig(({ mode }) => {
+  const root = process.cwd()
+  const env = loadEnv(mode, root)
+  const { VITE_PORT } = env
+  console.log(env)
+
+  return {
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
+    },
+    plugins: [
+      Vue(),
+      AutoImport({
+        imports: ['vue', 'vue-router'],
+        resolvers: [ElementPlusResolver()],
+        dts: './src/types/auto-import.d.ts',
+      }),
+      Components({
+        resolvers: [ElementPlusResolver(), PlusProComponentsResolver()],
+        dts: './src/types/components.d.ts',
+      }),
+      createSvgIconsPlugin({
+        // Specify the icon folder to be cached
+        iconDirs: [path.resolve(__dirname, 'src/assets/icon')],
+        // Specify symbolId format
+        symbolId: 'icon-[dir]-[name]',
+      }),
+      UnoCSS(),
+      Inspect(),
+    ],
+  }
+})

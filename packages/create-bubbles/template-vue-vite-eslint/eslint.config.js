@@ -71,4 +71,7 @@ export default antfu(
       'n/prefer-global/process': 'off',
     },
   },
+  {
+    ignores: ['**/node_modules/**', '**/dist/**', '**/public/**'],
+  },
 )
