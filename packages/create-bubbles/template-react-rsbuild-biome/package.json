@@ -1,7 +1,7 @@
 {
-  "name": "bubbles-project",
+  "name": "react-rsbuild-biomejs",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "dev": "rsbuild dev --env-mode development",
     "dev:prod": "rsbuild dev --env-mode production",
@@ -12,31 +12,31 @@
     "reinstall": "rimraf pnpm-lock.yaml && rimraf node_modules && pnpm install"
   },
   "dependencies": {
-    "@alova/adapter-axios": "^2.0.16",
-    "@ant-design/icons-vue": "^7.0.1",
-    "ahooks": "^3.9.5",
-    "alova": "^3.3.4",
-    "antd": "^5.27.5",
-    "dayjs": "^1.11.18",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-router": "^7.9.4",
-    "zustand": "^5.0.8"
+    "@alova/adapter-axios": "^2.0.17",
+    "@ant-design/icons": "~6.1.0",
+    "ahooks": "^3.9.6",
+    "alova": "^3.4.1",
+    "antd": "^6.1.0",
+    "dayjs": "^1.11.19",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router": "^7.10.1",
+    "zustand": "^5.0.9"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.6",
-    "@commitlint/config-conventional": "^20.0.0",
-    "@rsbuild/core": "^1.5.17",
-    "@rsbuild/plugin-react": "^1.4.1",
+    "@biomejs/biome": "^2.3.8",
+    "@commitlint/config-conventional": "^20.2.0",
+    "@rsbuild/core": "^1.6.14",
+    "@rsbuild/plugin-react": "^1.4.2",
     "@rsbuild/plugin-sass": "^1.4.0",
-    "@rsbuild/plugin-svgr": "^1.2.2",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
-    "@unocss/postcss": "^66.5.4",
-    "lefthook": "^1.13.6",
-    "prettier": "^3.6.2",
+    "@rsbuild/plugin-svgr": "^1.2.3",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@unocss/postcss": "^66.5.10",
+    "lefthook": "^2.0.11",
+    "prettier": "^3.7.4",
     "typescript": "^5.9.3",
-    "unocss": "^66.5.4",
-    "unplugin-auto-import": "^20.2.0"
+    "unocss": "^66.5.10",
+    "unplugin-auto-import": "^20.3.0"
   }
 }

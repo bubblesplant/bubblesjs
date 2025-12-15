@@ -1,6 +1,6 @@
 import { type AlovaGenerics, type AlovaOptions, createAlova } from 'alova'
-import { deepMergeObject, isReadableStream } from './utils'
 import adapterFetch from 'alova/fetch'
+import { deepMergeObject, isReadableStream } from './utils'
 
 interface statusMap {
   success?: number

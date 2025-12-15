@@ -40,6 +40,13 @@
         "noDangerouslySetInnerHtml": "off"
       },
       "suspicious": {
+        "noConsole": {
+          "level": "warn",
+          "options": {
+            "allow": ["warn", "error"]
+          }
+        },
+        "noDebugger": "warn",
         "noGlobalIsNan": "off",
         "noGlobalIsFinite": "off",
         "noExplicitAny": "off",

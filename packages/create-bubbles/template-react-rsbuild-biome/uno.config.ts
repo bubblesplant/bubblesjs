@@ -1,8 +1,8 @@
-import { defineConfig, presetUno } from 'unocss'
+import { defineConfig, presetWind4 } from 'unocss'
 
 export default defineConfig({
   content: {
     filesystem: ['./src/**/*.{html,js,ts,jsx,tsx}'],
   },
-  presets: [presetUno()],
+  presets: [presetWind4()],
 })
