@@ -1,3 +1,29 @@
-### ui 组件库
+# vue-components-starter
 
-element-plus pro-components
+A starter for creating a Vue component library.
+
+## Development
+
+- Install dependencies:
+
+```bash
+npm install
+```
+
+- Run the playground:
+
+```bash
+npm run playground
+```
+
+- Run the unit tests:
+
+```bash
+npm run test
+```
+
+- Build the library:
+
+```bash
+npm run build
+```
