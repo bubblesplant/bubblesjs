@@ -1,9 +1,10 @@
 {
-  "name": "vue-infinite-scroll",
+  "name": "@bubblesjs/vue-infinite-scroll",
   "type": "module",
   "version": "0.0.1",
-  "description": "A starter for creating a Vue component library.",
-  "author": "Author Name <author.name@mail.com>",
+  "private": false,
+  "description": "A scroll-infinite for  a Vue3 component.",
+  "author": "bubblesplant<435012357@qq.com>",
   "license": "MIT",
   "homepage": "https://github.com/author/library#readme",
   "repository": {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import { InfiniteScoll } from '../../src'
 
 interface TableRow {
@@ -18,7 +19,7 @@ const tableData = ref<TableRow[]>(
     age: 20 + (i % 30),
     city: ['北京', '上海', '广州', '深圳', '杭州'][i % 5],
     email: `user${i + 1}@example.com`,
-  }))
+  })),
 )
 
 const columns = [
