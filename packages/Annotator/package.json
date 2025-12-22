@@ -1,0 +1,71 @@
+{
+  "name": "vue-components-starter",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "A starter for creating a Vue component library.",
+  "author": "Author Name <author.name@mail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/author/library#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/author/library.git"
+  },
+  "bugs": {
+    "url": "https://github.com/author/library/issues"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./style.css": "./dist/style.css",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "unocss \"src/**/*.vue\" -o dist/style.css && tsdown",
+    "dev": "tsdown --watch",
+    "play": "vite",
+    "test": "vitest",
+    "typecheck": "vue-tsc --noEmit",
+    "release": "bumpp && pnpm publish",
+    "prepublishOnly": "pnpm run build"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "dependencies": {
+    "@flatten-js/interval-tree": "^2.0.3",
+    "grapheme-splitter": "^1.0.4",
+    "nanoid": "^5.1.6",
+    "radashi": "^12.7.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^6.7.1",
+    "@types/node": "^24.10.1",
+    "@unocss/cli": "^66.5.10",
+    "@unocss/eslint-plugin": "^66.5.10",
+    "@unocss/postcss": "^66.5.10",
+    "@unocss/preset-attributify": "^66.5.10",
+    "@unocss/preset-wind3": "^66.5.10",
+    "@vitejs/plugin-vue": "^6.0.2",
+    "@vitest/browser-playwright": "^4.0.15",
+    "bumpp": "^10.3.2",
+    "eslint": "^9.39.2",
+    "eslint-plugin-format": "^1.1.0",
+    "playwright": "^1.57.0",
+    "tsdown": "^0.17.0",
+    "typescript": "^5.9.3",
+    "unocss": "^66.5.10",
+    "vite": "^7.2.6",
+    "vitest": "^4.0.15",
+    "vitest-browser-vue": "^2.0.1",
+    "vue": "^3.5.25",
+    "vue-tsc": "^3.1.6"
+  }
+}

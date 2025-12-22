@@ -4,10 +4,10 @@ import type { Label } from './utils/Label/Label'
 import type { Relation, RelationListItem } from './utils/Label/Relation'
 import type { TextLine } from './utils/Line/LineText'
 
-import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
-
 import { nanoid } from 'nanoid'
+
 import { debounce } from 'radashi'
+import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 
 import VLine from './components/VLine.vue'
 import { TextSelector } from './utils/EventHandler/TextSelectionHandler'
