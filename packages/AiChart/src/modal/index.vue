@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
+import { ref, useTemplateRef } from 'vue'
 
 const { title = 'Ai助手' } = defineProps<{
   title: string
@@ -49,7 +50,7 @@ function toggle() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .modal {
   box-shadow:
     0px 5px 5px -3px #0000001a,

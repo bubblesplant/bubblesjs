@@ -1,4 +1,5 @@
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
+import { ref } from 'vue'
 
 export type conversationIdType = string | undefined
 

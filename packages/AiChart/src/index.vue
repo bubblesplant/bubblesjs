@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { ChartStatusType, conversationIdType, setChartStatusType, setConversationIdType } from './context'
 
-import ChartContent from './component/ChartContent/index.vue'
-import ConversationSidebar from './component/ConversationSidebar/index.vue'
+import { computed, provide, ref, useSlots } from 'vue'
+
+import ChartContent from './components/ChartContent/index.vue'
+import ConversationSidebar from './components/ConversationSidebar/index.vue'
 import { AiChartProvideKey, ChartStatusMap } from './context'
 
 const { sidebarWidth, isConversationList, isInitChartInputCenter = true, markdownCodeRenderConfig, chartLogoComponent, chartInputLayout } = defineProps<{
