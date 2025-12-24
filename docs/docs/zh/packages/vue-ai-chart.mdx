@@ -1,0 +1,211 @@
+# @bubblesjs/vue-ai-chart
+
+一个 Vue 3 AI 聊天组件库，提供完整的 AI 对话界面，包括会话列表侧边栏、聊天内容区域和 Markdown 渲染支持。
+
+## 特性
+
+- 🤖 **AI 聊天界面**：完整的 AI 对话 UI 组件
+- 📝 **Markdown 支持**：内置 Markdown 渲染和代码高亮
+- 💬 **会话管理**：支持会话列表和历史记录
+- 🎨 **可定制**：灵活的插槽系统支持自定义布局
+- 🔌 **易于集成**：简单的 API 连接你的 AI 后端
+
+## 安装
+
+import { Tabs, Tab } from 'rspress/theme';
+
+<Tabs>
+  <Tab label="pnpm">
+    ```bash
+    pnpm add @bubblesjs/vue-ai-chart
+    ```
+  </Tab>
+  <Tab label="npm">
+    ```bash
+    npm install @bubblesjs/vue-ai-chart
+    ```
+  </Tab>
+  <Tab label="yarn">
+    ```bash
+    yarn add @bubblesjs/vue-ai-chart
+    ```
+  </Tab>
+</Tabs>
+
+## 快速开始
+
+### 基础用法
+
+```vue
+<template>
+  <AiChart
+    :create-conversation-request="createConversation"
+    :chart-request="sendMessage"
+    :conversation-detail-request="getConversationDetail"
+  />
+</template>
+
+<script setup lang="ts">
+import { AiChart } from '@bubblesjs/vue-ai-chart'
+import '@bubblesjs/vue-ai-chart/style.css'
+
+// 创建新会话
+const createConversation = async () => {
+  const response = await fetch('/api/conversations', { method: 'POST' })
+  return response.json()
+}
+
+// 发送消息给 AI
+const sendMessage = async (conversationId, message) => {
+  const response = await fetch(`/api/chat/${conversationId}`, {
+    method: 'POST',
+    body: JSON.stringify({ message })
+  })
+  return response.json()
+}
+
+// 获取会话历史
+const getConversationDetail = async (conversationId) => {
+  const response = await fetch(`/api/conversations/${conversationId}`)
+  return response.json()
+}
+</script>
+```
+
+### 带会话侧边栏
+
+```vue
+<template>
+  <AiChart
+    :is-conversation-list="true"
+    :conversation-list="conversations"
+    :create-conversation-request="createConversation"
+    :chart-request="sendMessage"
+    :conversation-detail-request="getConversationDetail"
+    sidebar-width="280px"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { AiChart } from '@bubblesjs/vue-ai-chart'
+import '@bubblesjs/vue-ai-chart/style.css'
+
+const conversations = ref([
+  { id: '1', title: '对话 1', createdAt: '2024-01-01' },
+  { id: '2', title: '对话 2', createdAt: '2024-01-02' }
+])
+</script>
+```
+
+## 组件
+
+### AiChart
+
+主聊天组件，整合侧边栏和聊天内容区域。
+
+#### Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `isInitChartInputCenter` | `boolean` | `true` | 聊天为空时输入框居中显示 |
+| `isConversationList` | `boolean` | `false` | 是否显示会话侧边栏 |
+| `sidebarWidth` | `string` | - | 侧边栏宽度 |
+| `conversationList` | `Array` | - | 会话列表 |
+| `createConversationRequest` | `Function` | 必填 | 创建新会话的函数 |
+| `chartRequest` | `Function` | 必填 | 发送消息的函数 |
+| `conversationDetailRequest` | `Function` | 必填 | 获取会话详情的函数 |
+| `recommendsOption` | `Object` | - | 推荐问题配置 |
+| `markdownCodeRenderConfig` | `Object` | - | Markdown 代码渲染配置 |
+| `chartLogoComponent` | `Component` | - | 自定义 Logo 组件 |
+| `chartInputLayout` | `string` | - | 输入框布局配置 |
+
+### AiMarkdown
+
+独立的 Markdown 渲染组件。
+
+```vue
+<template>
+  <AiMarkdown :content="markdownContent" />
+</template>
+
+<script setup lang="ts">
+import { AiMarkdown } from '@bubblesjs/vue-ai-chart'
+
+const markdownContent = `
+# Hello World
+
+这是 **粗体** 和 *斜体* 文本。
+
+\`\`\`javascript
+console.log('Hello!')
+\`\`\`
+`
+</script>
+```
+
+### AiChartModal
+
+AI 聊天组件的弹窗包装器。
+
+```vue
+<template>
+  <AiChartModal v-model:visible="showModal">
+    <!-- 聊天内容 -->
+  </AiChartModal>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { AiChartModal } from '@bubblesjs/vue-ai-chart'
+
+const showModal = ref(false)
+</script>
+```
+
+## 类型定义
+
+```ts
+// 聊天请求类型
+interface ChartRequestType {
+  conversationId: string
+  message: string
+}
+
+// 会话项
+interface ConversationItem {
+  id: string
+  title: string
+  createdAt: string
+}
+```
+
+## 自定义
+
+### 自定义侧边栏插槽
+
+```vue
+<template>
+  <AiChart
+    :is-conversation-list="true"
+    :conversation-list="conversations"
+    :create-conversation-request="createConversation"
+    :chart-request="sendMessage"
+    :conversation-detail-request="getConversationDetail"
+  >
+    <template #sidebar-header>
+      <div class="custom-header">我的 AI 助手</div>
+    </template>
+    <template #sidebar-footer>
+      <div class="custom-footer">由 AI 驱动</div>
+    </template>
+  </AiChart>
+</template>
+```
+
+## 依赖
+
+此组件依赖：
+- Element Plus 用于 UI 组件
+- Swiper 用于轮播功能
+- dayjs 用于日期格式化

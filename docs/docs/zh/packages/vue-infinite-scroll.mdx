@@ -1,0 +1,159 @@
+# @bubblesjs/vue-infinite-scroll
+
+一个 Vue 3 无限滚动组件，为内容列表创建无缝的自动滚动效果，非常适合新闻滚动条、公告板和数据展示。
+
+## 特性
+
+- 🔄 **无缝循环**：流畅的无限滚动动画
+- ⏸️ **悬停暂停**：鼠标悬停时自动暂停
+- ⚡ **轻量级**：最小依赖，纯 CSS 动画
+- 🎛️ **可配置**：可调节的动画速度
+- 📱 **响应式**：自动适应容器大小
+
+## 安装
+
+import { Tabs, Tab } from 'rspress/theme';
+
+<Tabs>
+  <Tab label="pnpm">
+    ```bash
+    pnpm add @bubblesjs/vue-infinite-scroll
+    ```
+  </Tab>
+  <Tab label="npm">
+    ```bash
+    npm install @bubblesjs/vue-infinite-scroll
+    ```
+  </Tab>
+  <Tab label="yarn">
+    ```bash
+    yarn add @bubblesjs/vue-infinite-scroll
+    ```
+  </Tab>
+</Tabs>
+
+## 快速开始
+
+### 基础用法
+
+```vue
+<template>
+  <div style="height: 300px;">
+    <InfiniteScoll :animation-time="20">
+      <div v-for="item in items" :key="item.id" class="item">
+        {{ item.text }}
+      </div>
+    </InfiniteScoll>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { InfiniteScoll } from '@bubblesjs/vue-infinite-scroll'
+
+const items = [
+  { id: 1, text: '项目 1' },
+  { id: 2, text: '项目 2' },
+  { id: 3, text: '项目 3' },
+  // ... 更多项目
+]
+</script>
+```
+
+
+### 表格滚动示例
+
+```vue
+<template>
+  <div style="height: 400px;">
+    <InfiniteScoll :animation-time="15">
+      <div v-for="row in tableData" :key="row.id" class="table-row">
+        <div class="cell" style="width: 60px">{{ row.id }}</div>
+        <div class="cell" style="width: 80px">{{ row.name }}</div>
+        <div class="cell" style="width: 60px">{{ row.age }}</div>
+        <div class="cell" style="width: 80px">{{ row.city }}</div>
+        <div class="cell" style="width: 160px">{{ row.email }}</div>
+      </div>
+    </InfiniteScoll>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { InfiniteScoll } from '@bubblesjs/vue-infinite-scroll'
+
+const tableData = [
+  { id: 1, name: '张三', age: 28, city: '北京', email: 'zhang@example.com' },
+  { id: 2, name: '李四', age: 32, city: '上海', email: 'li@example.com' },
+  // ... 更多数据
+]
+</script>
+
+<style scoped>
+.table-row {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
+.cell {
+  padding: 0 8px;
+}
+</style>
+```
+
+## Props
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| `animationTime` | `number` | `15` | 动画持续时间（秒），值越小滚动越快 |
+
+## 工作原理
+
+组件的工作方式：
+1. 在可滚动容器中渲染你的内容
+2. 复制内容以创建无缝循环
+3. 使用 CSS 动画向上滚动内容
+4. 当用户悬停在内容上时暂停动画
+
+只有当内容高度超过容器高度时，动画才会激活。
+
+## 样式定制
+
+组件使用最小化样式。你可以使用自己的 CSS 自定义内容的外观：
+
+```vue
+<template>
+  <div class="scroll-container">
+    <InfiniteScoll :animation-time="20">
+      <div v-for="item in items" :key="item.id" class="scroll-item">
+        {{ item.text }}
+      </div>
+    </InfiniteScoll>
+  </div>
+</template>
+
+<style scoped>
+.scroll-container {
+  height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.scroll-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.scroll-item:hover {
+  background-color: #f5f5f5;
+}
+</style>
+```
+
+## 使用场景
+
+- 新闻滚动条 / 公告板
+- 股票价格展示
+- 实时数据流
+- 排行榜
+- 社交媒体动态
+- 事件日志

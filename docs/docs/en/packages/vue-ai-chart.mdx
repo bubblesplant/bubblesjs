@@ -1,0 +1,211 @@
+# @bubblesjs/vue-ai-chart
+
+A Vue 3 AI chat component library that provides a complete AI conversation interface, including conversation list sidebar, chat content area, and Markdown rendering support.
+
+## Features
+
+- 🤖 **AI Chat Interface**: Complete AI conversation UI components
+- 📝 **Markdown Support**: Built-in Markdown rendering with code highlighting
+- 💬 **Conversation Management**: Support for conversation list and history
+- 🎨 **Customizable**: Flexible slot system for custom layouts
+- 🔌 **Easy Integration**: Simple API for connecting to your AI backend
+
+## Installation
+
+import { Tabs, Tab } from 'rspress/theme';
+
+<Tabs>
+  <Tab label="pnpm">
+    ```bash
+    pnpm add @bubblesjs/vue-ai-chart
+    ```
+  </Tab>
+  <Tab label="npm">
+    ```bash
+    npm install @bubblesjs/vue-ai-chart
+    ```
+  </Tab>
+  <Tab label="yarn">
+    ```bash
+    yarn add @bubblesjs/vue-ai-chart
+    ```
+  </Tab>
+</Tabs>
+
+## Quick Start
+
+### Basic Usage
+
+```vue
+<template>
+  <AiChart
+    :create-conversation-request="createConversation"
+    :chart-request="sendMessage"
+    :conversation-detail-request="getConversationDetail"
+  />
+</template>
+
+<script setup lang="ts">
+import { AiChart } from '@bubblesjs/vue-ai-chart'
+import '@bubblesjs/vue-ai-chart/style.css'
+
+// Create new conversation
+const createConversation = async () => {
+  const response = await fetch('/api/conversations', { method: 'POST' })
+  return response.json()
+}
+
+// Send message to AI
+const sendMessage = async (conversationId, message) => {
+  const response = await fetch(`/api/chat/${conversationId}`, {
+    method: 'POST',
+    body: JSON.stringify({ message })
+  })
+  return response.json()
+}
+
+// Get conversation history
+const getConversationDetail = async (conversationId) => {
+  const response = await fetch(`/api/conversations/${conversationId}`)
+  return response.json()
+}
+</script>
+```
+
+### With Conversation Sidebar
+
+```vue
+<template>
+  <AiChart
+    :is-conversation-list="true"
+    :conversation-list="conversations"
+    :create-conversation-request="createConversation"
+    :chart-request="sendMessage"
+    :conversation-detail-request="getConversationDetail"
+    sidebar-width="280px"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { AiChart } from '@bubblesjs/vue-ai-chart'
+import '@bubblesjs/vue-ai-chart/style.css'
+
+const conversations = ref([
+  { id: '1', title: 'Chat 1', createdAt: '2024-01-01' },
+  { id: '2', title: 'Chat 2', createdAt: '2024-01-02' }
+])
+</script>
+```
+
+## Components
+
+### AiChart
+
+Main chat component that combines sidebar and chat content.
+
+#### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isInitChartInputCenter` | `boolean` | `true` | Center the input when chat is empty |
+| `isConversationList` | `boolean` | `false` | Show conversation sidebar |
+| `sidebarWidth` | `string` | - | Width of the sidebar |
+| `conversationList` | `Array` | - | List of conversations |
+| `createConversationRequest` | `Function` | Required | Function to create new conversation |
+| `chartRequest` | `Function` | Required | Function to send messages |
+| `conversationDetailRequest` | `Function` | Required | Function to get conversation details |
+| `recommendsOption` | `Object` | - | Recommended questions configuration |
+| `markdownCodeRenderConfig` | `Object` | - | Markdown code rendering configuration |
+| `chartLogoComponent` | `Component` | - | Custom logo component |
+| `chartInputLayout` | `string` | - | Input layout configuration |
+
+### AiMarkdown
+
+Standalone Markdown rendering component.
+
+```vue
+<template>
+  <AiMarkdown :content="markdownContent" />
+</template>
+
+<script setup lang="ts">
+import { AiMarkdown } from '@bubblesjs/vue-ai-chart'
+
+const markdownContent = `
+# Hello World
+
+This is **bold** and *italic* text.
+
+\`\`\`javascript
+console.log('Hello!')
+\`\`\`
+`
+</script>
+```
+
+### AiChartModal
+
+Modal wrapper for the AI chat component.
+
+```vue
+<template>
+  <AiChartModal v-model:visible="showModal">
+    <!-- Chat content -->
+  </AiChartModal>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { AiChartModal } from '@bubblesjs/vue-ai-chart'
+
+const showModal = ref(false)
+</script>
+```
+
+## Type Definitions
+
+```ts
+// Chat request type
+interface ChartRequestType {
+  conversationId: string
+  message: string
+}
+
+// Conversation item
+interface ConversationItem {
+  id: string
+  title: string
+  createdAt: string
+}
+```
+
+## Customization
+
+### Custom Sidebar Slots
+
+```vue
+<template>
+  <AiChart
+    :is-conversation-list="true"
+    :conversation-list="conversations"
+    :create-conversation-request="createConversation"
+    :chart-request="sendMessage"
+    :conversation-detail-request="getConversationDetail"
+  >
+    <template #sidebar-header>
+      <div class="custom-header">My AI Assistant</div>
+    </template>
+    <template #sidebar-footer>
+      <div class="custom-footer">Powered by AI</div>
+    </template>
+  </AiChart>
+</template>
+```
+
+## Dependencies
+
+This component relies on:
+- Element Plus for UI components
+- Swiper for carousel functionality
+- dayjs for date formatting

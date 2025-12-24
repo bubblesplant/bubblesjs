@@ -1,0 +1,234 @@
+# @bubblesjs/vue-annotation
+
+A Vue 3 text annotation component for NLP tasks, supporting entity labeling and relation annotation with an intuitive visual interface.
+
+## Features
+
+- 🏷️ **Entity Annotation**: Mark and label text spans with customizable entity types
+- 🔗 **Relation Annotation**: Create relationships between entities
+- 🌍 **RTL Support**: Right-to-left text direction support
+- 🎨 **Customizable Labels**: Define your own entity and relation label types
+- 📱 **Touch Support**: Works on both desktop and mobile devices
+- 🌙 **Dark Mode**: Built-in dark theme support
+
+## Installation
+
+import { Tabs, Tab } from 'rspress/theme';
+
+<Tabs>
+  <Tab label="pnpm">
+    ```bash
+    pnpm add @bubblesjs/vue-annotation
+    ```
+  </Tab>
+  <Tab label="npm">
+    ```bash
+    npm install @bubblesjs/vue-annotation
+    ```
+  </Tab>
+  <Tab label="yarn">
+    ```bash
+    yarn add @bubblesjs/vue-annotation
+    ```
+  </Tab>
+</Tabs>
+
+## Quick Start
+
+### Basic Usage
+
+```vue
+<template>
+  <Annotator
+    :text="text"
+    :entities="entities"
+    :entity-labels="entityLabels"
+    @add-entity="handleAddEntity"
+    @click-entity="handleClickEntity"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Annotator } from '@bubblesjs/vue-annotation'
+import type { Entity, Label } from '@bubblesjs/vue-annotation'
+import '@bubblesjs/vue-annotation/style.css'
+
+const text = ref('Apple Inc. is an American multinational technology company headquartered in Cupertino, California.')
+
+const entityLabels = ref<Label[]>([
+  { id: 1, text: 'Organization', color: '#4CAF50' },
+  { id: 2, text: 'Location', color: '#2196F3' }
+])
+
+const entities = ref<Entity[]>([
+  { id: 1, startOffset: 0, endOffset: 10, label: 1 },  // Apple Inc.
+  { id: 2, startOffset: 71, endOffset: 80, label: 2 }, // Cupertino
+  { id: 3, startOffset: 82, endOffset: 92, label: 2 }  // California
+])
+
+const handleAddEntity = (event, startOffset, endOffset) => {
+  console.log('Selected text:', text.value.slice(startOffset, endOffset))
+  // Add your entity creation logic here
+}
+
+const handleClickEntity = (event, entityId) => {
+  console.log('Clicked entity:', entityId)
+}
+</script>
+```
+
+### With Relations
+
+```vue
+<template>
+  <Annotator
+    :text="text"
+    :entities="entities"
+    :entity-labels="entityLabels"
+    :relations="relations"
+    :relation-labels="relationLabels"
+    @click-relation="handleClickRelation"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Annotator } from '@bubblesjs/vue-annotation'
+import type { Entity, Label, Relation } from '@bubblesjs/vue-annotation'
+
+const text = ref('John works at Google in Mountain View.')
+
+const entityLabels = ref<Label[]>([
+  { id: 1, text: 'Person', color: '#E91E63' },
+  { id: 2, text: 'Organization', color: '#4CAF50' },
+  { id: 3, text: 'Location', color: '#2196F3' }
+])
+
+const entities = ref<Entity[]>([
+  { id: 1, startOffset: 0, endOffset: 4, label: 1 },   // John
+  { id: 2, startOffset: 14, endOffset: 20, label: 2 }, // Google
+  { id: 3, startOffset: 24, endOffset: 37, label: 3 }  // Mountain View
+])
+
+const relationLabels = ref<Label[]>([
+  { id: 1, text: 'works_at', color: '#FF9800' },
+  { id: 2, text: 'located_in', color: '#9C27B0' }
+])
+
+const relations = ref<Relation[]>([
+  { id: 1, fromId: 1, toId: 2, type: 1 }, // John works_at Google
+  { id: 2, fromId: 2, toId: 3, type: 2 }  // Google located_in Mountain View
+])
+
+const handleClickRelation = (event, relation) => {
+  console.log('Clicked relation:', relation)
+}
+</script>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | Required | The text content to annotate |
+| `entities` | `Entity[]` | `[]` | List of entity annotations |
+| `entityLabels` | `Label[]` | `[]` | Available entity label types |
+| `relations` | `Relation[]` | `[]` | List of relation annotations |
+| `relationLabels` | `Label[]` | `[]` | Available relation label types |
+| `maxLabelLength` | `number` | `12` | Maximum label text length to display |
+| `allowOverlapping` | `boolean` | `false` | Allow overlapping entity annotations |
+| `rtl` | `boolean` | `false` | Right-to-left text direction |
+| `graphemeMode` | `boolean` | `true` | Handle Unicode graphemes correctly |
+| `dark` | `boolean` | `false` | Enable dark mode |
+| `selectedEntities` | `Entity[]` | `[]` | Currently selected entities |
+
+## Events
+
+| Event | Parameters | Description |
+|-------|------------|-------------|
+| `add-entity` | `(event, startOffset, endOffset)` | Fired when user selects text to create entity |
+| `click-entity` | `(event, entityId)` | Fired when user clicks an entity |
+| `click-relation` | `(event, relation)` | Fired when user clicks a relation |
+| `contextmenu-entity` | `(entity)` | Fired on entity right-click |
+| `contextmenu-relation` | `(relation)` | Fired on relation right-click |
+
+## Type Definitions
+
+```ts
+// Entity annotation
+interface Entity {
+  id: number
+  startOffset: number
+  endOffset: number
+  label: number // Reference to Label.id
+}
+
+// Label definition
+interface Label {
+  id: number
+  text: string
+  color?: string
+}
+
+// Relation annotation
+interface Relation {
+  id: number
+  fromId: number // Reference to Entity.id
+  toId: number   // Reference to Entity.id
+  type: number   // Reference to Label.id
+}
+```
+
+## Advanced Usage
+
+### Dark Mode
+
+```vue
+<template>
+  <div :class="{ 'dark-theme': isDark }">
+    <Annotator
+      :text="text"
+      :entities="entities"
+      :entity-labels="entityLabels"
+      :dark="isDark"
+    />
+  </div>
+</template>
+```
+
+### RTL Support (Arabic, Hebrew, etc.)
+
+```vue
+<template>
+  <Annotator
+    :text="arabicText"
+    :entities="entities"
+    :entity-labels="entityLabels"
+    :rtl="true"
+  />
+</template>
+```
+
+### Handle Unicode Correctly
+
+The `graphemeMode` prop ensures proper handling of complex Unicode characters like emojis:
+
+```vue
+<template>
+  <Annotator
+    :text="'Hello 👨‍👩‍👧‍👦 World'"
+    :entities="entities"
+    :entity-labels="entityLabels"
+    :grapheme-mode="true"
+  />
+</template>
+```
+
+## Use Cases
+
+- Named Entity Recognition (NER) annotation
+- Text classification labeling
+- Relation extraction annotation
+- Sentiment analysis annotation
+- Document annotation for machine learning

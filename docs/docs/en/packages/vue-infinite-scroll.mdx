@@ -1,0 +1,159 @@
+# @bubblesjs/vue-infinite-scroll
+
+A Vue 3 infinite scroll component that creates a seamless auto-scrolling effect for content lists, perfect for news tickers, announcement boards, and data displays.
+
+## Features
+
+- 🔄 **Seamless Loop**: Smooth infinite scrolling animation
+- ⏸️ **Hover Pause**: Automatically pauses on mouse hover
+- ⚡ **Lightweight**: Minimal dependencies, pure CSS animation
+- 🎛️ **Configurable**: Adjustable animation speed
+- 📱 **Responsive**: Adapts to container size automatically
+
+## Installation
+
+import { Tabs, Tab } from 'rspress/theme';
+
+<Tabs>
+  <Tab label="pnpm">
+    ```bash
+    pnpm add @bubblesjs/vue-infinite-scroll
+    ```
+  </Tab>
+  <Tab label="npm">
+    ```bash
+    npm install @bubblesjs/vue-infinite-scroll
+    ```
+  </Tab>
+  <Tab label="yarn">
+    ```bash
+    yarn add @bubblesjs/vue-infinite-scroll
+    ```
+  </Tab>
+</Tabs>
+
+## Quick Start
+
+### Basic Usage
+
+```vue
+<template>
+  <div style="height: 300px;">
+    <InfiniteScoll :animation-time="20">
+      <div v-for="item in items" :key="item.id" class="item">
+        {{ item.text }}
+      </div>
+    </InfiniteScoll>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { InfiniteScoll } from '@bubblesjs/vue-infinite-scroll'
+
+const items = [
+  { id: 1, text: 'Item 1' },
+  { id: 2, text: 'Item 2' },
+  { id: 3, text: 'Item 3' },
+  // ... more items
+]
+</script>
+```
+
+
+### Table Scrolling Example
+
+```vue
+<template>
+  <div style="height: 400px;">
+    <InfiniteScoll :animation-time="15">
+      <div v-for="row in tableData" :key="row.id" class="table-row">
+        <div class="cell" style="width: 60px">{{ row.id }}</div>
+        <div class="cell" style="width: 80px">{{ row.name }}</div>
+        <div class="cell" style="width: 60px">{{ row.age }}</div>
+        <div class="cell" style="width: 80px">{{ row.city }}</div>
+        <div class="cell" style="width: 160px">{{ row.email }}</div>
+      </div>
+    </InfiniteScoll>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { InfiniteScoll } from '@bubblesjs/vue-infinite-scroll'
+
+const tableData = [
+  { id: 1, name: 'John', age: 28, city: 'New York', email: 'john@example.com' },
+  { id: 2, name: 'Jane', age: 32, city: 'London', email: 'jane@example.com' },
+  // ... more data
+]
+</script>
+
+<style scoped>
+.table-row {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
+.cell {
+  padding: 0 8px;
+}
+</style>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `animationTime` | `number` | `15` | Animation duration in seconds (lower = faster) |
+
+## How It Works
+
+The component works by:
+1. Rendering your content in a scrollable container
+2. Duplicating the content to create a seamless loop
+3. Using CSS animation to scroll the content upward
+4. Pausing the animation when the user hovers over the content
+
+The animation only activates when the content height exceeds the container height.
+
+## Styling
+
+The component uses minimal styling. You can customize the appearance of your content using your own CSS:
+
+```vue
+<template>
+  <div class="scroll-container">
+    <InfiniteScoll :animation-time="20">
+      <div v-for="item in items" :key="item.id" class="scroll-item">
+        {{ item.text }}
+      </div>
+    </InfiniteScoll>
+  </div>
+</template>
+
+<style scoped>
+.scroll-container {
+  height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.scroll-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.scroll-item:hover {
+  background-color: #f5f5f5;
+}
+</style>
+```
+
+## Use Cases
+
+- News ticker / announcement boards
+- Stock price displays
+- Live data feeds
+- Leaderboards
+- Social media feeds
+- Event logs
