@@ -1,5 +1,11 @@
 # docs
 
+## 1.0.2
+
+### Patch Changes
+
+- [#38](https://github.com/435012357/bubblesjs/pull/38) [`fde047f`](https://github.com/435012357/bubblesjs/commit/fde047fd59b7a63e8ace66eb3eb40c1ab4965244) Thanks [@github-actions](https://github.com/apps/github-actions)! - 更新文档
+
 ## 1.0.1
 
 ### Patch Changes
