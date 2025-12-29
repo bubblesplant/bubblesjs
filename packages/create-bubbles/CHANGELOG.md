@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.6
+
+### Patch Changes
+
+- [`cfd122f`](https://github.com/435012357/bubblesjs/commit/cfd122f4824aa54e6c82ba4af04e88922d2b3e62) Thanks [@435012357](https://github.com/435012357)! - build: 更新 tdown 依赖至 v0.18.3
+
 ## 0.1.5
 
 ### Patch Changes
