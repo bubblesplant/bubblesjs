@@ -9,12 +9,32 @@
     "type": "git",
     "url": "git+https://github.com/435012357/bubblesjs.git"
   },
+  "bugs": {
+    "url": "git+https://github.com/435012357/bubblesjs/issues"
+  },
   "keywords": [
     "template",
     "react-template",
     "bubbles",
+    "bubblesjs",
     "utils",
-    "bubbles-utils"
+    "bubbles-utils",
+    "create-bubbles",
+    "vue",
+    "vue3",
+    "vue-components",
+    "@bubblesjs/utils",
+    "@rebubblesjs/request",
+    "@bubblesjs/vue-ai-chart",
+    "@bubblesjs/vue-annotation",
+    "@bubblesjs/vue-infinite-scroll",
+    "request",
+    "axios",
+    "alova",
+    "ai-chart",
+    "annotation",
+    "infinite-scroll",
+    "monorepo"
   ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",

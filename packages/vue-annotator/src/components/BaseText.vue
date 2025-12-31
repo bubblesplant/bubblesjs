@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TextLine } from '../utils/Line/LineText'
-
 import { computed, getCurrentInstance, nextTick, watch } from 'vue'
+
+import type { TextLine } from '../utils/Line/LineText'
 
 interface Props {
   text: string
@@ -11,10 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const snippet = computed(() => {
-  return props.text.substring(
-    props.textLine.startOffset,
-    props.textLine.endOffset,
-  )
+  return props.text.substring(props.textLine.startOffset, props.textLine.endOffset)
 })
 
 const vm = getCurrentInstance()

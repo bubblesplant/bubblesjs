@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { Ranges } from '../utils/Line/LineEntity'
-
 import { computed } from 'vue'
 
 import config from '../utils/Config/Config'
+import type { Ranges } from '../utils/Line/LineEntity'
 import BaseEntityLine from './BaseEntityLine.vue'
 import BaseEntityText from './BaseEntityText.vue'
 
@@ -50,18 +49,14 @@ const height = computed(() => {
 const textX = computed(() => {
   if (props.rtl) {
     return x(props.ranges.first.x2)
-  }
-  else {
+  } else {
     return x(props.ranges.first.x1)
   }
 })
 
 const lineY = computed(() => {
   const marginBottom = 8
-  return (
-    config.lineWidth
-    + (config.lineWidth + props.fontSize + marginBottom) * props.level
-  )
+  return config.lineWidth + (config.lineWidth + props.fontSize + marginBottom) * props.level
 })
 
 const textY = computed(() => {
@@ -70,10 +65,7 @@ const textY = computed(() => {
 })
 
 const coordinates = computed((): [number, number][] => {
-  return props.ranges.items.map(range => [
-    x(range.x1),
-    x(range.x2),
-  ])
+  return props.ranges.items.map((range) => [x(range.x1), x(range.x2)])
 })
 
 function x(xValue: number): number {

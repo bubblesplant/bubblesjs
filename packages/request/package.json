@@ -3,6 +3,13 @@
   "version": "0.0.2",
   "type": "module",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/435012357/bubblesjs.git"
+  },
+  "bugs": {
+    "url": "git+https://github.com/435012357/bubblesjs/issues"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
