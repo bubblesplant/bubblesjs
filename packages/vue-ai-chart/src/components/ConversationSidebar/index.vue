@@ -1,23 +1,30 @@
 <script setup lang="ts">
-import type { GetConversationListRequest, GroupedConversations } from './conversation-list/interface'
-import { ElTooltip } from 'element-plus'
 import { computed, inject, onMounted, ref, watch } from 'vue'
+
+import { ElTooltip } from 'element-plus'
 import { AiChartProvideKey, ChartStatusMap, defaultChartContext } from '../../context'
 import { formatObjectArrayByTime } from '../../utils'
 import SvgIcon from '../Icon/svg-icon.vue'
 import ConversationList from './conversation-list/index.vue'
+import type {
+  GetConversationListRequest,
+  GroupedConversations,
+} from './conversation-list/interface'
 
-const { sidebarWidth = '20%', conversationList = {
-  fieldNames: {
-    conversationId: 'id',
-    title: 'title',
-    createTime: 'create_time',
+const {
+  sidebarWidth = '20%',
+  conversationList = {
+    fieldNames: {
+      conversationId: 'id',
+      title: 'title',
+      createTime: 'create_time',
+    },
+    request: () => {},
+    deleteRequest: () => {},
+    isDelete: false,
+    chartLogoComponent: null,
   },
-  request: () => {},
-  deleteRequest: () => {},
-  isDelete: false,
-  chartLogoComponent: null,
-} } = defineProps<{
+} = defineProps<{
   sidebarWidth?: string
   conversationList?: {
     fieldNames?: InstanceType<typeof ConversationList>['fieldNames']
@@ -32,7 +39,11 @@ const { sidebarWidth = '20%', conversationList = {
 
 const chartContext = inject(AiChartProvideKey, defaultChartContext)
 
-const conversationListDisabled = computed(() => [ChartStatusMap.GENERATING, ChartStatusMap.FIRST_GENERATE].includes(chartContext.chartStatus.value as any))
+const conversationListDisabled = computed(() =>
+  [ChartStatusMap.GENERATING, ChartStatusMap.FIRST_GENERATE].includes(
+    chartContext.chartStatus.value as any,
+  ),
+)
 function handleNewConversation() {
   if (conversationListDisabled.value) {
     return
@@ -45,7 +56,10 @@ const conversationData = ref<GroupedConversations<any>>()
 
 async function getConversationList() {
   const res: any = await conversationList.request?.()
-  const tempRes: GroupedConversations<any> = formatObjectArrayByTime(res, conversationList.fieldNames!.createTime)
+  const tempRes: GroupedConversations<any> = formatObjectArrayByTime(
+    res,
+    conversationList.fieldNames!.createTime,
+  )
   conversationData.value = tempRes
 }
 
@@ -53,23 +67,31 @@ onMounted(() => {
   getConversationList()
 })
 
-watch(() => chartContext.conversationId.value, async (newVal, oldVal) => {
-  if (newVal && !oldVal) {
-    getConversationList()
-  }
-})
+watch(
+  () => chartContext.conversationId.value,
+  async (newVal, oldVal) => {
+    if (newVal && !oldVal) {
+      getConversationList()
+    }
+  },
+)
 
-const deleteConversation: InstanceType<typeof ConversationList>['deleteRequest'] = async ({ conversationId }) => {
+const deleteConversation: InstanceType<typeof ConversationList>['deleteRequest'] = async ({
+  conversationId,
+}) => {
   await conversationList.deleteRequest?.({ conversationId })
   getConversationList()
 }
 
 const selectedConversationId = ref<string>()
 
-watch(() => selectedConversationId.value, (newVal) => {
-  chartContext.setConversationId(newVal)
-  chartContext.setChartStatus(ChartStatusMap.HISTORY)
-})
+watch(
+  () => selectedConversationId.value,
+  (newVal) => {
+    chartContext.setConversationId(newVal)
+    chartContext.setChartStatus(ChartStatusMap.HISTORY)
+  },
+)
 
 const isCollapsed = ref<boolean>(false)
 
@@ -77,12 +99,12 @@ function handleCollapse() {
   isCollapsed.value = !isCollapsed.value
 }
 
-const sidebarWidthComputed = computed(() => isCollapsed.value ? '64px' : sidebarWidth)
+const sidebarWidthComputed = computed(() => (isCollapsed.value ? '64px' : sidebarWidth))
 </script>
 
 <template>
   <div class="conversation-sidebar h-full flex flex-col gap-10px overflow-hidden bg-#FAFCFFFF p-[12px_13px] transition-width duration-300" :style="{ width: sidebarWidthComputed }">
-    <div class="h-36px w-36px flex cursor-pointer select-none items-center gap-8px overflow-hidden text-14px text-#606266FF hover:bg-[#F5F7FAFF]" :class="{ 'cursor-not-allowed': conversationListDisabled }" @click="handleNewConversation">
+    <div class="h-36px w-36px flex cursor-pointer select-none items-center gap-8px overflow-hidden text-14px text-#606266FF hover:bg-[#F5F7FAFF]" :class="{ 'cursor-not-allowed': conversationListDisabled }">
       <el-tooltip placement="right" :content="isCollapsed ? '展开' : '收起'">
         <div class="h-38px w-38px flex-center rounded-[8px] text-26px hover:bg-[#E8E8E8]" @click="handleCollapse">
           <SvgIcon icon="collapse" />
