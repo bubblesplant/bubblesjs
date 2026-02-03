@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.7
+
+### Patch Changes
+
+- [`3082421`](https://github.com/435012357/bubblesjs/commit/3082421c0ef7c18d1dee7ee4889f6756e6112788) Thanks [@435012357](https://github.com/435012357)! - fix: tsdown 默认打包为mjs fixedExtension
+
 ## 0.1.6
 
 ### Patch Changes
