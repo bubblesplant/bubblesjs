@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.8
+
+### Patch Changes
+
+- [`2de5e0d`](https://github.com/435012357/bubblesjs/commit/2de5e0d12dd52734db17c8bf3babc19ea5161253) Thanks [@435012357](https://github.com/435012357)! - 增加taro-vue-eslint 模板
+
 ## 0.1.7
 
 ### Patch Changes
