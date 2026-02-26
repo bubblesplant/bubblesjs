@@ -1,12 +1,13 @@
 // import colors from 'picocolors' // https://github.com/alexeyraspopov/picocolors
 import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import * as prompts from '@clack/prompts'
+import spawn from 'cross-spawn'
 import gradient from 'gradient-string' // https://github.com/bokub/gradient-string
 import mri from 'mri' // http://github.com/lukeed/mri
-import spawn from 'cross-spawn'
 import type { Framework } from './interface'
-import { fileURLToPath } from 'node:url'
 
 // const { blue, blueBright, cyan, green, greenBright, magenta, red, redBright, reset, yellow } =
 //   colors // 终端输出添加颜色
@@ -14,6 +15,7 @@ import { fileURLToPath } from 'node:url'
 const colorMap = {
   vue: gradient(['#42B883', '#42B883']),
   react: gradient(['#087EA4', '#087EA4']),
+  taro: gradient(['#0000C2', '#fff']),
   others: gradient(['#8B5CF6', '#A855F7']),
 }
 
@@ -49,6 +51,7 @@ Options:
 Available templates:
 ${colorMap.vue('vue-rsbuild-biome        vue')}
 ${colorMap.vue('vue-rolldown-oxc         vue')}
+${colorMap.taro('taro-vue-eslint         taro')}
 ${colorMap.react('react-rsbuild-biome       react')}
 ${colorMap.react('react-rolldown-oxc       react')}`
 
@@ -165,6 +168,18 @@ const FRAMEWORKS: Framework[] = [
         name: 'react-rsbuild-biome',
         display: 'rsbuild-biome',
         color: colorMap.react,
+      },
+    ],
+  },
+  {
+    name: 'taro',
+    display: 'Taro',
+    color: colorMap.taro,
+    variants: [
+      {
+        name: 'taro-vue-eslint',
+        display: 'taro-vue + eslint',
+        color: colorMap.taro,
       },
     ],
   },

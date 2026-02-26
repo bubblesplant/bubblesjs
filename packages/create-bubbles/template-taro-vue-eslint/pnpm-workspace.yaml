@@ -1,0 +1,2 @@
+patchedDependencies:
+  '@tarojs/plugin-mini-ci': patches/@tarojs__plugin-mini-ci.patch

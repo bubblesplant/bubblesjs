@@ -3,7 +3,8 @@ import process from 'node:process'
 import NutUIResolver from '@nutui/auto-import-resolver'
 import { defineConfig } from '@tarojs/cli'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
-import ComponentsPlugin from 'unplugin-vue-components/webpack'
+import UnoCSS from 'unocss/webpack'
+import Components from 'unplugin-vue-components/webpack'
 import devConfig from './dev'
 import { outputRootMap } from './output-root'
 import prodConfig from './prod'
@@ -14,7 +15,14 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
   const baseConfig: UserConfigExport<'webpack5'> = {
     projectName: 'myApp',
     date: '2026-2-24',
-    designWidth: 750,
+    designWidth: (input: any) => {
+    // 配置 NutUI 375 尺寸
+      if (input?.file?.replace(/\\+/g, '/').indexOf('@nutui') > -1) {
+        return 375
+      }
+      // 全局使用 Taro 默认的 750 尺寸
+      return 750
+    },
     deviceRatio: {
       640: 2.34 / 2,
       750: 1,
@@ -41,11 +49,6 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
     cache: {
       enable: false, // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
     },
-    webpackChain(chain) {
-      chain.plugin('unplugin-vue-components').use(ComponentsPlugin({
-        resolvers: [NutUIResolver({ taro: true })],
-      }))
-    },
     mini: {
       postcss: {
         pxtransform: {
@@ -64,6 +67,11 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       },
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
+        chain.plugin('unplugin-vue-components').use(Components({
+          resolvers: [NutUIResolver({ taro: true })],
+          dts: './types/components.d.ts',
+        }))
+        chain.plugin('unocss').use(UnoCSS())
       },
     },
     h5: {
@@ -84,7 +92,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
           config: {},
         },
         cssModules: {
-          enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+          enable: true, // 默认为 false，如需使用 css modules 功能，则设为 true
           config: {
             namingPattern: 'module', // 转换模式，取值为 global/module
             generateScopedName: '[name]__[local]___[hash:base64:5]',
@@ -93,6 +101,11 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       },
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
+        chain.plugin('unplugin-vue-components').use(Components({
+          resolvers: [NutUIResolver({ taro: true })],
+          dts: './types/components.d.ts',
+        }))
+        chain.plugin('unocss').use(UnoCSS())
       },
     },
     rn: {
