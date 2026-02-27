@@ -14,4 +14,9 @@ export default antfu(
     // Parse the `.gitignore` file to get the ignores, on by default
     gitignore: true,
   },
+  {
+    rules: {
+      'n/prefer-global/process': 'off',
+    },
+  },
 )

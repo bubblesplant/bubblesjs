@@ -1,5 +1,5 @@
 {
-  "name": "taro-vue-eslint",
+  "name": "bubbles-project",
   "version": "1.0.0",
   "private": true,
   "description": "vue-taro-eslint",
@@ -11,13 +11,13 @@
     "framework": "Vue3"
   },
   "scripts": {
-    "prepare": "lefthook install",
     "new": "taro new",
     "build:weapp": "taro build --type weapp --open",
     "build:swan": "taro build --type swan",
     "build:alipay": "taro build --type alipay",
     "build:tt": "taro build --type tt",
     "build:h5": "taro build --type h5",
+    "build:h5:prod": "taro build --type h5 --mode production",
     "build:rn": "taro build --type rn",
     "build:qq": "taro build --type qq",
     "build:jd": "taro build --type jd",
@@ -31,7 +31,7 @@
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
     "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch",
-    "postinstall": "weapp-tw patch",
+    "prepare": "lefthook install",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },
@@ -69,6 +69,7 @@
     "alova": "^3.5.0",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "^4.7.1",
+    "spark-md5": "^3.0.2",
     "vue": "^3.0.0"
   },
   "devDependencies": {
@@ -87,6 +88,7 @@
     "@types/minimatch": "^5",
     "@types/node": "^18",
     "@types/webpack-env": "^1.13.6",
+    "@unocss/eslint-plugin": "^66.6.2",
     "@unocss/webpack": "0.58.9",
     "@vue/babel-plugin-jsx": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.0",

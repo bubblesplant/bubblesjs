@@ -2,7 +2,6 @@ import { execSync } from 'node:child_process'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import process from 'node:process'
-import { devtools } from 'vue'
 
 /**
  * 获取package.json中的版本号
@@ -13,8 +12,7 @@ function getPackageVersion(): string {
     const packageContent = fs.readFileSync(packagePath, 'utf8')
     const packageData = JSON.parse(packageContent)
     return packageData.version || '1.0.0'
-  }
-  catch {
+  } catch {
     console.warn('⚠️ 获取package.json版本号失败，使用默认版本 1.0.0')
     return '1.0.0'
   }
@@ -27,8 +25,7 @@ function getLatestCommitMessage(): string {
   try {
     const message = execSync('git log -1 --pretty=%B', { encoding: 'utf8' }).trim()
     return message || '版本更新'
-  }
-  catch {
+  } catch {
     console.warn('⚠️ 获取Git提交信息失败，使用默认描述')
     return '版本更新'
   }
@@ -40,8 +37,7 @@ function getLatestCommitMessage(): string {
 function getCurrentBranch(): string {
   try {
     return execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf8' }).trim()
-  }
-  catch {
+  } catch {
     return 'unknown'
   }
 }
@@ -52,8 +48,7 @@ function getCurrentBranch(): string {
 function getCommitAuthor(): string {
   try {
     return execSync('git log -1 --pretty=%an', { encoding: 'utf8' }).trim()
-  }
-  catch {
+  } catch {
     return 'unknown'
   }
 }
@@ -85,12 +80,9 @@ export async function CIPluginFn() {
    */
   return {
     weapp: {
-      appid:
-        process.env.TARO_APP_MODE === 'development' ? 'wxac3f99d8814754aa' : 'wxac3f99d8814754aa',
+      appid: process.env.TARO_APP_MODE === 'development' ? 'abc' : 'abc',
       privateKeyPath:
-        process.env.TARO_APP_MODE === 'development'
-          ? 'key/private.wxac3f99d8814754aa.key'
-          : 'key/private.wxac3f99d8814754aa.key',
+        process.env.TARO_APP_MODE === 'development' ? 'key/private.abc.key' : 'key/private.abc.key',
       devToolsInstallPath: `C:\\Program Files (x86)\\Tencent\\微信web开发者工具`,
     },
     // tt: {

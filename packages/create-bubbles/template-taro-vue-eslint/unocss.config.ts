@@ -19,7 +19,7 @@ export default {
     ),
     // attributify autocomplete
     presetWeappAttributify(),
-    presetUno(),
+    presetUno({ preflight: false }),
   ],
   shortcuts: [
     {

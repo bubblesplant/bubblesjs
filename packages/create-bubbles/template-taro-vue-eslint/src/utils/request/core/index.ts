@@ -134,6 +134,7 @@ export function createInstance<
         const shouldTransform = getMetaFlag(meta, 'isTransformResponse', config.isTransformResponse ?? true)
         const showSuccess = getMetaFlag(meta, 'isShowSuccessMessage', config.isShowSuccessMessage ?? false)
         const showError = getMetaFlag(meta, 'isShowErrorMessage', config.isShowErrorMessage ?? true)
+        const isWrapped = getMetaFlag(meta, 'isWrapped', config.isWrapped ?? true)
 
         if (!shouldTransform)
           return response
@@ -154,7 +155,7 @@ export function createInstance<
           return Promise.reject(response)
         }
 
-        if (!config.isWrapped) {
+        if (!isWrapped || (isWrapped === undefined || !config.isWrapped)) {
           if (showSuccess)
             config.successMessageFunc?.(config.successDefaultMessage ?? '操作成功')
           return data
