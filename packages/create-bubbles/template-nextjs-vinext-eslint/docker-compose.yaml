@@ -1,0 +1,22 @@
+version:  "0.1"
+
+services:
+  web:
+    container_name: bee-portal
+    image: bee-portal
+    ports:
+      - "9980:9980"
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      # 这边Nginx配置是跟docker-compose文件同目录，可根据自己需要更改
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./logs:/var/log/nginx
+    ports:
+      - "8080:80"
+      - "8443:443"
+    restart: always
+    # 依赖于哪个服务，这边是依赖于web服务
+    depends_on:
+      - web

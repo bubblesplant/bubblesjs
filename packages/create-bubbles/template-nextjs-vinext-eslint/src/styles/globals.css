@@ -1,0 +1,47 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Brand tokens */
+  --brand-blue: #146ae1;
+  --brand-blue-dark: #0f52b0;
+  --brand-amber: #fdc23a;
+  --brand-text: #1a1a2e;
+  --brand-text-secondary: #555;
+  --brand-bg-light: #f5f8ff;
+  --brand-border: #e0e8f5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
