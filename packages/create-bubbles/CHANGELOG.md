@@ -1,5 +1,13 @@
 # create-bubbles
 
+## 0.1.9
+
+### Patch Changes
+
+- [`6d4f86b`](https://github.com/435012357/bubblesjs/commit/6d4f86bea6cb888b8ff78fc28531dad1edce08b9) Thanks [@435012357](https://github.com/435012357)! - 更新template-taro-vue-eslint小程序模板 主题设置
+
+- [#42](https://github.com/435012357/bubblesjs/pull/42) [`8314e8a`](https://github.com/435012357/bubblesjs/commit/8314e8a97f61714377a4421c6684d0aed117d67c) Thanks [@github-actions](https://github.com/apps/github-actions)! - 增加开发环境proxy
+
 ## 0.1.8
 
 ### Patch Changes
