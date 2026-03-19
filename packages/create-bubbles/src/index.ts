@@ -16,6 +16,7 @@ const colorMap = {
   vue: gradient(['#42B883', '#42B883']),
   react: gradient(['#087EA4', '#087EA4']),
   taro: gradient(['#0000C2', '#fff']),
+  nextjs: gradient(['#000', '#fff']),
   others: gradient(['#8B5CF6', '#A855F7']),
 }
 
@@ -53,7 +54,8 @@ ${colorMap.vue('vue-rsbuild-biome        vue')}
 ${colorMap.vue('vue-rolldown-oxc         vue')}
 ${colorMap.taro('taro-vue-eslint         taro')}
 ${colorMap.react('react-rsbuild-biome       react')}
-${colorMap.react('react-rolldown-oxc       react')}`
+${colorMap.react('react-rolldown-oxc       react')}
+${colorMap.nextjs('nextjs-vinext-eslint       nextjs')}`
 
 // const FRAMEWORK = [
 //  {
@@ -180,6 +182,18 @@ const FRAMEWORKS: Framework[] = [
         name: 'taro-vue-eslint',
         display: 'taro-vue + eslint',
         color: colorMap.taro,
+      },
+    ],
+  },
+  {
+    name: 'nextjs',
+    display: 'NextJS',
+    color: colorMap.nextjs,
+    variants: [
+      {
+        name: 'nextjs-vinext-eslint',
+        display: 'nextjs + vinext + eslint',
+        color: colorMap.nextjs,
       },
     ],
   },
