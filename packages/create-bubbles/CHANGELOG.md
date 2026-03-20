@@ -1,5 +1,13 @@
 # create-bubbles
 
+## 0.1.11
+
+### Patch Changes
+
+- [#44](https://github.com/435012357/bubblesjs/pull/44) [`5324ddd`](https://github.com/435012357/bubblesjs/commit/5324dddc1fadbf1ba6c54b82ad83b4459c0e6c2e) Thanks [@github-actions](https://github.com/apps/github-actions)! - fix(create-bubbles): 解决nextjs 模板 客户端组件 unocss 无法更新的问题
+
+- [`9bc36e4`](https://github.com/435012357/bubblesjs/commit/9bc36e4fd04e2b5dea26a1fd6a09700daf0f6c17) Thanks [@435012357](https://github.com/435012357)! - fix(create-bubbles): nextjs unocss rsc 的生效
+
 ## 0.1.10
 
 ### Patch Changes
