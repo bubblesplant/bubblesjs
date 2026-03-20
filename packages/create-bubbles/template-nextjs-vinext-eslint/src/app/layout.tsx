@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-
 import AntdProvider from './antd-provider'
-
-import 'virtual:uno.css'
+import UnoCss from './uno-css'
 import '@/styles/globals.css'
 
 const geistSans = Geist({
@@ -36,8 +34,7 @@ export const metadata: Metadata = {
       '蜜蜂数联（重庆）智能科技有限公司，专注工程管理数字化解决方案、数字孪生运维解决方案及AI+医疗领域。',
     locale: 'zh_CN',
     siteName: '蜜蜂数联',
-    title:
-      '蜜蜂数联（重庆）智能科技有限公司 | 工程管理数字化 · 数字孪生运维 · AI+医疗',
+    title: '蜜蜂数联（重庆）智能科技有限公司 | 工程管理数字化 · 数字孪生运维 · AI+医疗',
     type: 'website',
   },
   publisher: '蜜蜂数联（重庆）智能科技有限公司',
@@ -50,8 +47,7 @@ export const metadata: Metadata = {
     index: true,
   },
   title: {
-    default:
-      '蜜蜂数联（重庆）智能科技有限公司 | 工程管理数字化 · 数字孪生运维 · AI+医疗',
+    default: '蜜蜂数联（重庆）智能科技有限公司 | 工程管理数字化 · 数字孪生运维 · AI+医疗',
     template: '%s | 蜜蜂数联',
   },
 }
@@ -64,6 +60,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body className={`${geistSans.variable}  ${geistMono.variable}`}>
+        <UnoCss />
         <AntdProvider>{children}</AntdProvider>
       </body>
     </html>
