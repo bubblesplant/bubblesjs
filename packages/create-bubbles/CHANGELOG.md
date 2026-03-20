@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.10
+
+### Patch Changes
+
+- [`6416695`](https://github.com/435012357/bubblesjs/commit/6416695cdbc0c508ddf3a7c22e7da4d73e534a30) Thanks [@435012357](https://github.com/435012357)! - fix: 增加nextsjs 模板
+
 ## 0.1.9
 
 ### Patch Changes
