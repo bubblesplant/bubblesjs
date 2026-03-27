@@ -54,6 +54,7 @@ ${colorMap.vue('vue-rsbuild-biome        vue')}
 ${colorMap.vue('vue-rolldown-oxc         vue')}
 ${colorMap.taro('taro-vue-eslint         taro')}
 ${colorMap.react('react-rsbuild-biome       react')}
+${colorMap.react('vp-react      react')}
 ${colorMap.react('react-rolldown-oxc       react')}
 ${colorMap.nextjs('nextjs-vinext-eslint       nextjs')}`
 
@@ -169,6 +170,11 @@ const FRAMEWORKS: Framework[] = [
       {
         name: 'react-rsbuild-biome',
         display: 'rsbuild-biome',
+        color: colorMap.react,
+      },
+      {
+        name: 'vp-react',
+        display: 'vp-react',
         color: colorMap.react,
       },
     ],
