@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.12
+
+### Patch Changes
+
+- [#45](https://github.com/435012357/bubblesjs/pull/45) [`9c0a2a1`](https://github.com/435012357/bubblesjs/commit/9c0a2a1d0858308f2f1fa24c7f4a8ded59089835) Thanks [@github-actions](https://github.com/apps/github-actions)! - 增加模板 vp-react
+
 ## 0.1.11
 
 ### Patch Changes
