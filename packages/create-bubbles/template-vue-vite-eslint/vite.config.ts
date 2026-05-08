@@ -1,10 +1,10 @@
 import path from 'node:path'
 
+import { AntdvNextResolver } from '@antdv-next/auto-import-resolver'
 import { PlusProComponentsResolver } from '@plus-pro-components/resolver'
 import Vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 import Inspect from 'vite-plugin-inspect'
@@ -42,11 +42,10 @@ export default defineConfig(({ mode }) => {
       Vue(),
       AutoImport({
         imports: ['vue', 'vue-router'],
-        resolvers: [ElementPlusResolver()],
         dts: './src/types/auto-import.d.ts',
       }),
       Components({
-        resolvers: [ElementPlusResolver(), PlusProComponentsResolver()],
+        resolvers: [AntdvNextResolver()],
         dts: './src/types/components.d.ts',
       }),
       createSvgIconsPlugin({
