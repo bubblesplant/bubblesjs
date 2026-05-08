@@ -1,6 +1,6 @@
 import { axiosRequestAdapter } from '@alova/adapter-axios'
 import vueHook from 'alova/vue'
-import { ElMessage } from 'element-plus'
+import { message } from 'antdv-next'
 
 import { router } from '@/router'
 
@@ -23,14 +23,14 @@ function getBaseConfig(): Parameters<typeof createDualCallInstance>[0] {
     responseMessageKey: 'msg',
     commonHeaders: {},
     successMessageFunc: (msg: string) => {
-      ElMessage.success(msg)
+      message.success(msg)
     },
     errorMessageFunc: (msg: string) => {
-      ElMessage.error(msg)
+      message.error(msg)
     },
     unAuthorizedResponseFunc: () => {
       router.push('/login')
-      ElMessage.error('登录过期或未登录')
+      message.error('登录过期或未登录')
     },
     statesHook: vueHook,
     requestAdapter: axiosRequestAdapter(),

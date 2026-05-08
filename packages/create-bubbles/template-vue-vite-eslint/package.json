@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@alova/adapter-axios": "^2.0.18",
+    "@antdv-next/icons": "^1.0.6",
     "@unocss/preset-wind3": "^66.6.8",
     "alova": "^3.5.1",
+    "antdv-next": "^1.2.2",
     "axios": "^1.16.0",
     "dayjs": "^1.11.20",
     "echarts": "^6.0.0",
@@ -26,6 +28,7 @@
     "vue-router": "^5.0.6"
   },
   "devDependencies": {
+    "@antdv-next/auto-import-resolver": "^1.0.7",
     "@antfu/eslint-config": "^8.2.0",
     "@commitlint/cli": "^20.5.3",
     "@commitlint/config-conventional": "^20.5.3",

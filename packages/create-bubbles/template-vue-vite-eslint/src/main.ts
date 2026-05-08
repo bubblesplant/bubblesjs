@@ -6,7 +6,6 @@ import { setupStore } from './store'
 
 import 'virtual:svg-icons-register'
 
-import '@/styles/element-plus-variables.css'
 import '@/styles/index.scss'
 import 'virtual:uno.css'
 

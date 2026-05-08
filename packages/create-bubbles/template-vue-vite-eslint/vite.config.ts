@@ -1,7 +1,6 @@
 import path from 'node:path'
 
 import { AntdvNextResolver } from '@antdv-next/auto-import-resolver'
-import { PlusProComponentsResolver } from '@plus-pro-components/resolver'
 import Vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
