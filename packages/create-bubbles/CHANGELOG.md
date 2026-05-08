@@ -1,5 +1,13 @@
 # create-bubbles
 
+## 0.1.12
+
+### Patch Changes
+
+- [#47](https://github.com/435012357/bubblesjs/pull/47) [`26619b7`](https://github.com/435012357/bubblesjs/commit/26619b76521118b619c5f3370bfd2b0b0a1279d9) Thanks [@github-actions](https://github.com/apps/github-actions)! - 模板升级
+
+- [`06254e4`](https://github.com/435012357/bubblesjs/commit/06254e4e63c100ca2c2b1beb4519b1f101338281) Thanks [@435012357](https://github.com/435012357)! - 模板升级
+
 ## 0.1.11
 
 ### Patch Changes
