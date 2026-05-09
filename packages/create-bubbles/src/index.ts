@@ -55,6 +55,7 @@ ${colorMap.vue('vue-rolldown-oxc         vue')}
 ${colorMap.taro('taro-vue-eslint         taro')}
 ${colorMap.react('react-rsbuild-biome       react')}
 ${colorMap.react('vp-react      react')}
+${colorMap.nextjs('vp-react-shadcn       react')}
 ${colorMap.react('react-rolldown-oxc       react')}
 ${colorMap.nextjs('nextjs-vinext-eslint       nextjs')}`
 
@@ -146,18 +147,8 @@ const FRAMEWORKS: Framework[] = [
         color: colorMap.vue,
       },
       {
-        name: 'vue-rsbuild-biome',
-        display: 'rsbuild + biome',
-        color: colorMap.vue,
-      },
-      {
         name: 'vue-vite-oxc',
         display: 'rolldown + oxc',
-        color: colorMap.vue,
-      },
-      {
-        name: 'vue-vite-biome',
-        display: 'vite + biome',
         color: colorMap.vue,
       },
     ],
@@ -175,6 +166,11 @@ const FRAMEWORKS: Framework[] = [
       {
         name: 'vp-react',
         display: 'vp-react',
+        color: colorMap.react,
+      },
+      {
+        name: 'vp-react-shadcn',
+        display: 'vp-react-shadcn',
         color: colorMap.react,
       },
     ],
