@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.13
+
+### Patch Changes
+
+- [`378c19b`](https://github.com/435012357/bubblesjs/commit/378c19b5d4f3210d758560073dafe43c887ee03d) Thanks [@435012357](https://github.com/435012357)! - 增加模板 vp-react-shadcn
+
 ## 0.1.12
 
 ### Patch Changes
