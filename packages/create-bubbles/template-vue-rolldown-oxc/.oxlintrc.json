@@ -1,4 +1,0 @@
-{
-  "plugins": ["vue", "import", "oxc", "unicorn"],
-  "ignorePatterns": ["node_modules", "dist", "public", "*.d.ts"]
-}
