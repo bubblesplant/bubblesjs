@@ -1,0 +1,28 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'React 19 and React Router.',
+  'Vite+, TypeScript 6, Tailwind CSS 4.',
+  'shadcn, Radix UI, Lucide React, Sonner.',
+  'Zustand, Alova, GSAP.',
+  'Geist variable font.',
+];
+
+export const commands = ['pnpm install', 'pnpm dev', 'pnpm build', 'pnpm preview', 'pnpm check'];
+
+# vp-react-shadcn
+
+Vite+ React template with shadcn-style UI primitives.
+
+## Stack
+
+<StackList items={stack} />
+
+## Commands
+
+<CommandPanel commands={commands} />
+
+## Notes
+
+Use this template when you want a React project that starts with a richer UI
+toolkit than the plain `vp-react` template.

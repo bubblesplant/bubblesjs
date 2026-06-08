@@ -1,0 +1,38 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'Root Vite+ configuration with staged checks and type-aware linting.',
+  <><code>apps/web</code>: React app powered by Vite+.</>,
+  <><code>packages/utils</code>: TypeScript utility package with <code>vp pack</code> and Vitest.</>,
+  'pnpm workspace catalog for TypeScript, Vite, Vitest, and Vite+.',
+];
+
+export const commands = ['pnpm install', 'pnpm dev', 'pnpm ready', '', 'vp run test -r', 'vp run build -r'];
+
+# vp-monorepo-react-nestjs
+
+Vite+ monorepo starter.
+
+## Stack
+
+<StackList items={stack} />
+
+## Commands
+
+<CommandPanel commands={commands} />
+
+## Structure
+
+```text
+apps/
+  web/
+packages/
+  utils/
+pnpm-workspace.yaml
+vite.config.ts
+```
+
+## Notes
+
+The current scaffold contains a React web app and a shared utility package. It is
+a workspace starter that can be extended with additional apps or services.

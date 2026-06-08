@@ -11,7 +11,7 @@ Getting started with BubblesJS is easy! Let's create your first project.
 
 You can use `create-bubbles` to create a new BubblesJS project:
 
-import { Tabs, Tab } from 'rspress/theme';
+import { Tabs, Tab } from '@rspress/core/theme';
 
 <Tabs>
   <Tab label="npm">
@@ -40,9 +40,13 @@ import { Tabs, Tab } from 'rspress/theme';
 
 During project creation, you'll be prompted to select a template:
 
-- **React + Rsbuild + Biome**: Fast React development with Rsbuild
-- **Vue + Rsbuild + Biome**: Vue development with Rsbuild and auto-imports
-- **Vue + Rolldown + Oxc**: Experimental build tools (uses Rolldown instead of Vite)
+- **vue-vite-eslint**: Vue 3, Vite, ESLint, Pinia, Ant Design Vue Next
+- **react-rsbuild-biome**: React 19, Rsbuild, Biome, Ant Design
+- **vp-react**: React starter powered by Vite+
+- **vp-react-shadcn**: Vite+ React starter with shadcn and Tailwind CSS
+- **vp-monorepo-react-nestjs**: Vite+ monorepo starter
+- **taro-vue-eslint**: Taro 4.2 and Vue 3.5 for mini-programs and H5
+- **nextjs-vinext-eslint**: Next.js 16 and React 19 with Vinext
 
 ## Start Development
 
@@ -93,16 +97,10 @@ cd my-project
 
 ## Project Structure
 
-```
-my-project/
-├── src/
-│   ├── main.ts         # Entry point
-│   ├── App.vue         # Root component
-│   └── components/     # Components directory
-├── public/             # Static assets
-├── package.json        # Dependencies and scripts
-└── vite.config.ts      # Build configuration
-```
+The generated structure depends on the selected template. Single-app templates
+usually include `src/`, `public/`, `package.json`, and a build config such as
+`vite.config.ts` or `rsbuild.config.ts`; monorepo templates include `apps/`,
+`packages/`, and `pnpm-workspace.yaml`.
 
 ## Next Steps
 

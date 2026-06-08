@@ -1,0 +1,27 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'React 19 and React Router.',
+  'Vite+, Vite 8, TypeScript 6.',
+  'Tailwind CSS 4 and Ant Design.',
+  'Auto import support.',
+];
+
+export const commands = ['pnpm install', 'pnpm dev', 'pnpm build', 'pnpm preview', 'pnpm check'];
+
+# vp-react
+
+React starter powered by Vite+.
+
+## Stack
+
+<StackList items={stack} />
+
+## Commands
+
+<CommandPanel commands={commands} />
+
+## Notes
+
+The template uses `vp` commands for development, build, preview, and checks. Its
+`pnpm.overrides` map Vite and Vitest to the Vite+ packages.

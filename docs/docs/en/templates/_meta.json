@@ -1,1 +1,9 @@
-["react-rsbuild", "vue-rsbuild", "vue-rolldown-oxlint"]
+[
+  "vue-vite-eslint",
+  "react-rsbuild-biome",
+  "vp-react",
+  "vp-react-shadcn",
+  "vp-monorepo-react-nestjs",
+  "taro-vue-eslint",
+  "nextjs-vinext-eslint"
+]

@@ -1,0 +1,106 @@
+# Packages
+
+import { DetailGrid, OverviewGrid } from '@/components/docs-ui';
+
+export const packageSummaries = [
+  {
+    title: '@bubblesjs/request',
+    description: 'Modern request library based on Alova, providing complete request wrapper and response handling',
+    href: 'request',
+  },
+  {
+    title: '@bubblesjs/utils',
+    description: 'Utility function collection containing common helper methods',
+    href: 'utils',
+  },
+  {
+    title: '@bubblesjs/vue-ai-chart',
+    description: 'Vue 3 AI chat component library with conversation management',
+    href: 'vue-ai-chart',
+  },
+  {
+    title: '@bubblesjs/vue-annotation',
+    description: 'Vue 3 text annotation component for NLP tasks',
+    href: 'vue-annotator',
+  },
+  {
+    title: '@bubblesjs/vue-infinite-scroll',
+    description: 'Vue 3 infinite scroll component for seamless auto-scrolling',
+    href: 'vue-infinite-scroll',
+  },
+  {
+    title: 'create-bubbles',
+    description: 'Project scaffolding for React, Vue, Taro, Next.js, and Vite+ templates',
+  },
+];
+
+export const packageDetails = [
+  {
+    title: '@bubblesjs/request',
+    intro: 'Modern request library built on Alova, providing:',
+    points: [
+      'Unified request and response handling',
+      'Flexible error handling mechanisms',
+      'Support for Alova adapters such as fetch and Taro',
+      'Dual call mode support',
+    ],
+  },
+  {
+    title: '@bubblesjs/utils',
+    intro: 'Utility function collection:',
+    points: ['Common utility functions', 'Type utilities', 'Helper methods'],
+  },
+  {
+    title: '@bubblesjs/vue-ai-chart',
+    intro: 'Vue 3 AI chat component library:',
+    points: [
+      'Complete AI conversation UI components',
+      'Markdown rendering with code highlighting',
+      'Conversation list and history management',
+      'Customizable with flexible slot system',
+    ],
+  },
+  {
+    title: '@bubblesjs/vue-annotation',
+    intro: 'Vue 3 text annotation component:',
+    points: [
+      'Entity labeling for NLP tasks',
+      'Relation annotation between entities',
+      'RTL and dark mode support',
+      'Unicode grapheme handling',
+    ],
+  },
+  {
+    title: '@bubblesjs/vue-infinite-scroll',
+    intro: 'Vue 3 infinite scroll component:',
+    points: [
+      'Seamless auto-scrolling animation',
+      'Hover pause functionality',
+      'Configurable animation speed',
+      'Perfect for news tickers and data displays',
+    ],
+  },
+  {
+    title: 'create-bubbles',
+    intro: 'Fast project scaffolding:',
+    points: [
+      <code>vue-vite-eslint</code>,
+      <code>react-rsbuild-biome</code>,
+      <code>vp-react</code>,
+      <code>vp-react-shadcn</code>,
+      <code>vp-monorepo-react-nestjs</code>,
+      <code>taro-vue-eslint</code>,
+      <code>nextjs-vinext-eslint</code>,
+    ],
+  },
+];
+
+BubblesJS currently includes the following packages:
+
+<OverviewGrid items={packageSummaries} />
+
+## Package Overview
+
+<DetailGrid items={packageDetails} />
+
+Use the left navigation to view details of each package.

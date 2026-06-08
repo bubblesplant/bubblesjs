@@ -1,0 +1,44 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'Taro 4.2 and Vue 3.5.',
+  'NutUI Taro and NutUI auto import resolver.',
+  <><span>Alova with </span><code>@alova/adapter-taro</code><span>.</span></>,
+  'Pinia and persisted state.',
+  'ESLint, Sass, Webpack 5, UnoCSS for Taro.',
+];
+
+export const commands = [
+  'pnpm install',
+  'pnpm dev:weapp',
+  'pnpm dev:h5',
+  'pnpm build:weapp',
+  'pnpm build:h5',
+  'pnpm build:h5:prod',
+  'pnpm lint',
+  'pnpm lint:fix',
+];
+
+# taro-vue-eslint
+
+Taro template for Vue 3 mini-program and H5 projects.
+
+## Stack
+
+<StackList items={stack} />
+
+## Commands
+
+<CommandPanel commands={commands} />
+
+## UnoCSS
+
+The template now enables UnoCSS watch mode during development or `--watch`
+builds. Its `unocss.config.ts` scans `src/**/*.{vue,js,ts,jsx,tsx,html}` and
+uses `unocss-preset-weapp` with `taroWebpack: 'webpack5'`.
+
+## pnpm Builds
+
+`pnpm-workspace.yaml` includes `allowBuilds` entries for Taro, SWC, esbuild,
+core-js, lefthook, and related packages so dependency build approvals are
+captured by the template.

@@ -1,0 +1,34 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'Next.js 16.2 and React 19.2.',
+  'Vinext 0.0.55, Vite 8, TypeScript 6.',
+  'Ant Design 6, CSS-in-JS support, GSAP.',
+  'ESLint 10 with Antfu, Next, React Hooks, React Refresh, and UnoCSS plugins.',
+];
+
+export const commands = [
+  'pnpm install',
+  'pnpm dev',
+  'pnpm build',
+  'pnpm start',
+  'pnpm lint',
+  'pnpm lint:fix',
+];
+
+# nextjs-vinext-eslint
+
+Next.js and React template powered by Vinext.
+
+## Stack
+
+<StackList items={stack} />
+
+## Commands
+
+<CommandPanel commands={commands} />
+
+## Notes
+
+`pnpm dev` runs `vinext dev --port 9980`. The template declares Volta Node
+`24.14.0`.

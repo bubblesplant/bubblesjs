@@ -31,19 +31,14 @@
     "@bubblesjs/utils": "workspace:^"
   },
   "peerDependencies": {
-    "alova": "^3.3.4",
-    "axios": "^1.12.1"
+    "alova": "^3.5.1"
   },
   "devDependencies": {
-    "axios": "^1.12.1",
-    "tsdown": "^0.14.1",
-    "vitest": "^3.2.4"
+    "tsdown": "^0.22.2",
+    "vitest": "^4.1.8"
   },
   "peerDependenciesMeta": {
     "alova": {
-      "optional": true
-    },
-    "axios": {
       "optional": true
     }
   },

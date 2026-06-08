@@ -1,0 +1,60 @@
+# 模板总览
+
+import { GuideList, OverviewGrid } from '@/components/docs-ui';
+
+export const templates = [
+  {
+    title: 'vue-vite-eslint',
+    description: 'Vue 3、Vite、ESLint、Ant Design Vue Next、Pinia、UnoCSS。',
+    href: 'vue-vite-eslint',
+  },
+  {
+    title: 'react-rsbuild-biome',
+    description: 'React 19、Rsbuild、Biome、Ant Design、Alova。',
+    href: 'react-rsbuild-biome',
+  },
+  {
+    title: 'vp-react',
+    description: '基于 Vite+ 的 React 19 起步模板。',
+    href: 'vp-react',
+  },
+  {
+    title: 'vp-react-shadcn',
+    description: '集成 shadcn、Radix UI、Tailwind CSS、Sonner、Zustand 的 Vite+ React 模板。',
+    href: 'vp-react-shadcn',
+  },
+  {
+    title: 'vp-monorepo-react-nestjs',
+    description: 'Vite+ monorepo 起步模板，包含 React Web 应用与共享工具包。',
+    href: 'vp-monorepo-react-nestjs',
+  },
+  {
+    title: 'taro-vue-eslint',
+    description: 'Taro 4.2、Vue 3.5、NutUI、Alova Taro 适配器、适用于小程序和 H5 的 UnoCSS。',
+    href: 'taro-vue-eslint',
+  },
+  {
+    title: 'nextjs-vinext-eslint',
+    description: '基于 Vinext 与 ESLint 的 Next.js 16 / React 19 项目模板。',
+    href: 'nextjs-vinext-eslint',
+  },
+];
+
+export const guide = [
+  <>选择 <strong>react-rsbuild-biome</strong>：适合需要 Rsbuild 和 Biome 的稳定 React 应用。</>,
+  <>选择 <strong>vue-vite-eslint</strong>：适合 Vue 管理台或数据型应用。</>,
+  <>选择 <strong>vp-react</strong> 或 <strong>vp-react-shadcn</strong>：适合想使用 Vite+ 工具链的 React 项目。</>,
+  <>选择 <strong>vp-monorepo-react-nestjs</strong>：适合需要应用与包分层的 workspace 起步项目。</>,
+  <>选择 <strong>taro-vue-eslint</strong>：适合 Taro 小程序或 H5 项目。</>,
+  <>选择 <strong>nextjs-vinext-eslint</strong>：适合使用 Vinext 的 Next.js 风格 React 项目。</>,
+];
+
+`create-bubbles` 当前提供以下模板：
+
+<OverviewGrid items={templates} />
+
+## 模板选择指南
+
+<GuideList items={guide} />
+
+点击左侧导航查看对应模板的使用说明与特性。

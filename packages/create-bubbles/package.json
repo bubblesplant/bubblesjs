@@ -33,10 +33,10 @@
   "funding": "https://github.com/435012357/bubblesjs",
   "devDependencies": {
     "@types/node": "^24.3.0",
-    "tsdown": "^0.18.3"
+    "tsdown": "^0.22.2"
   },
   "dependencies": {
-    "@clack/prompts": "^0.11.0",
+    "@clack/prompts": "^1.5.1",
     "cross-spawn": "^7.0.6",
     "gradient-string": "^3.0.0",
     "mri": "^1.2.0",

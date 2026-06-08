@@ -1,0 +1,49 @@
+---
+pageType: custom
+title: Bubbles
+---
+
+import { DocsHome } from '@/components/docs-ui';
+
+export const hero = {
+  name: 'Bubbles',
+  text: 'Modern Frontend Development Toolkit 🫧',
+  tagline: 'Lightweight, fast, and extensible frontend development solution',
+  actions: [
+    { text: 'Quick Start', href: '/guide/' },
+    { text: 'GitHub', href: 'https://github.com/435012357/bubblesjs', variant: 'outline' },
+  ],
+  image: {
+    src: '',
+    alt: 'Bubbles Logo',
+  },
+};
+
+export const features = [
+  {
+    title: '🚀 Lightning Fast Setup',
+    details: 'Create React, Vue, Taro, Next.js, or Vite+ projects in seconds with create-bubbles',
+  },
+  {
+    title: '🛠️ Modern Toolchain',
+    details: 'Built-in Vite, Vite+, UnoCSS, Biome, and ESLint presets',
+  },
+  {
+    title: '📦 Utility Packages',
+    details: 'Provides @bubblesjs/request, @bubblesjs/utils, and Vue packages for rapid development',
+  },
+  {
+    title: '🎨 UI Friendly',
+    details: 'Supports Ant Design component library for beautiful and modern user interface design',
+  },
+  {
+    title: '🌍 Multi-Framework Support',
+    details: 'Supports React, Vue, Taro, and Next.js project starters',
+  },
+  {
+    title: '🔧 Highly Configurable',
+    details: 'Flexible configuration options, supports custom build, styling and development workflows',
+  },
+];
+
+<DocsHome hero={hero} features={features} />

@@ -1,0 +1,33 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'Next.js 16.2 与 React 19.2。',
+  'Vinext 0.0.55、Vite 8、TypeScript 6。',
+  'Ant Design 6、CSS-in-JS 支持、GSAP。',
+  'ESLint 10，集成 Antfu、Next、React Hooks、React Refresh、UnoCSS 插件。',
+];
+
+export const commands = [
+  'pnpm install',
+  'pnpm dev',
+  'pnpm build',
+  'pnpm start',
+  'pnpm lint',
+  'pnpm lint:fix',
+];
+
+# nextjs-vinext-eslint
+
+基于 Vinext 的 Next.js / React 模板。
+
+## 技术栈
+
+<StackList items={stack} />
+
+## 命令
+
+<CommandPanel commands={commands} />
+
+## 注意
+
+`pnpm dev` 会运行 `vinext dev --port 9980`。该模板声明的 Volta Node 版本是 `24.14.0`。

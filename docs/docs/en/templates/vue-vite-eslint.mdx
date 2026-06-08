@@ -1,0 +1,28 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'Vue 3.5, Vue Router, Pinia, persisted state.',
+  'Vite 8, TypeScript 6, Vue TSC.',
+  'Ant Design Vue Next, Plus Pro Components, ECharts.',
+  'UnoCSS, Sass, SVG icon plugin.',
+  'Alova with the Axios adapter.',
+];
+
+export const commands = ['pnpm install', 'pnpm dev', 'pnpm build', 'pnpm preview', 'pnpm lint', 'pnpm lint:fix'];
+
+# vue-vite-eslint
+
+Vue 3 application template based on Vite and ESLint.
+
+## Stack
+
+<StackList items={stack} />
+
+## Commands
+
+<CommandPanel commands={commands} />
+
+## Notes
+
+This template is the current Vue option in `create-bubbles`. It replaces the old
+Vue Rsbuild and Vue Rolldown entries in the scaffold menu.

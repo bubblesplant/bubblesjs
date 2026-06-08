@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bubbleGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B5AEF0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9D93E8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bubbleGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#DDD9F9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B5AEF0;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bubbleGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9D93E8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7F74D0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Large bubble -->
+  <circle cx="100" cy="100" r="70" fill="url(#bubbleGrad1)" opacity="0.9"/>
+  <circle cx="100" cy="100" r="70" fill="none" stroke="#9D93E8" stroke-width="2" opacity="0.6"/>
+
+  <!-- Highlight on large bubble -->
+  <ellipse cx="75" cy="75" rx="20" ry="12" fill="white" opacity="0.3" transform="rotate(-45 75 75)"/>
+
+  <!-- Medium bubble -->
+  <circle cx="155" cy="55" r="35" fill="url(#bubbleGrad2)" opacity="0.85"/>
+  <circle cx="155" cy="55" r="35" fill="none" stroke="#B5AEF0" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Highlight on medium bubble -->
+  <ellipse cx="145" cy="45" rx="10" ry="6" fill="white" opacity="0.35" transform="rotate(-45 145 45)"/>
+
+  <!-- Small bubble -->
+  <circle cx="55" cy="155" r="22" fill="url(#bubbleGrad3)" opacity="0.8"/>
+  <circle cx="55" cy="155" r="22" fill="none" stroke="#7F74D0" stroke-width="1" opacity="0.5"/>
+
+  <!-- Highlight on small bubble -->
+  <ellipse cx="48" cy="148" rx="6" ry="4" fill="white" opacity="0.4" transform="rotate(-45 48 148)"/>
+
+  <!-- Tiny bubble -->
+  <circle cx="165" cy="145" r="12" fill="#DDD9F9" opacity="0.7"/>
+  <circle cx="165" cy="145" r="12" fill="none" stroke="#B5AEF0" stroke-width="0.8" opacity="0.4"/>
+
+  <!-- Highlight on tiny bubble -->
+  <ellipse cx="162" cy="142" rx="3" ry="2" fill="white" opacity="0.45" transform="rotate(-45 162 142)"/>
+</svg>

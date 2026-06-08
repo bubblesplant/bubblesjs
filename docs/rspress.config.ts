@@ -1,15 +1,16 @@
-import * as path from 'node:path';
-import { defineConfig } from 'rspress/config';
+import * as path from 'node:path'
+
+import { pluginTailwindcss } from '@rsbuild/plugin-tailwindcss'
+import { defineConfig } from '@rspress/core'
 
 export default defineConfig({
   root: path.join(__dirname, 'docs'),
+  globalStyles: path.join(__dirname, 'tailwind.css'),
   base: '/bubblesjs/',
   title: 'Bubbles',
-  icon: 'https://assets.rspack.dev/rsbuild/favicon-128x128.png',
-  logo: {
-    light: 'https://assets.rspack.dev/rsbuild/navbar-logo-light.png',
-    dark: 'https://assets.rspack.dev/rsbuild/navbar-logo-dark.png',
-  },
+  icon: '',
+  logo: '',
+  logoText: 'Bubbles',
   lang: 'zh',
   locales: [
     {
@@ -26,6 +27,7 @@ export default defineConfig({
     },
   ],
   themeConfig: {
+    darkMode: true,
     socialLinks: [
       {
         icon: 'github',
@@ -44,4 +46,7 @@ export default defineConfig({
       },
     ],
   },
-});
+  builderConfig: {
+    plugins: [pluginTailwindcss()],
+  },
+})

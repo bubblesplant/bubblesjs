@@ -1,0 +1,106 @@
+# 包管理
+
+import { DetailGrid, OverviewGrid } from '@/components/docs-ui';
+
+export const packageSummaries = [
+  {
+    title: '@bubblesjs/request',
+    description: '基于 Alova 的现代化请求库，提供完整的请求封装与响应处理',
+    href: 'request',
+  },
+  {
+    title: '@bubblesjs/utils',
+    description: '实用工具函数集合，包含通用工具方法',
+    href: 'utils',
+  },
+  {
+    title: '@bubblesjs/vue-ai-chart',
+    description: 'Vue 3 AI 聊天组件库，支持会话管理',
+    href: 'vue-ai-chart',
+  },
+  {
+    title: '@bubblesjs/vue-annotation',
+    description: 'Vue 3 文本标注组件，用于 NLP 任务',
+    href: 'vue-annotator',
+  },
+  {
+    title: '@bubblesjs/vue-infinite-scroll',
+    description: 'Vue 3 无限滚动组件，实现无缝自动滚动',
+    href: 'vue-infinite-scroll',
+  },
+  {
+    title: 'create-bubbles',
+    description: '项目脚手架，支持 React、Vue、Taro、Next.js、Vite+ 模板',
+  },
+];
+
+export const packageDetails = [
+  {
+    title: '@bubblesjs/request',
+    intro: '现代化的请求库，基于 Alova 构建，提供：',
+    points: [
+      '统一的请求和响应处理',
+      '灵活的错误处理机制',
+      '支持 fetch、Taro 等 Alova 适配器',
+      '双重调用模式支持',
+    ],
+  },
+  {
+    title: '@bubblesjs/utils',
+    intro: '实用工具函数集合：',
+    points: ['通用工具函数', '类型工具', '辅助方法'],
+  },
+  {
+    title: '@bubblesjs/vue-ai-chart',
+    intro: 'Vue 3 AI 聊天组件库：',
+    points: [
+      '完整的 AI 对话 UI 组件',
+      'Markdown 渲染和代码高亮',
+      '会话列表和历史记录管理',
+      '灵活的插槽系统支持自定义',
+    ],
+  },
+  {
+    title: '@bubblesjs/vue-annotation',
+    intro: 'Vue 3 文本标注组件：',
+    points: [
+      '用于 NLP 任务的实体标注',
+      '实体之间的关系标注',
+      '支持 RTL 和暗色模式',
+      'Unicode 字素处理',
+    ],
+  },
+  {
+    title: '@bubblesjs/vue-infinite-scroll',
+    intro: 'Vue 3 无限滚动组件：',
+    points: [
+      '无缝自动滚动动画',
+      '悬停暂停功能',
+      '可配置的动画速度',
+      '适用于新闻滚动条和数据展示',
+    ],
+  },
+  {
+    title: 'create-bubbles',
+    intro: '快速创建项目脚手架：',
+    points: [
+      <code>vue-vite-eslint</code>,
+      <code>react-rsbuild-biome</code>,
+      <code>vp-react</code>,
+      <code>vp-react-shadcn</code>,
+      <code>vp-monorepo-react-nestjs</code>,
+      <code>taro-vue-eslint</code>,
+      <code>nextjs-vinext-eslint</code>,
+    ],
+  },
+];
+
+BubblesJS 当前包含以下包：
+
+<OverviewGrid items={packageSummaries} />
+
+## 包简介
+
+<DetailGrid items={packageDetails} />
+
+你可以在左侧导航中进入各包的详细说明。

@@ -1,0 +1,37 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  '根目录 Vite+ 配置，包含 staged 检查和类型感知 lint。',
+  <><code>apps/web</code>：基于 Vite+ 的 React 应用。</>,
+  <><code>packages/utils</code>：使用 <code>vp pack</code> 和 Vitest 的 TypeScript 工具包。</>,
+  'pnpm workspace catalog 统一管理 TypeScript、Vite、Vitest、Vite+。',
+];
+
+export const commands = ['pnpm install', 'pnpm dev', 'pnpm ready', '', 'vp run test -r', 'vp run build -r'];
+
+# vp-monorepo-react-nestjs
+
+Vite+ monorepo 起步模板。
+
+## 技术栈
+
+<StackList items={stack} />
+
+## 命令
+
+<CommandPanel commands={commands} />
+
+## 结构
+
+```text
+apps/
+  web/
+packages/
+  utils/
+pnpm-workspace.yaml
+vite.config.ts
+```
+
+## 注意
+
+当前脚手架包含 React Web 应用和共享工具包，是可继续扩展应用或服务的 workspace 起点。

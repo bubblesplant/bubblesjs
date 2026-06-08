@@ -1,0 +1,41 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'React 19, React Router, Zustand.',
+  'Rsbuild 2, TypeScript 6, Biome.',
+  'Ant Design, Ant Design Icons, Ahooks.',
+  'UnoCSS, Sass, SVGR.',
+  'Alova with the Axios adapter.',
+];
+
+export const commands = [
+  'pnpm install',
+  'pnpm dev',
+  'pnpm dev:prod',
+  'pnpm build',
+  'pnpm preview',
+  'pnpm check',
+  'pnpm format',
+];
+
+export const importantFiles = [
+  <><code>rsbuild.config.ts</code>: build configuration.</>,
+  <><code>src/router</code>: route configuration.</>,
+  <><code>src/layout</code>: app layout.</>,
+];
+
+# react-rsbuild-biome
+
+React application template based on Rsbuild and Biome.
+
+## Stack
+
+<StackList items={stack} />
+
+## Commands
+
+<CommandPanel commands={commands} />
+
+## Important Files
+
+<StackList items={importantFiles} />

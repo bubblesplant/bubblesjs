@@ -1,0 +1,41 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'React 19、React Router、Zustand。',
+  'Rsbuild 2、TypeScript 6、Biome。',
+  'Ant Design、Ant Design Icons、Ahooks。',
+  'UnoCSS、Sass、SVGR。',
+  'Alova 与 Axios 适配器。',
+];
+
+export const commands = [
+  'pnpm install',
+  'pnpm dev',
+  'pnpm dev:prod',
+  'pnpm build',
+  'pnpm preview',
+  'pnpm check',
+  'pnpm format',
+];
+
+export const importantFiles = [
+  <><code>rsbuild.config.ts</code>：构建配置。</>,
+  <><code>src/router</code>：路由配置。</>,
+  <><code>src/layout</code>：应用布局。</>,
+];
+
+# react-rsbuild-biome
+
+基于 Rsbuild 和 Biome 的 React 应用模板。
+
+## 技术栈
+
+<StackList items={stack} />
+
+## 命令
+
+<CommandPanel commands={commands} />
+
+## 重要文件
+
+<StackList items={importantFiles} />

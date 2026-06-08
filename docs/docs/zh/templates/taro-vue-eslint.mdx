@@ -1,0 +1,40 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'Taro 4.2 与 Vue 3.5。',
+  'NutUI Taro 与 NutUI 自动导入 resolver。',
+  <><span>Alova 与 </span><code>@alova/adapter-taro</code><span>。</span></>,
+  'Pinia 与状态持久化。',
+  'ESLint、Sass、Webpack 5、适配 Taro 的 UnoCSS。',
+];
+
+export const commands = [
+  'pnpm install',
+  'pnpm dev:weapp',
+  'pnpm dev:h5',
+  'pnpm build:weapp',
+  'pnpm build:h5',
+  'pnpm build:h5:prod',
+  'pnpm lint',
+  'pnpm lint:fix',
+];
+
+# taro-vue-eslint
+
+适用于 Vue 3 小程序和 H5 项目的 Taro 模板。
+
+## 技术栈
+
+<StackList items={stack} />
+
+## 命令
+
+<CommandPanel commands={commands} />
+
+## UnoCSS
+
+模板现在会在开发环境或 `--watch` 构建中启用 UnoCSS watch。`unocss.config.ts` 会扫描 `src/**/*.{vue,js,ts,jsx,tsx,html}`，并使用带有 `taroWebpack: 'webpack5'` 的 `unocss-preset-weapp`。
+
+## pnpm 构建许可
+
+`pnpm-workspace.yaml` 已包含 Taro、SWC、esbuild、core-js、lefthook 等依赖的 `allowBuilds`，模板会保留这些依赖构建许可。

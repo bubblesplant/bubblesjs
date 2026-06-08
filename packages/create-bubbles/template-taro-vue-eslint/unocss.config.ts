@@ -1,11 +1,15 @@
 import process from 'node:process'
-import { presetUno } from 'unocss'
 import presetWeapp from 'unocss-preset-weapp'
 import { extractorAttributify, transformerClass } from 'unocss-preset-weapp/transformer'
 
 const { presetWeappAttributify, transformerAttributify } = extractorAttributify()
 
 export default {
+  content: {
+    filesystem: [
+      'src/**/*.{vue,js,ts,jsx,tsx,html}',
+    ],
+  },
   presets: [
     // https://github.com/MellowCo/unocss-preset-weapp
     presetWeapp(
@@ -15,11 +19,11 @@ export default {
       {
         isH5: process.env.TARO_ENV === 'h5',
         platform: 'taro',
+        taroWebpack: 'webpack5',
       },
     ),
     // attributify autocomplete
     presetWeappAttributify(),
-    presetUno({ preflight: false }),
   ],
   shortcuts: [
     {

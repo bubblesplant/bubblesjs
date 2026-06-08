@@ -65,7 +65,13 @@ async function handleConfirm(canvas: any, data: string) {
 
 <template>
   <div class="text-red">
-    1112
+    <text class="text-green">
+      1112
+    </text>
+
+    <text class="text-purple">
+      1112
+    </text>
     <nut-signature @confirm="handleConfirm" />
   </div>
 </template>

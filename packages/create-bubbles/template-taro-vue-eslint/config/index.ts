@@ -10,6 +10,11 @@ import { outputRootMap } from './output-root'
 import prodConfig from './prod'
 import { CIPluginFn } from './release'
 
+const isWatch = process.env.NODE_ENV === 'development' || process.argv.includes('--watch')
+const unoOptions = isWatch
+  ? { watch: true }
+  : undefined
+
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
   const baseConfig: UserConfigExport<'webpack5'> = {
@@ -71,7 +76,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
           resolvers: [NutUIResolver({ taro: true })],
           dts: './types/components.d.ts',
         }))
-        chain.plugin('unocss').use(UnoCSS())
+        chain.plugin('unocss').use(UnoCSS(unoOptions))
       },
     },
     h5: {
@@ -105,7 +110,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
           resolvers: [NutUIResolver({ taro: true })],
           dts: './types/components.d.ts',
         }))
-        chain.plugin('unocss').use(UnoCSS())
+        chain.plugin('unocss').use(UnoCSS(unoOptions))
       },
     },
     rn: {

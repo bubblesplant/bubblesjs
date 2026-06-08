@@ -50,14 +50,13 @@ Options:
   -t, --template NAME        use a specific template
 
 Available templates:
-${colorMap.vue('vue-rsbuild-biome        vue')}
-${colorMap.vue('vue-rolldown-oxc         vue')}
-${colorMap.taro('taro-vue-eslint         taro')}
-${colorMap.react('react-rsbuild-biome       react')}
-${colorMap.react('vp-react      react')}
-${colorMap.nextjs('vp-react-shadcn       react')}
-${colorMap.react('react-rolldown-oxc       react')}
-${colorMap.nextjs('nextjs-vinext-eslint       nextjs')}`
+${colorMap.vue('vue-vite-eslint             vue')}
+${colorMap.react('react-rsbuild-biome        react')}
+${colorMap.react('vp-react                   react')}
+${colorMap.react('vp-react-shadcn            react')}
+${colorMap.react('vp-monorepo-react-nestjs   react')}
+${colorMap.taro('taro-vue-eslint            taro')}
+${colorMap.nextjs('nextjs-vinext-eslint      nextjs')}`
 
 // const FRAMEWORK = [
 //  {
@@ -146,11 +145,6 @@ const FRAMEWORKS: Framework[] = [
         display: 'vite + eslint',
         color: colorMap.vue,
       },
-      {
-        name: 'vue-vite-oxc',
-        display: 'rolldown + oxc',
-        color: colorMap.vue,
-      },
     ],
   },
   {
@@ -171,6 +165,11 @@ const FRAMEWORKS: Framework[] = [
       {
         name: 'vp-react-shadcn',
         display: 'vp-react-shadcn',
+        color: colorMap.react,
+      },
+      {
+        name: 'vp-monorepo-react-nestjs',
+        display: 'vp-monorepo-react-nestjs',
         color: colorMap.react,
       },
     ],

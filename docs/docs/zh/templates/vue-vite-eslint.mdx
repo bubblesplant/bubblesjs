@@ -1,0 +1,27 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'Vue 3.5、Vue Router、Pinia、状态持久化。',
+  'Vite 8、TypeScript 6、Vue TSC。',
+  'Ant Design Vue Next、Plus Pro Components、ECharts。',
+  'UnoCSS、Sass、SVG 图标插件。',
+  'Alova 与 Axios 适配器。',
+];
+
+export const commands = ['pnpm install', 'pnpm dev', 'pnpm build', 'pnpm preview', 'pnpm lint', 'pnpm lint:fix'];
+
+# vue-vite-eslint
+
+基于 Vite 和 ESLint 的 Vue 3 应用模板。
+
+## 技术栈
+
+<StackList items={stack} />
+
+## 命令
+
+<CommandPanel commands={commands} />
+
+## 注意
+
+这是 `create-bubbles` 当前的 Vue 模板入口，已替代旧的 Vue Rsbuild 与 Vue Rolldown 选项。

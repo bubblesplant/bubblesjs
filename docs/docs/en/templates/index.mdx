@@ -1,0 +1,60 @@
+# Templates
+
+import { GuideList, OverviewGrid } from '@/components/docs-ui';
+
+export const templates = [
+  {
+    title: 'vue-vite-eslint',
+    description: 'Vue 3, Vite, ESLint, Ant Design Vue Next, Pinia, UnoCSS.',
+    href: 'vue-vite-eslint',
+  },
+  {
+    title: 'react-rsbuild-biome',
+    description: 'React 19, Rsbuild, Biome, Ant Design, Alova.',
+    href: 'react-rsbuild-biome',
+  },
+  {
+    title: 'vp-react',
+    description: 'React 19 starter powered by Vite+.',
+    href: 'vp-react',
+  },
+  {
+    title: 'vp-react-shadcn',
+    description: 'Vite+ React starter with shadcn, Radix UI, Tailwind CSS, Sonner, and Zustand.',
+    href: 'vp-react-shadcn',
+  },
+  {
+    title: 'vp-monorepo-react-nestjs',
+    description: 'Vite+ monorepo starter with a React web app and a shared utility package.',
+    href: 'vp-monorepo-react-nestjs',
+  },
+  {
+    title: 'taro-vue-eslint',
+    description: 'Taro 4.2, Vue 3.5, NutUI, Alova Taro adapter, UnoCSS for mini-programs and H5.',
+    href: 'taro-vue-eslint',
+  },
+  {
+    title: 'nextjs-vinext-eslint',
+    description: 'Next.js 16 and React 19 project powered by Vinext and ESLint.',
+    href: 'nextjs-vinext-eslint',
+  },
+];
+
+export const guide = [
+  <>Choose <strong>react-rsbuild-biome</strong> for a stable React app with Rsbuild and Biome.</>,
+  <>Choose <strong>vue-vite-eslint</strong> for Vue admin or data-heavy apps built on Vite.</>,
+  <>Choose <strong>vp-react</strong> or <strong>vp-react-shadcn</strong> when you want the Vite+ toolchain.</>,
+  <>Choose <strong>vp-monorepo-react-nestjs</strong> when you want a workspace starter with app and package boundaries.</>,
+  <>Choose <strong>taro-vue-eslint</strong> for Taro mini-program or H5 projects.</>,
+  <>Choose <strong>nextjs-vinext-eslint</strong> for a Next.js-style React project using Vinext.</>,
+];
+
+`create-bubbles` currently provides these templates:
+
+<OverviewGrid items={templates} />
+
+## Selection Guide
+
+<GuideList items={guide} />
+
+Use the left navigation to view each template's details.

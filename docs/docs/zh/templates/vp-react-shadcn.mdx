@@ -1,0 +1,27 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'React 19 与 React Router。',
+  'Vite+、TypeScript 6、Tailwind CSS 4。',
+  'shadcn、Radix UI、Lucide React、Sonner。',
+  'Zustand、Alova、GSAP。',
+  'Geist 可变字体。',
+];
+
+export const commands = ['pnpm install', 'pnpm dev', 'pnpm build', 'pnpm preview', 'pnpm check'];
+
+# vp-react-shadcn
+
+集成 shadcn 风格 UI 能力的 Vite+ React 模板。
+
+## 技术栈
+
+<StackList items={stack} />
+
+## 命令
+
+<CommandPanel commands={commands} />
+
+## 注意
+
+如果你希望 React 项目起步时就带有更完整的 UI 基础能力，可以选择它而不是基础的 `vp-react`。

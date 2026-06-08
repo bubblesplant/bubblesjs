@@ -1,0 +1,26 @@
+import { CommandPanel, StackList } from '@/components/docs-ui';
+
+export const stack = [
+  'React 19 与 React Router。',
+  'Vite+、Vite 8、TypeScript 6。',
+  'Tailwind CSS 4 与 Ant Design。',
+  '自动导入支持。',
+];
+
+export const commands = ['pnpm install', 'pnpm dev', 'pnpm build', 'pnpm preview', 'pnpm check'];
+
+# vp-react
+
+基于 Vite+ 的 React 起步模板。
+
+## 技术栈
+
+<StackList items={stack} />
+
+## 命令
+
+<CommandPanel commands={commands} />
+
+## 注意
+
+该模板使用 `vp` 命令进行开发、构建、预览和检查，并通过 `pnpm.overrides` 将 Vite / Vitest 指向 Vite+ 包。
