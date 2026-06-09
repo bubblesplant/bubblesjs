@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.15
+
+### Patch Changes
+
+- [`1430f93`](https://github.com/bubblesplant/bubblesjs/commit/1430f93f16333d355fd2fefbea9dd91d348ae2b2) Thanks [@bubblesplant](https://github.com/bubblesplant)! - utils request creat-bubbles 优化更新
+
 ## 0.1.14
 
 ### Patch Changes
