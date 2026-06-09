@@ -1,5 +1,11 @@
 # docs
 
+## 0.0.4
+
+### Patch Changes
+
+- [`68b4429`](https://github.com/bubblesplant/bubblesjs/commit/68b4429ed17379f6c34484ca8375516666743e7d) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 更新 create-bubbles 模板依赖 utilsrequest
+
 ## 1.0.2
 
 ### Patch Changes
