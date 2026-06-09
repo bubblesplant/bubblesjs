@@ -8,8 +8,8 @@ export default defineConfig({
   globalStyles: path.join(__dirname, 'tailwind.css'),
   base: '/bubblesjs/',
   title: 'Bubbles',
-  icon: '',
-  logo: '',
+  icon: '/bubbles-icon.svg',
+  logo: '/bubbles-icon.svg',
   logoText: 'Bubbles',
   lang: 'zh',
   locales: [
