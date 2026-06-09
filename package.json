@@ -62,27 +62,6 @@
     "pre-commit": "pnpm exec lint-staged --concurrent false"
   },
   "packageManager": "pnpm@11.5.2",
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@algolia/client-search",
-        "postcss",
-        "search-insights"
-      ]
-    },
-    "packageExtensions": {
-      "sass-embedded": {
-        "peerDependencies": {
-          "source-map-js": "*"
-        },
-        "peerDependenciesMeta": {
-          "source-map-js": {
-            "optional": true
-          }
-        }
-      }
-    }
-  },
   "dependencies": {
     "@biomejs/biome": "^2.4.16"
   }

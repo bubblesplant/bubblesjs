@@ -11,6 +11,20 @@ allowBuilds:
   msw: true
   vue-demi: true
 
+peerDependencyRules:
+  ignoreMissing:
+    - '@algolia/client-search'
+    - postcss
+    - search-insights
+
+packageExtensions:
+  sass-embedded:
+    peerDependencies:
+      source-map-js: '*'
+    peerDependenciesMeta:
+      source-map-js:
+        optional: true
+
 catalog:
   vue: ^3.5.24
 
