@@ -11,3 +11,6 @@ dist/
 **/pnpm-lock.yaml
 **/package-lock.json
 bun.lock
+
+
+.pnpm-store

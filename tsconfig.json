@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@bubblesjs/*": ["./packages/*/src"]
+    }
+  },
+  "include": ["packages/*/src"]
+}
