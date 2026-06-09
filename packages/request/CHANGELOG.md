@@ -1,5 +1,14 @@
 # @bubblesjs/request
 
+## 0.0.4
+
+### Patch Changes
+
+- [`1430f93`](https://github.com/bubblesplant/bubblesjs/commit/1430f93f16333d355fd2fefbea9dd91d348ae2b2) Thanks [@bubblesplant](https://github.com/bubblesplant)! - utils request creat-bubbles 优化更新
+
+- Updated dependencies [[`1430f93`](https://github.com/bubblesplant/bubblesjs/commit/1430f93f16333d355fd2fefbea9dd91d348ae2b2)]:
+  - @bubblesjs/utils@0.0.8
+
 ## 0.0.3
 
 ### Patch Changes
