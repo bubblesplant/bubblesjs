@@ -1,5 +1,14 @@
 # @bubblesjs/request
 
+## 0.0.5
+
+### Patch Changes
+
+- [`d8cb867`](https://github.com/bubblesplant/bubblesjs/commit/d8cb86787671f3ea04c278ab534fe8ea0b43a69f) Thanks [@bubblesplant](https://github.com/bubblesplant)! - utils tsconfig 解析错误
+
+- Updated dependencies [[`d8cb867`](https://github.com/bubblesplant/bubblesjs/commit/d8cb86787671f3ea04c278ab534fe8ea0b43a69f)]:
+  - @bubblesjs/utils@0.0.9
+
 ## 0.0.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.16
+
+### Patch Changes
+
+- [`d8cb867`](https://github.com/bubblesplant/bubblesjs/commit/d8cb86787671f3ea04c278ab534fe8ea0b43a69f) Thanks [@bubblesplant](https://github.com/bubblesplant)! - utils tsconfig 解析错误
+
 ## 0.1.15
 
 ### Patch Changes
