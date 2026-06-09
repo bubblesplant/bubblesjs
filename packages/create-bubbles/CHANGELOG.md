@@ -1,5 +1,15 @@
 # create-bubbles
 
+## 0.1.14
+
+### Patch Changes
+
+- [`68b4429`](https://github.com/bubblesplant/bubblesjs/commit/68b4429ed17379f6c34484ca8375516666743e7d) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 更新 create-bubbles 模板依赖 utilsrequest
+
+- [#49](https://github.com/bubblesplant/bubblesjs/pull/49) [`1564b58`](https://github.com/bubblesplant/bubblesjs/commit/1564b58aa034410b77ab77c53250d0f1ad2383cd) Thanks [@github-actions](https://github.com/apps/github-actions)! - template 依赖更新
+
+- [#49](https://github.com/bubblesplant/bubblesjs/pull/49) [`02c1de8`](https://github.com/bubblesplant/bubblesjs/commit/02c1de8ff0184a0bea4ca829035fd10f4e113df3) Thanks [@github-actions](https://github.com/apps/github-actions)! - 更新 vp-react 依赖
+
 ## 0.1.13
 
 ### Patch Changes
