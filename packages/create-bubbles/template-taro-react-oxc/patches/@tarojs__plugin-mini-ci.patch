@@ -1,0 +1,13 @@
+diff --git a/dist/WeappCI.js b/dist/WeappCI.js
+index 778b65b4f366611ed3c577d3d470da391c3ca879..a7dd8831c160ac4022734be5c3e762128894ea5e 100644
+--- a/dist/WeappCI.js
++++ b/dist/WeappCI.js
+@@ -67,7 +67,7 @@ class WeappCI extends BaseCi_1.default {
+             printLog("error" /* processTypeEnum.ERROR */, '命令行工具路径不存在', cliPath);
+         }
+         printLog("start" /* processTypeEnum.START */, '微信开发者工具...', this.projectPath);
+-        shell.exec(`${cliPath} open --project ${this.projectPath}`);
++        shell.exec(`"${cliPath}" open --project "${this.projectPath}"`, { encoding: 'utf-8' });
+     }
+     async preview() {
+         const { chalk, printLog, processTypeEnum } = this.ctx.helper;

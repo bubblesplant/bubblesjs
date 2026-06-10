@@ -184,6 +184,11 @@ const FRAMEWORKS: Framework[] = [
         display: 'taro-vue + eslint',
         color: colorMap.taro,
       },
+      {
+        name: 'taro-react-oxc',
+        display: 'taro-react + oxc',
+        color: colorMap.taro,
+      },
     ],
   },
   {

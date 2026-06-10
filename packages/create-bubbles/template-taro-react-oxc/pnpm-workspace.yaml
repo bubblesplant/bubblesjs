@@ -1,0 +1,13 @@
+allowBuilds:
+  '@nutui/nutui-react-taro': true
+  '@parcel/watcher': true
+  '@swc/core': true
+  '@tarojs/binding': true
+  '@tarojs/cli': true
+  core-js: true
+  core-js-pure: true
+  esbuild: true
+  less: true
+  protobufjs: true
+patchedDependencies:
+  '@tarojs/plugin-mini-ci': patches/@tarojs__plugin-mini-ci.patch

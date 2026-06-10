@@ -1,0 +1,18 @@
+pre-commit:
+  commands:
+    fmt:
+      glob: '*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc,vue,css,scss,md}'
+      run: pnpm fmt {staged_files}
+      stage_fixed: true
+    lint:
+      glob: '*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,vue}'
+      run: pnpm lint:fix {staged_files}
+      stage_fixed: true
+    lint-style:
+      glob: '*.{css,scss}'
+      run: pnpm exec stylelint {staged_files}
+
+commit-msg:
+  commands:
+    lint commit message:
+      run: npx commitlint --edit {1}
