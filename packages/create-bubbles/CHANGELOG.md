@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.17
+
+### Patch Changes
+
+- [`e5ad5e0`](https://github.com/bubblesplant/bubblesjs/commit/e5ad5e03ea8ca1c402f87b5a78965cc751e65010) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 增加taro-react 模块
+
 ## 0.1.16
 
 ### Patch Changes
