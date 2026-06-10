@@ -25,7 +25,8 @@
     "dist"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "build": "unocss \"src/**/*.vue\" -o dist/style.css && tsdown",
