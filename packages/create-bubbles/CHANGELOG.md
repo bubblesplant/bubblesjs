@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.18
+
+### Patch Changes
+
+- [`2d2b904`](https://github.com/bubblesplant/bubblesjs/commit/2d2b904221f4d45070f35db7f4c773920f4a6e36) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 更改request 和 所有模板的 请求器
+
 ## 0.1.17
 
 ### Patch Changes
