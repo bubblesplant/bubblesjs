@@ -28,7 +28,7 @@ function getBaseConfig(): Parameters<typeof createDualCallInstance>[0] {
     },
     responseDataKey: "data",
     responseMessageKey: "msg",
-    commonHeaders: {},
+    commonHeaders: () => ({}),
     successMessageFunc: (msg) => {
       toast.success(msg);
     },

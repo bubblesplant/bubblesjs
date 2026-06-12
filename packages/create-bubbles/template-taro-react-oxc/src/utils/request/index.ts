@@ -17,7 +17,7 @@ const alovaRequest = createInstance({
   },
   responseDataKey: 'data',
   responseMessageKey: 'message',
-  commonHeaders: {},
+  commonHeaders: () => ({}),
   successMessageFunc: (msg) => {
     Taro.showToast({ title: msg })
   },

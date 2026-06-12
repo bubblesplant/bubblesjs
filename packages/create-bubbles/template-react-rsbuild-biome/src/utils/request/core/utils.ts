@@ -1,38 +1,39 @@
-export const deepMergeObject = <T = any>(source: T, target: Partial<T>): T => {
-  const isObject = (obj: any): obj is Record<string, any> =>
-    obj && typeof obj === 'object' && !Array.isArray(obj)
-
+export function deepMergeObject<T = any>(source: T, target: Partial<T>): T {
   const merge = (src: any, tgt: any): any => {
-    if (isObject(src) && isObject(tgt)) {
-      Object.keys(tgt).forEach((key) => {
-        if (isObject(tgt[key])) {
-          src[key] = merge(src[key] || {}, tgt[key])
-        } else {
-          src[key] = tgt[key]
-        }
-      })
+    if (!isPlainObject(src) || !isPlainObject(tgt)) return tgt === undefined ? src : tgt
+
+    const result = { ...src }
+    for (const key of Object.keys(tgt)) {
+      const targetValue = tgt[key]
+      result[key] = isPlainObject(targetValue) ? merge(result[key], targetValue) : targetValue
     }
-    return src
+
+    return result
   }
 
-  return merge({ ...source }, target)
+  return merge(source, target)
 }
 
-/**
- * 判断一个变量是不是可读流
- * @param data
- */
-export const isReadableStream = (data: unknown): boolean => {
-  if (!(data instanceof ReadableStream)) {
-    return false
+export function isPlainObject(data: unknown): data is Record<string, any> {
+  return Object.prototype.toString.call(data) === '[object Object]'
+}
+
+export function isReadableStream(data: unknown): boolean {
+  if (typeof ReadableStream === 'undefined') return false
+  return data instanceof ReadableStream
+}
+
+export function tryParseJsonString(data: unknown): unknown {
+  if (typeof data !== 'string') return data
+
+  const value = data.trim()
+  if (!value) return data
+
+  if (!value.startsWith('{') && !value.startsWith('[')) return data
+
+  try {
+    return JSON.parse(value)
+  } catch {
+    return data
   }
-  if (typeof data.locked !== 'boolean') return false
-
-  const instanceFunc = ['cancel', 'getReader', 'pipeThrough', 'pipeTo', 'tee'] as const
-
-  for (const func of instanceFunc) {
-    if (typeof data[func] !== 'function') return false
-  }
-
-  return true
 }

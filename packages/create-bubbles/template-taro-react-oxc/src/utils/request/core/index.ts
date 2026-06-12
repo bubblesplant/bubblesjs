@@ -52,7 +52,7 @@ export interface BaseRequestOption<
 > extends RequestMeta {
   baseUrl?: string
   timeout?: number
-  commonHeaders?: Record<string, HeaderValue>
+  commonHeaders?: () => Record<string, HeaderValue>
   statusMap?: StatusMap<RE>
   codeMap?: CodeMap
   responseCodeKey?: string
@@ -309,7 +309,7 @@ export function createInstance<
       const headers = methodConfig.headers ?? {}
       methodConfig.headers = headers
 
-      for (const [key, value] of Object.entries(config.commonHeaders ?? {})) {
+      for (const [key, value] of Object.entries(config.commonHeaders?.() ?? {})) {
         const resolvedValue = await resolveHeaderValue(value)
         if (resolvedValue !== undefined) setHeader(headers, key, resolvedValue)
       }

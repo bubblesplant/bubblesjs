@@ -1,9 +1,3 @@
-import {
-  deepMergeObject,
-  isPlainObject,
-  isReadableStream,
-  tryParseJsonString,
-} from '@bubblesjs/utils'
 import type {
   AlovaGlobalCacheAdapter,
   AlovaOptions,
@@ -15,6 +9,7 @@ import type {
 import { createAlova } from 'alova'
 import type { FetchRequestInit } from 'alova/fetch'
 import adapterFetch from 'alova/fetch'
+import { deepMergeObject, isPlainObject, isReadableStream, tryParseJsonString } from './utils'
 
 type MaybePromise<T> = T | Promise<T>
 type HeaderValue =

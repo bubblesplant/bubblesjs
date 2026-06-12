@@ -11,8 +11,11 @@
     "check": "vp check"
   },
   "dependencies": {
+    "@alova/adapter-axios": "^2.0.18",
     "@tailwindcss/vite": "^4.3.0",
+    "alova": "^3.5.1",
     "antd": "^6.4.3",
+    "axios": "^1.17.0",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.21",
     "react": "^19.2.7",
