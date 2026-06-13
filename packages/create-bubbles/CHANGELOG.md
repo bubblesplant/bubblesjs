@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.19
+
+### Patch Changes
+
+- [`a4a5015`](https://github.com/bubblesplant/bubblesjs/commit/a4a50158b10fd008d57f848695313cad6964ed3c) Thanks [@bubblesplant](https://github.com/bubblesplant)! - create bubbles bug
+
 ## 0.1.18
 
 ### Patch Changes
