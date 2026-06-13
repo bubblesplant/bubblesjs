@@ -25,7 +25,7 @@ const alovaRequest = createInstance<
   codeMap: { success: [200] },
   responseDataKey: 'data',
   responseMessageKey: 'msg',
-  commonHeaders: {},
+  commonHeaders: () => ({}),
   successMessageFunc: (msg) => {
     Taro.showToast({ title: msg })
   },
@@ -54,7 +54,7 @@ const alovaUploadRequest = createInstance<
   codeMap: { success: [200] },
   responseDataKey: 'data',
   responseMessageKey: 'msg',
-  commonHeaders: {},
+  commonHeaders: () => ({}),
   successMessageFunc: (msg) => {
     Taro.showToast({ title: msg })
   },

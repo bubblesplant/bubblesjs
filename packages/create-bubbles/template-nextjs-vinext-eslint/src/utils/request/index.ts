@@ -13,7 +13,7 @@ const alovaRequest = createInstance<FetchRequestInit, Response, Headers>({
   codeMap: { success: [200] },
   responseDataKey: 'data',
   responseMessageKey: 'msg',
-  commonHeaders: {},
+  commonHeaders: () => ({}),
   successMessageFunc: (msg) => {
     message.success(msg)
   },
@@ -34,7 +34,7 @@ export const alovaUploadRequest = createInstance<FetchRequestInit, Response, Hea
   codeMap: { success: [200] },
   responseDataKey: 'data',
   responseMessageKey: 'msg',
-  commonHeaders: {},
+  commonHeaders: () => ({}),
   successMessageFunc: (msg) => {
     message.success(msg)
   },

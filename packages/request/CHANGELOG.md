@@ -1,5 +1,17 @@
 # @bubblesjs/request
 
+## 0.0.7
+
+### Patch Changes
+
+- [`2d2b904`](https://github.com/bubblesplant/bubblesjs/commit/2d2b904221f4d45070f35db7f4c773920f4a6e36) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 更改request 和 所有模板的 请求器
+
+## 0.0.6
+
+### Patch Changes
+
+- [`4eff8e2`](https://github.com/bubblesplant/bubblesjs/commit/4eff8e2b326f340d8db0c873ac7955288a773b7e) Thanks [@bubblesplant](https://github.com/bubblesplant)! - request 增加types 字段在 package.json 里面
+
 ## 0.0.5
 
 ### Patch Changes

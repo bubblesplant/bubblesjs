@@ -1,14 +1,14 @@
+import { message } from 'antd'
+import { router } from '@/router'
 import { envVariables } from '../env'
 import { createDualCallInstance } from './core'
-import { router } from '@/router'
-import { message } from 'antd'
 import 'element-plus/es/components/message/style/css'
-import vueHook from 'alova/vue'
+
 import { axiosRequestAdapter } from '@alova/adapter-axios'
+import vueHook from 'alova/vue'
 
 // 🎯 获取基础配置
 const getBaseConfig = (): Parameters<typeof createDualCallInstance>[0] => {
-
   return {
     baseUrl: `/${envVariables.PUBLIC_API_AFFIX}`,
     statusMap: {
@@ -20,8 +20,7 @@ const getBaseConfig = (): Parameters<typeof createDualCallInstance>[0] => {
     },
     responseDataKey: 'data',
     responseMessageKey: 'msg',
-    commonHeaders: {
-    },
+    commonHeaders: () => ({}),
     successMessageFunc: (msg: string) => {
       message.success(msg)
     },

@@ -1,6 +1,6 @@
 {
   "name": "@bubblesjs/request",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "type": "module",
   "private": false,
   "repository": {
@@ -10,6 +10,7 @@
   "bugs": {
     "url": "git+https://github.com/435012357/bubblesjs/issues"
   },
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

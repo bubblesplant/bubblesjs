@@ -1,178 +1,417 @@
-import type { AlovaGenerics, AlovaOptions } from 'alova'
-
+import {
+  deepMergeObject,
+  isPlainObject,
+  isReadableStream,
+  tryParseJsonString,
+} from './utils'
+import type {
+  AlovaGlobalCacheAdapter,
+  AlovaOptions,
+  AlovaRequestAdapter,
+  GlobalCacheConfig,
+  StatesExport,
+  StatesHook,
+} from 'alova'
 import { createAlova } from 'alova'
+import type { FetchRequestInit } from 'alova/fetch'
 import adapterFetch from 'alova/fetch'
 
-import { deepMergeObject, isReadableStream } from './utils'
+type MaybePromise<T> = T | Promise<T>
+type HeaderValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | (() => MaybePromise<string | number | boolean | null | undefined>)
+type StatusMatcher<RE> = number | number[] | ((status: number, response: RE) => boolean)
+type CodeMatcher = Array<number | string>
 
-interface statusMap {
-  success?: number
-  unAuthorized?: number
+export interface StatusMap<RE = unknown> {
+  success?: StatusMatcher<RE>
+  unAuthorized?: StatusMatcher<RE>
 }
 
-interface codeMap {
-  success?: number[]
-  unAuthorized?: number[]
+export interface CodeMap {
+  success?: CodeMatcher
+  unAuthorized?: CodeMatcher
 }
 
-export interface baseRequestOption<AG extends AlovaGenerics> {
-  baseUrl?: string
-  timeout?: number
-  commonHeaders?: Record<string, string | (() => string)>
-  statusMap?: statusMap
+export interface RequestMeta {
   isWrapped?: boolean
-  cacheFor?: AlovaOptions<AG>['cacheFor']
-  cacheLogger?: boolean
-  codeMap?: codeMap
-  responseDataKey?: string
-  responseMessageKey?: string
   isTransformResponse?: boolean
   isShowSuccessMessage?: boolean
-  successDefaultMessage?: string
   isShowErrorMessage?: boolean
+}
+
+export interface BaseRequestOption<
+  RC extends object = FetchRequestInit,
+  RE = Response,
+  RH = Headers,
+  SE extends StatesExport<any> = StatesExport<any>,
+> extends RequestMeta {
+  baseUrl?: string
+  timeout?: number
+  commonHeaders?: () => Record<string, HeaderValue>
+  statusMap?: StatusMap<RE>
+  codeMap?: CodeMap
+  responseCodeKey?: string
+  responseDataKey?: string
+  responseMessageKey?: string
+  cacheFor?: GlobalCacheConfig<any> | null
+  cacheLogger?: boolean
+  statesHook?: StatesHook<SE>
+  successDefaultMessage?: string
   errorDefaultMessage?: string
-  statesHook?: AlovaOptions<AG>['statesHook']
   successMessageFunc?: (message: string) => void
   errorMessageFunc?: (message: string) => void
   unAuthorizedResponseFunc?: () => void
-  requestAdapter?: AlovaOptions<AG>['requestAdapter']
+  requestAdapter?: AlovaRequestAdapter<RC, RE, RH>
+  l1Cache?: AlovaGlobalCacheAdapter
+  l2Cache?: AlovaGlobalCacheAdapter
+  storageAdapter?: AlovaGlobalCacheAdapter
 }
 
-export interface CustomConfig {
-  isTransformResponse?: boolean
-  isShowSuccessMessage?: boolean
-  isShowErrorMessage?: boolean
+export type baseRequestOption<
+  RC extends object = FetchRequestInit,
+  RE = Response,
+  RH = Headers,
+  SE extends StatesExport<any> = StatesExport<any>,
+> = BaseRequestOption<RC, RE, RH, SE>
+
+export type RequestOption<
+  RC extends object = FetchRequestInit,
+  RE = Response,
+  RH = Headers,
+  SE extends StatesExport<any> = StatesExport<any>,
+> = BaseRequestOption<RC, RE, RH, SE>
+
+type RequestAlovaGenerics<RC extends object, RE, RH, SE extends StatesExport<any>> = {
+  Responded: unknown
+  Transformed: unknown
+  RequestConfig: RC
+  Response: RE
+  ResponseHeader: RH
+  L1Cache: AlovaGlobalCacheAdapter
+  L2Cache: AlovaGlobalCacheAdapter
+  StatesExport: SE
 }
 
-type requestOption = baseRequestOption<AlovaGenerics> & CustomConfig
+type ResolvedRequestOption<RC extends object, RE, RH, SE extends StatesExport<any>> = Required<
+  Pick<
+    BaseRequestOption<RC, RE, RH, SE>,
+    | 'baseUrl'
+    | 'statusMap'
+    | 'codeMap'
+    | 'responseCodeKey'
+    | 'responseDataKey'
+    | 'responseMessageKey'
+    | 'isWrapped'
+    | 'isTransformResponse'
+    | 'isShowSuccessMessage'
+    | 'successDefaultMessage'
+    | 'isShowErrorMessage'
+    | 'errorDefaultMessage'
+    | 'cacheLogger'
+  >
+> &
+  BaseRequestOption<RC, RE, RH, SE>
 
-export function createInstance(option: requestOption) {
-  const defaultOption: requestOption = {
-    baseUrl: '/',
-    timeout: 0,
-    statusMap: {
-      success: 200,
-      unAuthorized: 401,
-    },
-    isWrapped: true,
-    cacheFor: null,
-    cacheLogger: true,
-    codeMap: {
-      success: [200],
-      unAuthorized: [401],
-    },
-    responseDataKey: 'data',
-    responseMessageKey: 'message',
-    isTransformResponse: true,
-    isShowSuccessMessage: false,
-    successDefaultMessage: '操作成功',
-    isShowErrorMessage: true,
-    errorDefaultMessage: '服务异常',
-    requestAdapter: adapterFetch(),
+const DEFAULT_SUCCESS_MESSAGE = '操作成功'
+const DEFAULT_ERROR_MESSAGE = '服务异常'
+
+const defaultRequestOption: BaseRequestOption<any, any, any, any> = {
+  baseUrl: '/',
+  timeout: undefined,
+  statusMap: {
+    success: 200,
+    unAuthorized: 401,
+  },
+  codeMap: {
+    success: [200],
+    unAuthorized: [401],
+  },
+  responseCodeKey: 'code',
+  responseDataKey: 'data',
+  responseMessageKey: 'message',
+  isWrapped: true,
+  isTransformResponse: true,
+  isShowSuccessMessage: false,
+  successDefaultMessage: DEFAULT_SUCCESS_MESSAGE,
+  isShowErrorMessage: true,
+  errorDefaultMessage: DEFAULT_ERROR_MESSAGE,
+  cacheFor: null,
+  cacheLogger: true,
+  requestAdapter: adapterFetch() as AlovaRequestAdapter<any, any, any>,
+}
+
+function getMethodMeta(method: unknown): RequestMeta {
+  const methodRecord = method as { meta?: RequestMeta; config?: { meta?: RequestMeta } } | undefined
+  return methodRecord?.config?.meta ?? methodRecord?.meta ?? {}
+}
+
+function getMetaFlag(meta: RequestMeta, key: keyof RequestMeta, fallback: boolean): boolean {
+  const value = meta[key]
+  return typeof value === 'boolean' ? value : fallback
+}
+
+function isMatchedStatus<RE>(
+  status: number,
+  matcher: StatusMatcher<RE> | undefined,
+  response: RE,
+): boolean {
+  if (matcher === undefined) return status >= 200 && status < 300
+
+  if (typeof matcher === 'function') return matcher(status, response)
+
+  return Array.isArray(matcher) ? matcher.includes(status) : matcher === status
+}
+
+function isMatchedCode(code: unknown, matcher: CodeMatcher | undefined): boolean {
+  if (!matcher?.length) return true
+
+  return matcher.some((item) => String(item) === String(code))
+}
+
+function getResponseStatus(response: unknown): number {
+  const responseRecord = response as { status?: unknown; statusCode?: unknown }
+  const status = responseRecord.statusCode ?? responseRecord.status
+  return typeof status === 'number' ? status : Number(status)
+}
+
+function getResponseMessage(data: unknown, messageKey: string, defaultMessage: string): string {
+  if (!isPlainObject(data)) return defaultMessage
+
+  const message = data[messageKey] ?? data.message ?? data.msg
+  if (typeof message === 'string') return message || defaultMessage
+  if (typeof message === 'number') return String(message)
+
+  return defaultMessage
+}
+
+function getResponseField(data: unknown, key: string): unknown {
+  return isPlainObject(data) ? data[key] : undefined
+}
+
+async function parseFetchResponse(response: {
+  status?: number
+  body?: unknown
+  headers?: Headers | Record<string, unknown>
+  clone?: () => Response
+  json?: () => Promise<unknown>
+  text?: () => Promise<string>
+}): Promise<unknown> {
+  if (response.status === 204) return undefined
+
+  const reader = typeof response.clone === 'function' ? response.clone() : response
+  const contentType = getHeaderValue(response.headers, 'content-type')
+
+  if (contentType.includes('application/json') && typeof reader.json === 'function')
+    return reader.json()
+
+  if (contentType.startsWith('text/') && typeof reader.text === 'function')
+    return tryParseJsonString(await reader.text())
+
+  if (typeof reader.json === 'function') {
+    try {
+      return await reader.json()
+    } catch {
+      // Fall through to text parsing.
+    }
   }
 
-  const mergeOption: baseRequestOption<AlovaGenerics> & CustomConfig = deepMergeObject(
-    defaultOption,
-    option,
-  )
+  if (typeof reader.text === 'function') return tryParseJsonString(await reader.text())
 
-  const instance = createAlova({
-    baseURL: mergeOption.baseUrl,
-    timeout: mergeOption.timeout,
-    cacheFor: mergeOption.cacheFor,
-    cacheLogger: mergeOption.cacheLogger,
-    statesHook: mergeOption?.statesHook,
-    requestAdapter: mergeOption.requestAdapter as AlovaOptions<AlovaGenerics>['requestAdapter'],
+  return undefined
+}
+
+function getHeaderValue(
+  headers: Headers | Record<string, unknown> | undefined,
+  key: string,
+): string {
+  if (!headers) return ''
+
+  if (typeof Headers !== 'undefined' && headers instanceof Headers) return headers.get(key) ?? ''
+
+  const headerRecord = headers as Record<string, unknown>
+  const value =
+    headerRecord[key] ?? headerRecord[key.toLowerCase()] ?? headerRecord[key.toUpperCase()]
+  return typeof value === 'string' ? value : ''
+}
+
+async function getResponseData(response: unknown): Promise<unknown> {
+  const responseRecord = response as {
+    body?: unknown
+    data?: unknown
+    json?: () => Promise<unknown>
+    text?: () => Promise<string>
+  }
+
+  if ('data' in responseRecord && !isReadableStream(responseRecord.body))
+    return tryParseJsonString(responseRecord.data)
+
+  if (
+    isReadableStream(responseRecord.body) ||
+    typeof responseRecord.json === 'function' ||
+    typeof responseRecord.text === 'function'
+  ) {
+    return parseFetchResponse(responseRecord)
+  }
+
+  return response
+}
+
+async function resolveHeaderValue(value: HeaderValue): Promise<string | undefined> {
+  const resolved = typeof value === 'function' ? await value() : value
+  if (resolved === null || resolved === undefined) return undefined
+  return String(resolved)
+}
+
+function setHeader(target: unknown, key: string, value: string): void {
+  if (typeof Headers !== 'undefined' && target instanceof Headers) {
+    target.set(key, value)
+    return
+  }
+
+  if (Array.isArray(target)) {
+    target.push([key, value])
+    return
+  }
+
+  ;(target as Record<string, string>)[key] = value
+}
+
+function resolveConfig<RC extends object, RE, RH, SE extends StatesExport<any>>(
+  option: BaseRequestOption<RC, RE, RH, SE>,
+): ResolvedRequestOption<RC, RE, RH, SE> {
+  return deepMergeObject(defaultRequestOption, option) as ResolvedRequestOption<RC, RE, RH, SE>
+}
+
+export function createInstance<
+  RC extends object = FetchRequestInit,
+  RE = Response,
+  RH = Headers,
+  SE extends StatesExport<any> = StatesExport<any>,
+>(option: RequestOption<RC, RE, RH, SE> = {}) {
+  const config = resolveConfig(option)
+
+  const alovaOptions: AlovaOptions<RequestAlovaGenerics<RC, RE, RH, SE>> = {
+    baseURL: config.baseUrl,
+    timeout: config.timeout,
+    cacheFor: config.cacheFor as GlobalCacheConfig<any>,
+    cacheLogger: config.cacheLogger,
+    statesHook: config.statesHook,
+    requestAdapter: config.requestAdapter!,
+    l1Cache: config.l1Cache,
+    l2Cache: config.l2Cache ?? config.storageAdapter,
     beforeRequest: async (method) => {
-      for (const [key, value] of Object.entries(option?.commonHeaders ?? {})) {
-        method.config.headers[key] = typeof value === 'function' ? value() : value
+      const methodConfig = method.config as { headers?: unknown }
+      const headers = methodConfig.headers ?? {}
+      methodConfig.headers = headers
+
+      for (const [key, value] of Object.entries(config.commonHeaders?.() ?? {})) {
+        const resolvedValue = await resolveHeaderValue(value)
+        if (resolvedValue !== undefined) setHeader(headers, key, resolvedValue)
       }
     },
     responded: {
-      onSuccess: async (response) => {
-        if (!mergeOption?.isTransformResponse)
-          return response
-        const { status } = response
+      onSuccess: async (response, method) => {
+        const meta = getMethodMeta(method)
+        const shouldTransform = getMetaFlag(meta, 'isTransformResponse', config.isTransformResponse)
+        const showSuccess = getMetaFlag(meta, 'isShowSuccessMessage', config.isShowSuccessMessage)
+        const showError = getMetaFlag(meta, 'isShowErrorMessage', config.isShowErrorMessage)
+        const isWrapped = getMetaFlag(meta, 'isWrapped', config.isWrapped)
 
-        // 判断响应类型：如果使用 adapterFetch，response.data 是可读流，则调用 json()；否则直接使用 response.data
-        const data
-          = response?.body && isReadableStream(response.body)
-            ? await response.json() // adapterFetch 的响应，使用 json() 解析可读流
-            : response.data // 其他适配器的响应
-        // 不成功的情况
-        if (status !== mergeOption.statusMap?.success) {
-          // 如果后端使用status 字段来表示未授权，则返回401
-          if (mergeOption?.statusMap?.unAuthorized === status) {
-            mergeOption?.unAuthorizedResponseFunc?.()
+        if (!shouldTransform) return response
+
+        const status = getResponseStatus(response)
+        const data = await getResponseData(response)
+
+        if (!isMatchedStatus(status, config.statusMap.success, response)) {
+          if (isMatchedStatus(status, config.statusMap.unAuthorized, response))
+            config.unAuthorizedResponseFunc?.()
+
+          if (showError) {
+            config.errorMessageFunc?.(
+              getResponseMessage(data, config.responseMessageKey, config.errorDefaultMessage),
+            )
           }
           return Promise.reject(response)
         }
-        const { isWrapped, isShowSuccessMessage, successDefaultMessage } = mergeOption
+
         if (!isWrapped) {
-          if (isShowSuccessMessage) {
-            mergeOption?.successMessageFunc?.(successDefaultMessage!)
-          }
+          if (showSuccess) config.successMessageFunc?.(config.successDefaultMessage)
           return data
         }
 
-        const {
-          responseDataKey,
-          codeMap,
-          responseMessageKey,
-          errorDefaultMessage,
-          isShowErrorMessage,
-        } = mergeOption
-        const {
-          code,
-          [responseDataKey as string]: responseData,
-          [responseMessageKey as string]: responseMessage,
-        } = data
-        if (!codeMap?.success?.includes(+code)) {
-          // code unAuthorized 处理
-          if (codeMap?.unAuthorized?.includes(+code)) {
-            mergeOption?.unAuthorizedResponseFunc?.()
-            return Promise.reject(response)
-          }
-          // 其他错误直接打印msg
+        const code = getResponseField(data, config.responseCodeKey)
+        const responseData = getResponseField(data, config.responseDataKey)
+        const responseMessage = getResponseMessage(
+          data,
+          config.responseMessageKey,
+          config.successDefaultMessage,
+        )
 
-          const errorMessage = data[responseMessageKey as string] ?? errorDefaultMessage
-          if (isShowErrorMessage)
-            mergeOption?.errorMessageFunc?.(errorMessage)
+        if (!isMatchedCode(code, config.codeMap.success)) {
+          if (isMatchedCode(code, config.codeMap.unAuthorized)) config.unAuthorizedResponseFunc?.()
+
+          if (showError) {
+            config.errorMessageFunc?.(
+              getResponseMessage(data, config.responseMessageKey, config.errorDefaultMessage),
+            )
+          }
           return Promise.reject(response)
         }
-        if (isShowSuccessMessage)
-          mergeOption?.successMessageFunc?.(responseMessage ?? successDefaultMessage)
+
+        if (showSuccess) config.successMessageFunc?.(responseMessage)
+
         return responseData
       },
-      onError: (error) => {
-        if (mergeOption?.isShowErrorMessage) {
-          mergeOption.errorMessageFunc?.(
-            mergeOption?.errorDefaultMessage ?? error.message,
+      onError: (error, method) => {
+        const meta = getMethodMeta(method)
+        const showError = getMetaFlag(meta, 'isShowErrorMessage', config.isShowErrorMessage)
+
+        if (showError) {
+          config.errorMessageFunc?.(
+            error instanceof Error ? error.message : config.errorDefaultMessage,
           )
         }
+        return Promise.reject(error)
       },
-      // onComplete: (_method) => {},
     },
-  })
-
-  return instance
-}
-
-// 🚀 创建双重调用实例的工厂函数
-export function createDualCallInstance(baseConfig: baseRequestOption<AlovaGenerics>) {
-  // 创建默认实例
-  const defaultInstance = createInstance(baseConfig)
-
-  // 双重调用函数
-  const dualInstance = (option?: CustomConfig) => {
-    if (option) {
-      // 合并配置并创建新实例
-      const mergedConfig = { ...baseConfig, ...option }
-      return createInstance(mergedConfig)
-    }
-    return defaultInstance
   }
 
+  return createAlova(alovaOptions)
+}
+
+export type RequestInstance<
+  RC extends object = FetchRequestInit,
+  RE = Response,
+  RH = Headers,
+  SE extends StatesExport<any> = StatesExport<any>,
+> = ReturnType<typeof createInstance<RC, RE, RH, SE>>
+
+export type DualCallInstance<
+  RC extends object = FetchRequestInit,
+  RE = Response,
+  RH = Headers,
+  SE extends StatesExport<any> = StatesExport<any>,
+> = RequestInstance<RC, RE, RH, SE> &
+  ((option?: RequestOption<RC, RE, RH, SE>) => RequestInstance<RC, RE, RH, SE>)
+
+export function createDualCallInstance<
+  RC extends object = FetchRequestInit,
+  RE = Response,
+  RH = Headers,
+  SE extends StatesExport<any> = StatesExport<any>,
+>(baseConfig: BaseRequestOption<RC, RE, RH, SE>): DualCallInstance<RC, RE, RH, SE> {
+  const defaultInstance = createInstance(baseConfig)
+  const dualInstance = ((option?: RequestOption<RC, RE, RH, SE>) => {
+    if (!option) return defaultInstance
+    return createInstance(deepMergeObject(baseConfig, option))
+  }) as DualCallInstance<RC, RE, RH, SE>
+
+  Object.assign(dualInstance, defaultInstance)
   dualInstance.Get = defaultInstance.Get.bind(defaultInstance)
   dualInstance.Post = defaultInstance.Post.bind(defaultInstance)
   dualInstance.Put = defaultInstance.Put.bind(defaultInstance)
