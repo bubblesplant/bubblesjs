@@ -1,5 +1,12 @@
 # @bubblesjs/request
 
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies [[`6bc9665`](https://github.com/bubblesplant/bubblesjs/commit/6bc9665bee8128a16170f21c238965203a13872b)]:
+  - @bubblesjs/utils@0.0.10
+
 ## 0.0.7
 
 ### Patch Changes
