@@ -22,16 +22,16 @@
     "dist"
   ],
   "scripts": {
-    "build": "rslib build",
+    "build": "tsdown",
     "check": "biome check --write",
-    "dev": "rslib build --watch",
+    "dev": "tsdown --watch",
     "format": "prettier --write ."
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
-    "@rslib/core": "^0.22.0",
     "@types/node": "^24.3.3",
     "prettier": "^3.8.3",
+    "tsdown": "^0.22.2",
     "typescript": "^6.0.3"
   },
   "publishConfig": {

@@ -10,7 +10,8 @@
   "files": [
     "index.js",
     "template-*",
-    "dist"
+    "dist",
+    "template-*/**"
   ],
   "scripts": {
     "dev": "tsdown --watch",
