@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.20
+
+### Patch Changes
+
+- [`6bc9665`](https://github.com/bubblesplant/bubblesjs/commit/6bc9665bee8128a16170f21c238965203a13872b) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 替换构建工具为tsdown并调整配置
+
 ## 0.1.19
 
 ### Patch Changes
