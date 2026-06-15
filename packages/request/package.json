@@ -35,8 +35,8 @@
     "alova": "^3.5.1"
   },
   "devDependencies": {
-    "tsdown": "^0.22.2",
-    "vitest": "^4.1.8"
+    "tsdown": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependenciesMeta": {
     "alova": {
