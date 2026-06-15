@@ -1,7 +1,7 @@
 {
   "name": "@bubblesjs/vue-annotation",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "description": "A starter for creating a Vue component library.",
   "author": "Author Name <author.name@mail.com>",

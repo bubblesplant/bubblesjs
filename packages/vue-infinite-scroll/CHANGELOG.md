@@ -1,5 +1,11 @@
 # @bubblesjs/vue-infinite-scroll
 
+## 0.0.5
+
+### Patch Changes
+
+- [`5d3c6d4`](https://github.com/bubblesplant/bubblesjs/commit/5d3c6d4a0562ed638e9435b40175acb7483cc4e7) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 修改tsdown vitest vite vue 为catelog 依赖统一管理
+
 ## 0.0.4
 
 ### Patch Changes
