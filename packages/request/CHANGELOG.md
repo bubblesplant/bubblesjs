@@ -1,5 +1,14 @@
 # @bubblesjs/request
 
+## 0.0.9
+
+### Patch Changes
+
+- [`5d3c6d4`](https://github.com/bubblesplant/bubblesjs/commit/5d3c6d4a0562ed638e9435b40175acb7483cc4e7) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 修改tsdown vitest vite vue 为catelog 依赖统一管理
+
+- Updated dependencies [[`5d3c6d4`](https://github.com/bubblesplant/bubblesjs/commit/5d3c6d4a0562ed638e9435b40175acb7483cc4e7)]:
+  - @bubblesjs/utils@0.0.11
+
 ## 0.0.8
 
 ### Patch Changes
