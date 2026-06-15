@@ -34,3 +34,11 @@ catalog:
 minimumReleaseAgeExclude:
   - '@rspress/core@2.0.14'
   - '@rspress/shared@2.0.14'
+  - '@vitest/expect@4.1.9'
+  - '@vitest/mocker@4.1.9'
+  - '@vitest/pretty-format@4.1.9'
+  - '@vitest/runner@4.1.9'
+  - '@vitest/snapshot@4.1.9'
+  - '@vitest/spy@4.1.9'
+  - '@vitest/utils@4.1.9'
+  - vitest@4.1.9
