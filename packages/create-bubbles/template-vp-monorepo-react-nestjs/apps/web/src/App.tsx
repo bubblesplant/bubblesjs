@@ -7,7 +7,7 @@ import { RouterProvider } from 'react-router'
 
 import PageLoading from '@/components/Loading/PageLoading'
 
-import { router } from './router'
+import { router } from './router/index.tsx'
 
 dayjs.locale('zh-cn')
 

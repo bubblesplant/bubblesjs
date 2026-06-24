@@ -7,10 +7,13 @@ catalogMode: prefer
 
 catalog:
   '@types/node': ^24
-  typescript: ^6.0.3
+  typescript: ^6
   vite: npm:@voidzero-dev/vite-plus-core@latest
-  vitest: npm:@voidzero-dev/vite-plus-test@latest
+  vitest: 4.1.9
   vite-plus: latest
+  '@commitlint/cli': ^21.0.2
+  '@commitlint/config-conventional': ^21.0.2
+  cross-env: ^10.1.0
 overrides:
   vite: 'catalog:'
   vitest: 'catalog:'
@@ -21,3 +24,5 @@ peerDependencyRules:
   allowedVersions:
     vite: '*'
     vitest: '*'
+minimumReleaseAgeExclude:
+  - axios@1.18.1

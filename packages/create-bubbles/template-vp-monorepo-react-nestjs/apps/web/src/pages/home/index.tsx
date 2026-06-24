@@ -1,6 +1,6 @@
 import { DatePicker } from 'antd'
 
-const delay = new Promise<void>(resolve => setTimeout(resolve, 2000))
+const delay = new Promise<void>((resolve) => setTimeout(resolve, 2000))
 let resolved = false
 delay.then(() => (resolved = true))
 
