@@ -1,7 +1,7 @@
 {
   "name": "@bubblesjs/vue-infinite-scroll",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "description": "A scroll-infinite for  a Vue3 component.",
   "author": "bubblesplant<435012357@qq.com>",
@@ -50,12 +50,12 @@
     "eslint": "^9.39.2",
     "eslint-plugin-format": "^1.1.0",
     "playwright": "^1.57.0",
-    "tsdown": "^0.18.2",
+    "tsdown": "catalog:",
     "typescript": "^5.9.3",
-    "vite": "^7.2.6",
-    "vitest": "^4.0.15",
+    "vite": "catalog:",
+    "vitest": "catalog:",
     "vitest-browser-vue": "^2.0.1",
-    "vue": "^3.5.25",
+    "vue": "catalog:",
     "vue-tsc": "^3.1.6"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@bubblesjs/request",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "type": "module",
   "private": false,
   "repository": {
@@ -35,8 +35,8 @@
     "alova": "^3.5.1"
   },
   "devDependencies": {
-    "tsdown": "^0.22.2",
-    "vitest": "^4.1.8"
+    "tsdown": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependenciesMeta": {
     "alova": {

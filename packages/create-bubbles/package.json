@@ -1,6 +1,6 @@
 {
   "name": "create-bubbles",
-  "version": "0.1.18",
+  "version": "0.1.21",
   "type": "module",
   "author": "bubbles plant",
   "bin": {
@@ -10,7 +10,8 @@
   "files": [
     "index.js",
     "template-*",
-    "dist"
+    "dist",
+    "template-*/**"
   ],
   "scripts": {
     "dev": "tsdown --watch",
@@ -33,7 +34,7 @@
   "funding": "https://github.com/435012357/bubblesjs",
   "devDependencies": {
     "@types/node": "^24.3.0",
-    "tsdown": "^0.22.2"
+    "tsdown": "catalog:"
   },
   "dependencies": {
     "@clack/prompts": "^1.5.1",

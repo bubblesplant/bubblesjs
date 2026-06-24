@@ -368,7 +368,7 @@ const init = async () => {
       defaultValue: defaultTargetDir,
       placeholder: defaultTargetDir,
       validate: (value) => {
-        return value.length === 0 || formatTargetDir(value).length > 0
+        return (value || []).length === 0 || formatTargetDir(value || '').length > 0
           ? undefined
           : 'Invalid project name'
       },

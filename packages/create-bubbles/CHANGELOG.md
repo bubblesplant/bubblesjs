@@ -1,5 +1,23 @@
 # create-bubbles
 
+## 0.1.21
+
+### Patch Changes
+
+- [`5d3c6d4`](https://github.com/bubblesplant/bubblesjs/commit/5d3c6d4a0562ed638e9435b40175acb7483cc4e7) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 修改tsdown vitest vite vue 为catelog 依赖统一管理
+
+## 0.1.20
+
+### Patch Changes
+
+- [`6bc9665`](https://github.com/bubblesplant/bubblesjs/commit/6bc9665bee8128a16170f21c238965203a13872b) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 替换构建工具为tsdown并调整配置
+
+## 0.1.19
+
+### Patch Changes
+
+- [`a4a5015`](https://github.com/bubblesplant/bubblesjs/commit/a4a50158b10fd008d57f848695313cad6964ed3c) Thanks [@bubblesplant](https://github.com/bubblesplant)! - create bubbles bug
+
 ## 0.1.18
 
 ### Patch Changes
