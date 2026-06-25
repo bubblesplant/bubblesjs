@@ -9,6 +9,13 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, root)
   const { VITE_PORT, VITE_API_AFFIX, VITE_API_URL } = env
 
+  console.log(`
+    mode: ${mode}
+    VITE_PORT: ${VITE_PORT}
+    VITE_API_AFFIX: ${VITE_API_AFFIX}
+    VITE_API_URL: ${VITE_API_URL}
+    `)
+
   return {
     resolve: {
       alias: {

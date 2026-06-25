@@ -1,1 +1,2 @@
-##  vp staged
+#!/bin/bash
+vp staged

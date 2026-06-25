@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "ready": "vp check && vp run -r test && vp run -r build",
-    "dev": "vp run -r dev",
+    "dev": "pnpm run -r --stream dev",
     "prepare": "vp config"
   },
   "devDependencies": {
