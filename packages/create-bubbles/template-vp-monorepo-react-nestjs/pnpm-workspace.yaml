@@ -1,18 +1,18 @@
 packages:
   - apps/*
   - packages/*
-  - tools/*
 
 catalogMode: prefer
 
 catalog:
-  '@types/node': ^24
+  '@types/node': ^26.0.1
   typescript: ^6
+  tsdown: latest
   vite: npm:@voidzero-dev/vite-plus-core@latest
   vitest: 4.1.9
   vite-plus: latest
-  '@commitlint/cli': ^21.0.2
-  '@commitlint/config-conventional': ^21.0.2
+  '@commitlint/cli': ^21.1.0
+  '@commitlint/config-conventional': ^21.1.0
   cross-env: ^10.1.0
   '@nestjs/platform-fastify': ^11.1.27
 overrides:

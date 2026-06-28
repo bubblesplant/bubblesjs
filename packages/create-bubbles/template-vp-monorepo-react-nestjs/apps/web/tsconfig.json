@@ -3,8 +3,12 @@
   "compilerOptions": {
     "target": "es2023",
     "module": "esnext",
+    "jsx": "react-jsx",
     "lib": ["ES2023", "DOM"],
     "types": ["vite-plus/client"],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "skipLibCheck": true,
 
     /* Bundler mode */
