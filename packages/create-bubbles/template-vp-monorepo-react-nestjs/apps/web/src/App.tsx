@@ -13,7 +13,7 @@ dayjs.locale('zh-cn')
 
 function App() {
   return (
-    <I18nProvider>
+    <I18nProvider initialLocale="zh_CN">
       <Suspense fallback={<PageLoading />}>
         <ConfigProvider>
           <RouterProvider router={router} />

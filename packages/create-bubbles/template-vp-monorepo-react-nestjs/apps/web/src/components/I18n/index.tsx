@@ -3,7 +3,7 @@ import { I18nContext, type AppLocale, type I18nMessages } from './hook'
 const formatMessage = (message: string, values?: Record<string, string | number>) => {
   if (!values) return message
   return message.replace(/\{(\w+)\}/g, (match, key) => {
-    return values[key] ?? match
+    return String(values[key] ?? match)
   })
 }
 
@@ -45,6 +45,8 @@ const I18nProvider = (props) => {
     }),
     [locale, loading, messages],
   )
+
+  if (!messages) return null
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
 }
