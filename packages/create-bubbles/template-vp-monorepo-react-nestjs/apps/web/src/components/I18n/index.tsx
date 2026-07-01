@@ -1,27 +1,19 @@
-import { Fragment, type ReactNode } from 'react'
-import { i18n, type AppLocale } from './i18n'
+import type { ReactNode } from 'react'
+import { useI18n, type LocaleType } from './i18n'
 
 interface I18nProviderProps {
-  initialLocale?: AppLocale
+  locale?: LocaleType
   children: ReactNode
 }
 
-const I18nProvider = ({ initialLocale = i18n.locale, children }: I18nProviderProps) => {
-  const [version, setVersion] = useState(0)
+const I18nProvider = ({ locale, children }: I18nProviderProps) => {
+  const { loadLocale } = useI18n()
 
   useEffect(() => {
-    return i18n.subscribe(() => {
-      setVersion((value) => value + 1)
-    })
-  }, [])
+    loadLocale(locale)
+  }, [locale])
 
-  useEffect(() => {
-    if (initialLocale !== i18n.locale) {
-      void i18n.loadAndActivate(initialLocale)
-    }
-  }, [initialLocale])
-
-  return <Fragment key={version}>{children}</Fragment>
+  return children
 }
 
 export default I18nProvider
