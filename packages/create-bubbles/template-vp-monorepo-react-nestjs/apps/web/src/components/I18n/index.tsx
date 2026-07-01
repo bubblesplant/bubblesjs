@@ -1,54 +1,27 @@
-import { I18nContext, type AppLocale, type I18nMessages } from './hook'
+import { Fragment, type ReactNode } from 'react'
+import { i18n, type AppLocale } from './i18n'
 
-const formatMessage = (message: string, values?: Record<string, string | number>) => {
-  if (!values) return message
-  return message.replace(/\{(\w+)\}/g, (match, key) => {
-    return String(values[key] ?? match)
-  })
+interface I18nProviderProps {
+  initialLocale?: AppLocale
+  children: ReactNode
 }
 
-const I18nProvider = (props) => {
-  const { initialLocale = 'zh_CN', children } = props
-  const [locale, setLocale] = useState<AppLocale>(initialLocale)
-  const [messages, setMesssages] = useState<I18nMessages>({})
-  const [loading, setLoading] = useState<boolean>(false)
+const I18nProvider = ({ initialLocale = i18n.locale, children }: I18nProviderProps) => {
+  const [version, setVersion] = useState(0)
 
   useEffect(() => {
-    let canceled = false
+    return i18n.subscribe(() => {
+      setVersion((value) => value + 1)
+    })
+  }, [])
 
-    async function loadMesaages() {
-      setLoading(true)
-      try {
-        const module = await import(`@/locales/${locale}.json`)
-        if (!canceled) {
-          setMesssages(module.default)
-        }
-      } finally {
-        setLoading(false)
-      }
+  useEffect(() => {
+    if (initialLocale !== i18n.locale) {
+      void i18n.loadAndActivate(initialLocale)
     }
+  }, [initialLocale])
 
-    void loadMesaages()
-
-    return () => {
-      canceled = true
-    }
-  }, [locale])
-
-  const value = useMemo(
-    () => ({
-      locale,
-      loading,
-      setLocale,
-      t: (key: string, values?: Record<string, string | number>) =>
-        formatMessage(messages[key] ?? key, values),
-    }),
-    [locale, loading, messages],
-  )
-
-  if (!messages) return null
-
-  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
+  return <Fragment key={version}>{children}</Fragment>
 }
 
 export default I18nProvider
