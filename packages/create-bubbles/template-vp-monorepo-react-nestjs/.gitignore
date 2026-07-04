@@ -13,7 +13,6 @@ dist-ssr
 *.local
 !.env.example
 !**/.env.example
-.codegraph
 
 # Editor directories and files
 .vscode/*

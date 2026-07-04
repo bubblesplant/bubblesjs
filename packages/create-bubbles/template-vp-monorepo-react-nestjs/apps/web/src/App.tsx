@@ -5,23 +5,20 @@ import { Suspense } from 'react'
 import { RouterProvider } from 'react-router'
 import PageLoading from '@/components/Loading/PageLoading'
 import { router } from './router'
-import I18nProvider from '@/components/I18n'
-// import zhCN from '@/locales/zh_CN.json'
-// import { i18n } from '@/components/I18n/i18n'
 
 dayjs.locale('zh-cn')
 
-// i18n.activeLocale('zh_CN', zhCN)
+// const i18nStore = await i18n.init()
 
 function App() {
   return (
-    <I18nProvider>
-      <Suspense fallback={<PageLoading />}>
-        <ConfigProvider>
-          <RouterProvider router={router} />
-        </ConfigProvider>
-      </Suspense>
-    </I18nProvider>
+    // <I18nProvider store={i18nStore}>
+    <Suspense fallback={<PageLoading />}>
+      <ConfigProvider>
+        <RouterProvider router={router} />
+      </ConfigProvider>
+    </Suspense>
+    // </I18nProvider>
   )
 }
 

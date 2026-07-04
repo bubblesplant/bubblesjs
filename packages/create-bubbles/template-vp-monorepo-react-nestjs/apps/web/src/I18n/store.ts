@@ -1,4 +1,8 @@
-export const shallowEqualObject = <T extends object>(a: T, b: T) => {
+export const shallowEqualObject = <T>(a: T, b: T) => {
+  if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) {
+    return false
+  }
+
   const aKeys = Object.keys(a)
 
   if (aKeys.length !== Object.keys(b).length) {
