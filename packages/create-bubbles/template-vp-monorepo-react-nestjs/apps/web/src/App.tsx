@@ -6,13 +6,16 @@ import { RouterProvider } from 'react-router'
 import PageLoading from '@/components/Loading/PageLoading'
 import { router } from './router'
 import I18nProvider from '@/components/I18n'
-import '@/locales/zh_CN.json'
+// import zhCN from '@/locales/zh_CN.json'
+// import { i18n } from '@/components/I18n/i18n'
 
 dayjs.locale('zh-cn')
 
+// i18n.activeLocale('zh_CN', zhCN)
+
 function App() {
   return (
-    <I18nProvider locale="zh_CN">
+    <I18nProvider>
       <Suspense fallback={<PageLoading />}>
         <ConfigProvider>
           <RouterProvider router={router} />

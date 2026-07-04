@@ -1,17 +1,12 @@
 import type { ReactNode } from 'react'
-import { useI18n, type LocaleType } from './i18n'
+import { useI18n } from './i18n'
 
 interface I18nProviderProps {
-  locale?: LocaleType
   children: ReactNode
 }
 
-const I18nProvider = ({ locale, children }: I18nProviderProps) => {
-  const { loadLocale } = useI18n()
-
-  useEffect(() => {
-    loadLocale(locale)
-  }, [locale])
+const I18nProvider = ({ children }: I18nProviderProps) => {
+  useI18n()
 
   return children
 }
