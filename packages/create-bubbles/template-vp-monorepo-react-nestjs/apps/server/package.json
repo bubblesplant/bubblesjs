@@ -13,10 +13,12 @@
     "build:preview": "node dist/main"
   },
   "dependencies": {
+    "@nestjs-modules/ioredis": "^2.2.1",
     "@nestjs/common": "^11.1.27",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
-    "@nestjs/platform-fastify": "catalog:",
+    "@nestjs/mapped-types": "*",
+    "@nestjs/platform-fastify": "^11.1.27",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
