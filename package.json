@@ -38,8 +38,9 @@
   ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "format": "prettier --write --cache .",
-    "lint": "biomejs --cache .",
+    "format": "vp fmt --write .",
+    "lint": "vp lint .",
+    "check": "vp check",
     "typecheck": "tsc -p scripts --noEmit && pnpm -r --parallel run typecheck",
     "docs": "pnpm --filter=docs run docs",
     "docs:build": "pnpm --filter=docs run docs:build",
@@ -56,13 +57,12 @@
     "@changesets/changelog-github": "^0.7.0",
     "@changesets/cli": "^2.31.0",
     "@commitlint/config-conventional": "^21.0.2",
-    "lefthook": "^2.1.9"
+    "lefthook": "^2.1.9",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged --concurrent false"
   },
-  "packageManager": "pnpm@11.5.2",
-  "dependencies": {
-    "@biomejs/biome": "^2.4.16"
-  }
+  "packageManager": "pnpm@11.5.2"
 }

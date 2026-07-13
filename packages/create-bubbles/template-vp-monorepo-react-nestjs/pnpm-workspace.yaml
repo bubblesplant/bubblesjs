@@ -1,28 +1,27 @@
 packages:
   - apps/*
   - packages/*
+  - packages/i18n/*
 
 catalogMode: prefer
 
 catalog:
   '@types/node': ^26.0.1
-  typescript: ^6
-  tsdown: latest
-  vite: npm:@voidzero-dev/vite-plus-core@latest
-  vitest: 4.1.9
-  vite-plus: latest
+  typescript: ^7
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.4
+  vite-plus: 0.2.4
   '@commitlint/cli': ^21.1.0
   '@commitlint/config-conventional': ^21.1.0
   cross-env: ^10.1.0
 overrides:
   vite: 'catalog:'
-  vitest: 'catalog:'
 peerDependencyRules:
   allowAny:
     - vite
-    - vitest
   allowedVersions:
     vite: '*'
-    vitest: '*'
 minimumReleaseAgeExclude:
   - axios@1.18.1
+allowBuilds:
+  '@parcel/watcher': true
+  lefthook: true

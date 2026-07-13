@@ -1,11 +1,14 @@
+import tsdownConfig from './tsdown.config.js';
+
 import vue from '@vitejs/plugin-vue'
-import { playwright } from '@vitest/browser-playwright'
+import { playwright } from 'vite-plus/test/browser-playwright'
 import UnoCSS from 'unocss/vite'
-import { defineConfig } from 'vitest/config'
+import { defineConfig, lazyPlugins } from 'vite-plus'
 
 export default defineConfig({
+  pack: tsdownConfig,
   root: './playground',
-  plugins: [vue(), UnoCSS()],
+  plugins: lazyPlugins(() => [vue(), UnoCSS()]),
   test: {
     root: '.',
     include: ['tests/**/*.test.ts'],

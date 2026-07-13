@@ -6,10 +6,14 @@
   "scripts": {
     "dev": "vp dev --mode dev",
     "build": "tsc && vp build --mode dev",
+    "i18n": "node script/index.mjs",
+    "i18n:test": "vp test script/index.test.mjs",
     "preview": "vp preview"
   },
   "dependencies": {
     "@alova/adapter-axios": "^2.0.18",
+    "@bubblesjs/i18n-core": "workspace:*",
+    "@bubblesjs/i18n-react": "workspace:*",
     "@tailwindcss/vite": "^4.3.1",
     "alova": "^3.5.1",
     "antd": "^6.4.5",
@@ -25,6 +29,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
+    "exceljs": "^4.4.0",
     "typescript": "catalog:",
     "unplugin-auto-import": "^21.0.0",
     "vite": "catalog:",

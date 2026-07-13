@@ -12,7 +12,7 @@
 
 // ## 模板 × Skills 矩阵
 
-// | Skill | 来源 | nextjs-vinext-eslint | react-rsbuild-biome | taro-react-oxc | taro-vue-eslint | vp-monorepo-react-nestjs | vp-react | vp-react-shadcn | vue-vite-eslint |
+// | Skill | 来源 | nextjs-vinext-eslint | react-rsbuild-biome | taro-react-oxc | taro-vue-eslint | vp-monorepo-react-nestjs | vp-react | vp-react-shadcn | vue-vp-eslint |
 // |-------|------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 // | `alova-client-usage` | alovajs/skills | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 // | `unocss` | antfu/skills | ✅ | ✅ | - | ✅ | - | - | - | ✅ |
@@ -31,4 +31,4 @@
 // | **template-vp-monorepo-react-nestjs** | `alova-client-usage`(alovajs) |
 // | **template-vp-react** | `alova-client-usage`(alovajs) |
 // | **template-vp-react-shadcn** | `alova-client-usage`(alovajs)、`shadcn`(shadcn-ui) |
-// | **template-vue-vite-eslint** | `alova-client-usage`(alovajs)、`unocss`(antfu)、`vue`(antfu)、`pinia`(antfu) |
+// | **template-vue-vp-eslint** | `alova-client-usage`(alovajs)、`unocss`(antfu)、`vue`(antfu)、`pinia`(antfu) |

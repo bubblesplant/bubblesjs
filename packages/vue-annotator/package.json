@@ -30,10 +30,10 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "unocss \"src/**/*.vue\" -o dist/style.css && tsdown",
-    "dev": "tsdown --watch",
-    "play": "vite",
-    "test": "vitest",
+    "build": "unocss \"src/**/*.vue\" -o dist/style.css && vp pack",
+    "dev": "vp pack --watch",
+    "play": "vp dev",
+    "test": "vp test",
     "typecheck": "vue-tsc --noEmit",
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm run build"
@@ -56,17 +56,17 @@
     "@unocss/preset-attributify": "^66.5.10",
     "@unocss/preset-wind3": "^66.5.10",
     "@vitejs/plugin-vue": "^6.0.2",
-    "@vitest/browser-playwright": "^4.0.15",
+    "@vitest/browser-playwright": "catalog:",
     "bumpp": "^10.3.2",
     "eslint": "^9.39.2",
     "eslint-plugin-format": "^1.1.0",
     "playwright": "^1.57.0",
-    "tsdown": "catalog:",
     "typescript": "^5.9.3",
     "unocss": "^66.5.10",
     "vite": "catalog:",
     "vitest": "catalog:",
     "vitest-browser-vue": "^2.0.1",
-    "vue": "^3.5.25"
+    "vue": "^3.5.25",
+    "vite-plus": "catalog:"
   }
 }
