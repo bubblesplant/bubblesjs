@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, defineComponent, h, Suspense } from "vue";
 
 import App from "./App.vue";
 import { setupRouter } from "./router";
@@ -9,7 +9,18 @@ import "virtual:svg-icons-register";
 import "@/styles/index.scss";
 import "virtual:uno.css";
 
-const app = createApp(App);
+const AppRoot = defineComponent({
+  name: "AppRoot",
+  setup() {
+    return () =>
+      h(Suspense, null, {
+        default: () => h(App),
+        fallback: () => h("div", "Loading..."),
+      });
+  },
+});
+
+const app = createApp(AppRoot);
 setupRouter(app);
 setupStore(app);
 
