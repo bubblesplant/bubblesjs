@@ -17,8 +17,8 @@ export const useI18n = () => {
   onScopeDispose(unsubscribe)
 
   return {
-    locale: state.value.locale,
-    tr: state.value.tr,
-    loadLocale: state.value.loadLocale,
+    locale: computed(() => state.value.locale),
+    tr: (key: string, values?: Record<string, string>) => state.value.tr(key, values),
+    loadLocale: (locale: string) => state.value.loadLocale(locale),
   }
 }
