@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { useI18n } from '@/i18n/context'
-
+import { useI18n } from '@bubblesjs/i18n-vue'
 
 const { tr, loadLocale } = useI18n()
-
 </script>
 
 <template>

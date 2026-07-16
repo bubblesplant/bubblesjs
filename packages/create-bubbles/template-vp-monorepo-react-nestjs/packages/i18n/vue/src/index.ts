@@ -3,28 +3,25 @@ import {
   defineComponent,
   inject,
   provide,
+  type ComputedRef,
   type InjectionKey,
   type PropType,
 } from 'vue'
-import type { I18nStore } from '@bubblesjs/i18n-core'
+import type { I18nState, I18nStore } from '@bubblesjs/i18n-core'
 import { useI18nStore } from './use-store'
 
-/**
- * 注入 key：i18n store 通过 provide/inject 向后代传递。
- */
 export const I18nKey: InjectionKey<I18nStore> = Symbol('i18n')
 
-/**
- * 无渲染组件：只负责把 store 通过 provide 注入到后代组件，
- * 自身不渲染任何 DOM，渲染交给默认插槽。
- *
- * 用法：
- * ```vue
- * <I18nProvider :store="store">
- *   <App />
- * </I18nProvider>
- * ```
- */
+export interface I18nProviderProps {
+  store: I18nStore
+}
+
+export interface UseI18nReturn {
+  tr: I18nState['tr']
+  loadLocale: I18nState['loadLocale']
+  locale: ComputedRef<I18nState['locale']>
+}
+
 export const I18nProvider = defineComponent({
   name: 'I18nProvider',
   props: {
@@ -39,19 +36,16 @@ export const I18nProvider = defineComponent({
   },
 })
 
-/**
- * 在后代组件中消费 i18n：inject 取到 store，桥接成响应式状态，
- * 返回响应式的 tr / locale / loadLocale。
- */
-export function useI18n() {
+export function useI18n(): UseI18nReturn {
   const store = inject(I18nKey)
   if (!store) throw new Error('useI18n must be used within I18nProvider')
 
   const state = useI18nStore(store)
-  const tr = computed(() => state.value.tr)
+  const tr: I18nState['tr'] = (key, values) => state.value.tr(key, values)
+  const loadLocale: I18nState['loadLocale'] = (locale) => state.value.loadLocale(locale)
   const locale = computed(() => state.value.locale)
-  const loadLocale = computed(() => state.value.loadLocale)
-  return { tr, locale, loadLocale }
+
+  return { tr, loadLocale, locale }
 }
 
 export { useI18nStore } from './use-store'

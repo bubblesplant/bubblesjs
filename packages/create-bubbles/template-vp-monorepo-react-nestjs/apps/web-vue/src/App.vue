@@ -1,23 +1,6 @@
 <script setup lang="ts">
-import { createJsonStorage, i18n } from '@bubblesjs/i18n-core'
-import type { Messages } from '@bubblesjs/i18n-core'
-import I18nProvider from '@/i18n/provider.vue'
-
-const localeLoaders = import.meta.glob<{ default: Messages }>('./locales/*.json')
-
-const loaderMessage = async (locale?: string) => {
-  if (!locale) return undefined
-
-  const loader = localeLoaders[`./locales/${locale}.json`]
-  return loader ? (await loader()).default : undefined
-}
-
-const leftStore = await i18n.init({
-  locale: 'zh_CN',
-  loaderMessage,
-  storageKey: 'i18n-home-left',
-  storage: createJsonStorage(localStorage),
-})
+import I18nProvider from '@bubblesjs/i18n-vue'
+import { leftStore } from '@/i18n/instance'
 </script>
 
 <template>
