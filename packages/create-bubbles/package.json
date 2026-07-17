@@ -14,8 +14,8 @@
     "template-*/**"
   ],
   "scripts": {
-    "dev": "tsdown --watch",
-    "build": "tsdown",
+    "dev": "vp pack --watch",
+    "build": "vp pack",
     "typecheck": "tsc",
     "prepublishOnly": "npm run build"
   },
@@ -34,7 +34,8 @@
   "funding": "https://github.com/435012357/bubblesjs",
   "devDependencies": {
     "@types/node": "^24.3.0",
-    "tsdown": "catalog:"
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   },
   "dependencies": {
     "@clack/prompts": "^1.5.1",

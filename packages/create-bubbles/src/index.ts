@@ -50,7 +50,7 @@ Options:
   -t, --template NAME        use a specific template
 
 Available templates:
-${colorMap.vue('vue-vite-eslint             vue')}
+${colorMap.vue('vue-vp-eslint              vue')}
 ${colorMap.react('react-rsbuild-biome        react')}
 ${colorMap.react('vp-react                   react')}
 ${colorMap.react('vp-react-shadcn            react')}
@@ -141,8 +141,8 @@ const FRAMEWORKS: Framework[] = [
     color: colorMap.vue,
     variants: [
       {
-        name: 'vue-vite-eslint',
-        display: 'vite + eslint',
+        name: 'vue-vp-eslint',
+        display: 'vp + eslint',
         color: colorMap.vue,
       },
     ],

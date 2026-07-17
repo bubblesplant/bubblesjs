@@ -1,6 +1,5 @@
-import I18nProvider, { useI18n } from '@/I18n'
-import { createJsonStorage } from '@/I18n/middle'
-import { i18n } from '@/I18n/i18n'
+import { createJsonStorage, i18n } from '@bubblesjs/i18n-core'
+import I18nProvider, { useI18n } from '@bubblesjs/i18n-react'
 import { Button } from 'antd'
 
 const leftStore = await i18n.init({
@@ -18,13 +17,13 @@ const rightStore = await i18n.init({
 })
 
 const I18nTestNode = ({ title, switchLocale }: { title: string; switchLocale: string }) => {
-  const { t, loadLocale, locale } = useI18n()
+  const { tr, loadLocale, locale } = useI18n()
 
   return (
     <section className="flex min-w-64 flex-col gap-3 rounded border border-gray-200 p-4">
       <h2 className="text-lg font-medium">{title}</h2>
-      <div>{t('保存')}</div>
-      <div>{t('你好1')}</div>
+      <div>{tr('保存')}</div>
+      <div>{tr('你好1')}</div>
       <div>目前语言: {locale}</div>
       <Button onClick={() => void loadLocale(switchLocale)}>切换到 {switchLocale}</Button>
     </section>

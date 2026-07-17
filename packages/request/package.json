@@ -22,10 +22,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage --run",
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "test": "vp test",
+    "test:coverage": "vp test --coverage --run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -35,8 +35,9 @@
     "alova": "^3.5.1"
   },
   "devDependencies": {
-    "tsdown": "catalog:",
-    "vitest": "catalog:"
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vite-plus": "catalog:"
   },
   "peerDependenciesMeta": {
     "alova": {

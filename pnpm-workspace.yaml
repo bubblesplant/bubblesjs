@@ -16,6 +16,12 @@ peerDependencyRules:
     - '@algolia/client-search'
     - postcss
     - search-insights
+  allowAny:
+    - vite
+    - vitest
+  allowedVersions:
+    vite: '*'
+    vitest: '*'
 
 packageExtensions:
   sass-embedded:
@@ -27,9 +33,10 @@ packageExtensions:
 
 catalog:
   vue: ^3.5.38
-  tsdown: ^0.22.2
-  vite: ^8.0.16
-  vitest: ^4.1.9
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.4
+  vitest: 4.1.10
+  vite-plus: 0.2.4
+  '@vitest/browser-playwright': 4.1.10
 
 minimumReleaseAgeExclude:
   - '@rspress/core@2.0.14'
@@ -42,3 +49,6 @@ minimumReleaseAgeExclude:
   - '@vitest/spy@4.1.9'
   - '@vitest/utils@4.1.9'
   - vitest@4.1.9
+overrides:
+  vite: 'catalog:'
+  vitest: 'catalog:'

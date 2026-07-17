@@ -22,17 +22,18 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "vp pack",
     "check": "biome check --write",
-    "dev": "tsdown --watch",
+    "dev": "vp pack --watch",
     "format": "prettier --write ."
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
     "@types/node": "^24.3.3",
     "prettier": "^3.8.3",
-    "tsdown": "catalog:",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
   },
   "publishConfig": {
     "access": "public",
