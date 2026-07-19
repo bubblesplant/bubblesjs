@@ -24,14 +24,19 @@
     "@nestjs/mapped-types": "catalog:",
     "@nestjs/platform-fastify": "catalog:",
     "drizzle-orm": "catalog:",
+    "drizzle-zod": "catalog:",
     "ioredis": "catalog:",
+    "nestjs-zod": "catalog:",
     "pg": "catalog:",
     "reflect-metadata": "catalog:",
-    "rxjs": "catalog:"
+    "rxjs": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
+    "@fastify/static": "catalog:",
     "@nestjs/cli": "catalog:",
     "@nestjs/schematics": "catalog:",
+    "@nestjs/swagger": "catalog:",
     "@nestjs/testing": "catalog:",
     "@types/express": "catalog:",
     "@types/node": "catalog:node24",

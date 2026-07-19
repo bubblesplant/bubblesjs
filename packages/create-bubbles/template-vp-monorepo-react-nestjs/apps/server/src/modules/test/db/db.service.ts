@@ -1,6 +1,6 @@
-import { DRIZZLE, type DrizzleDB } from '@/db/db.module'
+import { DRIZZLE, type DrizzleDB } from '@/database/db.module'
 import { Inject, Injectable } from '@nestjs/common'
-import { users } from '@/db/schema'
+import { users } from '@/database/schema'
 
 @Injectable()
 export class DbService {
@@ -15,8 +15,8 @@ export class DbService {
     return this.db.query.users.findMany()
   }
 
-  async create(name: string, email: string) {
-    const [row] = await this.db.insert(users).values({ name, email }).returning()
+  async create(data: Omit<typeof users.$inferInsert, 'id' | 'createdAt'>) {
+    const [row] = await this.db.insert(users).values(data).returning()
     return row
   }
 }

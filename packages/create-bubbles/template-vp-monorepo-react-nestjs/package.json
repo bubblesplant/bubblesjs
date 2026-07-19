@@ -6,7 +6,8 @@
   "scripts": {
     "ready": "vp check && vp run -r test && vp run -r build",
     "dev": "pnpm run -r --stream dev",
-    "prepare": "vp config"
+    "prepare": "vp config",
+    "reinstall": "vp install"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",

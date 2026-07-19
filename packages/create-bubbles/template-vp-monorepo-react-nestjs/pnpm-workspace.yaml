@@ -12,6 +12,7 @@ catalog:
   '@antfu/eslint-config': ^9.1.0
   '@commitlint/cli': ^21.2.1
   '@commitlint/config-conventional': ^21.1.0
+  '@fastify/static': ^10.1.0
   '@nestjs-modules/ioredis': ^2.2.1
   '@nestjs/cli': ^11.0.0
   '@nestjs/common': ^11.1.27
@@ -20,6 +21,7 @@ catalog:
   '@nestjs/mapped-types': '*'
   '@nestjs/platform-fastify': ^11.1.27
   '@nestjs/schematics': ^11.0.0
+  '@nestjs/swagger': ^11.4.6
   '@nestjs/testing': ^11.0.1
   '@tailwindcss/vite': ^4.3.1
   '@types/express': ^5.0.0
@@ -44,6 +46,7 @@ catalog:
   dotenv: ^17.4.2
   drizzle-kit: ^0.31.10
   drizzle-orm: ^0.45.2
+  drizzle-zod: ^0.8.3
   echarts: ^6.1.0
   eslint: 10.7.0
   eslint-plugin-format: ^2.0.1
@@ -52,6 +55,7 @@ catalog:
   globals: ^17.0.0
   ioredis: ^5.11.1
   lefthook: ^2.1.10
+  nestjs-zod: ^5.4.0
   nprogress: ^0.2.0
   oxlint: ^1.73.0
   pg: ^8.22.0
@@ -80,6 +84,7 @@ catalog:
   vue: ^3.5.39
   vue-router: ^5.1.0
   vue-tsc: ^3.3.7
+  zod: ^4.4.3
 catalogs:
   node24:
     '@types/node': ^24.0.0
@@ -96,5 +101,6 @@ minimumReleaseAgeExclude:
   - axios@1.18.1
 allowBuilds:
   '@parcel/watcher': true
+  '@scarf/scarf': true
   esbuild: true
   lefthook: true
