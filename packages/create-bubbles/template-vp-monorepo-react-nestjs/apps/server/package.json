@@ -17,14 +17,18 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@fastify/cookie": "catalog:",
     "@nestjs-modules/ioredis": "catalog:",
     "@nestjs/common": "catalog:",
     "@nestjs/config": "catalog:",
     "@nestjs/core": "catalog:",
+    "@nestjs/jwt": "catalog:",
     "@nestjs/mapped-types": "catalog:",
     "@nestjs/platform-fastify": "catalog:",
+    "argon2": "catalog:",
     "drizzle-orm": "catalog:",
     "drizzle-zod": "catalog:",
+    "fastify": "5.8.5",
     "ioredis": "catalog:",
     "nestjs-zod": "catalog:",
     "pg": "catalog:",

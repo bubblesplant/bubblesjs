@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { appConfig, databaseConfig, llmConfig, redisConfig } from '@/config'
+import { appConfig, databaseConfig, llmConfig, redisConfig, authConfig } from '@/config'
 import { ResponseInterceptor } from '@/common/interceptors/transform'
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { RedisModule } from '@nestjs-modules/ioredis'
@@ -17,8 +17,8 @@ const nodeEnv = process.env.NODE_ENV ?? 'development'
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [`.env.${nodeEnv}`, '.env'],
-      load: [appConfig, databaseConfig, llmConfig, redisConfig],
+      envFilePath: [`.env.${nodeEnv}.local`, '.env.local', `.env.${nodeEnv}`, '.env'],
+      load: [appConfig, databaseConfig, llmConfig, redisConfig, authConfig],
     }),
     DatabaseModule,
     RedisModule.forRootAsync({
