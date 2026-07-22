@@ -12,12 +12,14 @@ catalog:
   '@antfu/eslint-config': ^9.1.0
   '@commitlint/cli': ^21.2.1
   '@commitlint/config-conventional': ^21.1.0
+  '@fastify/cookie': ^11.1.2
   '@fastify/static': ^10.1.0
   '@nestjs-modules/ioredis': ^2.2.1
   '@nestjs/cli': ^11.0.0
   '@nestjs/common': ^11.1.27
   '@nestjs/config': ^4.0.4
   '@nestjs/core': ^11.0.1
+  '@nestjs/jwt': ^11.0.2
   '@nestjs/mapped-types': '*'
   '@nestjs/platform-fastify': ^11.1.27
   '@nestjs/schematics': ^11.0.0
@@ -39,6 +41,7 @@ catalog:
   alova: ^3.5.1
   antd: ^6.4.5
   antdv-next: ^1.4.1
+  argon2: ^0.45.0
   axios: ^1.18.1
   classnames: ^2.5.1
   cross-env: ^10.1.0
@@ -52,6 +55,7 @@ catalog:
   eslint-plugin-format: ^2.0.1
   eslint-plugin-oxlint: ^1.73.0
   fast-glob: ^3.3.3
+  fastify: ^5.10.0
   globals: ^17.0.0
   ioredis: ^5.11.1
   lefthook: ^2.1.10
@@ -102,5 +106,6 @@ minimumReleaseAgeExclude:
 allowBuilds:
   '@parcel/watcher': true
   '@scarf/scarf': true
+  argon2: true
   esbuild: true
   lefthook: true
