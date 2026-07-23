@@ -104,8 +104,8 @@ peerDependencyRules:
 minimumReleaseAgeExclude:
   - axios@1.18.1
 allowBuilds:
-  '@parcel/watcher': set this to true or false
-  '@scarf/scarf': set this to true or false
+  '@parcel/watcher': true
+  '@scarf/scarf': true
   argon2: true
-  esbuild: set this to true or false
-  lefthook: set this to true or false
+  esbuild: true
+  lefthook: true
