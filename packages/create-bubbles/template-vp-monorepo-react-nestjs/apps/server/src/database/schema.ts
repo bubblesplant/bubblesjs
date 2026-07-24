@@ -1,4 +1,9 @@
+import { pgEnum } from 'drizzle-orm/pg-core'
 import { pgTable, serial, varchar, timestamp } from 'drizzle-orm/pg-core'
+
+export const useStatusEnum = pgEnum('user_status', ['active', 'locked', 'disabled'])
+
+export const authSessionStatusEnum = pgEnum('auth_session_status', ['active', 'revoked'])
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),

@@ -4,9 +4,12 @@ import { logNetworkUrls } from '@/utils/server-address'
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { cleanupOpenApiDoc } from 'nestjs-zod'
+import fastifyCookie from '@fastify/cookie'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter())
+
+  await app.register(fastifyCookie)
 
   const config = new DocumentBuilder()
     .setTitle('前后端模板 API')
