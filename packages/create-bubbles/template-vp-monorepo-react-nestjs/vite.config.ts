@@ -9,8 +9,9 @@ export default defineConfig({
     singleQuote: true,
   },
   lint: {
+    plugins: ['unicorn', 'typescript', 'oxc', 'import'],
     jsPlugins: [{ name: 'vite-plus', specifier: 'vite-plus/oxlint-plugin' }],
-    rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
+    rules: { 'vite-plus/prefer-vite-plus-imports': 'error', 'import/no-duplicates': 'error' },
     options: { typeAware: true, typeCheck: true },
   },
   run: {
