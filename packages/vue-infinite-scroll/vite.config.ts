@@ -1,5 +1,4 @@
-import tsdownConfig from './tsdown.config.js';
-
+import tsdownConfig from './tsdown.config.ts'
 import vue from '@vitejs/plugin-vue'
 /// <reference types="vitest/config" />
 import { playwright } from 'vite-plus/test/browser-playwright'
