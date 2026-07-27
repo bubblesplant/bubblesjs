@@ -1,14 +1,3 @@
-minimumReleaseAgeExclude:
-  - eslint@10.7.0
-catalog:
-  vite: npm:@voidzero-dev/vite-plus-core@0.2.4
-  vite-plus: 0.2.4
-overrides:
-  vite: "catalog:"
-peerDependencyRules:
-  allowAny:
-    - vite
-  allowedVersions:
-    vite: "*"
 allowBuilds:
-  vue-demi: true
+  '@parcel/watcher': set this to true or false
+  lefthook: set this to true or false
