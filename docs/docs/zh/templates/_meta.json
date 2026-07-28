@@ -1,5 +1,6 @@
 [
   "vue-vite-eslint",
+  "vp-vue-eslint-vapor",
   "react-rsbuild-biome",
   "vp-react",
   "vp-react-shadcn",

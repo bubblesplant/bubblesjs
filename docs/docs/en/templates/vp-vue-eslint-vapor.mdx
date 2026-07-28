@@ -1,0 +1,34 @@
+import { CommandPanel, StackList } from '@/components/docs-ui'
+
+export const stack = [
+  'Vue 3.6 RC, Vapor mode, Vue Router 5, and Pinia 4.',
+  'Vite+ 0.2, Vite 8, TypeScript 6, and Vue TSC.',
+  'Antdv Next, ECharts, UnoCSS, Sass, and the SVG icon plugin.',
+  'Alova with the Axios adapter.',
+  'ESLint, Oxlint, and Vite+ staged checks.',
+]
+
+export const commands = [
+  'pnpm install',
+  'pnpm dev',
+  'pnpm build',
+  'pnpm preview',
+  'pnpm lint',
+  'pnpm lint:fix',
+]
+
+# vp-vue-eslint-vapor
+
+Vue Vapor application template powered by Vite+, intended for evaluating the Vue 3.6 Vapor compilation mode.
+
+## Stack
+
+<StackList items={stack} />
+
+## Commands
+
+<CommandPanel commands={commands} />
+
+## Notes
+
+The template enables Vapor mode through `@vitejs/plugin-vue` and its `features.vapor` option. It currently uses a Vue 3.6 release candidate, so it is best suited to evaluation and early adoption; choose the stable Vue template for production projects that prioritize stability.

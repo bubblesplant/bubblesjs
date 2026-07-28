@@ -51,6 +51,7 @@ Options:
 
 Available templates:
 ${colorMap.vue('vue-vp-eslint              vue')}
+${colorMap.vue('vp-vue-eslint-vapor       vue')}
 ${colorMap.react('react-rsbuild-biome        react')}
 ${colorMap.react('vp-react                   react')}
 ${colorMap.react('vp-react-shadcn            react')}
@@ -143,6 +144,11 @@ const FRAMEWORKS: Framework[] = [
       {
         name: 'vue-vp-eslint',
         display: 'vp + eslint',
+        color: colorMap.vue,
+      },
+      {
+        name: 'vp-vue-eslint-vapor',
+        display: 'vp + eslint + vapor',
         color: colorMap.vue,
       },
     ],
