@@ -2,7 +2,7 @@
   "eslint.enable": false,
   "prettier.enable": false,
   "biome.enabled": false,
-  "npm.scriptRunner": "vp",
+  // "npm.scriptRunner": "vp",
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "[javascript]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
@@ -20,6 +20,7 @@
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "editor.codeActionsOnSave": {
-    "source.fixAll.oxc": "explicit"
+    "source.organizeImports": "always",
+    "source.fixAll.oxc": "always"
   }
 }

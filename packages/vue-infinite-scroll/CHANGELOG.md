@@ -1,5 +1,11 @@
 # @bubblesjs/vue-infinite-scroll
 
+## 0.0.6
+
+### Patch Changes
+
+- [`f0c4a7e`](https://github.com/bubblesplant/bubblesjs/commit/f0c4a7e28234c47f48415575f0ebb395369440eb) Thanks [@bubblesplant](https://github.com/bubblesplant)! - tsdownconfig vite+ 修改
+
 ## 0.0.5
 
 ### Patch Changes
