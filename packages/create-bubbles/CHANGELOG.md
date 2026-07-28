@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.23
+
+### Patch Changes
+
+- [`9ae8d2c`](https://github.com/bubblesplant/bubblesjs/commit/9ae8d2c4d4832b45fae4bfd547d9b2691a807a94) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 新增 `vp-vue-eslint-vapor` 模板并补充中英文使用文档。
+
 ## 0.1.22
 
 ### Patch Changes
