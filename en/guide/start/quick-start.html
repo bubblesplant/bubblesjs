@@ -5,12 +5,12 @@
 <title>Quick Start - Bubbles</title>
 <script>{;const saved = localStorage.getItem('rspress-theme-appearance');const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;const defaultTheme = 'auto';const theme = saved === 'light' || saved === 'dark' || saved === 'auto' ? saved : defaultTheme;const isDark = theme === 'auto' ? preferDark : theme === 'dark';document.documentElement.classList.toggle('dark', isDark);document.documentElement.classList.toggle('rp-dark', isDark);document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';}</script>
 <link href="/bubblesjs/static/css/styles.9b1046810b.css" rel="stylesheet">
-<link rel="preload" href="/bubblesjs/static/js/async/route-ecbe94f7fc06.cf1b85e2a0.js" as="script">
+<link rel="preload" href="/bubblesjs/static/js/async/route-ecbe94f7fc06.f764145c33.js" as="script">
 <script defer src="/bubblesjs/static/js/styles.af52bdf562.js"></script>
 <script defer src="/bubblesjs/static/js/lib-react.589a971956.js"></script>
 <script defer src="/bubblesjs/static/js/lib-router.4ef2d52707.js"></script>
 <script defer src="/bubblesjs/static/js/897.a59c7bb296.js"></script>
-<script defer src="/bubblesjs/static/js/index.4af478db03.js"></script>
+<script defer src="/bubblesjs/static/js/index.1e0bf2abcd.js"></script>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Rspress v2.0.18">
 <link rel="alternate" hreflang="en" href="/bubblesjs/en/guide/start/quick-start.html">
@@ -37,6 +37,7 @@
 <p>During project creation, you&#x27;ll be prompted to select a template:</p>
 <ul>
 <li><strong>vue-vite-eslint</strong>: Vue 3, Vite, ESLint, Pinia, Ant Design Vue Next</li>
+<li><strong>vp-vue-eslint-vapor</strong>: Vue 3.6 RC, Vapor mode, Vite+, ESLint, Pinia, and Antdv Next</li>
 <li><strong>react-rsbuild-biome</strong>: React 19, Rsbuild, Biome, Ant Design</li>
 <li><strong>vp-react</strong>: React starter powered by Vite+</li>
 <li><strong>vp-react-shadcn</strong>: Vite+ React starter with shadcn and Tailwind CSS</li>
