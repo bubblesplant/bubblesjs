@@ -1,10 +1,11 @@
 import {
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
-  serial,
   timestamp,
+  uniqueIndex,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core'
@@ -26,7 +27,7 @@ export const refreshTokenStatusEnum = pgEnum('refresh_token_status', [
 ])
 
 export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
+  id: uuid('id').defaultRandom().primaryKey(),
   name: varchar('name', { length: 100 }).notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
   // 第一阶段先允许 null，旧账号完成密码回填后再改成 notNull
@@ -65,9 +66,62 @@ export const authSessions = pgTable(
   ],
 )
 
-export const refreshTokenFamilies = pgTable('refresh_token_families', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  sessionId: uuid('session_id')
-    .notNull()
-    .references(() => authSessions.id, { onDelete: 'restrict' }),
-})
+export const refreshTokenFamilies = pgTable(
+  'refresh_token_families',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    sessionId: uuid('session_id')
+      .notNull()
+      .references(() => authSessions.id, { onDelete: 'restrict' }),
+    status: refreshFamilyStatusEnum('status').default('active').notNull(),
+    accountEpochAtCreate: integer('account_epoch_at_create').notNull(),
+    currentGeneration: integer('current_generation').default(1).notNull(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    revokedAt: timestamp('revoked_at', { withTimezone: true }),
+    revokeReason: varchar('revoke_reason', { length: 100 }),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    updateAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex('refresh_families_session_id_uidx').on(table.sessionId),
+    index('refresh_families_status_idx').on(table.status),
+  ],
+)
+
+export const authOutbox = pgTable(
+  'auth_outbox',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    eventType: varchar('event_type', { length: 100 }).notNull(),
+    aggregateType: varchar('aggregate_type', { length: 30 }).notNull(),
+    aggregateId: varchar('aggregate_id', { length: 100 }).notNull(),
+    aggregateVersion: integer('aggregate_version').notNull(),
+
+    // JSONB 必须由 Worker 做运行时校验，不能静态信任。
+    payload: jsonb('payload').$type<unknown>().notNull(),
+
+    attempts: integer('attempts').default(0).notNull(),
+    lockedBy: varchar('locked_by', { length: 100 }),
+    lockedAt: timestamp('locked_at', { withTimezone: true }),
+    nextAttemptAt: timestamp('next_attempt_at', {
+      withTimezone: true,
+    })
+      .defaultNow()
+      .notNull(),
+    lastError: varchar('last_error', { length: 1000 }),
+    createdAt: timestamp('created_at', {
+      withTimezone: true,
+    })
+      .defaultNow()
+      .notNull(),
+    publishedAt: timestamp('published_at', { withTimezone: true }),
+  },
+  (table) => [
+    index('auth_outbox_claim_idx').on(
+      table.publishedAt,
+      table.nextAttemptAt,
+      table.lockedAt,
+      table.createdAt,
+    ),
+  ],
+)
