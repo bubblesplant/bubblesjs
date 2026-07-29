@@ -47,7 +47,7 @@ export const authSessions = pgTable(
   'auth_sessions',
   {
     id: uuid('id').defaultRandom().primaryKey(),
-    userId: integer('user_id')
+    userId: uuid('user_id')
       .notNull()
       .references(() => users.id, { onDelete: 'restrict' }),
     version: integer('version').default(1).notNull(),
