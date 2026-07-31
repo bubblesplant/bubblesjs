@@ -1,23 +1,22 @@
+import { ResponseInterceptor } from '@/common/interceptors/transform'
+import { appConfig, authConfig, databaseConfig, llmConfig, redisConfig } from '@/config'
+import { RedisModule } from '@nestjs-modules/ioredis'
 import { Module } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { appConfig, databaseConfig, llmConfig, redisConfig, authConfig } from '@/config'
-import { ResponseInterceptor } from '@/common/interceptors/transform'
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
-import { RedisModule } from '@nestjs-modules/ioredis'
-import { TestRedisModule } from './modules/test/redis/redis.module'
 import { DatabaseModule } from './database/db.module'
 import { TestDbModule } from './modules/test/db/db.module'
-import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod'
-
-const nodeEnv = process.env.NODE_ENV ?? 'development'
+import { TestRedisModule } from './modules/test/redis/redis.module'
+import { ENV_ARR } from './utils/env-arr'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [`.env.${nodeEnv}.local`, '.env.local', `.env.${nodeEnv}`, '.env'],
+      envFilePath: ENV_ARR,
       load: [appConfig, databaseConfig, llmConfig, redisConfig, authConfig],
     }),
     DatabaseModule,

@@ -18,7 +18,12 @@ const baseSchema = createInsertSchema(users, {
  */
 export const createUserSchema = baseSchema.omit({
   id: true,
+  passwordHash: true,
+  status: true,
+  authEpoch: true,
+  passwordChangeAt: true,
   createdAt: true,
+  updatedAt: true,
 })
 
 /**
