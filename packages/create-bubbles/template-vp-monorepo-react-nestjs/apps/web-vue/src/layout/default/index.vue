@@ -23,9 +23,9 @@ const openKeys = ref<string[]>([])
 
 watchEffect(() => {
   const matched = route.matched.map(item => item.name).filter(Boolean) as string[]
-  if (matched.length > 1) {
-    openKeys.value = [matched[0]]
-  }
+  const parentKey = matched[0]
+
+  openKeys.value = matched.length > 1 && parentKey !== undefined ? [parentKey] : []
 })
 
 function handleMenuClick({ key }: { key: string }) {
@@ -73,41 +73,22 @@ const menuItems = computed(() => getMenuItems(menuRoutes))
 
 <template>
   <ALayout class="h-screen">
-    <ALayoutSider
-      v-model:collapsed="collapsed"
-      :trigger="null"
-      collapsible
-      :width="220"
-      class="layout-sider"
-    >
+    <ALayoutSider v-model:collapsed="collapsed" :trigger="null" collapsible :width="220" class="layout-sider">
       <div class="logo flex-center gap-2 h-[var(--header-height)]">
         <SvgIcon icon="logo" class="text-2xl" />
         <span v-show="!collapsed" class="text-lg text-white font-bold">
           Vue Template
         </span>
       </div>
-      <AMenu
-        v-model:selected-keys="selectedKeys"
-        v-model:open-keys="openKeys"
-        :items="menuItems"
-        theme="dark"
-        mode="inline"
-        @click="handleMenuClick"
-      />
+      <AMenu v-model:selected-keys="selectedKeys" v-model:open-keys="openKeys" :items="menuItems" theme="dark"
+        mode="inline" @click="handleMenuClick" />
     </ALayoutSider>
 
     <ALayout>
       <ALayoutHeader class="layout-header px-4 flex items-center justify-between">
         <div class="flex gap-3 items-center">
-          <AButton
-            type="text"
-            class="flex-center"
-            @click="collapsed = !collapsed"
-          >
-            <SvgIcon
-              :icon="collapsed ? 'menu-unfold' : 'menu-fold'"
-              style="font-size: 18px"
-            />
+          <AButton type="text" class="flex-center" @click="collapsed = !collapsed">
+            <SvgIcon :icon="collapsed ? 'menu-unfold' : 'menu-fold'" style="font-size: 18px" />
           </AButton>
         </div>
         <Header />
