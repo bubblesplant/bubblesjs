@@ -1,13 +1,13 @@
-import type { Router } from "vue-router";
+import type { Router } from 'vue-router'
 
-import NProgress from "nprogress";
+import NProgress from 'nprogress'
 
 export function createPermissionGuard(router: Router) {
   router.beforeEach((_to, _from, next) => {
-    NProgress.start();
-    next();
-  });
+    NProgress.start()
+    next()
+  })
   router.afterEach((_to, _from) => {
-    NProgress.done();
-  });
+    NProgress.done()
+  })
 }

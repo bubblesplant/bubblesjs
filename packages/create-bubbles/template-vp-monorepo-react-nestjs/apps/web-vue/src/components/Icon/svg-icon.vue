@@ -1,8 +1,8 @@
 <script setup lang="ts">
 defineProps<{
-  icon: string;
-}>();
-const attrs = useAttrs();
+  icon: string
+}>()
+const attrs = useAttrs()
 </script>
 
 <template>

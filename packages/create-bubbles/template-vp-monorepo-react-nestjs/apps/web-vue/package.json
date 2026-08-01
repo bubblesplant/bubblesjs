@@ -1,8 +1,8 @@
 {
   "name": "web-vue",
+  "type": "module",
   "version": "0.0.1",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "vp dev --mode development",
     "build": "vue-tsc -b && vp build",
@@ -34,7 +34,6 @@
     "@commitlint/config-conventional": "catalog:",
     "@types/node": "catalog:",
     "@types/nprogress": "catalog:",
-    "@typescript/native": "catalog:",
     "@unocss/eslint-plugin": "catalog:",
     "@unocss/preset-attributify": "catalog:",
     "@unocss/preset-wind4": "catalog:",
@@ -47,7 +46,7 @@
     "lefthook": "catalog:",
     "oxlint": "catalog:",
     "sass": "catalog:",
-    "typescript": "catalog:typescript6",
+    "typescript": "catalog:",
     "unocss": "catalog:",
     "unplugin-auto-import": "catalog:",
     "unplugin-vue-components": "catalog:",

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { MenuProps } from 'antdv-next'
+
 import type { MenuRouteRecordRawType } from '@/router/interface'
 
 import SvgIcon from '@/components/Icon/svg-icon.vue'
@@ -43,22 +45,24 @@ function renderIcon(icon?: string) {
   return null
 }
 
-function getMenuItems(routes: MenuRouteRecordRawType[]) {
+function getMenuItems(routes: MenuRouteRecordRawType[]): NonNullable<MenuProps['items']> {
   return routes
     .filter(item => !item.meta?.hideInMenu)
     .map((item) => {
       const hasChildren = item.children && item.children.length > 0
+      const key = String(item.name ?? item.path)
+      const label = item.meta?.title ?? key
       if (hasChildren) {
         return {
-          key: item.name as string,
-          label: item.meta?.title ?? item.name,
+          key,
+          label,
           icon: renderIcon(item.meta?.icon),
           children: getMenuItems(item.children as MenuRouteRecordRawType[]),
         }
       }
       return {
-        key: item.name as string,
-        label: item.meta?.title ?? item.name,
+        key,
+        label,
         icon: renderIcon(item.meta?.icon),
       }
     })

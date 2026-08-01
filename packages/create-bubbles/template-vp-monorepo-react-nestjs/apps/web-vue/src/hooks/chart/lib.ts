@@ -6,7 +6,7 @@ import {
   PictorialBarChart,
   PieChart,
   RadarChart,
-} from "echarts/charts";
+} from 'echarts/charts'
 import {
   AriaComponent,
   CalendarComponent,
@@ -22,11 +22,11 @@ import {
   ToolboxComponent,
   TooltipComponent,
   VisualMapComponent,
-} from "echarts/components";
-import * as echarts from "echarts/core";
+} from 'echarts/components'
+import * as echarts from 'echarts/core'
 // TODO 如果想换成SVG渲染，就导出SVGRenderer，
 //  并且放到 echarts.use 里，注释掉 CanvasRenderer
-import { /* SVGRenderer */ CanvasRenderer } from "echarts/renderers";
+import { /* SVGRenderer */ CanvasRenderer } from 'echarts/renderers'
 
 echarts.use([
   LegendComponent,
@@ -52,6 +52,6 @@ echarts.use([
   TimelineComponent,
   CalendarComponent,
   GraphicComponent,
-]);
+])
 
-export default echarts;
+export default echarts

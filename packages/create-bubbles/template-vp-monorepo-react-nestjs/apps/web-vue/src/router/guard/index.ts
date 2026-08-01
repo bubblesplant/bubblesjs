@@ -1,7 +1,7 @@
-import type { Router } from "vue-router";
+import type { Router } from 'vue-router'
 
-import { createPermissionGuard } from "./permissionGuard";
+import { createPermissionGuard } from './permissionGuard'
 
 export function setupGuard(router: Router) {
-  createPermissionGuard(router);
+  createPermissionGuard(router)
 }

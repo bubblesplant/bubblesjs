@@ -31,7 +31,6 @@ catalog:
   '@types/nprogress': ^0.2.3
   '@types/react': ^19.2.17
   '@types/react-dom': ^19.2.3
-  '@typescript/native': npm:typescript@^7.0.2
   '@unocss/eslint-plugin': ^66.7.2
   '@unocss/preset-attributify': ^66.7.5
   '@unocss/preset-wind4': ^66.7.5
@@ -92,8 +91,6 @@ catalog:
 catalogs:
   node24:
     '@types/node': ^24.0.0
-  typescript6:
-    typescript: npm:@typescript/typescript6@^6.0.2
 overrides:
   vite: 'catalog:'
 peerDependencyRules:

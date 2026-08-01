@@ -31,7 +31,7 @@ function getBaseConfig() {
       message.error(msg)
     },
     unAuthorizedResponseFunc: () => {
-      router.push('/login')
+      void router.push('/login')
       message.error('登录过期或未登录')
     },
     statesHook: vueHook,

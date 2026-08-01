@@ -10,7 +10,7 @@
 
 完成步骤 0～15 后，请求会按下面的方式工作。附录 A、B 是后续生产化参考，不属于本教程的强制施工步骤：
 
-~~~mermaid
+```mermaid
 flowchart LR
   A["浏览器"] --> B["登录或刷新"]
   B --> C["短期 Access JWT"]
@@ -23,7 +23,7 @@ flowchart LR
   H --> J["JWT 版本与 Auth State 比较"]
   I --> J
   J --> K["业务 Controller"]
-~~~
+```
 
 最终具备以下能力：
 
@@ -43,17 +43,17 @@ flowchart LR
 
 不要只设计一个 version。
 
-| 字段 | 什么时候增加 | 影响范围 |
-| --- | --- | --- |
-| accountAuthEpoch | 修改密码、冻结账号、退出全部设备 | 该账号的全部旧 Access JWT 和 Refresh Family |
-| sessionVersion | 当前设备退出、管理员踢某个设备、Refresh 重放 | 仅一个登录 Session |
-| refreshGeneration | 每次成功刷新 | 仅 Refresh Token 轮换链 |
+| 字段              | 什么时候增加                                 | 影响范围                                    |
+| ----------------- | -------------------------------------------- | ------------------------------------------- |
+| accountAuthEpoch  | 修改密码、冻结账号、退出全部设备             | 该账号的全部旧 Access JWT 和 Refresh Family |
+| sessionVersion    | 当前设备退出、管理员踢某个设备、Refresh 重放 | 仅一个登录 Session                          |
+| refreshGeneration | 每次成功刷新                                 | 仅 Refresh Token 轮换链                     |
 
 Refresh Token 正常轮换时，只增加 refreshGeneration，不增加前两个版本。
 
 Access JWT 的载荷使用：
 
-~~~json
+```json
 {
   "sub": "123",
   "sid": "session-uuid",
@@ -65,7 +65,7 @@ Access JWT 的载荷使用：
   "iat": 1,
   "exp": 2
 }
-~~~
+```
 
 版本比较不是简单的不相等：
 
@@ -85,9 +85,9 @@ Access JWT 的载荷使用：
 
 下面所有命令都从仓库根目录执行：
 
-~~~text
+```text
 C:\malei\stu\bubbles\packages\create-bubbles\template-vp-monorepo-react-nestjs
-~~~
+```
 
 项目真实技术栈是 NestJS 11、Fastify、Drizzle、PostgreSQL、ioredis 和 Vite+。
 
@@ -95,7 +95,7 @@ C:\malei\stu\bubbles\packages\create-bubbles\template-vp-monorepo-react-nestjs
 
 - 使用 vp，不把教程改写成 npm 或 pnpm 工作流。
 - Fastify Cookie 使用 @fastify/cookie，不使用 Express 的 res.cookie。
-- 代码使用单引号、无分号和 @/* 路径别名。
+- 代码使用单引号、无分号和 @/\* 路径别名。
 - Swagger 的 addBearerAuth 只是文档声明，真正鉴权来自 APP_GUARD。
 - 现有 Bypass 装饰器只控制 ResponseInterceptor，不能代替 Public。
 - Refresh Token 原文不能进入数据库、日志和异常。
@@ -105,7 +105,7 @@ C:\malei\stu\bubbles\packages\create-bubbles\template-vp-monorepo-react-nestjs
 
 施工完成后，Auth 相关目录大致如下：
 
-~~~text
+```text
 apps/server/src/
 ├─ common/
 │  ├─ constants/
@@ -142,7 +142,7 @@ apps/server/src/
       ├─ auth.service.ts
       ├─ auth.controller.ts
       └─ auth.module.ts
-~~~
+```
 
 # 步骤 0：先确认原项目能正常构建
 
@@ -152,17 +152,17 @@ apps/server/src/
 
 ## 执行命令
 
-~~~powershell
+```powershell
 git status --short
 vp install
 vp run "server#build"
-~~~
+```
 
 如果 vp 本身表现异常，再执行：
 
-~~~powershell
+```powershell
 vp env doctor
-~~~
+```
 
 ## 完成检查点
 
@@ -180,22 +180,22 @@ vp env doctor
 
 ## 执行命令
 
-~~~powershell
+```powershell
 vp add @nestjs/jwt @fastify/cookie fastify@5.8.5 argon2 --filter server --save-catalog --allow-build argon2
-~~~
+```
 
 ## 检查文件
 
 打开 apps/server/package.json，确认 dependencies 中出现：
 
-~~~json
+```json
 {
   "@fastify/cookie": "catalog:",
   "@nestjs/jwt": "catalog:",
   "argon2": "catalog:",
   "fastify": "catalog:"
 }
-~~~
+```
 
 同时确认 pnpm-workspace.yaml 的 catalog 中出现对应版本。
 
@@ -207,9 +207,9 @@ vp add @nestjs/jwt @fastify/cookie fastify@5.8.5 argon2 --filter server --save-c
 
 ## 验收命令
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 ## 完成检查点
 
@@ -228,13 +228,13 @@ vp run "server#build"
 
 新增文件：
 
-~~~text
+```text
 apps/server/src/config/auth.config.ts
-~~~
+```
 
 粘贴完整代码：
 
-~~~ts
+```ts
 import { registerAs } from '@nestjs/config'
 
 export interface AuthConfig {
@@ -295,58 +295,57 @@ export default registerAs(
     cookieName: process.env.REFRESH_COOKIE_NAME ?? 'refresh_token',
     cookiePath: process.env.REFRESH_COOKIE_PATH ?? '/auth',
     cookieSecure:
-      process.env.REFRESH_COOKIE_SECURE === 'true' ||
-      process.env.NODE_ENV === 'production',
+      process.env.REFRESH_COOKIE_SECURE === 'true' || process.env.NODE_ENV === 'production',
     cookieDomain: process.env.REFRESH_COOKIE_DOMAIN || undefined,
     eventChannel: process.env.AUTH_EVENT_CHANNEL ?? 'auth-state:invalidate',
   }),
 )
-~~~
+```
 
 这里的 15 分钟 tombstone 大于：
 
-~~~text
+```text
 10 分钟 Access JWT
 + 30 秒 L1 陈旧窗口
 + 30 秒时钟误差
-~~~
+```
 
 ## 2.2 导出 authConfig
 
 修改文件：
 
-~~~text
+```text
 apps/server/src/config/index.ts
-~~~
+```
 
 替换成：
 
-~~~ts
+```ts
 export { default as appConfig } from './app.config'
 export { default as authConfig } from './auth.config'
 export { default as databaseConfig } from './database.config'
 export { default as llmConfig } from './llm.config'
 export { default as redisConfig } from './redis.config'
-~~~
+```
 
 ## 2.3 删除旧的 JWT_SECRET 配置入口
 
 修改文件：
 
-~~~text
+```text
 apps/server/src/config/app.config.ts
-~~~
+```
 
 替换成：
 
-~~~ts
+```ts
 import { registerAs } from '@nestjs/config'
 
 export default registerAs('app', () => ({
   port: Number.parseInt(process.env.PORT ?? '3000', 10),
   env: process.env.NODE_ENV ?? 'development',
 }))
-~~~
+```
 
 以后只使用 JWT_ACCESS_SECRET，不再同时维护 JWT_SECRET 和 JWT_ACCESS_SECRET 两套名字。
 
@@ -354,30 +353,25 @@ export default registerAs('app', () => ({
 
 打开：
 
-~~~text
+```text
 apps/server/src/app.module.ts
-~~~
+```
 
 把 config import 改成：
 
-~~~ts
+```ts
 import { appConfig, authConfig, databaseConfig, llmConfig, redisConfig } from '@/config'
-~~~
+```
 
 把 ConfigModule.forRoot 中的 envFilePath 和 load 改成：
 
-~~~ts
+```ts
 ConfigModule.forRoot({
   isGlobal: true,
-  envFilePath: [
-    '.env.' + nodeEnv + '.local',
-    '.env.local',
-    '.env.' + nodeEnv,
-    '.env',
-  ],
+  envFilePath: ['.env.' + nodeEnv + '.local', '.env.local', '.env.' + nodeEnv, '.env'],
   load: [appConfig, authConfig, databaseConfig, llmConfig, redisConfig],
 })
-~~~
+```
 
 local 文件排在前面。dotenv 在不启用 override 时保留先读到的值，因此真实本地密钥会优先生效。
 
@@ -385,20 +379,20 @@ local 文件排在前面。dotenv 在不启用 override 时保留先读到的值
 
 先生成两个不同的随机值：
 
-~~~powershell
+```powershell
 node -e "console.log(require('node:crypto').randomBytes(48).toString('base64url'))"
 node -e "console.log(require('node:crypto').randomBytes(48).toString('base64url'))"
-~~~
+```
 
 新增文件：
 
-~~~text
+```text
 apps/server/.env.development.local
-~~~
+```
 
 写入下面内容，把两个占位值替换成刚生成的两个不同随机值：
 
-~~~dotenv
+```dotenv
 JWT_ACCESS_SECRET=替换成第一个随机值
 REFRESH_TOKEN_PEPPER=替换成第二个随机值
 JWT_ISSUER=bubbles-auth
@@ -414,15 +408,15 @@ REFRESH_COOKIE_SECURE=false
 AUTH_LOCAL_CACHE_TTL_MS=30000
 AUTH_TOMBSTONE_TTL_SECONDS=900
 AUTH_EVENT_CHANNEL=auth-state:invalidate
-~~~
+```
 
-注意：生产 HTTPS 可以使用 __Host-refresh_token，但 __Host- 前缀不能设置 Domain，Path 必须是 /。本教程开发阶段使用 refresh_token 和 /auth，避免浏览器因前缀规则拒收 Cookie。
+注意：生产 HTTPS 可以使用 **Host-refresh_token，但 **Host- 前缀不能设置 Domain，Path 必须是 /。本教程开发阶段使用 refresh_token 和 /auth，避免浏览器因前缀规则拒收 Cookie。
 
 ## 验收命令
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 如果启动时报 JWT_ACCESS_SECRET 未配置，说明 local 文件没有按上述路径创建，或 ConfigModule 的 envFilePath 没改对。
 
@@ -441,13 +435,13 @@ vp run "server#build"
 
 ## 修改文件
 
-~~~text
+```text
 apps/server/src/main.ts
-~~~
+```
 
 替换为下面的完整内容：
 
-~~~ts
+```ts
 import fastifyCookie from '@fastify/cookie'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from '@/app.module'
@@ -457,10 +451,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { cleanupOpenApiDoc } from 'nestjs-zod'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter(),
-  )
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter())
 
   await app.register(fastifyCookie)
 
@@ -490,7 +481,7 @@ async function bootstrap() {
 }
 
 void bootstrap()
-~~~
+```
 
 不要写 Express 风格的 res.cookie。后续 Controller 会使用 FastifyReply.setCookie。
 
@@ -503,9 +494,9 @@ Swagger 的 addBearerAuth 只定义了文档里的认证方案：
 
 ## 验收命令
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 ## 完成检查点
 
@@ -525,13 +516,13 @@ vp run "server#build"
 
 修改文件：
 
-~~~text
+```text
 apps/server/src/database/schema.ts
-~~~
+```
 
 替换为下面的完整内容：
 
-~~~ts
+```ts
 import {
   index,
   integer,
@@ -545,16 +536,9 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core'
 
-export const userStatusEnum = pgEnum('user_status', [
-  'active',
-  'locked',
-  'disabled',
-])
+export const userStatusEnum = pgEnum('user_status', ['active', 'locked', 'disabled'])
 
-export const authSessionStatusEnum = pgEnum('auth_session_status', [
-  'active',
-  'revoked',
-])
+export const authSessionStatusEnum = pgEnum('auth_session_status', ['active', 'revoked'])
 
 export const refreshFamilyStatusEnum = pgEnum('refresh_family_status', [
   'active',
@@ -648,10 +632,7 @@ export const refreshTokens = pgTable(
   },
   (table) => [
     uniqueIndex('refresh_tokens_token_hash_uidx').on(table.tokenHash),
-    uniqueIndex('refresh_tokens_family_generation_uidx').on(
-      table.familyId,
-      table.generation,
-    ),
+    uniqueIndex('refresh_tokens_family_generation_uidx').on(table.familyId, table.generation),
     index('refresh_tokens_family_status_idx').on(table.familyId, table.status),
   ],
 )
@@ -693,7 +674,7 @@ export const authOutbox = pgTable(
     ),
   ],
 )
-~~~
+```
 
 ## 4.2 修正 Drizzle 环境文件加载
 
@@ -701,24 +682,19 @@ export const authOutbox = pgTable(
 
 修改文件：
 
-~~~text
+```text
 apps/server/drizzle.config.ts
-~~~
+```
 
 替换为：
 
-~~~ts
+```ts
 import { config } from 'dotenv'
 import { defineConfig } from 'drizzle-kit'
 
 const nodeEnv = process.env.NODE_ENV ?? 'development'
 
-for (const path of [
-  '.env.' + nodeEnv + '.local',
-  '.env.local',
-  '.env.' + nodeEnv,
-  '.env',
-]) {
+for (const path of ['.env.' + nodeEnv + '.local', '.env.local', '.env.' + nodeEnv, '.env']) {
   config({ path })
 }
 
@@ -734,7 +710,7 @@ export default defineConfig({
     url: process.env.DATABASE_URL,
   },
 })
-~~~
+```
 
 ## 4.3 修正现有测试 DTO
 
@@ -742,13 +718,13 @@ export default defineConfig({
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/test/db/dto/create-user.dto.ts
-~~~
+```
 
 把 omit 改为：
 
-~~~ts
+```ts
 export const createUserSchema = baseSchema.omit({
   id: true,
   passwordHash: true,
@@ -758,7 +734,7 @@ export const createUserSchema = baseSchema.omit({
   createdAt: true,
   updatedAt: true,
 })
-~~~
+```
 
 这个 TestDbModule 只能当数据库示例，不能当正式注册接口。正式注册接口接收 password，由服务端生成 passwordHash，绝不能让客户端上传密码哈希。
 
@@ -768,9 +744,9 @@ export const createUserSchema = baseSchema.omit({
 
 执行：
 
-~~~powershell
+```powershell
 vp run "server#db:generate"
-~~~
+```
 
 不要马上 migrate。先打开 apps/server/drizzle 下新生成的 SQL，人工确认：
 
@@ -783,17 +759,17 @@ vp run "server#db:generate"
 
 确认 SQL 后再执行：
 
-~~~powershell
+```powershell
 vp run "server#db:migrate"
 vp run "server#build"
-~~~
+```
 
 ## 完成检查点
 
 - 五张 Auth 相关表已经存在。
 - 旧 users 数据没有因为 password_hash 而迁移失败。
 - 两个 Refresh Token 唯一约束已存在。
-- 迁移所用 DATABASE_URL 与服务运行时 DB_* 指向同一数据库。
+- 迁移所用 DATABASE*URL 与服务运行时 DB*\* 指向同一数据库。
 - 构建成功。
 
 # 步骤 5：实现密码和 Token 安全原语
@@ -811,30 +787,30 @@ vp run "server#build"
 
 新增：
 
-~~~text
+```text
 apps/server/src/common/constants/auth.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 export const IS_PUBLIC_KEY = Symbol('is_public')
 export const AUTH_CONSISTENCY_KEY = Symbol('auth_consistency')
 
 export type AuthConsistency = 'bounded' | 'strong'
-~~~
+```
 
 ## 5.2 新增 Auth 类型
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.types.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 export interface AccessTokenClaims {
   sub: string
   sid: string
@@ -879,19 +855,19 @@ export interface IssuedTokenPair {
   accessExpiresIn: number
   refreshToken: string
 }
-~~~
+```
 
 ## 5.3 新增 PasswordService
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/password.service.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 
@@ -924,7 +900,7 @@ export class PasswordService {
     }
   }
 }
-~~~
+```
 
 当邮箱不存在时仍执行一次 Argon2 验证，减少通过响应时间枚举邮箱的差异。
 
@@ -932,13 +908,13 @@ export class PasswordService {
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/token.service.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
@@ -962,9 +938,7 @@ export class RefreshTokenCodec {
   hash(raw: string) {
     const auth = this.config.getOrThrow<AuthConfig>('auth')
 
-    return createHmac('sha256', auth.refreshPepper)
-      .update(raw)
-      .digest('hex')
+    return createHmac('sha256', auth.refreshPepper).update(raw).digest('hex')
   }
 }
 
@@ -1021,8 +995,7 @@ export class AccessTokenService {
       Number.isSafeInteger(claims.iat) &&
       Number.isSafeInteger(claims.exp) &&
       claims.exp > claims.iat &&
-      claims.exp - claims.iat <=
-        auth.accessTtlSeconds + auth.clockToleranceSeconds
+      claims.exp - claims.iat <= auth.accessTtlSeconds + auth.clockToleranceSeconds
 
     if (!validShape) {
       throw new UnauthorizedException('访问令牌载荷非法')
@@ -1031,7 +1004,7 @@ export class AccessTokenService {
     return claims
   }
 }
-~~~
+```
 
 Access JWT 的 iss、aud、exp 和签名算法稍后由 JwtModule 统一配置。不要手工从请求载荷信任这些字段。
 
@@ -1039,9 +1012,9 @@ Refresh Token 数据库只保存 hash。raw 只在创建时返回给 Controller 
 
 ## 验收命令
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 ## 完成检查点
 
@@ -1057,7 +1030,7 @@ vp run "server#build"
 
 此时不要急着加入 30 秒缓存。先做一版所有保护接口都实时读取 Redis 的实现，验证下面的闭环：
 
-~~~text
+```text
 登录写入 Auth State
 -> JWT 带 ae 和 sv
 -> Guard 用一个 Lua 原子读取 Account + Session
@@ -1065,7 +1038,7 @@ vp run "server#build"
 -> Redis 缺失或落后时，用一条 PostgreSQL JOIN 回源
 -> 踢人或改密写入更高版本
 -> 下一次强校验拒绝旧 JWT
-~~~
+```
 
 这里有四条硬性不变量：
 
@@ -1078,13 +1051,13 @@ vp run "server#build"
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/state/auth-state.service.ts
-~~~
+```
 
 粘贴完整代码：
 
-~~~ts
+```ts
 import { InjectRedis } from '@nestjs-modules/ioredis'
 import {
   Inject,
@@ -1253,10 +1226,7 @@ export class AuthStateService {
     private readonly config: ConfigService,
   ) {}
 
-  async verify(
-    claims: AccessTokenClaims,
-    _consistency: AuthConsistency = 'strong',
-  ) {
+  async verify(claims: AccessTokenClaims, _consistency: AuthConsistency = 'strong') {
     for (let attempt = 0; attempt < 2; attempt += 1) {
       const shared = await this.readShared(claims.sub, claims.sid)
 
@@ -1273,41 +1243,26 @@ export class AuthStateService {
         return
       }
 
-      const database = await this.loadDatabaseSnapshot(
-        claims.sub,
-        claims.sid,
-      )
+      const database = await this.loadDatabaseSnapshot(claims.sub, claims.sid)
 
       if (!database) {
         throw new UnauthorizedException('登录状态不存在')
       }
 
-      if (
-        database.account.epoch < claims.ae ||
-        database.session.version < claims.sv
-      ) {
-        throw new ServiceUnavailableException(
-          '鉴权事实库版本落后于 JWT',
-        )
+      if (database.account.epoch < claims.ae || database.session.version < claims.sv) {
+        throw new ServiceUnavailableException('鉴权事实库版本落后于 JWT')
       }
 
-      const [accountProjection, sessionProjection] =
-        await Promise.all([
-          this.projectAccount(database.account),
-          this.projectSession(database.session),
-        ])
+      const [accountProjection, sessionProjection] = await Promise.all([
+        this.projectAccount(database.account),
+        this.projectSession(database.session),
+      ])
 
-      if (
-        accountProjection === 'stale' ||
-        sessionProjection === 'stale'
-      ) {
+      if (accountProjection === 'stale' || sessionProjection === 'stale') {
         continue
       }
 
-      const repaired = await this.readShared(
-        claims.sub,
-        claims.sid,
-      )
+      const repaired = await this.readShared(claims.sub, claims.sid)
 
       this.throwIfSharedIsNewer(repaired, claims)
 
@@ -1323,18 +1278,14 @@ export class AuthStateService {
       }
     }
 
-    throw new ServiceUnavailableException(
-      '鉴权状态正在变化，请稍后重试',
-    )
+    throw new ServiceUnavailableException('鉴权状态正在变化，请稍后重试')
   }
 
   async writeThroughAccount(state: AccountAuthState) {
     const result = await this.projectAccount(state)
 
     if (result === 'stale') {
-      throw new ServiceUnavailableException(
-        '账号鉴权状态已经存在更高版本',
-      )
+      throw new ServiceUnavailableException('账号鉴权状态已经存在更高版本')
     }
   }
 
@@ -1342,9 +1293,7 @@ export class AuthStateService {
     const result = await this.projectSession(state)
 
     if (result === 'stale') {
-      throw new ServiceUnavailableException(
-        'Session 鉴权状态已经存在更高版本',
-      )
+      throw new ServiceUnavailableException('Session 鉴权状态已经存在更高版本')
     }
   }
 
@@ -1377,11 +1326,7 @@ export class AuthStateService {
       ] = raw.map((value) => String(value ?? ''))
 
       return {
-        account: this.parseAccount(
-          userId,
-          accountEpoch,
-          accountStatus,
-        ),
+        account: this.parseAccount(userId, accountEpoch, accountStatus),
         session: this.parseSession(
           userId,
           sessionId,
@@ -1392,9 +1337,7 @@ export class AuthStateService {
         ),
       }
     } catch {
-      throw new ServiceUnavailableException(
-        '共享鉴权状态暂时不可用',
-      )
+      throw new ServiceUnavailableException('共享鉴权状态暂时不可用')
     }
   }
 
@@ -1404,10 +1347,7 @@ export class AuthStateService {
   ): Promise<AuthStateSnapshot | null> {
     const numericUserId = Number(userId)
 
-    if (
-      !Number.isSafeInteger(numericUserId) ||
-      numericUserId <= 0
-    ) {
+    if (!Number.isSafeInteger(numericUserId) || numericUserId <= 0) {
       return null
     }
 
@@ -1425,10 +1365,7 @@ export class AuthStateService {
         .from(users)
         .innerJoin(
           authSessions,
-          and(
-            eq(authSessions.userId, users.id),
-            eq(authSessions.id, sessionId),
-          ),
+          and(eq(authSessions.userId, users.id), eq(authSessions.id, sessionId)),
         )
         .where(eq(users.id, numericUserId))
         .limit(1)
@@ -1452,15 +1389,11 @@ export class AuthStateService {
         },
       }
     } catch {
-      throw new ServiceUnavailableException(
-        '鉴权事实库暂时不可用',
-      )
+      throw new ServiceUnavailableException('鉴权事实库暂时不可用')
     }
   }
 
-  private async projectAccount(
-    state: AccountAuthState,
-  ): Promise<ProjectionWriteResult> {
+  private async projectAccount(state: AccountAuthState): Promise<ProjectionWriteResult> {
     let raw: unknown
 
     try {
@@ -1472,21 +1405,15 @@ export class AuthStateService {
         state.status,
       )
     } catch {
-      throw new ServiceUnavailableException(
-        '账号鉴权状态暂时不可用',
-      )
+      throw new ServiceUnavailableException('账号鉴权状态暂时不可用')
     }
 
     return this.decodeProjectionResult(raw, '账号')
   }
 
-  private async projectSession(
-    state: SessionAuthState,
-  ): Promise<ProjectionWriteResult> {
+  private async projectSession(state: SessionAuthState): Promise<ProjectionWriteResult> {
     const auth = this.config.getOrThrow<AuthConfig>('auth')
-    const activeTtl = Math.ceil(
-      (state.expiresAtMs - Date.now()) / 1000,
-    )
+    const activeTtl = Math.ceil((state.expiresAtMs - Date.now()) / 1000)
     const ttlSeconds =
       state.status === 'revoked'
         ? auth.tombstoneTtlSeconds
@@ -1506,18 +1433,13 @@ export class AuthStateService {
         String(ttlSeconds),
       )
     } catch {
-      throw new ServiceUnavailableException(
-        'Session 鉴权状态暂时不可用',
-      )
+      throw new ServiceUnavailableException('Session 鉴权状态暂时不可用')
     }
 
     return this.decodeProjectionResult(raw, 'Session')
   }
 
-  private decodeProjectionResult(
-    raw: unknown,
-    aggregateName: string,
-  ): ProjectionWriteResult {
+  private decodeProjectionResult(raw: unknown, aggregateName: string): ProjectionWriteResult {
     const code = Number(raw)
 
     if (code === 1) {
@@ -1532,9 +1454,7 @@ export class AuthStateService {
       return 'stale'
     }
 
-    throw new ServiceUnavailableException(
-      aggregateName + '鉴权状态存在版本冲突',
-    )
+    throw new ServiceUnavailableException(aggregateName + '鉴权状态存在版本冲突')
   }
 
   private throwIfSharedIsNewer(
@@ -1605,17 +1525,9 @@ export class AuthStateService {
     }
   }
 
-  private assertAllowed(
-    snapshot: AuthStateSnapshot,
-    claims: AccessTokenClaims,
-  ) {
-    if (
-      snapshot.account.epoch < claims.ae ||
-      snapshot.session.version < claims.sv
-    ) {
-      throw new ServiceUnavailableException(
-        '鉴权状态投影落后',
-      )
+  private assertAllowed(snapshot: AuthStateSnapshot, claims: AccessTokenClaims) {
+    if (snapshot.account.epoch < claims.ae || snapshot.session.version < claims.sv) {
+      throw new ServiceUnavailableException('鉴权状态投影落后')
     }
 
     const accepted =
@@ -1631,18 +1543,18 @@ export class AuthStateService {
     }
   }
 }
-~~~
+```
 
 两个 Redis key 都带相同的 {userId} hash tag，所以即使以后使用 Redis Cluster，也会落在同一个 slot；READ_AUTH_STATE_LUA 可以一次看到账号和 Session 的同一 Redis 执行时点。
 
 ACCOUNT_PROJECTION_LUA 和 SESSION_PROJECTION_LUA 的返回值含义是：
 
-| 返回值 | 含义 | 处理 |
-| --- | --- | --- |
-| 1 | 新版本已写入 | 继续 |
-| 2 | 相同版本、所有字段完全相同 | 幂等成功 |
-| 0 | Redis 已有更高版本 | 重新 Pull，不能覆盖 |
-| -1 / -2 | 同版本字段冲突、revoked 复活、参数或投影损坏 | 返回 503 并报警 |
+| 返回值  | 含义                                         | 处理                |
+| ------- | -------------------------------------------- | ------------------- |
+| 1       | 新版本已写入                                 | 继续                |
+| 2       | 相同版本、所有字段完全相同                   | 幂等成功            |
+| 0       | Redis 已有更高版本                           | 重新 Pull，不能覆盖 |
+| -1 / -2 | 同版本字段冲突、revoked 复活、参数或投影损坏 | 返回 503 并报警     |
 
 不要把“相同 version、不同 status”当作可覆盖更新。状态变化而版本不变，是写路径违反不变量，应立即暴露。
 
@@ -1650,9 +1562,9 @@ ACCOUNT_PROJECTION_LUA 和 SESSION_PROJECTION_LUA 的返回值含义是：
 
 执行：
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 此时 AuthModule 还没有在后续步骤完整接入，所以这里只做类型和编译验收。
 
@@ -1671,7 +1583,7 @@ vp run "server#build"
 
 本步骤完成：
 
-~~~text
+```text
 注册账号
 -> 服务端 Argon2id 哈希密码
 -> 登录校验密码
@@ -1679,7 +1591,7 @@ vp run "server#build"
 -> Redis 写入账号和 Session 状态
 -> 返回 Access JWT
 -> Refresh Token 写入 HttpOnly Cookie
-~~~
+```
 
 教程增加一个公开注册接口只是为了让你能独立完成验收。如果你的产品不允许用户自注册，完成测试后删除 register Controller 路由，把注册能力放到管理员或邀请流程中。
 
@@ -1687,18 +1599,18 @@ vp run "server#build"
 
 新增：
 
-~~~text
+```text
 apps/server/src/common/decorators/public.decorator.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { SetMetadata } from '@nestjs/common'
 import { IS_PUBLIC_KEY } from '@/common/constants/auth'
 
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true)
-~~~
+```
 
 它和现有 Bypass 的职责完全不同：
 
@@ -1711,13 +1623,13 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true)
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/dto/register.dto.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
@@ -1728,17 +1640,17 @@ const RegisterSchema = z.object({
 })
 
 export class RegisterDto extends createZodDto(RegisterSchema) {}
-~~~
+```
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/dto/login.dto.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
@@ -1748,27 +1660,23 @@ const LoginSchema = z.object({
 })
 
 export class LoginDto extends createZodDto(LoginSchema) {}
-~~~
+```
 
 ## 7.3 新增 Refresh Cookie Helper
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/http/refresh-cookie.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import type { FastifyReply } from 'fastify'
 import type { AuthConfig } from '@/config/auth.config'
 
-export function setRefreshCookie(
-  reply: FastifyReply,
-  token: string,
-  config: AuthConfig,
-) {
+export function setRefreshCookie(reply: FastifyReply, token: string, config: AuthConfig) {
   reply.setCookie(config.cookieName, token, {
     httpOnly: true,
     secure: config.cookieSecure,
@@ -1779,10 +1687,7 @@ export function setRefreshCookie(
   })
 }
 
-export function clearRefreshCookie(
-  reply: FastifyReply,
-  config: AuthConfig,
-) {
+export function clearRefreshCookie(reply: FastifyReply, config: AuthConfig) {
   reply.clearCookie(config.cookieName, {
     httpOnly: true,
     secure: config.cookieSecure,
@@ -1791,7 +1696,7 @@ export function clearRefreshCookie(
     domain: config.cookieDomain,
   })
 }
-~~~
+```
 
 如果前端和 API 跨站部署，SameSite、Secure、CORS 和 CSRF 需要一起设计，不能只把 sameSite 改成 none 就结束。当前教程按同站部署处理。
 
@@ -1799,22 +1704,17 @@ export function clearRefreshCookie(
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.repository.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { Inject, Injectable } from '@nestjs/common'
 import { eq } from 'drizzle-orm'
 import { DRIZZLE, type DrizzleDB } from '@/database/db.module'
-import {
-  authSessions,
-  refreshTokenFamilies,
-  refreshTokens,
-  users,
-} from '@/database/schema'
+import { authSessions, refreshTokenFamilies, refreshTokens, users } from '@/database/schema'
 
 @Injectable()
 export class AuthRepository {
@@ -1832,11 +1732,7 @@ export class AuthRepository {
     })
   }
 
-  async createUser(input: {
-    name: string
-    email: string
-    passwordHash: string
-  }) {
+  async createUser(input: { name: string; email: string; passwordHash: string }) {
     const [user] = await this.db
       .insert(users)
       .values({
@@ -1889,24 +1785,20 @@ export class AuthRepository {
     })
   }
 }
-~~~
+```
 
 ## 7.5 新增 AuthService
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.service.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
-import {
-  ConflictException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common'
+```ts
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import type { AuthConfig } from '@/config/auth.config'
 import { AuthRepository } from './auth.repository'
@@ -1926,11 +1818,7 @@ export class AuthService {
     private readonly config: ConfigService,
   ) {}
 
-  async register(input: {
-    name: string
-    email: string
-    password: string
-  }) {
+  async register(input: { name: string; email: string; password: string }) {
     const email = input.email.trim().toLowerCase()
     const existing = await this.repository.findUserByEmail(email)
 
@@ -1973,17 +1861,9 @@ export class AuthService {
   ): Promise<IssuedTokenPair> {
     const email = input.email.trim().toLowerCase()
     const user = await this.repository.findUserByEmail(email)
-    const passwordMatched = await this.passwords.verify(
-      user?.passwordHash ?? null,
-      input.password,
-    )
+    const passwordMatched = await this.passwords.verify(user?.passwordHash ?? null, input.password)
 
-    if (
-      !user ||
-      !passwordMatched ||
-      !user.passwordHash ||
-      user.status !== 'active'
-    ) {
+    if (!user || !passwordMatched || !user.passwordHash || user.status !== 'active') {
       throw new UnauthorizedException('邮箱或密码错误')
     }
 
@@ -2028,7 +1908,7 @@ export class AuthService {
     }
   }
 }
-~~~
+```
 
 登录事务提交后才写 Redis。如果 Redis 此时不可用，接口返回 503，客户端拿不到 Token；数据库里可能留下一个不会被使用的 Session，它会在 expiresAt 后由清理任务删除。步骤 13 的 Outbox 只保障撤销、禁用和版本提升类状态，不恢复登录创建投影。
 
@@ -2036,13 +1916,13 @@ export class AuthService {
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.controller.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { Body, Controller, Post, Req, Res } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ApiTags } from '@nestjs/swagger'
@@ -2089,7 +1969,7 @@ export class AuthController {
     }
   }
 }
-~~~
+```
 
 Refresh Token 不出现在 JSON 响应，只通过 Set-Cookie 返回。
 
@@ -2097,13 +1977,13 @@ Refresh Token 不出现在 JSON 响应，只通过 Set-Cookie 返回。
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.module.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtModule, type JwtModuleOptions } from '@nestjs/jwt'
@@ -2152,7 +2032,7 @@ import { AccessTokenService, RefreshTokenCodec } from './token.service'
   exports: [AuthService, AuthStateService],
 })
 export class AuthModule {}
-~~~
+```
 
 HS256 只用于当前单体施工。多微服务生产环境不要把同一个对称密钥发给所有服务，最后一章会说明如何改成私钥签发、公钥验签。
 
@@ -2160,26 +2040,20 @@ HS256 只用于当前单体施工。多微服务生产环境不要把同一个�
 
 修改：
 
-~~~text
+```text
 apps/server/src/app.module.ts
-~~~
+```
 
 替换为以下完整内容：
 
-~~~ts
+```ts
 import { RedisModule } from '@nestjs-modules/ioredis'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod'
 import { ResponseInterceptor } from '@/common/interceptors/transform'
-import {
-  appConfig,
-  authConfig,
-  databaseConfig,
-  llmConfig,
-  redisConfig,
-} from '@/config'
+import { appConfig, authConfig, databaseConfig, llmConfig, redisConfig } from '@/config'
 import { DatabaseModule } from './database/db.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
@@ -2193,12 +2067,7 @@ const nodeEnv = process.env.NODE_ENV ?? 'development'
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [
-        '.env.' + nodeEnv + '.local',
-        '.env.local',
-        '.env.' + nodeEnv,
-        '.env',
-      ],
+      envFilePath: ['.env.' + nodeEnv + '.local', '.env.local', '.env.' + nodeEnv, '.env'],
       load: [appConfig, authConfig, databaseConfig, llmConfig, redisConfig],
     }),
     DatabaseModule,
@@ -2238,22 +2107,22 @@ const nodeEnv = process.env.NODE_ENV ?? 'development'
   ],
 })
 export class AppModule {}
-~~~
+```
 
 ## 7.9 构建并启动
 
 执行：
 
-~~~powershell
+```powershell
 vp run "server#build"
 vp run "server#dev"
-~~~
+```
 
 ## 7.10 手工验收注册
 
 另开 PowerShell：
 
-~~~powershell
+```powershell
 $body = @{
   name = "测试用户"
   email = "auth-test@example.com"
@@ -2261,11 +2130,11 @@ $body = @{
 } | ConvertTo-Json
 
 Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/register" -ContentType "application/json" -Body $body
-~~~
+```
 
 由于项目已有 ResponseInterceptor，成功响应不是裸数据，而是：
 
-~~~json
+```json
 {
   "code": 200,
   "data": {
@@ -2275,11 +2144,11 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/register" -Conte
   },
   "message": "success"
 }
-~~~
+```
 
 ## 7.11 手工验收登录和 Cookie
 
-~~~powershell
+```powershell
 $web = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 
 $body = @{
@@ -2292,7 +2161,7 @@ $login = Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/login" 
 $accessToken = $login.data.accessToken
 $login.data
 $web.Cookies.GetCookies("http://localhost:3000")
-~~~
+```
 
 你应该看到：
 
@@ -2321,18 +2190,18 @@ $web.Cookies.GetCookies("http://localhost:3000")
 
 新增：
 
-~~~text
+```text
 apps/server/src/common/decorators/strong-auth.decorator.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { SetMetadata } from '@nestjs/common'
 import { AUTH_CONSISTENCY_KEY } from '@/common/constants/auth'
 
 export const StrongAuth = () => SetMetadata(AUTH_CONSISTENCY_KEY, 'strong')
-~~~
+```
 
 此时所有接口本来就会强校验。这个装饰器先建立语义，等步骤 11 把默认值改成 bounded 后，它才真正负责绕过 L1。
 
@@ -2340,13 +2209,13 @@ export const StrongAuth = () => SetMetadata(AUTH_CONSISTENCY_KEY, 'strong')
 
 新增：
 
-~~~text
+```text
 apps/server/src/common/decorators/current-auth.decorator.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { createParamDecorator, type ExecutionContext } from '@nestjs/common'
 import type { FastifyRequest } from 'fastify'
 import type { AuthPrincipal } from '@/modules/auth/auth.types'
@@ -2359,19 +2228,19 @@ export const CurrentAuth = createParamDecorator(
   (_data: unknown, context: ExecutionContext) =>
     context.switchToHttp().getRequest<AuthenticatedRequest>().auth,
 )
-~~~
+```
 
 ## 8.3 新增全局 HybridAuthGuard
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/guards/hybrid-auth.guard.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import {
   type CanActivate,
   type ExecutionContext,
@@ -2380,11 +2249,7 @@ import {
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import type { FastifyRequest } from 'fastify'
-import {
-  AUTH_CONSISTENCY_KEY,
-  type AuthConsistency,
-  IS_PUBLIC_KEY,
-} from '@/common/constants/auth'
+import { AUTH_CONSISTENCY_KEY, type AuthConsistency, IS_PUBLIC_KEY } from '@/common/constants/auth'
 import type { AuthPrincipal } from '../auth.types'
 import { AuthStateService } from '../state/auth-state.service'
 import { AccessTokenService } from '../token.service'
@@ -2404,28 +2269,20 @@ export class HybridAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const targets = [context.getHandler(), context.getClass()]
 
-    const isPublic = this.reflector.getAllAndOverride<boolean>(
-      IS_PUBLIC_KEY,
-      targets,
-    )
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, targets)
 
     if (isPublic) {
       return true
     }
 
-    const request = context
-      .switchToHttp()
-      .getRequest<AuthenticatedRequest>()
+    const request = context.switchToHttp().getRequest<AuthenticatedRequest>()
 
     const rawToken = this.extractBearer(request.headers.authorization)
     const claims = await this.accessTokens.verify(rawToken)
 
     // 第一阶段故意默认 strong；步骤 11 再改成 bounded
     const consistency =
-      this.reflector.getAllAndOverride<AuthConsistency>(
-        AUTH_CONSISTENCY_KEY,
-        targets,
-      ) ?? 'strong'
+      this.reflector.getAllAndOverride<AuthConsistency>(AUTH_CONSISTENCY_KEY, targets) ?? 'strong'
 
     await this.authState.verify(claims, consistency)
 
@@ -2447,42 +2304,38 @@ export class HybridAuthGuard implements CanActivate {
 
     const [scheme, token, extra] = header.trim().split(/\s+/)
 
-    if (
-      extra ||
-      scheme?.toLowerCase() !== 'bearer' ||
-      !token
-    ) {
+    if (extra || scheme?.toLowerCase() !== 'bearer' || !token) {
       throw new UnauthorizedException('Authorization 格式错误')
     }
 
     return token
   }
 }
-~~~
+```
 
 ## 8.4 注册 APP_GUARD
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.module.ts
-~~~
+```
 
 在 import 中增加：
 
-~~~ts
+```ts
 import { APP_GUARD } from '@nestjs/core'
 import { HybridAuthGuard } from './guards/hybrid-auth.guard'
-~~~
+```
 
 在 providers 最后增加：
 
-~~~ts
+```ts
 {
   provide: APP_GUARD,
   useClass: HybridAuthGuard,
 },
-~~~
+```
 
 不要在 AppModule 再注册第二次相同 Guard。
 
@@ -2490,38 +2343,38 @@ import { HybridAuthGuard } from './guards/hybrid-auth.guard'
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.controller.ts
-~~~
+```
 
 把 Nest import 增加 Get：
 
-~~~ts
+```ts
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common'
-~~~
+```
 
 把 Swagger import 改成：
 
-~~~ts
+```ts
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
-~~~
+```
 
 增加两个 import：
 
-~~~ts
+```ts
 import { CurrentAuth } from '@/common/decorators/current-auth.decorator'
 import type { AuthPrincipal } from './auth.types'
-~~~
+```
 
 在 Controller 类中增加：
 
-~~~ts
+```ts
 @ApiBearerAuth('access-token')
 @Get('me')
 me(@CurrentAuth() auth: AuthPrincipal) {
   return auth
 }
-~~~
+```
 
 ApiBearerAuth 只控制 Swagger operation 的锁图标和 Authorization 输入。真正校验仍然是 HybridAuthGuard。
 
@@ -2529,27 +2382,27 @@ ApiBearerAuth 只控制 Swagger operation 的锁图标和 Authorization 输入�
 
 执行：
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 保持 dev server 运行，然后测试无 Token：
 
-~~~powershell
+```powershell
 try {
   Invoke-RestMethod -Uri "http://localhost:3000/auth/me"
 } catch {
   $_.Exception.Response.StatusCode.value__
 }
-~~~
+```
 
 应为 401。
 
 再使用步骤 7 保存的 Access Token：
 
-~~~powershell
+```powershell
 Invoke-RestMethod -Uri "http://localhost:3000/auth/me" -Headers @{ Authorization = "Bearer $accessToken" }
-~~~
+```
 
 应返回当前 userId、sessionId、accountEpoch、sessionVersion 和 tokenId，并经过统一响应包装。
 
@@ -2569,7 +2422,7 @@ Invoke-RestMethod -Uri "http://localhost:3000/auth/me" -Headers @{ Authorization
 
 每次调用 refresh 时：
 
-~~~text
+```text
 旧 Refresh Token active
 -> 数据库事务锁定 Token、Family、Session、User
 -> 旧 Token 改成 consumed
@@ -2577,11 +2430,11 @@ Invoke-RestMethod -Uri "http://localhost:3000/auth/me" -Headers @{ Authorization
 -> 插入新的 Refresh Token hash
 -> 返回新 Access JWT
 -> Cookie 替换成新的 Refresh Token
-~~~
+```
 
 如果再次使用已经 consumed 的旧 Token：
 
-~~~text
+```text
 Family -> compromised
 Session -> revoked
 Session version + 1
@@ -2589,7 +2442,7 @@ Session version + 1
 事务提交
 写 Redis revoked tombstone
 最后才返回 401
-~~~
+```
 
 特别注意：发现重放以后，不能在数据库事务内部直接 throw。直接 throw 会让刚执行的撤销更新一起回滚。
 
@@ -2597,12 +2450,12 @@ Session version + 1
 
 只给 Refresh Token 行加 `FOR UPDATE` 还不够。Refresh 通常从 Token、Family 开始查，logout 或管理员踢人通常从 Session 开始查。如果各条命令直接按自己的查询入口加行锁，就可能形成相反的锁顺序：
 
-~~~text
+```text
 Refresh：已经锁住 Token，等待 Session
 logout： 已经锁住 Session，等待 Token
 
 结果：死锁；或者依赖数据库偶然的加锁顺序，无法清楚定义谁先发生
-~~~
+```
 
 所以 advisory lock 的作用不是代替数据库行锁，也不是解决“最后提交覆盖”，而是让所有改变同一个 Session 的事务先经过同一个入口，统一锁顺序并明确事务先后。
 
@@ -2610,16 +2463,16 @@ logout： 已经锁住 Session，等待 Token
 
 第一次通过 Token hash 查询只能用来定位 sid。下面两条映射从创建到过期必须保持不可修改：
 
-~~~text
+```text
 refresh_tokens.family_id
 refresh_token_families.session_id
-~~~
+```
 
 不要通过 UPDATE 把已有 Token 或 Family 迁移到另一个 Session。确实需要重新绑定时，创建新的 Session、Family 和 Token，再撤销旧记录。否则第一次定位出来的 sid 可能在等待锁期间变化，事务就会锁错对象。
 
 统一协议如下：
 
-~~~text
+```text
 锁键：auth-session:<sid>
 
 Refresh：
@@ -2633,7 +2486,7 @@ logout / 管理员踢人：
   -> advisory lock(sid)
   -> 重新读取 Session，并 FOR UPDATE
   -> 撤销 Session + Family + active Refresh Token
-~~~
+```
 
 这里使用 `auth-session:` 前缀隔离 advisory-lock 命名空间。锁会随 PostgreSQL 事务提交或回滚自动释放，不要手动 unlock。
 
@@ -2645,22 +2498,17 @@ advisory lock 只协调所有**遵守这套协议**的代码，所以后面的 `
 
 将：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.repository.ts
-~~~
+```
 
 替换成下面的完整版本。这个版本同时提前加入后续退出和改密需要的方法，避免连续几步反复重写 Repository。
 
-~~~ts
+```ts
 import { Inject, Injectable } from '@nestjs/common'
 import { and, eq, inArray, sql } from 'drizzle-orm'
 import { DRIZZLE, type DrizzleDB } from '@/database/db.module'
-import {
-  authSessions,
-  refreshTokenFamilies,
-  refreshTokens,
-  users,
-} from '@/database/schema'
+import { authSessions, refreshTokenFamilies, refreshTokens, users } from '@/database/schema'
 
 @Injectable()
 export class AuthRepository {
@@ -2678,11 +2526,7 @@ export class AuthRepository {
     })
   }
 
-  async createUser(input: {
-    name: string
-    email: string
-    passwordHash: string
-  }) {
+  async createUser(input: { name: string; email: string; passwordHash: string }) {
     const [user] = await this.db
       .insert(users)
       .values({
@@ -2735,11 +2579,7 @@ export class AuthRepository {
     })
   }
 
-  rotateRefreshToken(input: {
-    currentTokenHash: string
-    nextTokenHash: string
-    now: Date
-  }) {
+  rotateRefreshToken(input: { currentTokenHash: string; nextTokenHash: string; now: Date }) {
     return this.db.transaction(async (tx) => {
       // 第一次查询只把不可变的 Token -> Family -> sid 映射找出来。
       // 这里读到的 status、version 等状态一律不能用于后续判断。
@@ -2748,10 +2588,7 @@ export class AuthRepository {
           sessionId: refreshTokenFamilies.sessionId,
         })
         .from(refreshTokens)
-        .innerJoin(
-          refreshTokenFamilies,
-          eq(refreshTokenFamilies.id, refreshTokens.familyId),
-        )
+        .innerJoin(refreshTokenFamilies, eq(refreshTokenFamilies.id, refreshTokens.familyId))
         .where(eq(refreshTokens.tokenHash, input.currentTokenHash))
         .limit(1)
 
@@ -2790,14 +2627,8 @@ export class AuthRepository {
           accountEpoch: users.authEpoch,
         })
         .from(refreshTokens)
-        .innerJoin(
-          refreshTokenFamilies,
-          eq(refreshTokenFamilies.id, refreshTokens.familyId),
-        )
-        .innerJoin(
-          authSessions,
-          eq(authSessions.id, refreshTokenFamilies.sessionId),
-        )
+        .innerJoin(refreshTokenFamilies, eq(refreshTokenFamilies.id, refreshTokens.familyId))
+        .innerJoin(authSessions, eq(authSessions.id, refreshTokenFamilies.sessionId))
         .innerJoin(users, eq(users.id, authSessions.userId))
         .where(
           and(
@@ -2827,12 +2658,7 @@ export class AuthRepository {
           .set({
             status: 'revoked',
           })
-          .where(
-            and(
-              eq(refreshTokens.familyId, row.familyId),
-              eq(refreshTokens.status, 'active'),
-            ),
-          )
+          .where(and(eq(refreshTokens.familyId, row.familyId), eq(refreshTokens.status, 'active')))
 
         const [updatedSession] = await tx
           .update(authSessions)
@@ -2885,12 +2711,7 @@ export class AuthRepository {
           status: 'consumed',
           consumedAt: input.now,
         })
-        .where(
-          and(
-            eq(refreshTokens.id, row.tokenId),
-            eq(refreshTokens.status, 'active'),
-          ),
-        )
+        .where(and(eq(refreshTokens.id, row.tokenId), eq(refreshTokens.status, 'active')))
         .returning()
 
       if (!consumed) {
@@ -2909,10 +2730,7 @@ export class AuthRepository {
           and(
             eq(refreshTokenFamilies.id, row.familyId),
             eq(refreshTokenFamilies.status, 'active'),
-            eq(
-              refreshTokenFamilies.currentGeneration,
-              row.tokenGeneration,
-            ),
+            eq(refreshTokenFamilies.currentGeneration, row.tokenGeneration),
           ),
         )
         .returning()
@@ -2946,11 +2764,7 @@ export class AuthRepository {
     })
   }
 
-  revokeSession(input: {
-    sessionId: string
-    userId?: number
-    reason: string
-  }) {
+  revokeSession(input: { sessionId: string; userId?: number; reason: string }) {
     return this.db.transaction(async (tx) => {
       const now = new Date()
 
@@ -2962,17 +2776,10 @@ export class AuthRepository {
       `)
 
       const condition = input.userId
-        ? and(
-            eq(authSessions.id, input.sessionId),
-            eq(authSessions.userId, input.userId),
-          )
+        ? and(eq(authSessions.id, input.sessionId), eq(authSessions.userId, input.userId))
         : eq(authSessions.id, input.sessionId)
 
-      const [session] = await tx
-        .select()
-        .from(authSessions)
-        .where(condition)
-        .for('update')
+      const [session] = await tx.select().from(authSessions).where(condition).for('update')
 
       if (!session) {
         return null
@@ -3029,10 +2836,7 @@ export class AuthRepository {
           .update(refreshTokens)
           .set({ status: 'revoked' })
           .where(
-            and(
-              inArray(refreshTokens.familyId, familyIds),
-              eq(refreshTokens.status, 'active'),
-            ),
+            and(inArray(refreshTokens.familyId, familyIds), eq(refreshTokens.status, 'active')),
           )
       }
 
@@ -3048,11 +2852,7 @@ export class AuthRepository {
 
   bumpAccountEpoch(userId: number) {
     return this.db.transaction(async (tx) => {
-      const [account] = await tx
-        .select()
-        .from(users)
-        .where(eq(users.id, userId))
-        .for('update')
+      const [account] = await tx.select().from(users).where(eq(users.id, userId)).for('update')
 
       if (!account) {
         return null
@@ -3106,19 +2906,19 @@ export class AuthRepository {
     })
   }
 }
-~~~
+```
 
 ## 9.2 在 AuthService 增加 refresh
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.service.ts
-~~~
+```
 
 把 UnauthorizedException 保留在 import 中，然后在 AuthService 类内增加：
 
-~~~ts
+```ts
 async refresh(rawToken: string | undefined): Promise<IssuedTokenPair> {
   if (!rawToken) {
     throw new UnauthorizedException('缺少 Refresh Token')
@@ -3158,19 +2958,19 @@ async refresh(rawToken: string | undefined): Promise<IssuedTokenPair> {
     refreshToken: nextToken.raw,
   }
 }
-~~~
+```
 
 ## 9.3 在 Controller 增加 refresh 接口
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.controller.ts
-~~~
+```
 
 在 Controller 类内增加：
 
-~~~ts
+```ts
 @Public()
 @Post('refresh')
 async refresh(
@@ -3188,21 +2988,21 @@ async refresh(
     expiresIn: result.accessExpiresIn,
   }
 }
-~~~
+```
 
 request.cookies 的类型由 @fastify/cookie 增强。如果 TypeScript 提示 cookies 不存在，先确认 main.ts 已注册插件并且依赖已正确安装。
 
 ## 9.4 构建
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 ## 9.5 验收正常轮换
 
 重新登录并保存旧 Cookie：
 
-~~~powershell
+```powershell
 $web = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 $body = @{ email = "auth-test@example.com"; password = "Correct-Horse-Battery-123!" } | ConvertTo-Json
 $login = Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/login" -ContentType "application/json" -Body $body -WebSession $web
@@ -3213,7 +3013,7 @@ $newAccessToken = $refresh.data.accessToken
 $newCookie = $web.Cookies.GetCookies("http://localhost:3000")["refresh_token"].Value
 
 $oldCookie -eq $newCookie
-~~~
+```
 
 最后一行必须是 False。
 
@@ -3228,7 +3028,7 @@ $oldCookie -eq $newCookie
 
 创建一个只携带旧 Cookie 的新 WebSession：
 
-~~~powershell
+```powershell
 $replay = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 $cookie = New-Object System.Net.Cookie("refresh_token", $oldCookie, "/auth", "localhost")
 $replay.Cookies.Add($cookie)
@@ -3238,7 +3038,7 @@ try {
 } catch {
   $_.Exception.Response.StatusCode.value__
 }
-~~~
+```
 
 应返回 401。
 
@@ -3283,14 +3083,14 @@ try {
 
 实现两个不同的失效维度：
 
-~~~text
+```text
 单设备失效
   Session status -> revoked
   sessionVersion + 1
 
 全部设备失效
   accountAuthEpoch + 1
-~~~
+```
 
 退出全部设备和改密不扫描每一个 Session，也不向每个微服务广播每一个 Session。只更新一次账号 epoch，并发送一个账号级事件。
 
@@ -3298,13 +3098,13 @@ try {
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/dto/change-password.dto.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
@@ -3318,34 +3118,28 @@ const ChangePasswordSchema = z
     path: ['newPassword'],
   })
 
-export class ChangePasswordDto extends createZodDto(
-  ChangePasswordSchema,
-) {}
-~~~
+export class ChangePasswordDto extends createZodDto(ChangePasswordSchema) {}
+```
 
 ## 10.2 扩展 AuthService
 
 打开：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.service.ts
-~~~
+```
 
 在 Nest import 中加入 ConflictException：
 
-~~~ts
-import {
-  ConflictException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common'
-~~~
+```ts
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common'
+```
 
 如果之前已经有 ConflictException，不要重复导入。
 
 在 AuthService 类内增加：
 
-~~~ts
+```ts
 async logoutCurrent(input: {
   userId: string
   sessionId: string
@@ -3426,7 +3220,7 @@ async changePassword(input: {
     epoch: updated.authEpoch,
   })
 }
-~~~
+```
 
 revokeSessionByAdmin 只是领域方法。当前项目没有 RBAC，所以不要直接创建一个“任何登录用户都能踢任意 sid”的 Controller。等你有管理员权限 Guard 后，再把这个方法接到管理员接口，并同时使用 StrongAuth。
 
@@ -3434,28 +3228,25 @@ revokeSessionByAdmin 只是领域方法。当前项目没有 RBAC，所以不要
 
 打开：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.controller.ts
-~~~
+```
 
 增加 import：
 
-~~~ts
+```ts
 import { CurrentAuth } from '@/common/decorators/current-auth.decorator'
 import { StrongAuth } from '@/common/decorators/strong-auth.decorator'
 import type { AuthPrincipal } from './auth.types'
 import { ChangePasswordDto } from './dto/change-password.dto'
-import {
-  clearRefreshCookie,
-  setRefreshCookie,
-} from './http/refresh-cookie'
-~~~
+import { clearRefreshCookie, setRefreshCookie } from './http/refresh-cookie'
+```
 
 如果已有 CurrentAuth、AuthPrincipal 或 setRefreshCookie import，请合并，不要重复。
 
 在 Controller 类内增加：
 
-~~~ts
+```ts
 @StrongAuth()
 @ApiBearerAuth('access-token')
 @Post('logout')
@@ -3505,7 +3296,7 @@ async changePassword(
 
   return null
 }
-~~~
+```
 
 改密后当前设备也会失效，因为 accountAuthEpoch 已增加。前端收到成功响应后应清空内存 Access Token，并跳转登录页。
 
@@ -3513,15 +3304,15 @@ async changePassword(
 
 ## 10.4 构建
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 ## 10.5 验收单设备退出
 
 分别创建两个 WebSession 并登录同一个账号：
 
-~~~powershell
+```powershell
 $web1 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 $web2 = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 $body = @{ email = "auth-test@example.com"; password = "Correct-Horse-Battery-123!" } | ConvertTo-Json
@@ -3531,17 +3322,17 @@ $login2 = Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/login"
 
 $token1 = $login1.data.accessToken
 $token2 = $login2.data.accessToken
-~~~
+```
 
 退出第一个 Session：
 
-~~~powershell
+```powershell
 Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/logout" -Headers @{ Authorization = "Bearer $token1" } -WebSession $web1
-~~~
+```
 
 然后分别调用 me：
 
-~~~powershell
+```powershell
 try {
   Invoke-RestMethod -Uri "http://localhost:3000/auth/me" -Headers @{ Authorization = "Bearer $token1" }
 } catch {
@@ -3549,7 +3340,7 @@ try {
 }
 
 Invoke-RestMethod -Uri "http://localhost:3000/auth/me" -Headers @{ Authorization = "Bearer $token2" }
-~~~
+```
 
 预期：
 
@@ -3562,9 +3353,9 @@ Invoke-RestMethod -Uri "http://localhost:3000/auth/me" -Headers @{ Authorization
 
 使用仍有效的 token2：
 
-~~~powershell
+```powershell
 Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/logout-all" -Headers @{ Authorization = "Bearer $token2" } -WebSession $web2
-~~~
+```
 
 预期：
 
@@ -3579,7 +3370,7 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/logout-all" -Hea
 
 先重新登录并明确取得一枚新的 Access Token。不要继续复用步骤 9 或步骤 10.6 中已经被撤销的变量：
 
-~~~powershell
+```powershell
 $webChange = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 $loginBody = @{
   email = "auth-test@example.com"
@@ -3595,7 +3386,7 @@ $changeBody = @{
 } | ConvertTo-Json
 
 Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/change-password" -ContentType "application/json" -Body $changeBody -Headers @{ Authorization = "Bearer $accessTokenForChange" } -WebSession $webChange
-~~~
+```
 
 预期：
 
@@ -3661,9 +3452,9 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/change-password"
 
 执行：
 
-~~~powershell
+```powershell
 vp add lru-cache --filter server --save-catalog
-~~~
+```
 
 不要使用无限增长的 Map 作为用户缓存。
 
@@ -3671,13 +3462,13 @@ vp add lru-cache --filter server --save-catalog
 
 把：
 
-~~~text
+```text
 apps/server/src/modules/auth/state/auth-state.service.ts
-~~~
+```
 
 替换成下面完整代码：
 
-~~~ts
+```ts
 import { InjectRedis } from '@nestjs-modules/ioredis'
 import {
   Inject,
@@ -3855,30 +3646,16 @@ function sessionCacheKey(userId: string, sessionId: string) {
 }
 
 function singleFlightKey(claims: AccessTokenClaims) {
-  return [
-    claims.sub,
-    claims.sid,
-    String(claims.ae),
-    String(claims.sv),
-  ].join(':')
+  return [claims.sub, claims.sid, String(claims.ae), String(claims.sv)].join(':')
 }
 
 @Injectable()
 export class AuthStateService {
-  private readonly accountCache: LRUCache<
-    string,
-    CacheEntry<AccountAuthState>
-  >
+  private readonly accountCache: LRUCache<string, CacheEntry<AccountAuthState>>
 
-  private readonly sessionCache: LRUCache<
-    string,
-    CacheEntry<SessionAuthState>
-  >
+  private readonly sessionCache: LRUCache<string, CacheEntry<SessionAuthState>>
 
-  private readonly inFlight = new Map<
-    string,
-    Promise<AuthStateSnapshot>
-  >()
+  private readonly inFlight = new Map<string, Promise<AuthStateSnapshot>>()
 
   private readonly accountPullFences = new Map<string, PullFence>()
   private readonly sessionPullFences = new Map<string, PullFence>()
@@ -3903,10 +3680,7 @@ export class AuthStateService {
     })
   }
 
-  async verify(
-    claims: AccessTokenClaims,
-    consistency: AuthConsistency,
-  ) {
+  async verify(claims: AccessTokenClaims, consistency: AuthConsistency) {
     const snapshot =
       consistency === 'strong'
         ? await this.pullSnapshot(claims)
@@ -3920,17 +3694,13 @@ export class AuthStateService {
       const result = await this.projectAccount(state)
 
       if (result === 'stale') {
-        throw new ServiceUnavailableException(
-          '账号鉴权状态已经存在更高版本',
-        )
+        throw new ServiceUnavailableException('账号鉴权状态已经存在更高版本')
       }
 
       const entry = this.mergeAccountCache(state)
 
       if (entry.versionFloor > state.epoch) {
-        throw new ServiceUnavailableException(
-          '账号鉴权状态正在发生并发变化',
-        )
+        throw new ServiceUnavailableException('账号鉴权状态正在发生并发变化')
       }
     } catch (error) {
       this.accountCache.delete(state.userId)
@@ -3945,17 +3715,13 @@ export class AuthStateService {
       const result = await this.projectSession(state)
 
       if (result === 'stale') {
-        throw new ServiceUnavailableException(
-          'Session 鉴权状态已经存在更高版本',
-        )
+        throw new ServiceUnavailableException('Session 鉴权状态已经存在更高版本')
       }
 
       const entry = this.mergeSessionCache(state)
 
       if (entry.versionFloor > state.version) {
-        throw new ServiceUnavailableException(
-          'Session 鉴权状态正在发生并发变化',
-        )
+        throw new ServiceUnavailableException('Session 鉴权状态正在发生并发变化')
       }
     } catch (error) {
       this.sessionCache.delete(key)
@@ -3980,11 +3746,7 @@ export class AuthStateService {
     entry.dirty = entry.versionFloor > entry.value.epoch
   }
 
-  markSessionDirty(
-    userId: string,
-    sessionId: string,
-    version: number,
-  ) {
+  markSessionDirty(userId: string, sessionId: string, version: number) {
     const key = sessionCacheKey(userId, sessionId)
     const fence = this.sessionPullFences.get(key)
 
@@ -4002,27 +3764,15 @@ export class AuthStateService {
     entry.dirty = entry.versionFloor > entry.value.version
   }
 
-  private async getBoundedSnapshot(
-    claims: AccessTokenClaims,
-  ): Promise<AuthStateSnapshot> {
+  private async getBoundedSnapshot(claims: AccessTokenClaims): Promise<AuthStateSnapshot> {
     const account = this.accountCache.get(claims.sub)
-    const session = this.sessionCache.get(
-      sessionCacheKey(claims.sub, claims.sid),
-    )
+    const session = this.sessionCache.get(sessionCacheKey(claims.sub, claims.sid))
 
-    if (
-      account &&
-      (account.value.epoch > claims.ae ||
-        account.versionFloor > claims.ae)
-    ) {
+    if (account && (account.value.epoch > claims.ae || account.versionFloor > claims.ae)) {
       throw new UnauthorizedException('登录状态已失效')
     }
 
-    if (
-      session &&
-      (session.value.version > claims.sv ||
-        session.versionFloor > claims.sv)
-    ) {
+    if (session && (session.value.version > claims.sv || session.versionFloor > claims.sv)) {
       throw new UnauthorizedException('登录状态已失效')
     }
 
@@ -4043,9 +3793,7 @@ export class AuthStateService {
     return this.pullSnapshotSingleFlight(claims)
   }
 
-  private pullSnapshotSingleFlight(
-    claims: AccessTokenClaims,
-  ): Promise<AuthStateSnapshot> {
+  private pullSnapshotSingleFlight(claims: AccessTokenClaims): Promise<AuthStateSnapshot> {
     const key = singleFlightKey(claims)
     const existing = this.inFlight.get(key)
 
@@ -4061,13 +3809,8 @@ export class AuthStateService {
     return task
   }
 
-  private async pullSnapshot(
-    claims: AccessTokenClaims,
-  ): Promise<AuthStateSnapshot> {
-    const sessionCacheId = sessionCacheKey(
-      claims.sub,
-      claims.sid,
-    )
+  private async pullSnapshot(claims: AccessTokenClaims): Promise<AuthStateSnapshot> {
+    const sessionCacheId = sessionCacheKey(claims.sub, claims.sid)
 
     const accountFence = this.acquireFence(
       this.accountPullFences,
@@ -4083,10 +3826,7 @@ export class AuthStateService {
 
     try {
       for (let attempt = 0; attempt < 2; attempt += 1) {
-        const shared = await this.readShared(
-          claims.sub,
-          claims.sid,
-        )
+        const shared = await this.readShared(claims.sub, claims.sid)
 
         const accountEntry = shared.account
           ? this.mergeAccountCache(shared.account)
@@ -4125,43 +3865,31 @@ export class AuthStateService {
           }
         }
 
-        const database = await this.loadDatabaseSnapshot(
-          claims.sub,
-          claims.sid,
-        )
+        const database = await this.loadDatabaseSnapshot(claims.sub, claims.sid)
 
         if (!database) {
           throw new UnauthorizedException('登录状态不存在')
         }
 
-        if (
-          database.account.epoch < claims.ae ||
-          database.session.version < claims.sv
-        ) {
-          throw new ServiceUnavailableException(
-            '鉴权事实库版本落后于 JWT',
-          )
+        if (database.account.epoch < claims.ae || database.session.version < claims.sv) {
+          throw new ServiceUnavailableException('鉴权事实库版本落后于 JWT')
         }
 
         let accountProjection: ProjectionWriteResult
         let sessionProjection: ProjectionWriteResult
 
         try {
-          ;[accountProjection, sessionProjection] =
-            await Promise.all([
-              this.projectAccount(database.account),
-              this.projectSession(database.session),
-            ])
+          ;[accountProjection, sessionProjection] = await Promise.all([
+            this.projectAccount(database.account),
+            this.projectSession(database.session),
+          ])
         } catch (error) {
           this.accountCache.delete(claims.sub)
           this.sessionCache.delete(sessionCacheId)
           throw error
         }
 
-        if (
-          accountProjection === 'stale' ||
-          sessionProjection === 'stale'
-        ) {
+        if (accountProjection === 'stale' || sessionProjection === 'stale') {
           continue
         }
 
@@ -4189,21 +3917,11 @@ export class AuthStateService {
         }
       }
 
-      throw new ServiceUnavailableException(
-        '鉴权状态正在变化，请稍后重试',
-      )
+      throw new ServiceUnavailableException('鉴权状态正在变化，请稍后重试')
     } finally {
-      this.releaseFence(
-        this.accountPullFences,
-        claims.sub,
-        accountFence,
-      )
+      this.releaseFence(this.accountPullFences, claims.sub, accountFence)
 
-      this.releaseFence(
-        this.sessionPullFences,
-        sessionCacheId,
-        sessionFence,
-      )
+      this.releaseFence(this.sessionPullFences, sessionCacheId, sessionFence)
     }
   }
 
@@ -4236,11 +3954,7 @@ export class AuthStateService {
       ] = raw.map((value) => String(value ?? ''))
 
       return {
-        account: this.parseAccount(
-          userId,
-          accountEpoch,
-          accountStatus,
-        ),
+        account: this.parseAccount(userId, accountEpoch, accountStatus),
         session: this.parseSession(
           userId,
           sessionId,
@@ -4251,9 +3965,7 @@ export class AuthStateService {
         ),
       }
     } catch {
-      throw new ServiceUnavailableException(
-        '共享鉴权状态暂时不可用',
-      )
+      throw new ServiceUnavailableException('共享鉴权状态暂时不可用')
     }
   }
 
@@ -4263,10 +3975,7 @@ export class AuthStateService {
   ): Promise<AuthStateSnapshot | null> {
     const numericUserId = Number(userId)
 
-    if (
-      !Number.isSafeInteger(numericUserId) ||
-      numericUserId <= 0
-    ) {
+    if (!Number.isSafeInteger(numericUserId) || numericUserId <= 0) {
       return null
     }
 
@@ -4284,10 +3993,7 @@ export class AuthStateService {
         .from(users)
         .innerJoin(
           authSessions,
-          and(
-            eq(authSessions.userId, users.id),
-            eq(authSessions.id, sessionId),
-          ),
+          and(eq(authSessions.userId, users.id), eq(authSessions.id, sessionId)),
         )
         .where(eq(users.id, numericUserId))
         .limit(1)
@@ -4311,15 +4017,11 @@ export class AuthStateService {
         },
       }
     } catch {
-      throw new ServiceUnavailableException(
-        '鉴权事实库暂时不可用',
-      )
+      throw new ServiceUnavailableException('鉴权事实库暂时不可用')
     }
   }
 
-  private async projectAccount(
-    state: AccountAuthState,
-  ): Promise<ProjectionWriteResult> {
+  private async projectAccount(state: AccountAuthState): Promise<ProjectionWriteResult> {
     let raw: unknown
 
     try {
@@ -4331,29 +4033,20 @@ export class AuthStateService {
         state.status,
       )
     } catch {
-      throw new ServiceUnavailableException(
-        '账号鉴权状态暂时不可用',
-      )
+      throw new ServiceUnavailableException('账号鉴权状态暂时不可用')
     }
 
     return this.decodeProjectionResult(raw, '账号')
   }
 
-  private async projectSession(
-    state: SessionAuthState,
-  ): Promise<ProjectionWriteResult> {
+  private async projectSession(state: SessionAuthState): Promise<ProjectionWriteResult> {
     const auth = this.config.getOrThrow<AuthConfig>('auth')
-    const activeTtl = Math.ceil(
-      (state.expiresAtMs - Date.now()) / 1000,
-    )
+    const activeTtl = Math.ceil((state.expiresAtMs - Date.now()) / 1000)
 
     const ttlSeconds =
       state.status === 'revoked'
         ? auth.tombstoneTtlSeconds
-        : Math.max(
-            activeTtl,
-            auth.tombstoneTtlSeconds,
-          )
+        : Math.max(activeTtl, auth.tombstoneTtlSeconds)
 
     let raw: unknown
 
@@ -4369,18 +4062,13 @@ export class AuthStateService {
         String(ttlSeconds),
       )
     } catch {
-      throw new ServiceUnavailableException(
-        'Session 鉴权状态暂时不可用',
-      )
+      throw new ServiceUnavailableException('Session 鉴权状态暂时不可用')
     }
 
     return this.decodeProjectionResult(raw, 'Session')
   }
 
-  private decodeProjectionResult(
-    raw: unknown,
-    aggregateName: string,
-  ): ProjectionWriteResult {
+  private decodeProjectionResult(raw: unknown, aggregateName: string): ProjectionWriteResult {
     const code = Number(raw)
 
     if (code === 1) {
@@ -4395,9 +4083,7 @@ export class AuthStateService {
       return 'stale'
     }
 
-    throw new ServiceUnavailableException(
-      aggregateName + '鉴权状态存在版本冲突',
-    )
+    throw new ServiceUnavailableException(aggregateName + '鉴权状态存在版本冲突')
   }
 
   private mergeSnapshot(snapshot: AuthStateSnapshot) {
@@ -4407,21 +4093,13 @@ export class AuthStateService {
     }
   }
 
-  private mergeAccountCache(
-    state: AccountAuthState,
-  ): CacheEntry<AccountAuthState> {
+  private mergeAccountCache(state: AccountAuthState): CacheEntry<AccountAuthState> {
     const previous = this.accountCache.peek(state.userId)
-    const fenceFloor =
-      this.accountPullFences.get(state.userId)?.versionFloor ?? 0
+    const fenceFloor = this.accountPullFences.get(state.userId)?.versionFloor ?? 0
 
     if (previous && previous.value.epoch > state.epoch) {
-      previous.versionFloor = Math.max(
-        previous.versionFloor,
-        previous.value.epoch,
-        fenceFloor,
-      )
-      previous.dirty =
-        previous.versionFloor > previous.value.epoch
+      previous.versionFloor = Math.max(previous.versionFloor, previous.value.epoch, fenceFloor)
+      previous.dirty = previous.versionFloor > previous.value.epoch
 
       return previous
     }
@@ -4429,21 +4107,14 @@ export class AuthStateService {
     if (
       previous &&
       previous.value.epoch === state.epoch &&
-      (previous.value.userId !== state.userId ||
-        previous.value.status !== state.status)
+      (previous.value.userId !== state.userId || previous.value.status !== state.status)
     ) {
       this.accountCache.delete(state.userId)
 
-      throw new ServiceUnavailableException(
-        'L1 账号状态出现同版本冲突',
-      )
+      throw new ServiceUnavailableException('L1 账号状态出现同版本冲突')
     }
 
-    const versionFloor = Math.max(
-      previous?.versionFloor ?? 0,
-      fenceFloor,
-      state.epoch,
-    )
+    const versionFloor = Math.max(previous?.versionFloor ?? 0, fenceFloor, state.epoch)
 
     const entry: CacheEntry<AccountAuthState> = {
       value: state,
@@ -4455,26 +4126,15 @@ export class AuthStateService {
     return entry
   }
 
-  private mergeSessionCache(
-    state: SessionAuthState,
-  ): CacheEntry<SessionAuthState> {
-    const key = sessionCacheKey(
-      state.userId,
-      state.sessionId,
-    )
+  private mergeSessionCache(state: SessionAuthState): CacheEntry<SessionAuthState> {
+    const key = sessionCacheKey(state.userId, state.sessionId)
 
     const previous = this.sessionCache.peek(key)
-    const fenceFloor =
-      this.sessionPullFences.get(key)?.versionFloor ?? 0
+    const fenceFloor = this.sessionPullFences.get(key)?.versionFloor ?? 0
 
     if (previous && previous.value.version > state.version) {
-      previous.versionFloor = Math.max(
-        previous.versionFloor,
-        previous.value.version,
-        fenceFloor,
-      )
-      previous.dirty =
-        previous.versionFloor > previous.value.version
+      previous.versionFloor = Math.max(previous.versionFloor, previous.value.version, fenceFloor)
+      previous.dirty = previous.versionFloor > previous.value.version
 
       return previous
     }
@@ -4489,27 +4149,16 @@ export class AuthStateService {
     ) {
       this.sessionCache.delete(key)
 
-      throw new ServiceUnavailableException(
-        'L1 Session 状态出现同版本冲突',
-      )
+      throw new ServiceUnavailableException('L1 Session 状态出现同版本冲突')
     }
 
-    if (
-      previous?.value.status === 'revoked' &&
-      state.status === 'active'
-    ) {
+    if (previous?.value.status === 'revoked' && state.status === 'active') {
       this.sessionCache.delete(key)
 
-      throw new ServiceUnavailableException(
-        '禁止恢复已经撤销的 Session',
-      )
+      throw new ServiceUnavailableException('禁止恢复已经撤销的 Session')
     }
 
-    const versionFloor = Math.max(
-      previous?.versionFloor ?? 0,
-      fenceFloor,
-      state.version,
-    )
+    const versionFloor = Math.max(previous?.versionFloor ?? 0, fenceFloor, state.version)
 
     const entry: CacheEntry<SessionAuthState> = {
       value: state,
@@ -4528,20 +4177,11 @@ export class AuthStateService {
     accountFence: PullFence,
     sessionFence: PullFence,
   ) {
-    const accountFloor = Math.max(
-      account?.versionFloor ?? 0,
-      accountFence.versionFloor,
-    )
+    const accountFloor = Math.max(account?.versionFloor ?? 0, accountFence.versionFloor)
 
-    const sessionFloor = Math.max(
-      session?.versionFloor ?? 0,
-      sessionFence.versionFloor,
-    )
+    const sessionFloor = Math.max(session?.versionFloor ?? 0, sessionFence.versionFloor)
 
-    if (
-      accountFloor > claims.ae ||
-      sessionFloor > claims.sv
-    ) {
+    if (accountFloor > claims.ae || sessionFloor > claims.sv) {
       throw new UnauthorizedException('登录状态已失效')
     }
   }
@@ -4554,15 +4194,9 @@ export class AuthStateService {
     accountFence: PullFence,
     sessionFence: PullFence,
   ) {
-    const accountFloor = Math.max(
-      account?.versionFloor ?? 0,
-      accountFence.versionFloor,
-    )
+    const accountFloor = Math.max(account?.versionFloor ?? 0, accountFence.versionFloor)
 
-    const sessionFloor = Math.max(
-      session?.versionFloor ?? 0,
-      sessionFence.versionFloor,
-    )
+    const sessionFloor = Math.max(session?.versionFloor ?? 0, sessionFence.versionFloor)
 
     return (
       snapshot.account.epoch >= claims.ae &&
@@ -4572,19 +4206,12 @@ export class AuthStateService {
     )
   }
 
-  private acquireFence(
-    map: Map<string, PullFence>,
-    key: string,
-    initialFloor: number,
-  ) {
+  private acquireFence(map: Map<string, PullFence>, key: string, initialFloor: number) {
     const existing = map.get(key)
 
     if (existing) {
       existing.references += 1
-      existing.versionFloor = Math.max(
-        existing.versionFloor,
-        initialFloor,
-      )
+      existing.versionFloor = Math.max(existing.versionFloor, initialFloor)
 
       return existing
     }
@@ -4598,11 +4225,7 @@ export class AuthStateService {
     return fence
   }
 
-  private releaseFence(
-    map: Map<string, PullFence>,
-    key: string,
-    fence: PullFence,
-  ) {
+  private releaseFence(map: Map<string, PullFence>, key: string, fence: PullFence) {
     const current = map.get(key)
 
     if (current !== fence) {
@@ -4669,17 +4292,9 @@ export class AuthStateService {
     }
   }
 
-  private assertAllowed(
-    snapshot: AuthStateSnapshot,
-    claims: AccessTokenClaims,
-  ) {
-    if (
-      snapshot.account.epoch < claims.ae ||
-      snapshot.session.version < claims.sv
-    ) {
-      throw new ServiceUnavailableException(
-        '鉴权状态投影落后',
-      )
+  private assertAllowed(snapshot: AuthStateSnapshot, claims: AccessTokenClaims) {
+    if (snapshot.account.epoch < claims.ae || snapshot.session.version < claims.sv) {
+      throw new ServiceUnavailableException('鉴权状态投影落后')
     }
 
     const accepted =
@@ -4695,7 +4310,7 @@ export class AuthStateService {
     }
   }
 }
-~~~
+```
 
 这版缓存代码必须保留以下行为：
 
@@ -4721,21 +4336,21 @@ export class AuthStateService {
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/guards/hybrid-auth.guard.ts
-~~~
+```
 
 找到：
 
-~~~ts
+```ts
 ) ?? 'strong'
-~~~
+```
 
 改成：
 
-~~~ts
+```ts
 ) ?? 'bounded'
-~~~
+```
 
 现在规则变成：
 
@@ -4745,22 +4360,22 @@ apps/server/src/modules/auth/guards/hybrid-auth.guard.ts
 
 建议：
 
-| 接口 | 模式 |
-| --- | --- |
-| 普通列表、详情、搜索 | bounded |
-| 修改密码 | strong |
-| 退出全部设备 | strong |
-| 管理员踢人 | strong |
+| 接口                 | 模式                       |
+| -------------------- | -------------------------- |
+| 普通列表、详情、搜索 | bounded                    |
+| 修改密码             | strong                     |
+| 退出全部设备         | strong                     |
+| 管理员踢人           | strong                     |
 | 付款、提现、绑定密钥 | strong，并考虑 Recent Auth |
-| 登录、注册、刷新 | Public |
+| 登录、注册、刷新     | Public                     |
 
 写接口不一定全部 strong，但只要操作会扩大权限、转移资产或修改认证状态，就应该 strong。
 
 ## 11.4 构建
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 ## 11.5 验收 bounded 延迟
 
@@ -4768,21 +4383,21 @@ vp run "server#build"
 
 终端 A：
 
-~~~powershell
+```powershell
 $env:PORT = "3000"
 vp run "server#dev"
-~~~
+```
 
 终端 B：
 
-~~~powershell
+```powershell
 $env:PORT = "3001"
 vp run "server#dev"
-~~~
+```
 
 另开第三个 PowerShell，按下面的命令创建 Session，并先调用 A 的普通 me，让 A 写入 L1：
 
-~~~powershell
+```powershell
 $boundedWeb = New-Object Microsoft.PowerShell.Commands.WebRequestSession
 $boundedBody = @{
   email = "auth-test@example.com"
@@ -4793,27 +4408,27 @@ $boundedLogin = Invoke-RestMethod -Method Post -Uri "http://localhost:3000/auth/
 $boundedToken = $boundedLogin.data.accessToken
 
 Invoke-RestMethod -Uri "http://localhost:3000/auth/me" -Headers @{ Authorization = "Bearer $boundedToken" }
-~~~
+```
 
 然后让实例 B 使用同一枚 JWT 撤销这个 Session：
 
-~~~powershell
+```powershell
 Invoke-RestMethod -Method Post -Uri "http://localhost:3001/auth/logout" -Headers @{ Authorization = "Bearer $boundedToken" } -WebSession $boundedWeb
-~~~
+```
 
 因为此时还没有 Pub/Sub，立刻请求 A 时可能仍然成功：
 
-~~~powershell
+```powershell
 try {
   Invoke-RestMethod -Uri "http://localhost:3000/auth/me" -Headers @{ Authorization = "Bearer $boundedToken" }
 } catch {
   $_.Exception.Response.StatusCode.value__
 }
-~~~
+```
 
 等待一个完整 TTL 加少量余量后再次请求：
 
-~~~powershell
+```powershell
 Start-Sleep -Seconds 32
 
 try {
@@ -4821,7 +4436,7 @@ try {
 } catch {
   $_.Exception.Response.StatusCode.value__
 }
-~~~
+```
 
 第二次必须得到 401。如果 Redis 写入失败、Outbox 尚在恢复或本机调度发生明显暂停，收敛时间还会叠加对应延迟，因此生产监控应记录实际撤销传播时间，不能只观察配置里的 30_000。
 
@@ -4855,7 +4470,7 @@ try {
 
 流程是：
 
-~~~text
+```text
 状态修改服务
 -> PostgreSQL 提交
 -> 同步写 Redis Auth State
@@ -4866,7 +4481,7 @@ try {
 -> 如果本地根本没缓存该用户，忽略
 -> 如果本地有旧缓存，标 dirty 和 versionFloor
 -> 下一个请求再 Pull
-~~~
+```
 
 这就是推拉结合。Push 只传失效提示，Pull 才拿真实状态。
 
@@ -4874,13 +4489,13 @@ try {
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/state/auth-state.events.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 export type AuthStateInvalidationEvent =
   | {
       type: 'account.changed'
@@ -4893,7 +4508,7 @@ export type AuthStateInvalidationEvent =
       sessionId: string
       version: number
     }
-~~~
+```
 
 事件不携带密码、Token、完整用户资料或权限列表。
 
@@ -4901,22 +4516,19 @@ export type AuthStateInvalidationEvent =
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/state/auth-state.publisher.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { InjectRedis } from '@nestjs-modules/ioredis'
 import { Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import type Redis from 'ioredis'
 import type { AuthConfig } from '@/config/auth.config'
-import type {
-  AccountAuthState,
-  SessionAuthState,
-} from '../auth.types'
+import type { AccountAuthState, SessionAuthState } from '../auth.types'
 import type { AuthStateInvalidationEvent } from './auth-state.events'
 
 @Injectable()
@@ -4949,39 +4561,29 @@ export class AuthStatePublisher {
     const auth = this.config.getOrThrow<AuthConfig>('auth')
 
     try {
-      await this.redis.publish(
-        auth.eventChannel,
-        JSON.stringify(event),
-      )
+      await this.redis.publish(auth.eventChannel, JSON.stringify(event))
     } catch (error) {
       // Redis Auth State 已经同步写入，所以 Pub/Sub 失败不回滚业务。
       // 步骤 13 的 Outbox Worker 会负责重试发布。
-      this.logger.warn(
-        'Auth State 失效事件发布失败：' + String(error),
-      )
+      this.logger.warn('Auth State 失效事件发布失败：' + String(error))
     }
   }
 }
-~~~
+```
 
 ## 12.3 新增 Subscriber
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/state/auth-state.subscriber.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { InjectRedis } from '@nestjs-modules/ioredis'
-import {
-  Injectable,
-  Logger,
-  type OnModuleDestroy,
-  type OnModuleInit,
-} from '@nestjs/common'
+import { Injectable, Logger, type OnModuleDestroy, type OnModuleInit } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import type Redis from 'ioredis'
 import type { AuthConfig } from '@/config/auth.config'
@@ -4989,9 +4591,7 @@ import type { AuthStateInvalidationEvent } from './auth-state.events'
 import { AuthStateService } from './auth-state.service'
 
 @Injectable()
-export class AuthStateSubscriber
-  implements OnModuleInit, OnModuleDestroy
-{
+export class AuthStateSubscriber implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(AuthStateSubscriber.name)
   private readonly subscriber: Redis
 
@@ -5031,10 +4631,7 @@ export class AuthStateSubscriber
         typeof event.userId === 'string' &&
         Number.isSafeInteger(event.version)
       ) {
-        this.authState.markAccountDirty(
-          event.userId,
-          event.version,
-        )
+        this.authState.markAccountDirty(event.userId, event.version)
         return
       }
 
@@ -5044,18 +4641,14 @@ export class AuthStateSubscriber
         typeof event.sessionId === 'string' &&
         Number.isSafeInteger(event.version)
       ) {
-        this.authState.markSessionDirty(
-          event.userId,
-          event.sessionId,
-          event.version,
-        )
+        this.authState.markSessionDirty(event.userId, event.sessionId, event.version)
       }
     } catch (error) {
       this.logger.warn('忽略非法 Auth State 事件：' + String(error))
     }
   }
 }
-~~~
+```
 
 Subscriber 必须使用 redis.duplicate。不能把普通命令连接直接拿去 subscribe。
 
@@ -5063,97 +4656,97 @@ Subscriber 必须使用 redis.duplicate。不能把普通命令连接直接拿�
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.module.ts
-~~~
+```
 
 增加 import：
 
-~~~ts
+```ts
 import { AuthStatePublisher } from './state/auth-state.publisher'
 import { AuthStateSubscriber } from './state/auth-state.subscriber'
-~~~
+```
 
 在 providers 中增加：
 
-~~~ts
+```ts
 AuthStatePublisher,
 AuthStateSubscriber,
-~~~
+```
 
 ## 12.5 让状态修改后发布事件
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.service.ts
-~~~
+```
 
 增加 import：
 
-~~~ts
+```ts
 import { AuthStatePublisher } from './state/auth-state.publisher'
-~~~
+```
 
 在 constructor 增加依赖：
 
-~~~ts
+```ts
 private readonly authEvents: AuthStatePublisher,
-~~~
+```
 
 然后完成以下机械修改。
 
 Refresh 重放分支中，在 writeThroughSession 后增加：
 
-~~~ts
+```ts
 await this.authEvents.sessionChanged(outcome.session)
-~~~
+```
 
 logoutCurrent 中改为：
 
-~~~ts
+```ts
 if (state) {
   await this.authState.writeThroughSession(state)
   await this.authEvents.sessionChanged(state)
 }
-~~~
+```
 
 revokeSessionByAdmin 中改为：
 
-~~~ts
+```ts
 if (state) {
   await this.authState.writeThroughSession(state)
   await this.authEvents.sessionChanged(state)
 }
-~~~
+```
 
 logoutAll 在 writeThroughAccount 后增加：
 
-~~~ts
+```ts
 await this.authEvents.accountChanged({
   userId,
   status: account.status,
   epoch: account.authEpoch,
 })
-~~~
+```
 
 changePassword 在 writeThroughAccount 后增加：
 
-~~~ts
+```ts
 await this.authEvents.accountChanged({
   userId: input.userId,
   status: updated.status,
   epoch: updated.authEpoch,
 })
-~~~
+```
 
 登录创建新 Session 时可以不发布，因为其他实例通常没有这个新 sid 的缓存。即使发布，没有缓存的实例也会忽略。
 
 ## 12.6 构建
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 ## 12.7 两实例验收 Push/Pull
 
@@ -5198,11 +4791,11 @@ vp run "server#build"
 
 步骤 12 的快速路径是：
 
-~~~text
+```text
 PostgreSQL COMMIT
 -> 写 Redis
 -> publish
-~~~
+```
 
 如果进程恰好在 COMMIT 后、写 Redis 前崩溃，数据库已经撤销 Session，但 Redis 仍可能是旧状态。
 
@@ -5212,19 +4805,19 @@ Outbox 保证最终恢复，不代表魔法般的跨 PostgreSQL 和 Redis 单事
 
 安全命令仍遵循：
 
-~~~text
+```text
 1. PostgreSQL 事务更新状态并写 Outbox
 2. 提交后同步投影 Redis
 3. Redis 确认后，安全命令才向调用方报告成功
 4. Pub/Sub 可以 best effort
 5. Outbox Worker 负责崩溃恢复和重试
-~~~
+```
 
 ## 13.1 安装调度依赖
 
-~~~powershell
+```powershell
 vp add @nestjs/schedule --filter server --save-catalog
-~~~
+```
 
 auth_outbox 表已经在步骤 4 创建，不需要再新增表。
 
@@ -5236,13 +4829,13 @@ Outbox 不能只保存 aggregateId。否则数据库行以后被物理删除，W
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.types.ts
-~~~
+```
 
 在文件末尾增加：
 
-~~~ts
+```ts
 export interface AccountChangedOutboxPayload {
   schemaVersion: 1
   state: AccountAuthState
@@ -5252,7 +4845,7 @@ export interface SessionChangedOutboxPayload {
   schemaVersion: 1
   state: SessionAuthState
 }
-~~~
+```
 
 payload 字段在 schema 中仍然是 unknown。上面的接口用于写入端检查；Worker 读取 JSONB 时仍必须做运行时校验。
 
@@ -5260,13 +4853,13 @@ payload 字段在 schema 中仍然是 unknown。上面的接口用于写入端�
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.repository.ts
-~~~
+```
 
 在 schema import 中加入 authOutbox：
 
-~~~ts
+```ts
 import {
   authOutbox,
   authSessions,
@@ -5274,24 +4867,24 @@ import {
   refreshTokens,
   users,
 } from '@/database/schema'
-~~~
+```
 
 再增加类型 import：
 
-~~~ts
+```ts
 import type {
   AccountAuthState,
   AccountChangedOutboxPayload,
   SessionAuthState,
   SessionChangedOutboxPayload,
 } from './auth.types'
-~~~
+```
 
 ### 13.2.3 Refresh 重放事务写 Session tombstone
 
 在 rotateRefreshToken 的 consumed 分支中，updatedSession 更新成功后、return reuse 之前增加：
 
-~~~ts
+```ts
 if (updatedSession) {
   const state: SessionAuthState = {
     sessionId: updatedSession.id,
@@ -5312,7 +4905,7 @@ if (updatedSession) {
     } satisfies SessionChangedOutboxPayload,
   })
 }
-~~~
+```
 
 只有本事务真的完成 active -> revoked 时才写 Outbox。Session 之前已经 revoked 时，不增加 version，也不制造重复状态事件。
 
@@ -5320,7 +4913,7 @@ if (updatedSession) {
 
 在 revokeSession 的 session.status === active 分支中，得到 updatedSession 并把 version 赋值后增加：
 
-~~~ts
+```ts
 const state: SessionAuthState = {
   sessionId: updatedSession.id,
   userId: String(updatedSession.userId),
@@ -5339,7 +4932,7 @@ await tx.insert(authOutbox).values({
     state,
   } satisfies SessionChangedOutboxPayload,
 })
-~~~
+```
 
 这段 insert 和 Session 撤销必须在同一个 tx 回调内。
 
@@ -5347,7 +4940,7 @@ await tx.insert(authOutbox).values({
 
 在 bumpAccountEpoch 中得到 updated 后、return updated 前增加：
 
-~~~ts
+```ts
 const state: AccountAuthState = {
   userId: String(updated.id),
   status: updated.status,
@@ -5364,13 +4957,13 @@ await tx.insert(authOutbox).values({
     state,
   } satisfies AccountChangedOutboxPayload,
 })
-~~~
+```
 
 ### 13.2.6 改密写 Account 快照
 
 在 changePassword 中得到 updated 后、return updated 前增加完全相同的账号事件：
 
-~~~ts
+```ts
 const state: AccountAuthState = {
   userId: String(updated.id),
   status: updated.status,
@@ -5387,7 +4980,7 @@ await tx.insert(authOutbox).values({
     state,
   } satisfies AccountChangedOutboxPayload,
 })
-~~~
+```
 
 正常 Refresh 只增加 refreshGeneration，不让 Access JWT 失效，所以不写 Auth State Outbox。
 
@@ -5397,29 +4990,19 @@ await tx.insert(authOutbox).values({
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.repository.ts
-~~~
+```
 
 把 drizzle-orm import 扩展为下面这个完整列表。不要漏掉步骤 9 advisory lock 使用的 sql：
 
-~~~ts
-import {
-  and,
-  asc,
-  eq,
-  inArray,
-  isNull,
-  lt,
-  lte,
-  or,
-  sql,
-} from 'drizzle-orm'
-~~~
+```ts
+import { and, asc, eq, inArray, isNull, lt, lte, or, sql } from 'drizzle-orm'
+```
 
 在 AuthRepository 类中增加：
 
-~~~ts
+```ts
 findSessionById(sessionId: string) {
   return this.db.query.authSessions.findFirst({
     where: eq(authSessions.id, sessionId),
@@ -5541,7 +5124,7 @@ async releaseOutboxForRetry(input: {
     )
   }
 }
-~~~
+```
 
 这里的并发协议是：
 
@@ -5558,13 +5141,13 @@ Outbox 仍按“至少一次”处理。投影和 publish 都必须幂等，不�
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/state/auth-state.publisher.ts
-~~~
+```
 
 把 accountChanged、sessionChanged 和 publish 三个方法替换成：
 
-~~~ts
+```ts
 accountChanged(
   state: AccountAuthState,
   bestEffort = true,
@@ -5615,7 +5198,7 @@ private async publish(
     }
   }
 }
-~~~
+```
 
 AuthService 仍使用默认 bestEffort。Outbox Worker 会传 false，只有 publish 成功后才标记 published。
 
@@ -5623,116 +5206,67 @@ AuthService 仍使用默认 bestEffort。Outbox Worker 会传 false，只有 pub
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/state/auth-outbox.worker.ts
-~~~
+```
 
 粘贴完整代码：
 
-~~~ts
+```ts
 import { randomUUID } from 'node:crypto'
 import { Injectable, Logger } from '@nestjs/common'
 import { Interval } from '@nestjs/schedule'
 import { AuthRepository } from '../auth.repository'
-import type {
-  AccountAuthState,
-  SessionAuthState,
-} from '../auth.types'
+import type { AccountAuthState, SessionAuthState } from '../auth.types'
 import { AuthStatePublisher } from './auth-state.publisher'
 import { AuthStateService } from './auth-state.service'
 
-type ClaimedOutboxRow =
-  Awaited<
-    ReturnType<AuthRepository['claimAuthOutbox']>
-  >[number]
+type ClaimedOutboxRow = Awaited<ReturnType<AuthRepository['claimAuthOutbox']>>[number]
 
-function invalid(
-  row: ClaimedOutboxRow,
-  message: string,
-): never {
-  throw new Error(
-    'Auth Outbox ' + row.id + ' 非法：' + message,
-  )
+function invalid(row: ClaimedOutboxRow, message: string): never {
+  throw new Error('Auth Outbox ' + row.id + ' 非法：' + message)
 }
 
-function readRecord(
-  row: ClaimedOutboxRow,
-  value: unknown,
-  field: string,
-): Record<string, unknown> {
-  if (
-    typeof value !== 'object' ||
-    value === null ||
-    Array.isArray(value)
-  ) {
+function readRecord(row: ClaimedOutboxRow, value: unknown, field: string): Record<string, unknown> {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) {
     invalid(row, field + ' 必须是对象')
   }
 
   return value as Record<string, unknown>
 }
 
-function readString(
-  row: ClaimedOutboxRow,
-  value: Record<string, unknown>,
-  field: string,
-) {
+function readString(row: ClaimedOutboxRow, value: Record<string, unknown>, field: string) {
   const result = value[field]
 
-  if (
-    typeof result !== 'string' ||
-    result.length === 0 ||
-    result.trim() !== result
-  ) {
-    invalid(
-      row,
-      field + ' 必须是非空且无首尾空格的字符串',
-    )
+  if (typeof result !== 'string' || result.length === 0 || result.trim() !== result) {
+    invalid(row, field + ' 必须是非空且无首尾空格的字符串')
   }
 
   return result
 }
 
-function readPositiveInteger(
-  row: ClaimedOutboxRow,
-  value: Record<string, unknown>,
-  field: string,
-) {
+function readPositiveInteger(row: ClaimedOutboxRow, value: Record<string, unknown>, field: string) {
   const result = value[field]
 
-  if (
-    typeof result !== 'number' ||
-    !Number.isSafeInteger(result) ||
-    result < 1
-  ) {
+  if (typeof result !== 'number' || !Number.isSafeInteger(result) || result < 1) {
     invalid(row, field + ' 必须是正安全整数')
   }
 
   return result
 }
 
-function assertUserId(
-  row: ClaimedOutboxRow,
-  userId: string,
-) {
+function assertUserId(row: ClaimedOutboxRow, userId: string) {
   const numericId = Number(userId)
 
-  if (
-    !/^[1-9][0-9]*$/.test(userId) ||
-    !Number.isSafeInteger(numericId)
-  ) {
+  if (!/^[1-9][0-9]*$/.test(userId) || !Number.isSafeInteger(numericId)) {
     invalid(row, 'userId 格式非法')
   }
 
   return numericId
 }
 
-function parseAccountPayload(
-  row: ClaimedOutboxRow,
-): AccountAuthState {
-  if (
-    row.aggregateType !== 'account' ||
-    row.eventType !== 'account.changed'
-  ) {
+function parseAccountPayload(row: ClaimedOutboxRow): AccountAuthState {
+  if (row.aggregateType !== 'account' || row.eventType !== 'account.changed') {
     invalid(row, '账号事件类型与聚合类型不匹配')
   }
 
@@ -5742,22 +5276,14 @@ function parseAccountPayload(
     invalid(row, '不支持的账号 payload schemaVersion')
   }
 
-  const source = readRecord(
-    row,
-    payload.state,
-    'payload.state',
-  )
+  const source = readRecord(row, payload.state, 'payload.state')
   const userId = readString(row, source, 'userId')
   const status = readString(row, source, 'status')
   const epoch = readPositiveInteger(row, source, 'epoch')
 
   assertUserId(row, userId)
 
-  if (
-    status !== 'active' &&
-    status !== 'locked' &&
-    status !== 'disabled'
-  ) {
+  if (status !== 'active' && status !== 'locked' && status !== 'disabled') {
     invalid(row, '账号 status 非法')
   }
 
@@ -5772,13 +5298,8 @@ function parseAccountPayload(
   return { userId, status, epoch }
 }
 
-function parseSessionPayload(
-  row: ClaimedOutboxRow,
-): SessionAuthState {
-  if (
-    row.aggregateType !== 'session' ||
-    row.eventType !== 'session.changed'
-  ) {
+function parseSessionPayload(row: ClaimedOutboxRow): SessionAuthState {
+  if (row.aggregateType !== 'session' || row.eventType !== 'session.changed') {
     invalid(row, 'Session 事件类型与聚合类型不匹配')
   }
 
@@ -5788,24 +5309,12 @@ function parseSessionPayload(
     invalid(row, '不支持的 Session payload schemaVersion')
   }
 
-  const source = readRecord(
-    row,
-    payload.state,
-    'payload.state',
-  )
+  const source = readRecord(row, payload.state, 'payload.state')
   const sessionId = readString(row, source, 'sessionId')
   const userId = readString(row, source, 'userId')
   const status = readString(row, source, 'status')
-  const version = readPositiveInteger(
-    row,
-    source,
-    'version',
-  )
-  const expiresAtMs = readPositiveInteger(
-    row,
-    source,
-    'expiresAtMs',
-  )
+  const version = readPositiveInteger(row, source, 'version')
+  const expiresAtMs = readPositiveInteger(row, source, 'expiresAtMs')
 
   assertUserId(row, userId)
 
@@ -5855,20 +5364,13 @@ export class AuthOutboxWorker {
     this.running = true
 
     try {
-      const rows = await this.repository.claimAuthOutbox(
-        this.workerId,
-        20,
-        60_000,
-      )
+      const rows = await this.repository.claimAuthOutbox(this.workerId, 20, 60_000)
 
       for (const row of rows) {
         try {
           await this.process(row)
 
-          await this.repository.markOutboxPublished(
-            row.id,
-            this.workerId,
-          )
+          await this.repository.markOutboxPublished(row.id, this.workerId)
         } catch (error) {
           try {
             await this.repository.releaseOutboxForRetry({
@@ -5878,12 +5380,7 @@ export class AuthOutboxWorker {
               error,
             })
           } catch (releaseError) {
-            this.logger.error(
-              'Auth Outbox ' +
-                row.id +
-                ' 释放失败：' +
-                String(releaseError),
-            )
+            this.logger.error('Auth Outbox ' + row.id + ' 释放失败：' + String(releaseError))
           }
 
           if (row.attempts + 1 >= 10) {
@@ -5896,12 +5393,7 @@ export class AuthOutboxWorker {
                 String(error),
             )
           } else {
-            this.logger.warn(
-              'Auth Outbox ' +
-                row.id +
-                ' 处理失败：' +
-                String(error),
-            )
+            this.logger.warn('Auth Outbox ' + row.id + ' 处理失败：' + String(error))
           }
         }
       }
@@ -5917,18 +5409,13 @@ export class AuthOutboxWorker {
       case 'session':
         return this.processSession(row)
       default:
-        invalid(
-          row,
-          '未知 aggregateType：' + row.aggregateType,
-        )
+        invalid(row, '未知 aggregateType：' + row.aggregateType)
     }
   }
 
   private async processAccount(row: ClaimedOutboxRow) {
     const eventState = parseAccountPayload(row)
-    const account = await this.repository.findUserById(
-      assertUserId(row, eventState.userId),
-    )
+    const account = await this.repository.findUserById(assertUserId(row, eventState.userId))
 
     let state: AccountAuthState
 
@@ -5945,17 +5432,13 @@ export class AuthOutboxWorker {
 
       if (
         state.epoch === eventState.epoch &&
-        (state.userId !== eventState.userId ||
-          state.status !== eventState.status)
+        (state.userId !== eventState.userId || state.status !== eventState.status)
       ) {
         invalid(row, '账号同版本状态不一致')
       }
     } else {
       if (eventState.status !== 'disabled') {
-        invalid(
-          row,
-          '账号行缺失时只允许 disabled tombstone',
-        )
+        invalid(row, '账号行缺失时只允许 disabled tombstone')
       }
 
       state = eventState
@@ -5967,9 +5450,7 @@ export class AuthOutboxWorker {
 
   private async processSession(row: ClaimedOutboxRow) {
     const eventState = parseSessionPayload(row)
-    const session = await this.repository.findSessionById(
-      eventState.sessionId,
-    )
+    const session = await this.repository.findSessionById(eventState.sessionId)
 
     let state: SessionAuthState
 
@@ -5996,18 +5477,12 @@ export class AuthOutboxWorker {
         invalid(row, 'Session 同版本状态不一致')
       }
 
-      if (
-        eventState.status === 'revoked' &&
-        state.status === 'active'
-      ) {
+      if (eventState.status === 'revoked' && state.status === 'active') {
         invalid(row, '已撤销 Session 不允许恢复为 active')
       }
     } else {
       if (eventState.status !== 'revoked') {
-        invalid(
-          row,
-          'Session 行缺失时只允许 revoked tombstone',
-        )
+        invalid(row, 'Session 行缺失时只允许 revoked tombstone')
       }
 
       state = eventState
@@ -6017,11 +5492,11 @@ export class AuthOutboxWorker {
     await this.publisher.sessionChanged(state, false)
   }
 }
-~~~
+```
 
 处理顺序必须是：
 
-~~~text
+```text
 领取租约
 -> 校验 eventType、aggregateType、aggregateVersion 和完整 payload
 -> 有数据库行时读取当前更高版本
@@ -6029,7 +5504,7 @@ export class AuthOutboxWorker {
 -> 单调投影 Redis
 -> 严格 publish
 -> 最后标记 published
-~~~
+```
 
 以下情况必须抛错、释放租约并保持 publishedAt 为 null：
 
@@ -6050,11 +5525,11 @@ export class AuthOutboxWorker {
 
 至少保留到对应 Refresh Family 的绝对 `expiresAt` 之后，再加上允许的时钟偏差和运维缓冲。可以把最早删除时间理解为：
 
-~~~text
+```text
 deleteAfter = family.expiresAt
             + clockToleranceSeconds
             + 运维缓冲时间
-~~~
+```
 
 运维缓冲建议至少 24 小时；有审计要求时可以更久。`active`、`consumed`、`revoked` 三种 Token 在保留期内都不能因为“节省表空间”而提前物理删除。
 
@@ -6074,11 +5549,11 @@ deleteAfter = family.expiresAt
 
 真正执行物理删除前，先运行：
 
-~~~sql
+```sql
 SELECT COUNT(*) AS unpublished_count
 FROM auth_outbox
 WHERE published_at IS NULL;
-~~~
+```
 
 只要待删除聚合仍有未发布事件，就必须停止清理。普通清理任务永远不能删除 `published_at IS NULL` 的 Outbox；已发布 Outbox 建议继续保留 7～30 天用于审计和排障。
 
@@ -6090,34 +5565,34 @@ WHERE published_at IS NULL;
 
 修改：
 
-~~~text
+```text
 apps/server/src/modules/auth/auth.module.ts
-~~~
+```
 
 增加 import：
 
-~~~ts
+```ts
 import { ScheduleModule } from '@nestjs/schedule'
 import { AuthOutboxWorker } from './state/auth-outbox.worker'
-~~~
+```
 
 在 imports 数组中增加：
 
-~~~ts
+```ts
 ScheduleModule.forRoot(),
-~~~
+```
 
 在 providers 中增加：
 
-~~~ts
+```ts
 AuthOutboxWorker,
-~~~
+```
 
 ## 13.8 构建和验收
 
-~~~powershell
+```powershell
 vp run "server#build"
-~~~
+```
 
 验收场景：
 
@@ -6171,64 +5646,54 @@ Outbox 仍不能让 PostgreSQL 和 Redis 成为一个 ACID 事务。
 
 修改：
 
-~~~text
+```text
 apps/server/package.json
-~~~
+```
 
 在 scripts 中增加：
 
-~~~json
+```json
 {
   "test": "vp test"
 }
-~~~
+```
 
 Vite+ 的测试 import 使用：
 
-~~~ts
-import {
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vite-plus/test'
-~~~
+```ts
+import { describe, expect, it, vi } from 'vite-plus/test'
+```
 
 不要再单独安装 Vitest，也不要从 vitest import。
 
 ## 14.2 后续必须落地的自动测试清单
 
-下面是验收矩阵，不代表测试已经实现。只有创建对应的 *.spec.ts 文件并实际通过后，才能声明自动测试完成。如果仓库里还没有任何测试文件，不能因为 vp run "server#test" 没报错就认为鉴权已经验证完成。
+下面是验收矩阵，不代表测试已经实现。只有创建对应的 \*.spec.ts 文件并实际通过后，才能声明自动测试完成。如果仓库里还没有任何测试文件，不能因为 vp run "server#test" 没报错就认为鉴权已经验证完成。
 
 先落地一个不依赖 PostgreSQL 和 Redis 的最小测试，证明 Vite+ 测试入口、JWT 配置和 Refresh HMAC 原语能真正运行。
 
 新增：
 
-~~~text
+```text
 apps/server/src/modules/auth/token.service.spec.ts
-~~~
+```
 
 粘贴：
 
-~~~ts
+```ts
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { describe, expect, it } from 'vite-plus/test'
 import type { AuthConfig } from '@/config/auth.config'
-import {
-  AccessTokenService,
-  RefreshTokenCodec,
-} from './token.service'
+import { AccessTokenService, RefreshTokenCodec } from './token.service'
 
 const auth: AuthConfig = {
-  accessSecret:
-    'test-only-access-secret-please-never-use-this-value-in-production',
+  accessSecret: 'test-only-access-secret-please-never-use-this-value-in-production',
   issuer: 'bubbles-auth-test',
   audience: 'bubbles-api-test',
   accessTtlSeconds: 600,
   refreshTtlSeconds: 30 * 24 * 60 * 60,
-  refreshPepper:
-    'test-only-refresh-pepper-please-never-use-this-value-in-production',
+  refreshPepper: 'test-only-refresh-pepper-please-never-use-this-value-in-production',
   clockToleranceSeconds: 30,
   localCacheTtlMs: 30_000,
   tombstoneTtlSeconds: 900,
@@ -6270,10 +5735,7 @@ function createJwtService() {
 
 describe('AccessTokenService', () => {
   it('签发的 JWT 可以恢复身份和两个版本号', async () => {
-    const service = new AccessTokenService(
-      createJwtService(),
-      createConfigService(),
-    )
+    const service = new AccessTokenService(createJwtService(), createConfigService())
 
     const issued = await service.sign({
       userId: 42,
@@ -6298,10 +5760,7 @@ describe('AccessTokenService', () => {
   })
 
   it('拒绝签名被篡改的 JWT', async () => {
-    const service = new AccessTokenService(
-      createJwtService(),
-      createConfigService(),
-    )
+    const service = new AccessTokenService(createJwtService(), createConfigService())
 
     const issued = await service.sign({
       userId: 42,
@@ -6313,13 +5772,9 @@ describe('AccessTokenService', () => {
     const parts = issued.accessToken.split('.')
     const signature = parts[2]
 
-    parts[2] =
-      (signature.startsWith('a') ? 'b' : 'a') +
-      signature.slice(1)
+    parts[2] = (signature.startsWith('a') ? 'b' : 'a') + signature.slice(1)
 
-    await expect(
-      service.verify(parts.join('.')),
-    ).rejects.toThrow('访问令牌无效或已过期')
+    await expect(service.verify(parts.join('.'))).rejects.toThrow('访问令牌无效或已过期')
   })
 
   it('Refresh Token 只保存可重复计算的 HMAC 摘要', () => {
@@ -6332,13 +5787,13 @@ describe('AccessTokenService', () => {
     expect(codec.hash(token.raw)).toBe(token.hash)
   })
 })
-~~~
+```
 
 立即执行：
 
-~~~powershell
+```powershell
 vp run "server#test"
-~~~
+```
 
 必须看到 3 个测试通过。这个最小测试通过只代表测试入口和 Token 原语正确，不能代替下面依赖 PostgreSQL、Redis 和 HTTP 的集成验收。
 
@@ -6414,12 +5869,12 @@ vp run "server#test"
 
 先保证 PostgreSQL 和 Redis 测试实例可用，然后执行：
 
-~~~powershell
+```powershell
 vp check
 vp run "server#test"
 vp run "server#build"
 vp run ready
-~~~
+```
 
 vp check 会执行格式、Lint 和类型检查。不要只看 nest build。
 
@@ -6453,33 +5908,33 @@ vp check 会执行格式、Lint 和类型检查。不要只看 nest build。
 
 先查询：
 
-~~~sql
+```sql
 SELECT COUNT(*)
 FROM users
 WHERE password_hash IS NULL;
-~~~
+```
 
 结果必须为 0。
 
 然后把 schema 中：
 
-~~~ts
+```ts
 passwordHash: varchar('password_hash', { length: 255 }),
-~~~
+```
 
 改成：
 
-~~~ts
+```ts
 passwordHash: varchar('password_hash', { length: 255 }).notNull(),
-~~~
+```
 
 生成并审查第二次迁移：
 
-~~~powershell
+```powershell
 vp run "server#db:generate"
 vp run "server#db:migrate"
 vp run "server#build"
-~~~
+```
 
 不要给旧账号填一个所有人共用的假密码。旧账号应通过安全的密码重置、管理员邀请或导入流程生成各自的真实 hash。
 
@@ -6491,7 +5946,7 @@ vp run "server#build"
 
 真正拆成多个微服务以后：
 
-~~~text
+```text
 认证服务
   持有私钥
   负责签发 JWT
@@ -6499,7 +5954,7 @@ vp run "server#build"
 业务微服务
   只持有公钥或读取 JWKS
   只能验签，不能伪造 JWT
-~~~
+```
 
 推荐步骤：
 
@@ -6550,7 +6005,7 @@ vp run "server#build"
 
 这套设计不是“JWT 完全无状态”，而是把工作分层：
 
-~~~text
+```text
 JWT
   证明这个身份曾被认证服务合法签发
 
@@ -6571,17 +6026,17 @@ Pub/Sub Push
 
 Outbox
   修复数据库提交后进程崩溃导致的传播缺口
-~~~
+```
 
 你最开始担心的“多个用户同时改密会让所有微服务疯狂查询用户中心”，在这里被拆成：
 
-~~~text
+```text
 每个改密用户只产生一个 account epoch 事件
 -> 微服务没有该用户缓存就忽略
 -> 有缓存只标脏
 -> 该用户真正再次访问时才 Pull
 -> 同一用户并发 Pull 由 single-flight 合并
-~~~
+```
 
 因此它保留了 JWT 的本地验签优势，又提供了可控的踢人实时性。
 

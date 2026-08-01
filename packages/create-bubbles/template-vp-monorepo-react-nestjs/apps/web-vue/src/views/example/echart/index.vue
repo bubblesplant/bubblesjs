@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { useECharts } from "@/hooks/chart/useEcharts";
+import { useECharts } from '@/hooks/chart/useEcharts'
 
-import { getOption } from "./config";
+import { getOption } from './config'
 
-const dom = useTemplateRef("chart");
-const { setOptions } = useECharts(dom);
+const dom = useTemplateRef('chart')
+const { setOptions } = useECharts(dom)
 
 onMounted(() => {
-  setOptions(getOption());
-});
+  setOptions(getOption())
+})
 </script>
 
 <template>
-  <div class="h-100vh w-full bg-black">
+  <div class="bg-black h-100vh w-full">
     <div ref="chart" class="h-30% w-30%" />
   </div>
 </template>

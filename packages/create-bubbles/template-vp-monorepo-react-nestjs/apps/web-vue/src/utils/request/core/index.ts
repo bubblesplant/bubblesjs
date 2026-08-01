@@ -1,9 +1,3 @@
-import {
-  deepMergeObject,
-  isPlainObject,
-  isReadableStream,
-  tryParseJsonString,
-} from './utils'
 import type {
   AlovaGlobalCacheAdapter,
   AlovaOptions,
@@ -12,18 +6,24 @@ import type {
   StatesExport,
   StatesHook,
 } from 'alova'
-import { createAlova } from 'alova'
 import type { FetchRequestInit } from 'alova/fetch'
+import { createAlova } from 'alova'
 import adapterFetch from 'alova/fetch'
+import {
+  deepMergeObject,
+  isPlainObject,
+  isReadableStream,
+  tryParseJsonString,
+} from './utils'
 
 type MaybePromise<T> = T | Promise<T>
-type HeaderValue =
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
-  | (() => MaybePromise<string | number | boolean | null | undefined>)
+type HeaderValue
+  = | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | (() => MaybePromise<string | number | boolean | null | undefined>)
 type StatusMatcher<RE> = number | number[] | ((status: number, response: RE) => boolean)
 type CodeMatcher = Array<number | string>
 
@@ -86,7 +86,7 @@ export type RequestOption<
   SE extends StatesExport<any> = StatesExport<any>,
 > = BaseRequestOption<RC, RE, RH, SE>
 
-type RequestAlovaGenerics<RC extends object, RE, RH, SE extends StatesExport<any>> = {
+interface RequestAlovaGenerics<RC extends object, RE, RH, SE extends StatesExport<any>> {
   Responded: unknown
   Transformed: unknown
   RequestConfig: RC
@@ -114,8 +114,8 @@ type ResolvedRequestOption<RC extends object, RE, RH, SE extends StatesExport<an
     | 'errorDefaultMessage'
     | 'cacheLogger'
   >
-> &
-  BaseRequestOption<RC, RE, RH, SE>
+>
+& BaseRequestOption<RC, RE, RH, SE>
 
 const DEFAULT_SUCCESS_MESSAGE = '操作成功'
 const DEFAULT_ERROR_MESSAGE = '服务异常'
@@ -146,7 +146,7 @@ const defaultRequestOption: BaseRequestOption<any, any, any, any> = {
 }
 
 function getMethodMeta(method: unknown): RequestMeta {
-  const methodRecord = method as { meta?: RequestMeta; config?: { meta?: RequestMeta } } | undefined
+  const methodRecord = method as { meta?: RequestMeta, config?: { meta?: RequestMeta } } | undefined
   return methodRecord?.config?.meta ?? methodRecord?.meta ?? {}
 }
 
@@ -160,31 +160,37 @@ function isMatchedStatus<RE>(
   matcher: StatusMatcher<RE> | undefined,
   response: RE,
 ): boolean {
-  if (matcher === undefined) return status >= 200 && status < 300
+  if (matcher === undefined)
+    return status >= 200 && status < 300
 
-  if (typeof matcher === 'function') return matcher(status, response)
+  if (typeof matcher === 'function')
+    return matcher(status, response)
 
   return Array.isArray(matcher) ? matcher.includes(status) : matcher === status
 }
 
 function isMatchedCode(code: unknown, matcher: CodeMatcher | undefined): boolean {
-  if (!matcher?.length) return true
+  if (!matcher?.length)
+    return true
 
-  return matcher.some((item) => String(item) === String(code))
+  return matcher.some(item => String(item) === String(code))
 }
 
 function getResponseStatus(response: unknown): number {
-  const responseRecord = response as { status?: unknown; statusCode?: unknown }
+  const responseRecord = response as { status?: unknown, statusCode?: unknown }
   const status = responseRecord.statusCode ?? responseRecord.status
   return typeof status === 'number' ? status : Number(status)
 }
 
 function getResponseMessage(data: unknown, messageKey: string, defaultMessage: string): string {
-  if (!isPlainObject(data)) return defaultMessage
+  if (!isPlainObject(data))
+    return defaultMessage
 
   const message = data[messageKey] ?? data.message ?? data.msg
-  if (typeof message === 'string') return message || defaultMessage
-  if (typeof message === 'number') return String(message)
+  if (typeof message === 'string')
+    return message || defaultMessage
+  if (typeof message === 'number')
+    return String(message)
 
   return defaultMessage
 }
@@ -201,7 +207,8 @@ async function parseFetchResponse(response: {
   json?: () => Promise<unknown>
   text?: () => Promise<string>
 }): Promise<unknown> {
-  if (response.status === 204) return undefined
+  if (response.status === 204)
+    return undefined
 
   const reader = typeof response.clone === 'function' ? response.clone() : response
   const contentType = getHeaderValue(response.headers, 'content-type')
@@ -215,12 +222,14 @@ async function parseFetchResponse(response: {
   if (typeof reader.json === 'function') {
     try {
       return await reader.json()
-    } catch {
+    }
+    catch {
       // Fall through to text parsing.
     }
   }
 
-  if (typeof reader.text === 'function') return tryParseJsonString(await reader.text())
+  if (typeof reader.text === 'function')
+    return tryParseJsonString(await reader.text())
 
   return undefined
 }
@@ -229,13 +238,15 @@ function getHeaderValue(
   headers: Headers | Record<string, unknown> | undefined,
   key: string,
 ): string {
-  if (!headers) return ''
+  if (!headers)
+    return ''
 
-  if (typeof Headers !== 'undefined' && headers instanceof Headers) return headers.get(key) ?? ''
+  if (typeof Headers !== 'undefined' && headers instanceof Headers)
+    return headers.get(key) ?? ''
 
   const headerRecord = headers as Record<string, unknown>
-  const value =
-    headerRecord[key] ?? headerRecord[key.toLowerCase()] ?? headerRecord[key.toUpperCase()]
+  const value
+    = headerRecord[key] ?? headerRecord[key.toLowerCase()] ?? headerRecord[key.toUpperCase()]
   return typeof value === 'string' ? value : ''
 }
 
@@ -251,9 +262,9 @@ async function getResponseData(response: unknown): Promise<unknown> {
     return tryParseJsonString(responseRecord.data)
 
   if (
-    isReadableStream(responseRecord.body) ||
-    typeof responseRecord.json === 'function' ||
-    typeof responseRecord.text === 'function'
+    isReadableStream(responseRecord.body)
+    || typeof responseRecord.json === 'function'
+    || typeof responseRecord.text === 'function'
   ) {
     return parseFetchResponse(responseRecord)
   }
@@ -263,7 +274,8 @@ async function getResponseData(response: unknown): Promise<unknown> {
 
 async function resolveHeaderValue(value: HeaderValue): Promise<string | undefined> {
   const resolved = typeof value === 'function' ? await value() : value
-  if (resolved === null || resolved === undefined) return undefined
+  if (resolved === null || resolved === undefined)
+    return undefined
   return String(resolved)
 }
 
@@ -311,7 +323,8 @@ export function createInstance<
 
       for (const [key, value] of Object.entries(config.commonHeaders?.() ?? {})) {
         const resolvedValue = await resolveHeaderValue(value)
-        if (resolvedValue !== undefined) setHeader(headers, key, resolvedValue)
+        if (resolvedValue !== undefined)
+          setHeader(headers, key, resolvedValue)
       }
     },
     responded: {
@@ -322,7 +335,8 @@ export function createInstance<
         const showError = getMetaFlag(meta, 'isShowErrorMessage', config.isShowErrorMessage)
         const isWrapped = getMetaFlag(meta, 'isWrapped', config.isWrapped)
 
-        if (!shouldTransform) return response
+        if (!shouldTransform)
+          return response
 
         const status = getResponseStatus(response)
         const data = await getResponseData(response)
@@ -340,7 +354,8 @@ export function createInstance<
         }
 
         if (!isWrapped) {
-          if (showSuccess) config.successMessageFunc?.(config.successDefaultMessage)
+          if (showSuccess)
+            config.successMessageFunc?.(config.successDefaultMessage)
           return data
         }
 
@@ -353,7 +368,8 @@ export function createInstance<
         )
 
         if (!isMatchedCode(code, config.codeMap.success)) {
-          if (isMatchedCode(code, config.codeMap.unAuthorized)) config.unAuthorizedResponseFunc?.()
+          if (isMatchedCode(code, config.codeMap.unAuthorized))
+            config.unAuthorizedResponseFunc?.()
 
           if (showError) {
             config.errorMessageFunc?.(
@@ -363,7 +379,8 @@ export function createInstance<
           return Promise.reject(response)
         }
 
-        if (showSuccess) config.successMessageFunc?.(responseMessage)
+        if (showSuccess)
+          config.successMessageFunc?.(responseMessage)
 
         return responseData
       },
@@ -396,8 +413,8 @@ export type DualCallInstance<
   RE = Response,
   RH = Headers,
   SE extends StatesExport<any> = StatesExport<any>,
-> = RequestInstance<RC, RE, RH, SE> &
-  ((option?: RequestOption<RC, RE, RH, SE>) => RequestInstance<RC, RE, RH, SE>)
+> = RequestInstance<RC, RE, RH, SE>
+  & ((option?: RequestOption<RC, RE, RH, SE>) => RequestInstance<RC, RE, RH, SE>)
 
 export function createDualCallInstance<
   RC extends object = FetchRequestInit,
@@ -407,7 +424,8 @@ export function createDualCallInstance<
 >(baseConfig: BaseRequestOption<RC, RE, RH, SE>): DualCallInstance<RC, RE, RH, SE> {
   const defaultInstance = createInstance(baseConfig)
   const dualInstance = ((option?: RequestOption<RC, RE, RH, SE>) => {
-    if (!option) return defaultInstance
+    if (!option)
+      return defaultInstance
     return createInstance(deepMergeObject(baseConfig, option))
   }) as DualCallInstance<RC, RE, RH, SE>
 

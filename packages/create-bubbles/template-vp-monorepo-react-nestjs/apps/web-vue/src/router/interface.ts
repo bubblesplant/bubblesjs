@@ -1,9 +1,9 @@
-import type { RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from 'vue-router'
 
 export type MenuRouteRecordRawType = RouteRecordRaw & {
   meta?: {
-    title?: string;
-    icon?: string;
-    hideInMenu?: boolean;
-  };
-};
+    title?: string
+    icon?: string
+    hideInMenu?: boolean
+  }
+}

@@ -1,26 +1,29 @@
 {
-  "eslint.enable": false,
+  "eslint.enable": true,
   "prettier.enable": false,
   "biome.enabled": false,
-  // "npm.scriptRunner": "vp",
+
   "editor.defaultFormatter": "oxc.oxc-vscode",
-  "[javascript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "oxc.fmt.configPath": "./vite.config.ts",
   "editor.formatOnSave": true,
-  "editor.formatOnSaveMode": "file",
+
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "always",
-    "source.fixAll.oxc": "always"
+    "source.organizeImports": "explicit",
+    "source.fixAll.oxc": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
+
+  "oxc.typeAware": false,
+  "oxc.lint.run": "onType",
+
+  // ESLint 只把 web-vue 当作工作目录
+  "eslint.workingDirectories": ["./apps/web-vue"],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.pnpm/**": true,
+    "**/dist/**": true,
+    "**/coverage/**": true,
+    "**/.vite/**": true
   }
 }

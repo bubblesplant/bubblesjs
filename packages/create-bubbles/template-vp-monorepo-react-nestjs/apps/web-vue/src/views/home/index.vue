@@ -14,11 +14,11 @@ const { tr, loadLocale } = useI18n()
       {{ tr('你好1') }}
     </p>
 
-    <a class="bg-blue-500 text-white px-4 py-2 rounded-md" @click="loadLocale('en_US')">
+    <a class="text-white px-4 py-2 rounded-md bg-blue-500" @click="loadLocale('en_US')">
       {{ tr('English') }}
     </a>
 
-    <a class="bg-blue-500 text-white px-4 py-2 rounded-md" @click="loadLocale('zh_CN')">
+    <a class="text-white px-4 py-2 rounded-md bg-blue-500" @click="loadLocale('zh_CN')">
       {{ tr('中文') }}
     </a>
   </div>
