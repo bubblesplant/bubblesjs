@@ -89,6 +89,8 @@ catalog:
   vue-tsc: ^3.3.7
   zod: ^4.4.3
 overrides:
+  # 4.0.5 depends on mdn-data@2.29.0, which is missing from npm's full package index.
+  '@eslint/css-tree': 4.0.4
   vite: 'catalog:'
 peerDependencyRules:
   allowAny:

@@ -17,7 +17,7 @@ export class ResOp<T = any> {
     return new ResOp(RESPONSE_SUCCESS_CODE, data, message)
   }
 
-  static error(code: number, message) {
+  static error(code: number, message?: string) {
     return new ResOp(code, {}, message)
   }
 }

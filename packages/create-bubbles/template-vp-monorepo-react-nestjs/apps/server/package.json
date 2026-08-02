@@ -43,7 +43,7 @@
     "@nestjs/swagger": "catalog:",
     "@nestjs/testing": "catalog:",
     "@types/express": "catalog:",
-    "@types/node": "catalog:node24",
+    "@types/node": "catalog:",
     "cross-env": "catalog:",
     "dotenv": "catalog:",
     "drizzle-kit": "catalog:",

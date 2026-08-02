@@ -76,5 +76,10 @@ export class AccessTokenService {
       Number.isSafeInteger(claims.exp) &&
       claims.exp > claims.iat &&
       claims.exp - claims.iat <= auth.accessTtlSeconds + auth.clockToleranceSeconds
+
+    if (!validShape) {
+      throw new UnauthorizedException('访问令牌无效或已过期')
+    }
+    return claims
   }
 }

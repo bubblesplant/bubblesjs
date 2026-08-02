@@ -7,7 +7,8 @@
     "ready": "vp check && vp run -r test && vp run -r build",
     "dev": "pnpm run -r --stream dev",
     "prepare": "vp config",
-    "reinstall": "vp install"
+    "clean": "node scripts/clean.mjs",
+    "reinstall": "vp install --force"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",
