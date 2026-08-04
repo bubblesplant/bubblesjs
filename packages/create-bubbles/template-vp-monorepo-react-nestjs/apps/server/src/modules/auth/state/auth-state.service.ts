@@ -1,5 +1,6 @@
 import { AuthConsistency } from '@/common/constants/auth'
 import { DRIZZLE, type DrizzleDB } from '@/database/db.module'
+import { authSessions, users } from '@/database/schema'
 import { InjectRedis } from '@nestjs-modules/ioredis'
 import {
   Inject,
@@ -8,6 +9,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { and, eq } from 'drizzle-orm'
 import Redis from 'ioredis'
 import type {
   AccessTokenClaims,
@@ -15,7 +17,6 @@ import type {
   AuthStateSnapshot,
   SessionAuthState,
 } from '../auth.types'
-import { authSessions, users } from '@/database/schema'
 
 type ProjectionWriteResult = 'applied' | 'identical' | 'stale'
 
@@ -296,17 +297,47 @@ export class AuthStateService {
     }
 
     try {
-      const [row] = await this.db.select({
-        accountStatus: users.status,
-        accountEpoch: users.authEpoch,
-        sessionId: authSessions.id,
-        sessionUserId: authSessions.userId,
-        sessionStatus: authSessions.status,
-        sessionVersion: authSessions.version,
-        sesssionExpiresAt: authSessions.expiresAt
-      }).from(users)
+      const [row] = await this.db
+        .select({
+          accountStatus: users.status,
+          accountEpoch: users.authEpoch,
+          sessionId: authSessions.id,
+          sessionUserId: authSessions.userId,
+          sessionStatus: authSessions.status,
+          sessionVersion: authSessions.version,
+          sessionExpiresAt: authSessions.expiresAt,
+        })
+        .from(users)
+        .innerJoin(
+          authSessions,
+          and(eq(authSessions.userId, users.id), eq(authSessions.id, sessionId)),
+        )
+        .where(eq(users.id, String(numericUserId)))
+        .limit(1)
+
+      if (!row) {
+        return null
+      }
+      return {
+        account: {
+          userId,
+          status: row.accountStatus,
+          epoch: row.accountEpoch,
+        },
+        session: {
+          sessionId: row.sessionId,
+          userId: String(row.sessionUserId),
+          status: row.sessionStatus,
+          version: row.sessionVersion,
+          expiresAtMs: row.sessionExpiresAt.getTime(),
+        },
+      }
+    } catch {
+      throw new ServiceUnavailableException('鉴权事实库暂时不可用')
     }
   }
+
+  private async projectAccount(state: AccountAuthState): Promise
 
   async verify(claims: AccessTokenClaims, _consistency: AuthConsistency = 'strong') {
     for (let attempt = 0; attempt < 2; attempt += 1) {
@@ -326,6 +357,19 @@ export class AuthStateService {
       }
 
       const database = await this.loadDatabaseSnapshot(claims.sub, claims.sid)
+
+      if (!database) {
+        throw new UnauthorizedException('登录状态不存在')
+      }
+
+      if (database.account.epoch < claims.ae || database.session.version < claims.sv) {
+        throw new ServiceUnavailableException('鉴权事实库版本落后于 JWT')
+      }
+
+      const [accountProjection, sessionProjection] = await Promise.all([
+        this.projectAccount(database.account),
+        this.projectSession(database.session),
+      ])
     }
   }
 }
