@@ -1,10 +1,21 @@
 import { AuthConsistency } from '@/common/constants/auth'
 import { DRIZZLE, type DrizzleDB } from '@/database/db.module'
 import { InjectRedis } from '@nestjs-modules/ioredis'
-import { Inject, Injectable } from '@nestjs/common'
+import {
+  Inject,
+  Injectable,
+  ServiceUnavailableException,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import Redis from 'ioredis'
-import { AccessTokenClaims, AccountAuthState, SessionAuthState } from '../auth.types'
+import type {
+  AccessTokenClaims,
+  AccountAuthState,
+  AuthStateSnapshot,
+  SessionAuthState,
+} from '../auth.types'
+import { authSessions, users } from '@/database/schema'
 
 type ProjectionWriteResult = 'applied' | 'identical' | 'stale'
 
@@ -145,6 +156,59 @@ export class AuthStateService {
     private readonly config: ConfigService,
   ) {}
 
+  private parseAccount(
+    userId: string,
+    epochRaw: string,
+    statusRaw: string,
+  ): AccountAuthState | null {
+    const epoch = Number(epochRaw)
+
+    if (
+      !Number.isSafeInteger(epoch) ||
+      epoch < 1 ||
+      !['active', 'locked', 'disabled'].includes(statusRaw)
+    ) {
+      return null
+    }
+
+    return {
+      userId,
+      status: statusRaw as AccountAuthState['status'],
+      epoch,
+    }
+  }
+
+  private parseSession(
+    expectedUserId: string,
+    sessionId: string,
+    versionRaw: string,
+    statusRaw: string,
+    userIdRaw: string,
+    expiredAtMsRaw: string,
+  ): SessionAuthState | null {
+    const version = Number(versionRaw)
+    const expiresAtMs = Number(expiredAtMsRaw)
+
+    if (
+      userIdRaw !== expectedUserId ||
+      !Number.isSafeInteger(version) ||
+      version < 1 ||
+      !Number.isSafeInteger(expiresAtMs) ||
+      expiresAtMs <= 0 ||
+      !['active', 'revoked'].includes(statusRaw)
+    ) {
+      return null
+    }
+
+    return {
+      sessionId,
+      userId: userIdRaw,
+      status: statusRaw as SessionAuthState['status'],
+      version,
+      expiresAtMs,
+    }
+  }
+
   private async readShared(
     userId: string,
     sessionId: string,
@@ -174,14 +238,14 @@ export class AuthStateService {
       ] = raw.map((value) => String(value ?? ''))
 
       return {
-        account: this.parseAccount(userId, accountEpoch, accountStatus),
+        account: this.parseAccount(userId, accountEpoch!, accountStatus!),
         session: this.parseSession(
           userId,
           sessionId,
-          sessionVersion,
-          sessionStatus,
-          sessionUserId,
-          sessionExpiresAtMs,
+          sessionVersion!,
+          sessionStatus!,
+          sessionUserId!,
+          sessionExpiresAtMs!,
         ),
       }
     } catch {
@@ -189,9 +253,79 @@ export class AuthStateService {
     }
   }
 
+  private throwIfSharedIsNewer(
+    shared: {
+      account: AccountAuthState | null
+      session: SessionAuthState | null
+    },
+    claims: AccessTokenClaims,
+  ) {
+    if (
+      (shared.account && shared.account.epoch > claims.ae) ||
+      (shared.session && shared.session.version > claims.sv)
+    ) {
+      throw new UnauthorizedException('登录状态已失效')
+    }
+  }
+
+  private assertAllowed(snapshot: AuthStateSnapshot, claims: AccessTokenClaims) {
+    if (snapshot.account.epoch < claims.ae || snapshot.session.version < claims.sv) {
+      throw new ServiceUnavailableException('鉴权状态投影落后')
+    }
+
+    const accepted =
+      snapshot.account.status === 'active' &&
+      snapshot.session.status === 'active' &&
+      snapshot.session.userId === claims.sub &&
+      snapshot.account.epoch === claims.ae &&
+      snapshot.session.version === claims.sv &&
+      snapshot.session.expiresAtMs > Date.now()
+
+    if (!accepted) {
+      throw new UnauthorizedException('登录状态已失效')
+    }
+  }
+
+  private async loadDatabaseSnapshot(
+    userId: string,
+    sessionId: string,
+  ): Promise<AuthStateSnapshot | null> {
+    const numericUserId = Number(userId)
+    if (!Number.isSafeInteger(numericUserId) || numericUserId <= 0) {
+      return null
+    }
+
+    try {
+      const [row] = await this.db.select({
+        accountStatus: users.status,
+        accountEpoch: users.authEpoch,
+        sessionId: authSessions.id,
+        sessionUserId: authSessions.userId,
+        sessionStatus: authSessions.status,
+        sessionVersion: authSessions.version,
+        sesssionExpiresAt: authSessions.expiresAt
+      }).from(users)
+    }
+  }
+
   async verify(claims: AccessTokenClaims, _consistency: AuthConsistency = 'strong') {
     for (let attempt = 0; attempt < 2; attempt += 1) {
       const shared = await this.readShared(claims.sub, claims.sid)
+
+      this.throwIfSharedIsNewer(shared, claims)
+
+      if (shared.account && shared.session) {
+        this.assertAllowed(
+          {
+            account: shared.account,
+            session: shared.session,
+          },
+          claims,
+        )
+        return
+      }
+
+      const database = await this.loadDatabaseSnapshot(claims.sub, claims.sid)
     }
   }
 }
