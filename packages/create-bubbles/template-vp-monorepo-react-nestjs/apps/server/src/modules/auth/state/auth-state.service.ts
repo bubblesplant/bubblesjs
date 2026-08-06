@@ -337,7 +337,26 @@ export class AuthStateService {
     }
   }
 
-  private async projectAccount(state: AccountAuthState): Promise
+  private decodeProjectionResult(raw: unknown, aggregateName: string): ProjectionWriteResult {
+    const code = Number
+  }
+
+  private async projectAccount(state: AccountAuthState): Promise<ProjectionWriteResult> {
+    let raw: unknown
+    try {
+      raw = await this.redis.eval(
+        ACCOUNT_PROJECTION_LUA,
+        1,
+        accountKey(state.userId),
+        String(state.epoch),
+        state.status,
+      )
+    } catch {
+      throw new ServiceUnavailableException('账号鉴权状态暂时不可用')
+    }
+
+    return this.decodeProjectionResult(raw, '账号')
+  }
 
   async verify(claims: AccessTokenClaims, _consistency: AuthConsistency = 'strong') {
     for (let attempt = 0; attempt < 2; attempt += 1) {
