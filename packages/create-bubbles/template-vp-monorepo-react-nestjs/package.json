@@ -8,9 +8,12 @@
     "dev": "pnpm run -r --stream dev",
     "prepare": "vp config",
     "clean": "node scripts/clean.mjs",
-    "reinstall": "vp install --force"
+    "reinstall": "vp install --force",
+    "i18n:sync": "bubbles-i18n sync",
+    "i18n:check": "bubbles-i18n check"
   },
   "devDependencies": {
+    "@bubblesjs/i18n-cli": "workspace:*",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@types/node": "catalog:",
@@ -22,6 +25,11 @@
     "packageManager": {
       "name": "pnpm",
       "version": "11.9.0",
+      "onFail": "download"
+    },
+    "runtime": {
+      "name": "node",
+      "version": ">=22.18.0",
       "onFail": "download"
     }
   }

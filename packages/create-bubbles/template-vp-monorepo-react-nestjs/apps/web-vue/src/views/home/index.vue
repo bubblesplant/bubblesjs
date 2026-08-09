@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { useI18n } from '@bubblesjs/i18n-vue'
+import { useI18n } from '@bubblesjs/i18n-vue';
 
 const { tr, loadLocale } = useI18n()
+
+const abc = 11
 </script>
 
 <template>
@@ -20,6 +22,14 @@ const { tr, loadLocale } = useI18n()
 
     <a class="text-white px-4 py-2 rounded-md bg-blue-500" @click="loadLocale('zh_CN')">
       {{ tr('中文') }}
+    </a>
+
+    <a class="text-white px-4 py-2 rounded-md bg-blue-500" @click="loadLocale('zh_CN')">
+      {{ tr('登录') }}
+    </a>
+
+    <a class="text-white px-4 py-2 rounded-md bg-blue-500" @click="loadLocale('zh_CN')">
+      {{ tr(`登录${abc}`) }}
     </a>
   </div>
 </template>

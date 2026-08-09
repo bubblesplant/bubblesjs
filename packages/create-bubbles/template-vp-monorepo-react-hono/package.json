@@ -1,0 +1,37 @@
+{
+  "name": "template-vp-monorepo-react-hono",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "ready": "vp check && vp run -r test && vp run -r build",
+    "dev": "pnpm run -r --stream dev",
+    "dev:server:node": "vp run --filter server dev:node",
+    "dev:server:bun": "vp run --filter server dev:bun",
+    "dev:worker": "vp run --filter server dev:worker",
+    "dev:worker:node": "vp run --filter server dev:worker:node",
+    "dev:worker:bun": "vp run --filter server dev:worker:bun",
+    "start:server:node": "vp run --filter server start:node",
+    "start:server:bun": "vp run --filter server start:bun",
+    "start:worker:node": "vp run --filter server start:worker:node",
+    "start:worker:bun": "vp run --filter server start:worker:bun",
+    "prepare": "vp config",
+    "clean": "node scripts/clean.mjs",
+    "reinstall": "vp install --force"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.9.0",
+      "onFail": "download"
+    }
+  }
+}

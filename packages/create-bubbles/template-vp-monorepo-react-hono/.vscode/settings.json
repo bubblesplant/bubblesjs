@@ -1,0 +1,23 @@
+{
+  "prettier.enable": false,
+  "biome.enabled": false,
+
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true,
+
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll.oxc": "explicit"
+  },
+
+  "oxc.typeAware": false,
+  "oxc.lint.run": "onType",
+
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.pnpm/**": true,
+    "**/dist/**": true,
+    "**/coverage/**": true,
+    "**/.vite/**": true
+  }
+}

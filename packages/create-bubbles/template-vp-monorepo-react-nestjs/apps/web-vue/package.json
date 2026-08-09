@@ -1,8 +1,8 @@
 {
   "name": "web-vue",
-  "type": "module",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vp dev --mode development",
     "build": "vue-tsc -b && vp build",
@@ -13,7 +13,6 @@
   "dependencies": {
     "@alova/adapter-axios": "catalog:",
     "@antdv-next/icons": "catalog:",
-    "@bubblesjs/i18n-vue": "workspace:*",
     "alova": "catalog:",
     "antdv-next": "catalog:",
     "axios": "catalog:",

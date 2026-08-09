@@ -31,3 +31,6 @@ dist-ssr
 !.vscode/
 !.vscode/settings.json
 !.vscode/extensions.json
+
+# Generated i18n CLI reports
+.bubbles-i18n/

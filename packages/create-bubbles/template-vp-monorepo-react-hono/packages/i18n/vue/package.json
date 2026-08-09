@@ -1,0 +1,27 @@
+{
+  "name": "@bubblesjs/i18n-vue",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "vp pack"
+  },
+  "dependencies": {
+    "@bubblesjs/i18n-core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vue": "catalog:"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.39"
+  }
+}

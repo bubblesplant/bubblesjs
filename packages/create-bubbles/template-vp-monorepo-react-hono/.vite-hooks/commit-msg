@@ -1,0 +1,2 @@
+#!/bin/bash
+vp dlx commitlint --edit "$1"

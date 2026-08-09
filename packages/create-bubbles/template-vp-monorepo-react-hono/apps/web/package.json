@@ -1,0 +1,35 @@
+{
+  "name": "web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev --mode dev",
+    "build": "tsc && vp build --mode dev",
+    "preview": "vp preview"
+  },
+  "dependencies": {
+    "@alova/adapter-axios": "catalog:",
+    "@bubblesjs/i18n-core": "workspace:*",
+    "@bubblesjs/i18n-react": "workspace:*",
+    "@tailwindcss/vite": "catalog:",
+    "alova": "catalog:",
+    "antd": "catalog:",
+    "axios": "catalog:",
+    "classnames": "catalog:",
+    "dayjs": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-router": "catalog:",
+    "tailwindcss": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "typescript": "catalog:",
+    "unplugin-auto-import": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}
