@@ -1,5 +1,5 @@
 import { ResponseInterceptor } from '@/common/interceptors/transform'
-import { appConfig, authConfig, databaseConfig, llmConfig, redisConfig } from '@/config'
+import { appConfig, databaseConfig, llmConfig, redisConfig, sessionConfig } from '@/config'
 import { RedisModule } from '@nestjs-modules/ioredis'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
@@ -17,7 +17,7 @@ import { ENV_ARR } from './utils/env-arr'
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ENV_ARR,
-      load: [appConfig, databaseConfig, llmConfig, redisConfig, authConfig],
+      load: [appConfig, databaseConfig, llmConfig, redisConfig, sessionConfig],
     }),
     DatabaseModule,
     RedisModule.forRootAsync({

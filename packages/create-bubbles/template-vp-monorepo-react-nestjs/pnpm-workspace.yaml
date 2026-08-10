@@ -29,6 +29,7 @@ catalog:
   '@types/express': ^5.0.0
   '@types/node': ^26.1.1
   '@types/nprogress': ^0.2.3
+  '@types/pg': ^8.21.0
   '@types/react': ^19.2.17
   '@types/react-dom': ^19.2.3
   '@unocss/eslint-plugin': ^66.7.2
