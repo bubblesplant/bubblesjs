@@ -16,9 +16,9 @@
 - 每次有效请求都验证 Redis Session，并刷新空闲 TTL。
 - Session 空闲 2 小时后失效。
 - Session 最长存在 7 天，持续请求也不能突破绝对期限。
-- Web、桌面端、iOS、Android 可以同时登录。
-- 正常客户端中，同一个账号在同一种端只能保留最后一次登录。
-- 新 Web 登录只替换旧 Web Session，不影响 iOS 或 Android。
+- User-Agent 能被正确识别的正常客户端中，Web、桌面端、移动端可以同时登录。
+- User-Agent 能被正确识别的正常客户端中，同一个账号在同一种端只能保留最后一次登录。
+- 新 Web 登录只替换旧 Web Session，不影响桌面端或移动端。
 - 当前端退出只删除当前端 Session。
 - Redis 故障时返回 503，不把故障误报成“用户未登录”。
 - 为后续多公司预留清晰边界：`X-Company-Id` 只选择公司，真正接入时必须由后端验证成员和角色。
@@ -26,10 +26,14 @@
 本文把“一端”定义为逻辑客户端类型：
 
 ```text
-web | desktop | ios | android
+web | desktop | mobile
 ```
 
-Chrome 和 Edge 都属于 `web`。如果同一账号先在 Chrome 登录、再在 Edge 登录，Chrome 的旧 Token 会失效。
+桌面版 Chrome 和 Edge 都属于 `web`。如果同一账号先在桌面版 Chrome 登录、再在桌面版 Edge 登录，Chrome 的旧 Token 会失效。Android Chrome、Android Edge 等手机浏览器属于 `mobile`。
+
+iOS 和 Android 都属于 `mobile`。如果同一账号先在 iPhone 登录、再在 Android 登录，iPhone 的旧 Token 会失效。
+
+本文中的 `desktop` 专指 User-Agent 包含 Electron 的桌面客户端。其他无法识别的桌面原生客户端会保守归到 `web`。
 
 这不是“识别一台真实物理设备”。`User-Agent` 请求头也可以被伪造，因此它是产品约束，不是硬件安全边界。浏览器或 App 提供的 `deviceId` 同样可以伪造；真正的设备证明是另一套更复杂的安全系统，不属于本文。
 
@@ -206,9 +210,16 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/
 
 登录 Body 只包含账号和密码。`terminal` 由后端根据浏览器自动携带的 `User-Agent` 判断，前端不需要额外传字段。
 
-上面这段 Windows Chrome 的 `User-Agent` 会识别为 `web`。包含 Android 的 UA 识别为 `android`，包含 iPhone、iPad 或 iPod 的 UA 识别为 `ios`，Electron 或带应用标识的桌面客户端识别为 `desktop`。
+上面这段 Windows Chrome 的 `User-Agent` 会识别为 `web`。包含 Android、iPhone、iPad 或 iPod 的 UA 统一识别为 `mobile`，包含 Electron 的 UA 识别为 `desktop`。
 
-浏览器中的 `User-Agent` 由浏览器自动发送，不要在前端 JavaScript 中手工设置。
+常见的标准移动端 User-Agent 例如：
+
+```text
+Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36
+Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1
+```
+
+浏览器中的 `User-Agent` 由浏览器自动发送，不要在前端 JavaScript 中手工设置，也不需要追加任何自定义标识。
 
 返回：
 
@@ -252,7 +263,7 @@ POST /auth/logout
 Authorization: Bearer <accessToken>
 ```
 
-退出 Web 不影响 iOS、Android 或 Desktop。
+退出 Web 不影响 Mobile 或 Desktop。
 
 ## 最终目录
 
@@ -591,7 +602,7 @@ web-3
 创建 `apps/server/src/modules/auth/session/session.constants.ts`：
 
 ```ts
-export const SESSION_TERMINALS = ['web', 'desktop', 'ios', 'android'] as const
+export const SESSION_TERMINALS = ['web', 'desktop', 'mobile'] as const
 
 export type SessionTerminal = (typeof SESSION_TERMINALS)[number]
 
@@ -613,21 +624,19 @@ export function isSessionTerminal(value: string): value is SessionTerminal {
 export function detectSessionTerminal(userAgent: string | undefined): SessionTerminal {
   const value = userAgent ?? ''
 
-  if (/\bBubblesDesktop\//i.test(value) || /\bElectron\//i.test(value)) {
+  if (/\bElectron\//i.test(value)) {
     return 'desktop'
   }
 
-  if (/\bBubblesIOS\//i.test(value) || /iPhone|iPad|iPod/i.test(value)) {
-    return 'ios'
-  }
-
-  if (/\bBubblesAndroid\//i.test(value) || /Android/i.test(value)) {
-    return 'android'
+  if (/Android|iPhone|iPad|iPod/i.test(value)) {
+    return 'mobile'
   }
 
   return 'web'
 }
 ```
+
+本文按“从零实现”编写，默认 Redis 中不存在旧版 `ios`、`android` Slot。如果旧四端方案已经上线，不要让新旧实例直接混合使用同一个 `auth:v1` 前缀；应升级到新的 Key 前缀并让旧 Token 统一重新登录，或者先设计兼容迁移与旧 Slot 清理流程。
 
 创建 `apps/server/src/modules/auth/session/session.types.ts`：
 
@@ -662,7 +671,7 @@ Session Digest 不进入通用请求上下文。退出接口会从自己的 Auth
 
 ## 完成检查点
 
-- Terminal 只有四个固定值。
+- Terminal 只有三个固定值。
 - 登录根据 `User-Agent` 识别 Terminal，登录 Body 不接收 Terminal。
 - Redis Key 都由统一函数生成。
 - Controller 不会直接拼 Redis Key。
@@ -746,7 +755,7 @@ Redis Lua 脚本执行期间，其他 Redis 命令不能插进脚本中间。我
 2. 验证 Session 并刷新 TTL。
 3. 退出当前 Session。
 
-账号被锁定、禁用或修改密码时，还需要第四个管理脚本：一次撤销该用户四种 Terminal 的全部 Session。它不是每个请求都会执行，但能避免旧 Session 一直使用到 7 天绝对期限。
+账号被锁定、禁用或修改密码时，还需要第四个管理脚本：一次撤销该用户三种 Terminal 的全部 Session。它不是每个请求都会执行，但能避免旧 Session 一直使用到 7 天绝对期限。
 
 当前项目使用单实例 Redis，因此脚本可以根据 Session 中的 `userId` 和 `terminal` 动态构造 Slot Key。如果以后迁移 Redis Cluster，需要重新设计 Key 的 Hash Slot，不能直接照搬。
 
@@ -772,9 +781,9 @@ Redis Lua 脚本执行期间，其他 Redis 命令不能插进脚本中间。我
   删除当前 Session
 
 撤销全部：
-  读取固定四种 Terminal 的 Slot
+  读取固定三种 Terminal 的 Slot
   删除每个 Slot 指向的 Session
-  删除四个 Slot
+  删除三个 Slot
 ```
 
 先理解上面的四段，再阅读下面完整脚本。Lua 只是把这些步骤放进 Redis 内一次完成。
@@ -790,7 +799,7 @@ Redis Lua 脚本执行期间，其他 Redis 命令不能插进脚本中间。我
 ```ts
 export const CREATE_OR_REPLACE_SESSION_SCRIPT = String.raw`
 local function isValidTerminal(value)
-  return value == 'web' or value == 'desktop' or value == 'ios' or value == 'android'
+  return value == 'web' or value == 'desktop' or value == 'mobile'
 end
 
 local function isValidUserId(value)
@@ -852,7 +861,7 @@ return {
 
 export const VALIDATE_AND_TOUCH_SESSION_SCRIPT = String.raw`
 local function isValidTerminal(value)
-  return value == 'web' or value == 'desktop' or value == 'ios' or value == 'android'
+  return value == 'web' or value == 'desktop' or value == 'mobile'
 end
 
 local function isValidUserId(value)
@@ -921,7 +930,7 @@ return {
 
 export const LOGOUT_SESSION_SCRIPT = String.raw`
 local function isValidTerminal(value)
-  return value == 'web' or value == 'desktop' or value == 'ios' or value == 'android'
+  return value == 'web' or value == 'desktop' or value == 'mobile'
 end
 
 local function isValidUserId(value)
@@ -1040,13 +1049,12 @@ ARGV[8] = User-Agent
 
 ## 脚本 4：撤销用户的全部 Session
 
-调用方把固定的四个 Slot Key 作为 `KEYS` 传入：
+调用方把固定的三个 Slot Key 作为 `KEYS` 传入：
 
 ```text
 auth:v1:slot:<userId>:web
 auth:v1:slot:<userId>:desktop
-auth:v1:slot:<userId>:ios
-auth:v1:slot:<userId>:android
+auth:v1:slot:<userId>:mobile
 ```
 
 脚本逐个读取 Slot 指向的 Digest，然后同时删除对应 Session Key 和 Slot Key。它用于：
@@ -1063,7 +1071,7 @@ auth:v1:slot:<userId>:android
 - 失败验证不会刷新 TTL。
 - 请求不会把已删除 Session 重新写成 active。
 - logout 不会删除同端新 Session。
-- 可以按用户一次撤销四种 Terminal 的 Session。
+- 可以按用户一次撤销三种 Terminal 的 Session。
 
 # 步骤 8：实现 SessionStoreService
 
@@ -1378,15 +1386,11 @@ await login(account, password)
 // 浏览器自动发送 User-Agent，后端识别为 web。
 ```
 
-原生客户端需要在自己的网络层追加稳定的应用标识，例如：
+客户端不需要追加任何自定义 User-Agent 标识。服务端直接读取客户端实际发送的标准 User-Agent：包含 Android、iPhone、iPad 或 iPod 时归到 `mobile`，包含 Electron 时归到 `desktop`，其余情况归到 `web`。
 
-```text
-BubblesDesktop/1.0
-BubblesIOS/1.0
-BubblesAndroid/1.0
-```
+这意味着 iOS 和 Android 共用一个 Mobile Slot；同一账号从 iOS 切换到 Android，或者反过来登录时，旧 Mobile Session 会失效。手机浏览器同样会归到 `mobile`，因此会与移动 App 共用这个 Slot。
 
-可以把这个标识追加在原有 User-Agent 后面。当前规则会把 iPhone/iPad 浏览器归到 `ios`，把 Android 浏览器归到 `android`；也就是说，同一账号的移动浏览器和同平台原生 App 共用一个 Slot。如果以后希望它们分别在线，再增加明确的 `mobile_web` 类型，不要用越来越复杂的 UA 猜测硬凑。
+部分原生网络库可能发送无法识别的平台 UA，甚至不发送 User-Agent；iPad 的桌面网站模式也可能发送接近 macOS 的 UA。这些情况会保守归到 `web`。因此，不增加自定义标识时，本方案只能根据可识别的标准 UA 实现正常客户端之间的产品约束，不能保证所有原生客户端都稳定进入 Mobile Slot。如果以后必须稳定区分原生 App 和浏览器，需要重新定义客户端识别协议。
 
 User-Agent 可以伪造，因此这仍然只是正常客户端之间的产品规则，不能证明真实设备身份。
 
@@ -1444,7 +1448,7 @@ export class AuthRepository {
 
 - 数据库只保存 Argon2id Hash。
 - 登录 DTO 只包含账号和密码，不包含 Terminal。
-- 服务端只把 User-Agent 识别成四种固定 Terminal。
+- 服务端只把 User-Agent 识别成三种固定 Terminal。
 - 账号只允许字母、数字和下划线，并由 Service 统一转成小写。
 - `findPublicById()` 显式选择公开字段，不会把 `passwordHash` 返回给 `/auth/me`。
 
@@ -1606,9 +1610,9 @@ export class AuthService {
 
 | 事件           | 数据库操作          | Redis 操作         | 前端结果                 |
 | -------------- | ------------------- | ------------------ | ------------------------ |
-| 管理员锁定账号 | `status = locked`   | 撤销四种 Terminal  | 所有端下一次请求返回 401 |
-| 管理员禁用账号 | `status = disabled` | 撤销四种 Terminal  | 所有端下一次请求返回 401 |
-| 用户修改密码   | 更新 `passwordHash` | 撤销四种 Terminal  | 当前端和其他端都重新登录 |
+| 管理员锁定账号 | `status = locked`   | 撤销三种 Terminal  | 所有端下一次请求返回 401 |
+| 管理员禁用账号 | `status = disabled` | 撤销三种 Terminal  | 所有端下一次请求返回 401 |
+| 用户修改密码   | 更新 `passwordHash` | 撤销三种 Terminal  | 当前端和其他端都重新登录 |
 | 管理员重新启用 | `status = active`   | 不自动创建 Session | 用户使用密码重新登录     |
 
 在负责账号管理或修改密码的 Service 中，顺序写成：
@@ -1886,7 +1890,7 @@ AuthService 使用 userId 查询 PostgreSQL
 
 这不是“每个接口都去用户中心换用户信息”。只有前端确实需要用户资料时才调用 `/auth/me`；其他业务接口通过 Guard 得到 `userId` 后，直接执行自己的业务查询。
 
-登录 Controller 读取的是标准 `request.headers['user-agent']`。浏览器会自动携带它；`AuthService` 再通过 `detectSessionTerminal()` 把它归类成固定的四种 Terminal。
+登录 Controller 读取的是标准 `request.headers['user-agent']`。浏览器会自动携带它；`AuthService` 再通过 `detectSessionTerminal()` 把它归类成固定的三种 Terminal。
 
 ## 13.2 AuthModule
 
@@ -2653,12 +2657,14 @@ http://127.0.0.1:3000/api-docs
 ## 17.4 验证多端共存
 
 1. 使用普通浏览器 User-Agent 登录得到 Token Web。
-2. 使用包含 `BubblesIOS/1.0` 标识的 User-Agent 登录得到 Token iOS。
-3. 两个 Token 都能访问保护接口。
-4. 再次登录 Web，只让旧 Web Token 失效。
-5. iOS Token 仍然有效。
+2. 使用上文包含 Android 的标准 User-Agent 登录得到 Token Mobile A。
+3. Token Web 和 Token Mobile A 都能访问保护接口。
+4. 使用上文包含 iPhone 的标准 User-Agent 再次登录，得到 Token Mobile B。
+5. Token Mobile B 请求成功，Token Mobile A 返回 401；这证明 iOS 和 Android 共用一个 Mobile Slot。
+6. Token Web 仍然有效；这证明 Web 和 Mobile 可以同时在线。
+7. 再次登录 Web，只让旧 Web Token 失效，Token Mobile B 仍然有效。
 
-浏览器 JavaScript 通常不能随意改写 User-Agent。测试 iOS、Android 或 Desktop 标识时，应使用 Postman、`curl.exe`、自动化测试或真实客户端。
+浏览器 JavaScript 通常不能随意改写 User-Agent。测试 Android、iPhone 或 Electron User-Agent 时，应使用 Postman、`curl.exe`、自动化测试或真实客户端。
 
 ## 17.5 验证滑动 TTL
 
@@ -2683,7 +2689,7 @@ SESSION_ABSOLUTE_TTL_SECONDS=30
 - 当前 Token logout 后立即失效。
 - 重复 logout 不报错。
 - 被替换的旧 Token logout 不影响新 Token。
-- Web logout 不影响 iOS。
+- Web logout 不影响 Mobile。
 
 ## 17.7 验证 Redis 故障
 
@@ -2705,7 +2711,7 @@ SESSION_ABSOLUTE_TTL_SECONDS=30
 
 ## 17.8 验证账号撤销
 
-1. 同一个用户分别以 `web` 和 `ios` 登录。
+1. 同一个用户分别以 `web` 和 `mobile` 登录。
 2. 管理员把用户改成 `locked` 或 `disabled`。
 3. 两个 Token 的下一次请求都返回 401。
 4. 账号不可再次登录。
@@ -2736,10 +2742,16 @@ SESSION_ABSOLUTE_TTL_SECONDS=30
 ### User-Agent 识别
 
 - 用户提供的 Windows Chrome UA 返回 `web`。
-- 包含 Android 的 UA 返回 `android`。
-- 包含 iPhone、iPad 或 iPod 的 UA 返回 `ios`。
-- 包含 Electron 或 `BubblesDesktop/` 的 UA 返回 `desktop`。
+- 包含 Android 的 UA 返回 `mobile`。
+- 包含 iPhone、iPad 或 iPod 的 UA 返回 `mobile`。
+- Android 登录后再使用 iPhone UA 登录，旧 Android Token 失效。
+- iPhone 登录后再使用 Android UA 登录，旧 iPhone Token 失效。
+- 手机浏览器使用 Mobile Slot，会与其他可识别为 `mobile` 的客户端互相替换。
+- 包含 Electron 的 UA 返回 `desktop`。
+- 只有 `okhttp/4.x` 等无法识别平台的 UA 保守返回 `web`。
+- iPad 桌面网站模式的 UA 如果不包含 iPad 标识，会保守返回 `web`。
 - User-Agent 缺失时保守归到 `web`，不能创建任意新 Slot。
+- 客户端不需要追加自定义 User-Agent 标识。
 - LoginDto 中不存在 Terminal 字段。
 
 ### 登录 Lua
@@ -2768,7 +2780,7 @@ SESSION_ABSOLUTE_TTL_SECONDS=30
 
 ### 用户全部撤销 Lua
 
-- 一次删除 Web、Desktop、iOS、Android 的 Slot 和 Session。
+- 一次删除 Web、Desktop、Mobile 的 Slot 和 Session。
 - 某些 Terminal 没有登录时仍然成功。
 - 重复撤销保持幂等。
 - 撤销与同端登录并发时，最终状态符合 Redis 的实际执行顺序。

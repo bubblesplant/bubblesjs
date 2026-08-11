@@ -9,7 +9,7 @@ function readPositiveInteger(name: string, fallback: number) {
 }
 
 export default registerAs('session', () => {
-  const tokenPepper = process.env.SEESION_TOKEN_PEPPER
+  const tokenPepper = process.env.SESSION_TOKEN_PEPPER
   /**
    * 没有置换的情况下的过期时间 2个小时
    */
