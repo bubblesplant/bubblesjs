@@ -1,7 +1,7 @@
 /**
  * 会话终端
  */
-export const SESSION_TERMINALS = ['web', 'desktop', 'ios', 'android'] as const
+export const SESSION_TERMINALS = ['web', 'desktop', 'mobile'] as const
 
 export type SessionTerminalType = (typeof SESSION_TERMINALS)[number]
 /**
@@ -25,19 +25,15 @@ export function isSessionTerminal(value: string): value is SessionTerminalType {
   return SESSION_TERMINALS.includes(value as SessionTerminalType)
 }
 
-export function detectSessionTerminal(userAgent: string | undefined): SessionTerminal {
+export function detectSessionTerminal(userAgent: string | undefined): SessionTerminalType {
   const value = userAgent ?? ''
 
-  if (/\bBubblesDesktop\//i.test(value) || /\bElectron\//i.test(value)) {
+  if (/\bElectron\//i.test(value)) {
     return 'desktop'
   }
 
-  if (/\bBubblesIOS\//i.test(value) || /iPhone|iPad|iPod/i.test(value)) {
-    return 'ios'
-  }
-
-  if (/\bBubblesAndroid\//i.test(value) || /Android/i.test(value)) {
-    return 'android'
+  if (/Android|iPhone|iPad|iPod/i.test(value)) {
+    return 'mobile'
   }
 
   return 'web'
