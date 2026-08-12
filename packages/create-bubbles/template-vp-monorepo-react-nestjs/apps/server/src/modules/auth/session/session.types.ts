@@ -1,5 +1,5 @@
-import { SessionTerminalType } from '@/common/constants/session.constants'
 import { FastifyRequest } from 'fastify'
+import { SessionTerminalType } from 'shared/types'
 
 export interface CurrentAuth {
   userId: string
