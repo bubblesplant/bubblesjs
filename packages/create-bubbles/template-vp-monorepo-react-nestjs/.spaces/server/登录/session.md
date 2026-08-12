@@ -182,6 +182,20 @@ min(当前 Redis 时间 + 空闲期限, 绝对到期时间)
 
 ## HTTP 接口约定
 
+本方案会新增一个跨端 workspace 包 `@bubblesjs/shared`。它用多个子入口集中导出前后端共同依赖的 API 类型和环境无关工具：类型从 `@bubblesjs/shared/types` 导入，运行时工具从 `@bubblesjs/shared/utils` 导入。后端 DTO、Service、前端请求函数和公共数据处理不再各维护一份。
+
+统一响应在 HTTP 线上仍然是：
+
+```ts
+ApiResponse<T> = {
+  code: number
+  data: T
+  message: string
+}
+```
+
+例如登录接口的线上响应类型是 `ApiResponse<LoginResult>`。当前 `apps/web` 请求封装会自动取出 `data`，因此前端业务代码最终拿到的是 `LoginResult`，直接读取 `loginResult.accessToken`，不要再额外访问一次 `.data`。
+
 ### 注册
 
 ```http
@@ -232,7 +246,7 @@ Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHT
 }
 ```
 
-当前项目启用了 `ResponseInterceptor`，实际响应会再包一层统一格式。前端应从 `data.accessToken` 读取 Token。
+当前项目启用了 `ResponseInterceptor`，原始 HTTP 响应会再包一层统一格式。直接使用原始响应时从 `data.accessToken` 读取；使用当前 `apps/web` 请求封装时，`data` 已经自动解包，业务代码直接读取 `loginResult.accessToken`。
 
 登录响应故意不返回用户资料。前端保存 Token 后，再调用 `GET /auth/me` 获取当前用户信息。
 
@@ -254,7 +268,7 @@ Authorization: Bearer <accessToken>
 }
 ```
 
-实际响应同样会被 `ResponseInterceptor` 包装，前端从 `data` 读取用户对象。`passwordHash`、Token Digest 等内部字段绝不能返回。
+实际 HTTP 响应同样会被 `ResponseInterceptor` 包装；当前 `apps/web` 请求封装会自动解包并直接返回 `CurrentUser`。`passwordHash`、Token Digest 等内部字段绝不能返回。
 
 ### 退出当前端
 
@@ -268,6 +282,21 @@ Authorization: Bearer <accessToken>
 ## 最终目录
 
 ```text
+packages/shared/
+├─ package.json
+├─ tsconfig.json
+├─ vite.config.ts
+└─ src/
+   ├─ types/
+   │  ├─ common.ts
+   │  ├─ auth.ts
+   │  └─ index.ts
+   ├─ utils/
+   │  ├─ account.ts
+   │  ├─ session-terminal.ts
+   │  └─ index.ts
+   └─ index.ts
+
 apps/server/src/
 ├─ common/
 │  ├─ constants/
@@ -583,28 +612,292 @@ Pepper 不能提交到 Git。以后更换 Pepper 会导致所有旧 Token 无法
 - 绝对期限大于空闲期限。
 - 本地密钥文件没有被 Git 跟踪。
 
-# 步骤 4：定义 Terminal、Redis Key 和类型
+# 步骤 4：建立 Shared 包，并定义服务端 Session 内部类型
 
-## 为什么 Terminal 必须是固定枚举
+## 为什么使用一个包、多个入口
 
-如果客户端可以随意传入任意字符串：
+登录请求、登录结果和当前用户资料会同时被前端与后端使用；账号归一化、公共正则和类型守卫等纯函数也可能被两端共同使用。如果这些代码分别写在 `apps/web` 和 `apps/server`，修改时很容易发生漂移。
+
+因此本方案只创建一个 workspace 包：
 
 ```text
-web-1
-web-2
-web-3
+@bubblesjs/shared
 ```
 
-它就能绕过“同一端只能登录一次”的限制。
+但不把所有内容混在一个文件里，而是通过子路径明确区分：
 
-因此只允许服务端定义好的类型。
+```text
+@bubblesjs/shared/types   ← 只导出 TypeScript 类型
+@bubblesjs/shared/utils   ← 导出前后端都能运行的纯函数、常量和类型守卫
+```
+
+如果以后决定让前后端共享 Zod 运行时校验，再新增 `src/schemas/index.ts`、package 的 `./schemas` export 和 pack 的 `schemas` entry，并把 `zod` 放进 Shared 的运行时 `dependencies`。届时由 Schema 成为唯一来源，types 入口重导出 `z.infer` 结果，避免接口和 Schema 双写。当前阶段不要提前暴露不存在的 schemas 入口，Zod Schema 仍留在服务端 DTO 中。
+
+只有出现以下情况时才拆成多个包：
+
+- 某一部分需要独立发布或独立版本。
+- 工具开始依赖体积较大的运行时依赖。
+- Node.js 与浏览器运行环境发生冲突。
+- 包之间需要不同的构建目标或权限边界。
+
+当前是私有全栈 monorepo，一个 Shared 包加多个入口更简单。
+
+## 4.1 创建 `@bubblesjs/shared`
+
+当前工作区已经存在一个未完成的 `packages/shared` 骨架，目前只有 package、tsconfig 和单入口构建配置。下面直接完善这个包，把类型放进 `src/types`，把运行时工具放进 `src/utils`。
+
+`pnpm-workspace.yaml` 已经包含 `packages/*`，因此 `packages/shared` 会自动被识别，不需要新增第二层 workspace 规则。
+
+完善 `packages/shared/package.json`：
+
+```json
+{
+  "name": "@bubblesjs/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    },
+    "./types": {
+      "types": "./src/types/index.ts",
+      "import": "./src/types/index.ts"
+    },
+    "./utils": {
+      "types": "./src/utils/index.ts",
+      "import": "./src/utils/index.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "vp pack"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}
+```
+
+这个私有 workspace 包的 exports 直接指向 `src`，与仓库现有 `@bubblesjs/i18n-*` 包保持一致。这样干净检出后可以先执行 `vp check`，不要求本地提前存在 `dist`。Vite+、TypeScript 和应用构建链会解析 workspace 源码。
+
+`vp pack` 仍然负责验证多入口能否正确生成 JavaScript 和声明文件。如果以后要把 Shared 包独立发布到 npm，再把发布产物和 exports 切换到 `dist`，并在发布前强制执行 build。
+
+创建 `packages/shared/tsconfig.json`：
+
+```json
+{
+  "extends": "../../tsconfig.lib.json",
+  "include": ["src"]
+}
+```
+
+创建 `packages/shared/vite.config.ts`：
+
+```ts
+import { defineConfig } from 'vite-plus'
+
+export default defineConfig({
+  pack: {
+    entry: {
+      index: './src/index.ts',
+      types: './src/types/index.ts',
+      utils: './src/utils/index.ts',
+    },
+    format: ['esm'],
+    platform: 'neutral',
+    target: 'es2020',
+    dts: true,
+    clean: true,
+    treeshake: true,
+  },
+})
+```
+
+多入口构建会为 `index`、`types`、`utils` 分别生成 ESM JavaScript 和声明入口。具体使用 `.js`/`.d.ts` 还是 `.mjs`/`.d.mts`，由当前 Vite+/tsdown 输出策略决定，不要在业务代码中绕过 package exports 直接引用某个 dist 文件名。
+
+当前仓库的根 `package.json` 和 `apps/server/package.json` 中已经误加了未加 Scope 的：
+
+```json
+"shared": "workspace:*"
+```
+
+根 package 本身不导入业务 Shared 代码，因此直接从根 `devDependencies` 删除这项。Server 中也删除这个错误的 `devDependencies` 键。
+
+然后在 `apps/server/package.json` 和 `apps/web/package.json` 的 `dependencies` 中都加入正确的包名：
+
+```json
+"@bubblesjs/shared": "workspace:*"
+```
+
+如果以后 `apps/web-vue` 也接入这套登录，再给它加入同一个 workspace 依赖。修改完成后执行：
+
+```powershell
+vp install
+vp run @bubblesjs/shared#build
+```
+
+本地开发不依赖预先存在的 `dist`；`vp run @bubblesjs/shared#build` 用于验证库构建和声明文件生成。
+
+## 4.2 定义公共 API 类型
+
+创建 `packages/shared/src/types/common.ts`：
+
+```ts
+export interface ApiResponse<T> {
+  code: number
+  data: T
+  message: string
+}
+```
+
+创建 `packages/shared/src/types/auth.ts`：
+
+```ts
+export type SessionTerminal = 'web' | 'desktop' | 'mobile'
+
+export interface RegisterRequest {
+  name: string
+  account: string
+  password: string
+}
+
+export interface LoginRequest {
+  account: string
+  password: string
+}
+
+export interface AuthUser {
+  id: string
+  account: string
+  name: string
+}
+
+export type RegisterResult = AuthUser
+
+export interface LoginResult {
+  accessToken: string
+  tokenType: 'Bearer'
+  idleExpiresIn: number
+  absoluteExpiresAt: string
+}
+
+export interface CurrentUser extends AuthUser {
+  terminal: SessionTerminal
+}
+
+export interface LogoutResult {
+  loggedOut: true
+}
+```
+
+创建 `packages/shared/src/types/index.ts`：
+
+```ts
+export type { ApiResponse } from './common'
+export type {
+  AuthUser,
+  CurrentUser,
+  LoginRequest,
+  LoginResult,
+  LogoutResult,
+  RegisterRequest,
+  RegisterResult,
+  SessionTerminal,
+} from './auth'
+```
+
+## 4.3 定义跨端公共工具
+
+公共工具优先写成无状态纯函数，不要创建持有环境状态的单例“工具类”。
+
+创建 `packages/shared/src/utils/account.ts`：
+
+```ts
+export const ACCOUNT_PATTERN = /^[A-Za-z0-9_]+$/
+
+export function normalizeAccount(value: string) {
+  return value.trim().toLowerCase()
+}
+```
+
+创建 `packages/shared/src/utils/session-terminal.ts`：
+
+```ts
+import type { SessionTerminal } from '../types'
+
+export const SESSION_TERMINALS = [
+  'web',
+  'desktop',
+  'mobile',
+] as const satisfies readonly SessionTerminal[]
+
+export function isSessionTerminal(value: unknown): value is SessionTerminal {
+  return typeof value === 'string' && SESSION_TERMINALS.includes(value as SessionTerminal)
+}
+```
+
+创建 `packages/shared/src/utils/index.ts`：
+
+```ts
+export { ACCOUNT_PATTERN, normalizeAccount } from './account'
+export { SESSION_TERMINALS, isSessionTerminal } from './session-terminal'
+```
+
+创建根入口 `packages/shared/src/index.ts`：
+
+```ts
+export type {
+  ApiResponse,
+  AuthUser,
+  CurrentUser,
+  LoginRequest,
+  LoginResult,
+  LogoutResult,
+  RegisterRequest,
+  RegisterResult,
+  SessionTerminal,
+} from './types'
+export { ACCOUNT_PATTERN, isSessionTerminal, normalizeAccount, SESSION_TERMINALS } from './utils'
+```
+
+虽然根入口也会导出公共 API，业务代码仍推荐使用明确的子路径：
+
+```ts
+import type { LoginRequest, LoginResult } from '@bubblesjs/shared/types'
+import { normalizeAccount } from '@bubblesjs/shared/utils'
+```
+
+Shared Utils 可以包含：
+
+- 字符串、数组和数据转换等纯函数。
+- 公共正则、常量和类型守卫。
+- 不读取环境状态的格式化与归一化逻辑。
+
+下面这些内容不能进入 Shared 包：
+
+- `FastifyRequest`、NestJS Provider、React Hook 和 Vue Composable。
+- Node.js `fs`、Redis、数据库、Pepper、Token Digest 和服务端加密实现。
+- 浏览器 `window`、DOM、`localStorage` 和 UI 组件。
+- Guard 验证后才可信的服务端 `CurrentAuth` 上下文。
+- `CreateSessionInput`、Redis Session Payload、Drizzle Schema 和 `passwordHash`。
+
+环境相关代码继续留在 `apps/server` 或 `apps/web`。如果某个工具只能在 Node.js 或浏览器运行，它就不是真正的跨端 Shared Utils。
+
+## 4.4 定义服务端 Terminal 和 Redis Key
+
+客户端即使知道三个合法 Terminal，也不能自行决定当前 Terminal。真正的识别逻辑和 Redis Key 生成仍由服务端掌握。
 
 创建 `apps/server/src/modules/auth/session/session.constants.ts`：
 
 ```ts
-export const SESSION_TERMINALS = ['web', 'desktop', 'mobile'] as const
+import type { SessionTerminal } from '@bubblesjs/shared/types'
 
-export type SessionTerminal = (typeof SESSION_TERMINALS)[number]
+export { SESSION_TERMINALS, isSessionTerminal } from '@bubblesjs/shared/utils'
 
 export const SESSION_KEY_PREFIX = 'auth:v1:session:'
 export const SESSION_SLOT_PREFIX = 'auth:v1:slot:'
@@ -615,10 +908,6 @@ export function createSessionKey(tokenDigest: string) {
 
 export function createSessionSlotKey(userId: string, terminal: SessionTerminal) {
   return `${SESSION_SLOT_PREFIX}${userId}:${terminal}`
-}
-
-export function isSessionTerminal(value: string): value is SessionTerminal {
-  return SESSION_TERMINALS.includes(value as SessionTerminal)
 }
 
 export function detectSessionTerminal(userAgent: string | undefined): SessionTerminal {
@@ -636,13 +925,17 @@ export function detectSessionTerminal(userAgent: string | undefined): SessionTer
 }
 ```
 
+`SESSION_TERMINALS` 和 `isSessionTerminal` 是环境无关的公共值，因此从 Shared Utils 重导出。`detectSessionTerminal()` 依赖产品的服务端信任边界，仍然只放在 Server。
+
 本文按“从零实现”编写，默认 Redis 中不存在旧版 `ios`、`android` Slot。如果旧四端方案已经上线，不要让新旧实例直接混合使用同一个 `auth:v1` 前缀；应升级到新的 Key 前缀并让旧 Token 统一重新登录，或者先设计兼容迁移与旧 Slot 清理流程。
+
+## 4.5 定义服务端内部 Session 类型
 
 创建 `apps/server/src/modules/auth/session/session.types.ts`：
 
 ```ts
+import type { SessionTerminal } from '@bubblesjs/shared/types'
 import type { FastifyRequest } from 'fastify'
-import type { SessionTerminal } from './session.constants'
 
 export interface CurrentAuth {
   userId: string
@@ -667,14 +960,17 @@ export interface CreatedSession {
 }
 ```
 
-Session Digest 不进入通用请求上下文。退出接口会从自己的 Authorization Header 重新计算 Digest。
+`session.types.ts` 虽然名字中也有 types，但它是服务端内部类型文件，不属于 `@bubblesjs/shared/types`。Session Digest 不进入通用请求上下文；退出接口会从自己的 Authorization Header 重新计算 Digest。
 
 ## 完成检查点
 
-- Terminal 只有三个固定值。
+- `@bubblesjs/shared` 已被 `apps/server` 和 `apps/web` 共同依赖。
+- 类型从 `@bubblesjs/shared/types` 导入，运行时工具从 `@bubblesjs/shared/utils` 导入。
+- 登录请求、登录结果、当前用户和退出结果只有一份公共 TS 定义。
+- `normalizeAccount()`、账号正则和 Terminal 类型守卫只有一份跨端实现。
 - 登录根据 `User-Agent` 识别 Terminal，登录 Body 不接收 Terminal。
-- Redis Key 都由统一函数生成。
-- Controller 不会直接拼 Redis Key。
+- Redis、Fastify、Drizzle、DOM 和 Token Digest 等环境相关内容没有进入 Shared 包。
+- Redis Key 都由服务端统一函数生成，Controller 不会直接拼 Redis Key。
 
 # 步骤 5：生成随机 Token 和 Digest
 
@@ -1295,7 +1591,7 @@ Redis 断线、超时或脚本执行失败：
 - 无效 Session 由 Guard 转成 401。
 - 锁定、禁用和改密流程可以调用 `revokeAllForUser()`。
 
-# 步骤 9：实现密码、DTO 和用户 Repository
+# 步骤 9：实现密码、基于 Shared 包的 DTO 和用户 Repository
 
 ## 9.1 PasswordService
 
@@ -1332,6 +1628,8 @@ Argon2id 会自动在 Hash 中保存 Salt 和算法参数，因此不需要额�
 创建 `apps/server/src/modules/auth/dto/register.dto.ts`：
 
 ```ts
+import type { RegisterRequest } from '@bubblesjs/shared/types'
+import { ACCOUNT_PATTERN } from '@bubblesjs/shared/utils'
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
@@ -1342,9 +1640,9 @@ export const registerSchema = z.object({
     .trim()
     .min(4)
     .max(32)
-    .regex(/^[A-Za-z0-9_]+$/, '账号只能包含字母、数字和下划线'),
+    .regex(ACCOUNT_PATTERN, '账号只能包含字母、数字和下划线'),
   password: z.string().min(8).max(128),
-})
+}) satisfies z.ZodType<RegisterRequest>
 
 export class RegisterDto extends createZodDto(registerSchema) {}
 ```
@@ -1354,21 +1652,20 @@ export class RegisterDto extends createZodDto(registerSchema) {}
 创建 `apps/server/src/modules/auth/dto/login.dto.ts`：
 
 ```ts
+import type { LoginRequest } from '@bubblesjs/shared/types'
+import { ACCOUNT_PATTERN } from '@bubblesjs/shared/utils'
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
 export const loginSchema = z.object({
-  account: z
-    .string()
-    .trim()
-    .min(4)
-    .max(32)
-    .regex(/^[A-Za-z0-9_]+$/, '账号格式错误'),
+  account: z.string().trim().min(4).max(32).regex(ACCOUNT_PATTERN, '账号格式错误'),
   password: z.string().min(1).max(128),
-})
+}) satisfies z.ZodType<LoginRequest>
 
 export class LoginDto extends createZodDto(loginSchema) {}
 ```
+
+`RegisterRequest` 和 `LoginRequest` 是前后端共享的编译期契约，`ACCOUNT_PATTERN` 是两端都能使用的运行时常量；Zod Schema 是后端真正执行的运行时校验。`satisfies z.ZodType<...>` 会在字段类型明显不一致时让 TypeScript 报错，同时保留具体的 `ZodObject` 类型供 `createZodDto` 使用。
 
 账号规则保持简单：
 
@@ -1477,6 +1774,8 @@ Redis 原子创建 Session
 创建 `apps/server/src/modules/auth/auth.service.ts`：
 
 ```ts
+import type { AuthUser, LoginResult, LogoutResult, RegisterResult } from '@bubblesjs/shared/types'
+import { normalizeAccount } from '@bubblesjs/shared/utils'
 import {
   ConflictException,
   Injectable,
@@ -1511,8 +1810,8 @@ export class AuthService {
     this.idleExpiresIn = Math.floor(config.getOrThrow<number>('session.idleTtlMs') / 1000)
   }
 
-  async register(input: RegisterDto) {
-    const account = input.account.trim().toLowerCase()
+  async register(input: RegisterDto): Promise<RegisterResult> {
+    const account = normalizeAccount(input.account)
     const passwordHash = await this.passwordService.hash(input.password)
     const user = await this.authRepository.createUser({
       name: input.name.trim(),
@@ -1531,8 +1830,8 @@ export class AuthService {
     }
   }
 
-  async login(input: LoginDto, metadata: LoginMetadata) {
-    const account = input.account.trim().toLowerCase()
+  async login(input: LoginDto, metadata: LoginMetadata): Promise<LoginResult> {
+    const account = normalizeAccount(input.account)
     const user = await this.authRepository.findByAccount(account)
 
     if (!user || user.status !== 'active') {
@@ -1562,7 +1861,7 @@ export class AuthService {
     }
   }
 
-  async getCurrentUser(userId: string) {
+  async getCurrentUser(userId: string): Promise<AuthUser> {
     const user = await this.authRepository.findPublicById(userId).catch(() => {
       throw new ServiceUnavailableException({
         code: 'USER_SERVICE_UNAVAILABLE',
@@ -1584,7 +1883,7 @@ export class AuthService {
     }
   }
 
-  async logout(authorization: string | undefined) {
+  async logout(authorization: string | undefined): Promise<LogoutResult> {
     const rawToken = this.sessionTokenService.extractBearerToken(authorization)
 
     if (!rawToken) {
@@ -1820,6 +2119,7 @@ Guard 不查询 PostgreSQL。它只验证登录状态，并把可信的 `userId`
 创建 `apps/server/src/modules/auth/auth.controller.ts`：
 
 ```ts
+import type { CurrentUser } from '@bubblesjs/shared/types'
 import { CurrentAuth } from '@/common/decorators/current-auth.decorator'
 import { Public } from '@/common/decorators/public.decorator'
 import type { CurrentAuth as CurrentAuthValue } from '@/modules/auth/session/session.types'
@@ -1863,7 +2163,7 @@ export class AuthController {
   @ApiBearerAuth('session')
   @ApiOperation({ summary: '使用 Session Token 获取当前用户资料' })
   @Get('me')
-  async me(@CurrentAuth() auth: CurrentAuthValue) {
+  async me(@CurrentAuth() auth: CurrentAuthValue): Promise<CurrentUser> {
     const user = await this.authService.getCurrentUser(auth.userId)
 
     return {
@@ -2116,21 +2416,36 @@ CORS 只约束浏览器，不是鉴权手段。非浏览器客户端仍然可以
 
 # 步骤 15：前端接入
 
+前端不再重复声明 `LoginRequest`、`LoginResult`、`CurrentUser` 等接口，统一从 `@bubblesjs/shared/types` 导入；账号归一化等跨端纯函数从 `@bubblesjs/shared/utils` 导入。
+
+服务端统一响应字段名是 `message`。因此 `apps/web/src/utils/request/index.ts` 中应保持：
+
+```ts
+responseMessageKey: 'message'
+```
+
+不要写成 `msg`，否则错误提示读取的字段会与服务端 `ResOp` 不一致。
+
 ## 15.1 登录只发送账号和密码
 
 Web 项目不传 Terminal，也不需要手工设置 User-Agent：
 
 ```ts
-async function login(account: string, password: string) {
-  return request('/auth/login', {
+import type { LoginRequest, LoginResult } from '@bubblesjs/shared/types'
+import { normalizeAccount } from '@bubblesjs/shared/utils'
+
+async function login(input: LoginRequest): Promise<LoginResult> {
+  return request<LoginResult>('/auth/login', {
     method: 'POST',
     body: {
-      account,
-      password,
+      ...input,
+      account: normalizeAccount(input.account),
     },
   })
 }
 ```
+
+前端归一化用于及时统一表单行为；后端仍然必须再次调用同一个 `normalizeAccount()`，不能因为前端已经处理就信任客户端输入。
 
 浏览器会自动发送类似下面的 Header：
 
@@ -2164,8 +2479,10 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/
 示例：
 
 ```ts
-localStorage.setItem('session_token', response.data.accessToken)
+localStorage.setItem('session_token', loginResult.accessToken)
 ```
+
+当前请求封装已经自动解包统一响应的 `data`，所以这里的 `loginResult` 类型是 `LoginResult`，不是 `ApiResponse<LoginResult>`。
 
 ## 15.3 请求拦截器
 
@@ -2193,15 +2510,21 @@ function applyAuthHeaders(headers: Record<string, string>) {
 登录成功后的完整前端动作：
 
 ```ts
+import type { CurrentUser } from '@bubblesjs/shared/types'
+
+async function getCurrentUser(): Promise<CurrentUser> {
+  return request<CurrentUser>('/auth/me', { method: 'GET' })
+}
+
 async function completeLogin(account: string, password: string) {
-  const loginResponse = await login(account, password)
-  localStorage.setItem('session_token', loginResponse.data.accessToken)
+  const loginResult = await login({ account, password })
+  localStorage.setItem('session_token', loginResult.accessToken)
 
   // 请求拦截器现在会自动带上 Authorization。
-  const meResponse = await request('/auth/me', { method: 'GET' })
-  setCurrentUser(meResponse.data)
+  const currentUser = await getCurrentUser()
+  setCurrentUser(currentUser)
 
-  return meResponse.data
+  return currentUser
 }
 ```
 
@@ -2215,9 +2538,9 @@ async function restoreLogin() {
     return null
   }
 
-  const response = await request('/auth/me', { method: 'GET' })
-  setCurrentUser(response.data)
-  return response.data
+  const currentUser = await getCurrentUser()
+  setCurrentUser(currentUser)
+  return currentUser
 }
 ```
 
@@ -2286,6 +2609,9 @@ async function logout() {
 ## 完成检查点
 
 - 登录 Body 只发送账号和密码，Terminal 由后端读取 User-Agent 后判断。
+- 前端 API 函数从 `@bubblesjs/shared/types` 导入请求和结果类型，没有本地复制同名接口。
+- 前后端都从 `@bubblesjs/shared/utils` 使用相同的账号归一化逻辑，但后端仍独立执行校验。
+- 请求封装自动解包 `data`，业务代码直接使用 `LoginResult` 和 `CurrentUser`。
 - 登录成功或页面恢复时，通过 Bearer Token 调用 `GET /auth/me` 获取用户资料。
 - 所有保护请求自动添加 Bearer Token。
 - 401 清 Token，403 不清，503 保留。
@@ -2732,6 +3058,19 @@ SESSION_ABSOLUTE_TTL_SECONDS=30
 
 至少覆盖：
 
+### Shared 包
+
+- `apps/server` 和 `apps/web` 都能依赖 `@bubblesjs/shared`。
+- 类型可以从 `@bubblesjs/shared/types` 导入，工具可以从 `@bubblesjs/shared/utils` 导入。
+- `vp pack` 会生成根入口、types 入口、utils 入口及对应的声明文件。
+- `RegisterRequest`、`LoginRequest`、`LoginResult`、`CurrentUser` 和 `LogoutResult` 没有在前后端重复定义。
+- `normalizeAccount()`、`ACCOUNT_PATTERN`、`SESSION_TERMINALS` 和 `isSessionTerminal()` 在前后端行为一致。
+- 服务端 Zod Schema 与 `RegisterRequest`、`LoginRequest` 保持类型兼容。
+- AuthService 和 Controller 的公开返回值符合共享结果类型。
+- Shared 包不依赖 NestJS、React、Vue、DOM、Redis、Drizzle 或 Node.js 专属模块。
+- `FastifyRequest`、Redis Key、Token Digest、Drizzle Schema 和 `passwordHash` 没有进入 Shared 包。
+- 原始 HTTP 响应符合 `ApiResponse<T>`，当前前端请求封装解包后返回 `T`。
+
 ### Token
 
 - Token 是 32 字节随机数据的 base64url 表示。
@@ -2917,6 +3256,7 @@ Session 无效：401
 执行：
 
 ```powershell
+vp run @bubblesjs/shared#build
 vp run "server#build"
 vp check
 vp test
@@ -2932,6 +3272,9 @@ vp run <script>
 
 - [ ] 没有 JWT 和 Refresh Token。
 - [ ] 登录 Body 只有账号和密码，Terminal 从 User-Agent 推导。
+- [ ] 前后端共同依赖一个 `@bubblesjs/shared` 包，通过 types 和 utils 子入口区分职责。
+- [ ] API 类型和跨端纯工具没有在前后端各写一份。
+- [ ] Shared 包不包含 Redis、Fastify、Drizzle、DOM、框架代码或敏感字段。
 - [ ] 登录后通过 Bearer Token 调用 `GET /auth/me` 获取用户资料。
 - [ ] `/auth/me` 不返回 `passwordHash` 等敏感字段。
 - [ ] Token 只放 Authorization Header。

@@ -47,6 +47,7 @@
     "dotenv": "catalog:",
     "drizzle-kit": "catalog:",
     "globals": "catalog:",
+    "shared": "workspace:*",
     "source-map-support": "catalog:",
     "ts-loader": "catalog:",
     "ts-node": "catalog:",
