@@ -21,6 +21,7 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-router": "catalog:",
+    "shared": "workspace:*",
     "tailwindcss": "catalog:"
   },
   "devDependencies": {
