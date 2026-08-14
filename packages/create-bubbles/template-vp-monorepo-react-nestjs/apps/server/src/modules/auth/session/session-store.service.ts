@@ -1,6 +1,10 @@
-import { SESSION_TERMINALS } from '@/common/constants/session.constants'
+import {
+  createSessionKey,
+  createSessionSlotKey,
+  SESSION_TERMINALS,
+} from '@/common/constants/session.constants'
 import { InjectRedis } from '@nestjs-modules/ioredis'
-import { Injectable, Logger } from '@nestjs/common'
+import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import Redis from 'ioredis'
 import {
@@ -9,6 +13,7 @@ import {
   REVOKE_USER_SESSIONS_SCRIPT,
   VALIDATE_AND_TOUCH_SESSION_SCRIPT,
 } from './session.script'
+import { CreatedSession, CreateSessionInput } from './session.types'
 
 const INVALID_SESSION_CODES = new Set(['NOT_FOUND', 'REPLACED', 'ABSOLUTE_EXPIRED'])
 
@@ -50,5 +55,57 @@ export class SessionStoreService {
       numberOfKeys: SESSION_TERMINALS.length,
       lua: REVOKE_USER_SESSIONS_SCRIPT,
     })
+  }
+
+  private async execute(command: () => Promise<unknown>) {
+    try {
+      const result = await command()
+
+      if (!Array.isArray(result)) {
+        throw new Error('Redis script returned a non-array result')
+      }
+      return result.map((item) => String(item ?? ''))
+    } catch (error) {
+      const stack = error instanceof Error ? error.stack : undefined
+      this.logger.error('Redis Session command failed', stack)
+
+      throw new ServiceUnavailableException({
+        code: 'AUTH_SERVICE_UNAVAILABLE',
+        message: '登录服务暂时不可用, 请稍后重试',
+      })
+    }
+  }
+
+  async createOrReplace(input: CreateSessionInput): Promise<CreatedSession> {
+    const result = await this.execute(() =>
+      this.redis.authCreateOrReplaceSession(
+        createSessionSlotKey(input.userId, input.terminal),
+        createSessionKey(input.tokenDigest),
+        input.tokenDigest,
+        input.userId,
+        input.terminal,
+        String(this.idleTtlMs),
+        String(this.absoluteTtlMs),
+        input.loginIp,
+        input.userAgent,
+      ),
+    )
+
+    if (result[0] !== '1') {
+      this.logger.error(`Create session script rejected: ${result[1] ?? 'UNKNOWN'}`)
+      throw new ServiceUnavailableException('暂时无法创建登录状态')
+    }
+
+    const initialExpiresAtMs = Number(result[2])
+    const absoluteExpiresAtMs = Number(result[3])
+
+    if (!Number.isFinite(initialExpiresAtMs) || !Number.isFinite(absoluteExpiresAtMs)) {
+      throw new ServiceUnavailableException('登录状态数据异常')
+    }
+
+    return {
+      initialExpiresAtMs,
+      absoluteExpiresAtMs,
+    }
   }
 }

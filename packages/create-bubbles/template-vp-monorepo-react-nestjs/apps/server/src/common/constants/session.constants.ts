@@ -5,6 +5,10 @@ export { isSessionTerminal, SESSION_TERMINALS } from 'shared/utils'
 export const SESSION_KEY_PREFIX = 'auth:v1:session:'
 export const SESSION_SLOT_PREFIX = 'auth:v1:slot:'
 
+export function createSessionKey(tokenDigest: string) {
+  return `${SESSION_KEY_PREFIX}${tokenDigest}`
+}
+
 export function createSessionSlotKey(userId: string, terminal: SessionTerminalType) {
   return `${SESSION_SLOT_PREFIX}${userId}:${terminal}`
 }
