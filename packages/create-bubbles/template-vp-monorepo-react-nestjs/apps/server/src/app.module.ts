@@ -8,6 +8,7 @@ import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { DatabaseModule } from './database/db.module'
+import { AuthModule } from './modules/auth/auth.module'
 import { TestDbModule } from './modules/test/db/db.module'
 import { TestRedisModule } from './modules/test/redis/redis.module'
 import { ENV_ARR } from './utils/env-arr'
@@ -29,11 +30,16 @@ import { ENV_ARR } from './utils/env-arr'
           port: config.get('redis.port'),
           password: config.get('redis.password'),
           db: config.get('redis.db'),
+          connectTimeout: 3000,
+          commandTimeout: 2000,
+          maxRetriesPerRequest: 1,
+          enableOfflineQueue: false,
         },
       }),
     }),
     TestRedisModule,
     TestDbModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,6 +1,9 @@
 import {
   createSessionKey,
   createSessionSlotKey,
+  isSessionTerminal,
+  SESSION_KEY_PREFIX,
+  SESSION_SLOT_PREFIX,
   SESSION_TERMINALS,
 } from '@/common/constants/session.constants'
 import { InjectRedis } from '@nestjs-modules/ioredis'
@@ -13,7 +16,7 @@ import {
   REVOKE_USER_SESSIONS_SCRIPT,
   VALIDATE_AND_TOUCH_SESSION_SCRIPT,
 } from './session.script'
-import { CreatedSession, CreateSessionInput } from './session.types'
+import { CreatedSession, CreateSessionInput, CurrentAuthType } from './session.types'
 
 const INVALID_SESSION_CODES = new Set(['NOT_FOUND', 'REPLACED', 'ABSOLUTE_EXPIRED'])
 
@@ -106,6 +109,67 @@ export class SessionStoreService {
     return {
       initialExpiresAtMs,
       absoluteExpiresAtMs,
+    }
+  }
+
+  async validateAndTouch(tokenDigest: string): Promise<CurrentAuthType | null> {
+    const result = await this.execute(() =>
+      this.redis.authValidateAndTouchSession(
+        createSessionKey(tokenDigest),
+        tokenDigest,
+        SESSION_SLOT_PREFIX,
+        String(this.idleTtlMs),
+      ),
+    )
+
+    if (result[0] !== '1') {
+      const code = result[1] ?? 'UNKNOWN'
+
+      if (INVALID_SESSION_CODES.has(code)) {
+        return null
+      }
+
+      this.logger.error(`Validate session script returned unexpected code: ${code}`)
+      throw new ServiceUnavailableException('登录状态数据异常')
+    }
+
+    const userId = result[1]
+    const terminal = result[2]
+
+    if (!userId || !terminal || !isSessionTerminal(terminal)) {
+      this.logger.error('Redis returned an invalid Session payload')
+      throw new ServiceUnavailableException('登录状态数据异常')
+    }
+
+    return {
+      userId,
+      terminal,
+    }
+  }
+
+  async logout(tokenDigest: string) {
+    const result = await this.execute(() =>
+      this.redis.authLogoutSession(createSessionKey(tokenDigest), tokenDigest, SESSION_SLOT_PREFIX),
+    )
+
+    if (result[0] !== '1') {
+      this.logger.error(`Logout session script returned unexpected code: ${result[1] ?? 'UNKNOWN'}`)
+      throw new ServiceUnavailableException('暂时无法完成退出')
+    }
+  }
+
+  async revokeAllForUser(userId: string) {
+    const slotKeys = SESSION_TERMINALS.map((terminal: any) =>
+      createSessionSlotKey(userId, terminal),
+    )
+    const result = await this.execute(() =>
+      this.redis.authRevokeUserSessions(...slotKeys, SESSION_KEY_PREFIX),
+    )
+    if (result[0] !== '1') {
+      this.logger.error(
+        `Revoke user sessions script returned unexpected code: ${result[1] ?? 'UNKNOWN'}`,
+      )
+      throw new ServiceUnavailableException('暂时无法撤销用户登录状态')
     }
   }
 }

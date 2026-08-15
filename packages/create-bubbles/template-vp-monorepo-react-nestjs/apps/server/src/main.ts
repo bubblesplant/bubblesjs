@@ -6,13 +6,30 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { cleanupOpenApiDoc } from 'nestjs-zod'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter())
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter({
+      trustProxy: ['127.0.0.1', '::1'],
+    }),
+  )
+  await app.enableCors({
+    origin: ['*'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Company-Id'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  })
 
   const config = new DocumentBuilder()
     .setTitle('前后端模板 API')
     .setDescription('接口文档')
     .setVersion('1.0')
-    .addBearerAuth() // 用 JWT 就留着,不用可以删
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'Opaque Session Token',
+      },
+      'session',
+    ) // 用 JWT 就留着,不用可以删
     .build()
 
   // 生成openAPI 文档

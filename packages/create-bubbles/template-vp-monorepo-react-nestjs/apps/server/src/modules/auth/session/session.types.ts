@@ -1,13 +1,13 @@
 import { FastifyRequest } from 'fastify'
 import { SessionTerminalType } from 'shared/types'
 
-export interface CurrentAuth {
+export interface CurrentAuthType {
   userId: string
   terminal: SessionTerminalType
 }
 
 export type AuthenticatedRequest = FastifyRequest & {
-  auth?: CurrentAuth
+  auth?: CurrentAuthType
 }
 
 export interface CreateSessionInput {
