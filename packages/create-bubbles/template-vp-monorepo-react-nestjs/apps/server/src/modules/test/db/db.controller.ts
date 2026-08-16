@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { DbService } from './db.service'
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create-user.dto'
 
 @ApiTags('DB 测试')

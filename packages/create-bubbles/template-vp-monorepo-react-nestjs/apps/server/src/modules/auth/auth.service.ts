@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { LogoutResult, RegisterResult } from 'shared/types'
+import { AuthUser, LogoutResult, RegisterResult } from 'shared/types'
 import { normalizeAccount } from 'shared/utils'
 import { AuthRepository } from './auth.repository'
 import { LoginDto } from './dto/login.dto'

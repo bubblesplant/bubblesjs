@@ -40,6 +40,8 @@
     "@nestjs/schematics": "catalog:",
     "@nestjs/swagger": "catalog:",
     "@nestjs/testing": "catalog:",
+    "@swc/cli": "catalog:",
+    "@swc/core": "catalog:",
     "@types/express": "catalog:",
     "@types/node": "catalog:",
     "@types/pg": "catalog:",

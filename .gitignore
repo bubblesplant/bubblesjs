@@ -14,3 +14,4 @@ bun.lock
 
 
 .pnpm-store
+packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/tsconfig.build.tsbuildinfo

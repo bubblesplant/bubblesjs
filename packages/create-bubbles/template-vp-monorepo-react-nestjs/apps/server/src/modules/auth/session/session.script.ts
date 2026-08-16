@@ -10,11 +10,12 @@ local function isValidUserId(value)
 end
 
 local newDigest = ARGV[1]
-local userUd = ARGV[2]
+local userId = ARGV[2]
 local terminal = ARGV[3]
-local idleTtlMs = tonumber(ARGV[5])
-local loginIp = ARGV[7]
-local userAgent = ARGV[8]
+local idleTtlMs = tonumber(ARGV[4])
+local absoluteTtlMs = tonumber(ARGV[5])
+local loginIp = ARGV[6]
+local userAgent = ARGV[7]
 
 if newDigest == '' or not isValidUserId(userId) or not isValidTerminal(terminal)
 then 
@@ -27,8 +28,8 @@ if not idleTtlMs or not absoluteTtlMs or idleTtlMs <= 0 or absoluteTtlMs <= idle
 end
 
 local redisTime = redis.call('TIME')
-local nowMs = tonumber(redisTime[1] * 1000 + math.floor(tonumber(redisTime[2]) / 1000)
-local absoluteExpireAtMs = nowMs + absoluteTtlMs
+local nowMs = tonumber(redisTime[1]) * 1000 + math.floor(tonumber(redisTime[2]) / 1000)
+local absoluteExpiresAtMs = nowMs + absoluteTtlMs
 local initialExpiresAtMs = math.min(nowMs + idleTtlMs, absoluteExpiresAtMs)
 local oldDigest = redis.call('GET', KEYS[1])
 

@@ -25,6 +25,8 @@ catalog:
   '@nestjs/schematics': ^11.0.0
   '@nestjs/swagger': ^11.4.6
   '@nestjs/testing': ^11.0.1
+  '@swc/cli': ^0.8.1
+  '@swc/core': ^1.16.0
   '@tailwindcss/vite': ^4.3.1
   '@types/express': ^5.0.0
   '@types/node': ^26.1.1
@@ -103,6 +105,7 @@ minimumReleaseAgeExclude:
 allowBuilds:
   '@parcel/watcher': true
   '@scarf/scarf': true
+  '@swc/core': true
   argon2: true
   esbuild: true
   lefthook: true

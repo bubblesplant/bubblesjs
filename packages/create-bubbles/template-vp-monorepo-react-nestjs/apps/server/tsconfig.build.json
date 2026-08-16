@@ -6,7 +6,7 @@
     "outDir": "./dist",
     "sourceMap": true,
     "removeComments": true,
-    "incremental": true,
+    "incremental": false,
     "declaration": false
   },
   "include": ["src/**/*.ts"],

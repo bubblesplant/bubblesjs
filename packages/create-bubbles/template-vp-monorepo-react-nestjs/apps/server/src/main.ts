@@ -12,7 +12,7 @@ async function bootstrap() {
       trustProxy: ['127.0.0.1', '::1'],
     }),
   )
-  await app.enableCors({
+  app.enableCors({
     origin: ['*'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Company-Id'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
