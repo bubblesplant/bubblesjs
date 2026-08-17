@@ -6,6 +6,7 @@ function readPositiveInteger(name: string, fallback: number) {
   if (!Number.isSafeInteger(value) || value <= 0) {
     throw new Error(`${name} must be a positive integer`)
   }
+  return value
 }
 
 export default registerAs('session', () => {

@@ -77,7 +77,7 @@ local currentDigest = ARGV[1]
 local slotKeyPrefix = ARGV[2]
 local idleTtlMs = tonumber(ARGV[3])
 
-if currentDigest == '' or not idleTtlMs  or idleTtlMS <= 0 THEN
+if currentDigest == '' or not idleTtlMs  or idleTtlMS <= 0 then
   return { 0, 'INVALID_ARGUMENT' }
 end
 

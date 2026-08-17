@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Nest Attach 9229",
+      "type": "node",
+      "request": "attach",
+      "address": "127.0.0.1",
+      "port": 9229,
+      "restart": true,
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/apps/server/dist/**/*.js"],
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/**/node_modules/**"]
+    }
+  ]
+}

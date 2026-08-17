@@ -80,7 +80,6 @@ export class SessionStoreService {
   }
 
   async createOrReplace(input: CreateSessionInput): Promise<CreatedSession> {
-    debugger
     const result = await this.execute(() =>
       this.redis.authCreateOrReplaceSession(
         createSessionSlotKey(input.userId, input.terminal),

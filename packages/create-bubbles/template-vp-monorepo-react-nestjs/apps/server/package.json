@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "dev": "nest start --watch",
     "debug": "nest start --debug --watch",
+    "debug:start": "nest start --watch --exec \"node --inspect-brk\"",
     "build:preview": "node dist/main",
     "db:push": "drizzle-kit push",
     "db:generate": "drizzle-kit generate",
