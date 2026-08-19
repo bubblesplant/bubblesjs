@@ -1,8 +1,10 @@
 import { AppModule } from '@/app.module'
 import { logNetworkUrls } from '@/utils/server-address'
+import { ConsoleLogger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { randomUUID } from 'crypto'
 import { cleanupOpenApiDoc } from 'nestjs-zod'
 
 async function bootstrap() {
@@ -10,12 +12,20 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({
       trustProxy: ['127.0.0.1', '::1'],
+      genReqId: () => randomUUID(),
     }),
+    {
+      logger: new ConsoleLogger({
+        json: process.env.NODE_ENV === 'production',
+        colors: process.env.NODE_ENV === 'development',
+      }),
+    },
   )
   app.enableCors({
     origin: ['*'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Company-Id'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    exposedHeaders: ['X-Request-Id', 'WWW-Authenticate', 'Retry-After'],
   })
 
   const config = new DocumentBuilder()
