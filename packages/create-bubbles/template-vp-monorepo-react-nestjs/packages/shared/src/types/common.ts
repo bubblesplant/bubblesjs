@@ -1,22 +1,11 @@
 export interface ApiErrorDetail {
-  path?: string
-  code: string
-  message: string
-}
-
-export interface ApiSuccess<T> {
-  code: 200
-  data: T
-  message: string
-  requestId: string
+  readonly path?: string
+  readonly code: string
+  readonly message: string
 }
 
 export interface ApiFailure {
-  code: string
-  data: null
-  message: string
-  requestId: string
-  details?: ApiErrorDetail[]
+  readonly code: string
+  readonly message: string
+  readonly details?: ApiErrorDetail[]
 }
-
-export type ApiResponse<T> = ApiSuccess<T> | ApiFailure

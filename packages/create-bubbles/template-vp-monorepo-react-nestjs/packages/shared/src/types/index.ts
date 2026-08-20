@@ -8,4 +8,4 @@ export type {
   RegisterResult,
   SessionTerminalType,
 } from './auth'
-export type { ApiErrorDetail, ApiFailure, ApiResponse, ApiSuccess } from './common'
+export type { ApiErrorDetail, ApiFailure } from './common'

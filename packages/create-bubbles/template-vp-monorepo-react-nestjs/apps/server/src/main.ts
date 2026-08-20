@@ -1,26 +1,19 @@
 import { AppModule } from '@/app.module'
 import { logNetworkUrls } from '@/utils/server-address'
-import { ConsoleLogger } from '@nestjs/common'
+import { ConsoleLogger, Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
-import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify'
+import { type NestFastifyApplication } from '@nestjs/platform-fastify'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { randomUUID } from 'crypto'
 import { cleanupOpenApiDoc } from 'nestjs-zod'
+import fastifyAdapter from './common/adapters/fastify.adapter'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter({
-      trustProxy: ['127.0.0.1', '::1'],
-      genReqId: () => randomUUID(),
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter, {
+    logger: new ConsoleLogger({
+      json: process.env.NODE_ENV === 'production',
+      colors: process.env.NODE_ENV === 'development',
     }),
-    {
-      logger: new ConsoleLogger({
-        json: process.env.NODE_ENV === 'production',
-        colors: process.env.NODE_ENV === 'development',
-      }),
-    },
-  )
+  })
   app.enableCors({
     origin: ['*'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Company-Id'],
@@ -55,4 +48,8 @@ async function bootstrap() {
   logNetworkUrls(port)
 }
 
-void bootstrap()
+void bootstrap().catch((cause: unknown) => {
+  const logger = new Logger('Bootstrap')
+  logger.error('Server boostrap failed', cause instanceof Error ? cause.stack : undefined)
+  process.exitCode = 1
+})

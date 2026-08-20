@@ -1,4 +1,3 @@
-import { ResponseInterceptor } from '@/common/interceptors/transform'
 import { appConfig, databaseConfig, llmConfig, redisConfig, sessionConfig } from '@/config'
 import { RedisModule } from '@nestjs-modules/ioredis'
 import { Module } from '@nestjs/common'
@@ -44,10 +43,6 @@ import { ENV_ARR } from './utils/env-arr'
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ResponseInterceptor,
-    },
     // ZOD 全局校验管道
     {
       provide: APP_PIPE,
