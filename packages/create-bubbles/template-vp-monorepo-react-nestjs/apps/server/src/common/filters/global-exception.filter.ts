@@ -1,4 +1,5 @@
 import { HttpStatus } from '@nestjs/common'
+import { ApiErrorDetail } from 'shared/types'
 
 interface PublicHttpError {
   readonly code: string
@@ -80,4 +81,57 @@ function cleanPublicText(value: unknown, maxLength: number): string {
 
 function cleanDetailCode(value: unknown): string {
   const code = cleanPublicText(value, MAX_DETAIL_CODE_LENGTH)
+  if (/^[A-Za-z][A-Za-z0-9._-]*$/.test(code)) {
+    return code
+  }
+  return 'invalid'
+}
+
+function normalizeDetails(
+  details: readonly ApiErrorDetail[] | undefined,
+): ApiErrorDetail[] | undefined {
+  const normalized = details?.slice(0, MAX_DETAIL_COUNT).map((detail) => {
+    const path = cleanPublicText(detail.path, MAX_DETAIL_PATH_LENGTH)
+    const message = cleanPublicText(detail.message, MAX_PUBLIC_MESSAGE_LENGTH) || '请求内容无效'
+
+    return {
+      ...(path ? { path } : {}),
+      code: cleanDetailCode(detail.code),
+      message,
+    }
+  })
+  return normalized?.length ? normalized : undefined
+}
+
+function normalizeStatus(value: unknown): number {
+  if (typeof value !== 'number' || !Number.isInteger(value)) {
+    return HttpStatus.INTERNAL_SERVER_ERROR
+  }
+  if (value < 400 || value > 599) {
+    return HttpStatus.INTERNAL_SERVER_ERROR
+  }
+
+  return value
+}
+
+function sanitizeLogText(value: string, maxLength: number): string {
+  return value
+    .replace(/[\u0000-\u001F\u007F\u2028\u2029]/g, ' ')
+    .replace(/\b([a-z][a-z0-9+.-]*:\/\/)([^@\s/]+)@/gi, '$1[REDACTED]@')
+    .replace(/\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+/gi, '$1 [REDACTED]')
+    .replace(
+      /([?&](?:password|passwd|pwd|token|access[_-]?token|refresh[_-]?token|api[_-]?key|secret|client[_-]?secret)=)[^&#\s]*/gi,
+      '$1[REDACTED]',
+    )
+    .replace(
+      /(["']?)(authorization|proxy-authorization|cookie|set-cookie)\1\s*[:=]\s*(?:"[^"]*"|'[^']*'|[^,}\]]+)/gi,
+      '$1$2$1=[REDACTED]',
+    )
+    .replace(
+      /(["']?)(password|passwd|pwd|token|access[_-]?token|refresh[_-]?token|api[_-]?key|x-api-key|secret|client[_-]?secret|database[_-]?url|redis[_-]?url|connection[_-]?string|dsn)\1\s*[:=]\s*(?:"[^"]*"|'[^']*'|[^\s,;}\]]+)/gi,
+      '$1$2$1=[REDACTED]',
+    )
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, maxLength)
 }
