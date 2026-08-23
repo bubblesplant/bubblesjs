@@ -2,10 +2,11 @@ import { appConfig, databaseConfig, llmConfig, redisConfig, sessionConfig } from
 import { RedisModule } from '@nestjs-modules/ioredis'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 import { DatabaseModule } from './database/db.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { TestDbModule } from './modules/test/db/db.module'
@@ -52,6 +53,10 @@ import { ENV_ARR } from './utils/env-arr'
     {
       provide: APP_INTERCEPTOR,
       useClass: ZodSerializerInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
     },
   ],
 })

@@ -1,13 +1,10 @@
 import { detectSessionTerminal } from '@/common/constants/session.constants'
-import {
-  ConflictException,
-  Injectable,
-  ServiceUnavailableException,
-  UnauthorizedException,
-} from '@nestjs/common'
+import { AppException } from '@/common/exceptions/app.exception'
+import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { AuthUser, LogoutResult, RegisterResult } from 'shared/types'
 import { normalizeAccount } from 'shared/utils'
+import { AUTH_ERRORS } from './auth.errors'
 import { AuthRepository } from './auth.repository'
 import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
@@ -19,6 +16,9 @@ interface LoginMetadata {
   ip: string
   userAgent: string
 }
+
+const LOGIN_DUMMY_PASSWORD_HASH =
+  '$argon2id$v=19$m=65536,p=4,t=3$/sDN9pcO6kkAcm+ncFtbdA$vmQIsQtUG9E+s22x70njKji67RJDseq12y/sYFG7iNk'
 
 @Injectable()
 export class AuthService {
@@ -43,7 +43,7 @@ export class AuthService {
       passwordHash,
     })
     if (!user) {
-      throw new ConflictException('账号已存在')
+      throw new AppException(AUTH_ERRORS.ACCOUNT_ALREADY_EXISTS)
     }
 
     return {
@@ -56,15 +56,11 @@ export class AuthService {
   async login(input: LoginDto, metadata: LoginMetadata) {
     const account = normalizeAccount(input.account)
     const user = await this.authRepository.findByAccount(account)
+    const passwordHash = user?.status === 'active' ? user.passwordHash : LOGIN_DUMMY_PASSWORD_HASH
+    const passwordMatches = await this.passwordService.verify(passwordHash, input.password)
 
-    if (!user || user.status !== 'active') {
-      throw new UnauthorizedException('账号或密码错误')
-    }
-
-    const passwordMatches = await this.passwordService.verify(user.passwordHash, input.password)
-
-    if (!passwordMatches) {
-      throw new UnauthorizedException('账号或密码错误')
+    if (!user || user.status !== 'active' || !passwordMatches) {
+      throw new AppException(AUTH_ERRORS.INVALID_CREDENTIALS)
     }
 
     const { rawToken, tokenDigest } = this.sessionTokenService.createToken()
@@ -86,18 +82,14 @@ export class AuthService {
   }
 
   async getCurrentUser(userId: string): Promise<AuthUser> {
-    const user = await this.authRepository.findPublicById(userId).catch(() => {
-      throw new ServiceUnavailableException({
-        code: 'USER_SERVICE_UNAVAILABLE',
-        message: '暂时无法获取用户信息，请稍后重试',
+    const user = await this.authRepository.findPublicById(userId).catch((cause: unknown) => {
+      throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
+        cause,
       })
     })
 
     if (!user || user.status !== 'active') {
-      throw new UnauthorizedException({
-        code: 'SESSION_USER_INVALID',
-        message: '用户不存在或账号已不可用，请重新登录',
-      })
+      throw new AppException(AUTH_ERRORS.SESSION_INVALID)
     }
 
     return {

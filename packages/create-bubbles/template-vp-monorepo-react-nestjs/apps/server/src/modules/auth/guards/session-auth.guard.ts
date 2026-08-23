@@ -1,6 +1,8 @@
 import { IS_PUBLIC_KEY } from '@/common/constants/auth'
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common'
+import { AppException } from '@/common/exceptions/app.exception'
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
+import { AUTH_ERRORS } from '../auth.errors'
 import { SessionStoreService } from '../session/session-store.service'
 import { SessionTokenService } from '../session/session-token.service'
 import { AuthenticatedRequest } from '../session/session.types'
@@ -33,20 +35,14 @@ export class SessionAuthGuard implements CanActivate {
     const rawToken = this.sessionTokenService.extractBearerToken(request.headers.authorization)
 
     if (!rawToken) {
-      throw new UnauthorizedException({
-        code: 'SESSION_TOKEN_MISSING',
-        message: '缺少有效的登录 Token',
-      })
+      throw new AppException(AUTH_ERRORS.SESSION_TOKEN_MISSING)
     }
 
     const tokenDigest = this.sessionTokenService.digest(rawToken)
     const auth = await this.sessionStoreService.validateAndTouch(tokenDigest)
 
     if (!auth) {
-      throw new UnauthorizedException({
-        code: 'SESSION_INVALID',
-        message: '登录已失效，请重新登录',
-      })
+      throw new AppException(AUTH_ERRORS.SESSION_INVALID)
     }
     request.auth = auth
     return true

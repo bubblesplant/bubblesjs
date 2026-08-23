@@ -6,10 +6,12 @@ import {
   SESSION_SLOT_PREFIX,
   SESSION_TERMINALS,
 } from '@/common/constants/session.constants'
+import { AppException } from '@/common/exceptions/app.exception'
 import { InjectRedis } from '@nestjs-modules/ioredis'
 import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import Redis from 'ioredis'
+import { AUTH_ERRORS } from '../auth.errors'
 import {
   CREATE_OR_REPLACE_SESSION_SCRIPT,
   LOGOUT_SESSION_SCRIPT,
@@ -68,14 +70,8 @@ export class SessionStoreService {
         throw new Error('Redis script returned a non-array result')
       }
       return result.map((item) => String(item ?? ''))
-    } catch (error) {
-      const stack = error instanceof Error ? error.stack : undefined
-      this.logger.error('Redis Session command failed', stack)
-
-      throw new ServiceUnavailableException({
-        code: 'AUTH_SERVICE_UNAVAILABLE',
-        message: '登录服务暂时不可用, 请稍后重试',
-      })
+    } catch (cause: unknown) {
+      throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, { cause })
     }
   }
 
