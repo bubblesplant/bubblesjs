@@ -3,6 +3,12 @@ local function isValidTerminal(value)
   return value == 'web' or value == 'desktop' or value == 'mobile'
 end
 
+local function isValidDigest(value)
+  return value
+    and string.len(value) == 64
+    and string.match(value, '^[0-9a-f]+$') ~= nil
+end
+
 local function isValidUserId(value)
   return string.len(value) > 0
     and string.len(value) <= 100
@@ -16,9 +22,14 @@ local idleTtlMs = tonumber(ARGV[4])
 local absoluteTtlMs = tonumber(ARGV[5])
 local loginIp = ARGV[6]
 local userAgent = ARGV[7]
+local sessionKeyPrefix = ARGV[8]
 
-if newDigest == '' or not isValidUserId(userId) or not isValidTerminal(terminal)
-then 
+if not isValidDigest(newDigest)
+  or not isValidUserId(userId)
+  or not isValidTerminal(terminal)
+  or not sessionKeyPrefix
+  or sessionKeyPrefix == ''
+then
   return { 0, 'INVALID_ARGUMENT' }
 end
 
@@ -32,6 +43,17 @@ local nowMs = tonumber(redisTime[1]) * 1000 + math.floor(tonumber(redisTime[2]) 
 local absoluteExpiresAtMs = nowMs + absoluteTtlMs
 local initialExpiresAtMs = math.min(nowMs + idleTtlMs, absoluteExpiresAtMs)
 local oldDigest = redis.call('GET', KEYS[1])
+local oldSessionKey = nil
+
+
+if oldDigest then
+  if not isValidDigest(oldDigest) then
+    return { 0, 'INVALID_SLOT_DATA' }
+  end
+
+  oldSessionKey = sessionKeyPrefix .. oldDigest
+end
+
 
 redis.call(
   'HSET',
@@ -49,9 +71,11 @@ redis.call('PEXPIREAT', KEYS[2], initialExpiresAtMs)
 redis.call('SET', KEYS[1], newDigest)
 redis.call('PEXPIREAT', KEYS[1], initialExpiresAtMs)
 
-if oldDigest and oldDigest ~= newDigest then
-  redis.call('DEL', sessionKeyPrefix .. oldDigest)
-end 
+if oldSessionKey and oldDigest ~= newDigest then
+  redis.call('DEL', oldSessionKey)
+end
+
+
 
 return {
   1,
@@ -77,7 +101,7 @@ local currentDigest = ARGV[1]
 local slotKeyPrefix = ARGV[2]
 local idleTtlMs = tonumber(ARGV[3])
 
-if currentDigest == '' or not idleTtlMs  or idleTtlMS <= 0 then
+if not isValidDigest(currentDigest) or not idleTtlMs or idleTtlMs <= 0 then
   return { 0, 'INVALID_ARGUMENT' }
 end
 
@@ -94,7 +118,7 @@ local terminal = sessionValues[2]
 local absoluteExpiresAtMs = tonumber(sessionValues[3])
 
 if not userId or not terminal or not absoluteExpiresAtMs then 
-  return { 0, 'NOT_FUND' }
+  return { 0, 'NOT_FOUND' }
 end
 
 if not isValidUserId(userId) or not isValidTerminal(terminal) then
@@ -185,7 +209,7 @@ for index = 1, #KEYS DO
 
   if digest
     and string.len(digest) == 64
-    and string.match(digest, '[0-9a-f]+$') ~= nil then
+    and string.match(digest, '^[0-9a-f]+$') ~= nil then
     redis.call('DEL', sessionKeyPrefix .. digest)
     revokedCount = revokedCount + 1
   end

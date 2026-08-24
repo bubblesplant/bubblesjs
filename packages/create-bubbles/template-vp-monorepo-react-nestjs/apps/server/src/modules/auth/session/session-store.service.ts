@@ -8,7 +8,7 @@ import {
 } from '@/common/constants/session.constants'
 import { AppException } from '@/common/exceptions/app.exception'
 import { InjectRedis } from '@nestjs-modules/ioredis'
-import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import Redis from 'ioredis'
 import { AUTH_ERRORS } from '../auth.errors'
@@ -87,6 +87,7 @@ export class SessionStoreService {
         String(this.absoluteTtlMs),
         input.loginIp,
         input.userAgent,
+        SESSION_KEY_PREFIX,
       ),
     )
 
