@@ -29,9 +29,16 @@ type SessionRedis = Redis & {
   authRevokeUserSessions(...args: string[]): Promise<unknown>
 }
 
+const SCRIPT_CODE_PATTERN = /^[A-Z][A-Z0-9_]{0,79}$/
+
+function createScriptProtocolError(operation: string, value: string | undefined): Error {
+  const code = SCRIPT_CODE_PATTERN.test(value ?? '') ? value : 'UNKNOWN'
+  return new Error(`Redis ${operation} script returned ${code}`)
+}
+
 @Injectable()
 export class SessionStoreService {
-  private readonly logger = new Logger(SessionStoreService.name)
+  // private readonly logger = new Logger(SessionStoreService.name)
   private readonly redis: SessionRedis
   private readonly idleTtlMs: number
   private readonly absoluteTtlMs: number
@@ -91,17 +98,17 @@ export class SessionStoreService {
       ),
     )
 
-    if (result[0] !== '1') {
-      this.logger.error(`Create session script rejected: ${result[1] ?? 'UNKNOWN'}`)
-      throw new ServiceUnavailableException('暂时无法创建登录状态')
-    }
+    // if (result[0] !== '1') {
+    //   this.logger.error(`Create session script rejected: ${result[1] ?? 'UNKNOWN'}`)
+    //   throw new ServiceUnavailableException('暂时无法创建登录状态')
+    // }
 
     const initialExpiresAtMs = Number(result[2])
     const absoluteExpiresAtMs = Number(result[3])
 
-    if (!Number.isFinite(initialExpiresAtMs) || !Number.isFinite(absoluteExpiresAtMs)) {
-      throw new ServiceUnavailableException('登录状态数据异常')
-    }
+    // if (!Number.isFinite(initialExpiresAtMs) || !Number.isFinite(absoluteExpiresAtMs)) {
+    //   throw new ServiceUnavailableException('登录状态数据异常')
+    // }
 
     return {
       initialExpiresAtMs,
@@ -126,16 +133,25 @@ export class SessionStoreService {
         return null
       }
 
-      this.logger.error(`Validate session script returned unexpected code: ${code}`)
-      throw new ServiceUnavailableException('登录状态数据异常')
+      // this.logger.error(`Validate session script returned unexpected code: ${code}`)
+      // throw new ServiceUnavailableException('登录状态数据异常')
+      throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
+        cause: createScriptProtocolError('validateAndTouch', result[0]),
+      })
     }
 
     const userId = result[1]
     const terminal = result[2]
 
+    // if (!userId || !terminal || !isSessionTerminal(terminal)) {
+    //   this.logger.error('Redis returned an invalid Session payload')
+    //   throw new ServiceUnavailableException('登录状态数据异常')
+    // }
+
     if (!userId || !terminal || !isSessionTerminal(terminal)) {
-      this.logger.error('Redis returned an invalid Session payload')
-      throw new ServiceUnavailableException('登录状态数据异常')
+      throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
+        cause: createScriptProtocolError('validateAndTouch', result[0]),
+      })
     }
 
     return {
@@ -149,24 +165,34 @@ export class SessionStoreService {
       this.redis.authLogoutSession(createSessionKey(tokenDigest), tokenDigest, SESSION_SLOT_PREFIX),
     )
 
+    // if (result[0] !== '1') {
+    //   this.logger.error(`Logout session script returned unexpected code: ${result[1] ?? 'UNKNOWN'}`)
+    //   throw new ServiceUnavailableException('暂时无法完成退出')
+    // }
+
     if (result[0] !== '1') {
-      this.logger.error(`Logout session script returned unexpected code: ${result[1] ?? 'UNKNOWN'}`)
-      throw new ServiceUnavailableException('暂时无法完成退出')
+      throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
+        cause: createScriptProtocolError('logout', result[0]),
+      })
     }
   }
 
   async revokeAllForUser(userId: string) {
-    const slotKeys = SESSION_TERMINALS.map((terminal: any) =>
-      createSessionSlotKey(userId, terminal),
-    )
+    const slotKeys = SESSION_TERMINALS.map((terminal) => createSessionSlotKey(userId, terminal))
     const result = await this.execute(() =>
       this.redis.authRevokeUserSessions(...slotKeys, SESSION_KEY_PREFIX),
     )
+    // if (result[0] !== '1') {
+    //   this.logger.error(
+    //     `Revoke user sessions script returned unexpected code: ${result[1] ?? 'UNKNOWN'}`,
+    //   )
+    //   throw new ServiceUnavailableException('暂时无法撤销用户登录状态')
+    // }
+
     if (result[0] !== '1') {
-      this.logger.error(
-        `Revoke user sessions script returned unexpected code: ${result[1] ?? 'UNKNOWN'}`,
-      )
-      throw new ServiceUnavailableException('暂时无法撤销用户登录状态')
+      throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
+        cause: createScriptProtocolError('revokeAllForUser', result[0]),
+      })
     }
   }
 }

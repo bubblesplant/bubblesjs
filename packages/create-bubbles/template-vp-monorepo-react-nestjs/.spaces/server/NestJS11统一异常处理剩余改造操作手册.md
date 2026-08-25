@@ -344,8 +344,6 @@ end
 
 这样做的重点是：所有能够主动发现的协议错误必须发生在首次写操作之前。Redis Lua 运行时错误不会自动回滚此前写入。
 
-// 哈喽 这里是标记
-
 然后修改：
 
 ```text
@@ -540,6 +538,8 @@ SESSION_TERMINALS.map((terminal: any) => ...)
 ```ts
 SESSION_TERMINALS.map((terminal) => ...)
 ```
+
+// 这里是标记
 
 ### 7.4 单元测试
 
