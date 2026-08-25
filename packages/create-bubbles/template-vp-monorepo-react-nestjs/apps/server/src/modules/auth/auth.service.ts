@@ -36,12 +36,16 @@ export class AuthService {
 
   async register(input: RegisterDto): Promise<RegisterResult> {
     const account = normalizeAccount(input.account)
-    const passwordHash = await this.passwordService.hash(input.password)
-    const user = await this.authRepository.createUser({
-      name: input.name.trim(),
-      account,
-      passwordHash,
-    })
+    const passwordHash = await this.useAuthInfrastrutrue(() =>
+      this.passwordService.hash(input.password),
+    )
+    const user = await this.useAuthInfrastrutrue(() =>
+      this.authRepository.createUser({
+        name: input.name.trim(),
+        account,
+        passwordHash,
+      }),
+    )
     if (!user) {
       throw new AppException(AUTH_ERRORS.ACCOUNT_ALREADY_EXISTS)
     }
@@ -55,9 +59,11 @@ export class AuthService {
 
   async login(input: LoginDto, metadata: LoginMetadata) {
     const account = normalizeAccount(input.account)
-    const user = await this.authRepository.findByAccount(account)
+    const user = await this.useAuthInfrastrutrue(() => this.authRepository.findByAccount(account))
     const passwordHash = user?.status === 'active' ? user.passwordHash : LOGIN_DUMMY_PASSWORD_HASH
-    const passwordMatches = await this.passwordService.verify(passwordHash, input.password)
+    const passwordMatches = await this.useAuthInfrastrutrue(() =>
+      this.passwordService.verify(passwordHash, input.password),
+    )
 
     if (!user || user.status !== 'active' || !passwordMatches) {
       throw new AppException(AUTH_ERRORS.INVALID_CREDENTIALS)
@@ -81,12 +87,23 @@ export class AuthService {
     }
   }
 
+  private async useAuthInfrastrutrue<T>(operation: () => Promise<T>): Promise<T> {
+    try {
+      return await operation()
+    } catch (cause: unknown) {
+      if (cause instanceof AppException) {
+        throw cause
+      }
+      throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, { cause })
+    }
+  }
+
   async getCurrentUser(userId: string): Promise<AuthUser> {
-    const user = await this.authRepository.findPublicById(userId).catch((cause: unknown) => {
-      throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
-        cause,
-      })
-    })
+    const user = await this.useAuthInfrastrutrue(() =>
+      this.authRepository.findPublicById(userId).catch((cause: unknown) => {
+        throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, { cause })
+      }),
+    )
 
     if (!user || user.status !== 'active') {
       throw new AppException(AUTH_ERRORS.SESSION_INVALID)

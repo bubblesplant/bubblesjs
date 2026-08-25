@@ -136,7 +136,7 @@ export class SessionStoreService {
       // this.logger.error(`Validate session script returned unexpected code: ${code}`)
       // throw new ServiceUnavailableException('登录状态数据异常')
       throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
-        cause: createScriptProtocolError('validateAndTouch', result[0]),
+        cause: createScriptProtocolError('validateAndTouch', result[1]),
       })
     }
 
@@ -150,7 +150,7 @@ export class SessionStoreService {
 
     if (!userId || !terminal || !isSessionTerminal(terminal)) {
       throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
-        cause: createScriptProtocolError('validateAndTouch', result[0]),
+        cause: createScriptProtocolError('validateAndTouch', result[1]),
       })
     }
 
@@ -172,7 +172,7 @@ export class SessionStoreService {
 
     if (result[0] !== '1') {
       throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
-        cause: createScriptProtocolError('logout', result[0]),
+        cause: createScriptProtocolError('logout', result[1]),
       })
     }
   }
@@ -191,7 +191,7 @@ export class SessionStoreService {
 
     if (result[0] !== '1') {
       throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, {
-        cause: createScriptProtocolError('revokeAllForUser', result[0]),
+        cause: createScriptProtocolError('revokeAllForUser', result[1]),
       })
     }
   }

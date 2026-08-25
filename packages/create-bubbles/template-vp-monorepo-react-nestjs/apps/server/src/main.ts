@@ -5,10 +5,10 @@ import { NestFactory } from '@nestjs/core'
 import { type NestFastifyApplication } from '@nestjs/platform-fastify'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { cleanupOpenApiDoc } from 'nestjs-zod'
-import fastifyAdapter from './common/adapters/fastify.adapter'
+import { createFastifyAdapter } from './common/adapters/fastify.adapter'
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter, {
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, createFastifyAdapter(), {
     logger: new ConsoleLogger({
       json: process.env.NODE_ENV === 'production',
       colors: process.env.NODE_ENV === 'development',

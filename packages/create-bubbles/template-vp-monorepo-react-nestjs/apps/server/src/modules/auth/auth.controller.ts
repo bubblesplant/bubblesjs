@@ -1,6 +1,6 @@
 import { CurrentAuth } from '@/common/decorators/current-auth.decorator'
 import { Public } from '@/common/decorators/public.decorator'
-import { Body, Controller, Get, Headers, Post, Req } from '@nestjs/common'
+import { Body, Controller, Get, Headers, HttpCode, HttpStatus, Post, Req } from '@nestjs/common'
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 import type { FastifyRequest } from 'fastify'
 import { CurrentUser } from 'shared/types'
@@ -23,6 +23,7 @@ export class AuthController {
 
   @Public()
   @ApiOperation({ summary: '登录并创建 Redis Session' })
+  @HttpCode(HttpStatus.OK)
   @Post('login')
   login(@Body() body: LoginDto, @Req() request: FastifyRequest) {
     return this.authService.login(body, {
@@ -34,6 +35,7 @@ export class AuthController {
   @ApiBearerAuth('session')
   @ApiOperation({ summary: '退出当前端' })
   @Public()
+  @HttpCode(HttpStatus.OK)
   @Post('logout')
   logout(@Headers('authorization') authorization: string | undefined) {
     return this.authService.logout(authorization)
