@@ -1,11 +1,20 @@
 {
   "name": "create-bubbles",
   "version": "0.1.23",
-  "type": "module",
+  "homepage": "https://github.com/435012357/bubblesjs/tree/master/packages/create-bubbles#readme",
+  "bugs": {
+    "url": "https://github.com/435012357/bubblesjs/issues"
+  },
   "author": "bubbles plant",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/435012357/bubblesjs.git",
+    "directory": "packages/create-bubbles"
+  },
+  "funding": "https://github.com/435012357/bubblesjs",
   "bin": {
-    "create-bubbles": "index.js",
-    "cbp": "index.js"
+    "cbp": "index.js",
+    "create-bubbles": "index.js"
   },
   "files": [
     "index.js",
@@ -13,29 +22,16 @@
     "dist",
     "template-*/**"
   ],
+  "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "dev": "vp pack --watch",
     "build": "vp pack",
     "typecheck": "tsc",
     "prepublishOnly": "npm run build"
-  },
-  "engines": {
-    "node": "^20.19.0 || >=22.12.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/435012357/bubblesjs.git",
-    "directory": "packages/create-bubbles"
-  },
-  "bugs": {
-    "url": "https://github.com/435012357/bubblesjs/issues"
-  },
-  "homepage": "https://github.com/435012357/bubblesjs/tree/master/packages/create-bubbles#readme",
-  "funding": "https://github.com/435012357/bubblesjs",
-  "devDependencies": {
-    "@types/node": "^24.3.0",
-    "vite": "catalog:",
-    "vite-plus": "catalog:"
   },
   "dependencies": {
     "@clack/prompts": "^1.5.1",
@@ -44,8 +40,13 @@
     "mri": "^1.2.0",
     "picocolors": "^1.1.1"
   },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "tsdown": "^0.22.14",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
   }
 }
