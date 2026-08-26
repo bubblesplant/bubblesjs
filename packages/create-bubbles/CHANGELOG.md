@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.25
+
+### Patch Changes
+
+- [`9141a1e`](https://github.com/bubblesplant/bubblesjs/commit/9141a1e8f1d8020c0b9260fa692b4e4f4a1a4fa7) Thanks [@bubblesplant](https://github.com/bubblesplant)! - create-bubbles 采用 vite-plus 打包
+
 ## 0.1.24
 
 ### Patch Changes
