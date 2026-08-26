@@ -1,8 +1,12 @@
-import tsdownConfig from './tsdown.config.js';
-
-import { defineConfig } from 'vite-plus';
+import { defineConfig } from 'vite-plus'
 
 export default defineConfig({
-  pack: tsdownConfig,
-  
-});
+  pack: {
+    entry: ['./src/index.ts'],
+    format: ['esm'],
+    target: 'es2021',
+    outExtensions: () => ({ js: '.js' }),
+    dts: true,
+    clean: true,
+  },
+})
