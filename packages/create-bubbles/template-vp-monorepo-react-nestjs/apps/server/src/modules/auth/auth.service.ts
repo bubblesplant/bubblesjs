@@ -100,9 +100,7 @@ export class AuthService {
 
   async getCurrentUser(userId: string): Promise<AuthUser> {
     const user = await this.useAuthInfrastrutrue(() =>
-      this.authRepository.findPublicById(userId).catch((cause: unknown) => {
-        throw new AppException(AUTH_ERRORS.SERVICE_UNAVAILABLE, { cause })
-      }),
+      this.authRepository.findPublicById(userId),
     )
 
     if (!user || user.status !== 'active') {
