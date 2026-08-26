@@ -1,5 +1,5 @@
 {
-  "include": ["tsdown.config.ts", "src", "__tests__"],
+  "include": ["src", "__tests__"],
   "compilerOptions": {
     "outDir": "dist",
     "target": "ES2023",
