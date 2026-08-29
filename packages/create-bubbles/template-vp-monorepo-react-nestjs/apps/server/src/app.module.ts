@@ -1,4 +1,11 @@
-import { appConfig, databaseConfig, llmConfig, redisConfig, sessionConfig } from '@/config'
+import {
+  appConfig,
+  databaseConfig,
+  llmConfig,
+  redisConfig,
+  sessionConfig,
+  storageConfig,
+} from '@/config'
 import { RedisModule } from '@nestjs-modules/ioredis'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
@@ -18,7 +25,7 @@ import { ENV_ARR } from './utils/env-arr'
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ENV_ARR,
-      load: [appConfig, databaseConfig, llmConfig, redisConfig, sessionConfig],
+      load: [appConfig, databaseConfig, llmConfig, redisConfig, sessionConfig, storageConfig],
     }),
     DatabaseModule,
     RedisModule.forRootAsync({

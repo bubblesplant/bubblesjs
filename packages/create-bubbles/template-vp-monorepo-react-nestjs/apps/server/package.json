@@ -19,6 +19,7 @@
     "test": "vp test"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1120.0",
     "@nestjs-modules/ioredis": "catalog:",
     "@nestjs/common": "catalog:",
     "@nestjs/config": "catalog:",

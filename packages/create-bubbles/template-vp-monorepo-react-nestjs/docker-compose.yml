@@ -34,6 +34,25 @@ services:
       - '9001:9001'
     volumes:
       - minio-data:/data
+  minio-init:
+    image: minio/mc:latest
+    container_name: vp-minio-init
+    depends_on:
+      minio:
+        condition: service_started
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123456
+      MINIO_BUCKET: uploads
+    entrypoint: >
+      /bin/sh -c "
+      until mc alias set local http://minio:9000 $$MINIO_ROOT_USER
+      $$MINIO_ROOT_PASSWORD;
+      do sleep 1; done;
+      mc mb --ignore-existing local/$$MINIO_BUCKET;
+      mc anonymous set none local/$$MINIO_BUCKET;
+      "
+    restart: 'no'
 
 volumes:
   postgres18-data:
