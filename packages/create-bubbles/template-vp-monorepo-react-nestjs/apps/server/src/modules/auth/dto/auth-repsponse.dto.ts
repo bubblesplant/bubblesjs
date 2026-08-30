@@ -2,7 +2,7 @@ import { createZodDto } from 'nestjs-zod'
 import z from 'zod'
 
 const authUserSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   account: z.string(),
   name: z.string(),
 })

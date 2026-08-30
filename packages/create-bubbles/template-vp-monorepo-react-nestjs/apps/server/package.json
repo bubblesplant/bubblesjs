@@ -27,6 +27,7 @@
     "@nestjs/mapped-types": "catalog:",
     "@nestjs/platform-fastify": "catalog:",
     "argon2": "catalog:",
+    "dayjs": "catalog:",
     "drizzle-orm": "catalog:",
     "drizzle-zod": "catalog:",
     "fastify": "5.8.5",
