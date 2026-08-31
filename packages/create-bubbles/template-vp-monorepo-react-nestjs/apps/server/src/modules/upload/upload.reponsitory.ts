@@ -147,4 +147,20 @@ export class UploadRepository {
 
     return session ?? null
   }
+
+  async resetCompleting(ownerId: string, uploadSessionId: string): Promise<void> {
+    await this.db
+      .update(uploadSessions)
+      .set({
+        status: 'uploading',
+        updatedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(uploadSessions.id, uploadSessionId),
+          eq(uploadSessions.ownerId, ownerId),
+          eq(uploadSessions.status, 'completing'),
+        ),
+      )
+  }
 }
