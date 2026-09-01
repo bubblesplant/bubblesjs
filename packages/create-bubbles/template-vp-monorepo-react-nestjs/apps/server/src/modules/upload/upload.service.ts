@@ -88,6 +88,62 @@ export class UploadService {
     if (totalParts > UPLOAD_MAX_PARTS) {
       throw new AppException(UPLOAD_ERRORS.FILE_TOO_LARGE)
     }
+
+    const uploadSessionId = randomUUID()
+    const objectKey = buildUploadObjectKey(ownerId, uploadSessionId)
+    const storageResult = await this.callStorage(() =>
+      this.storage.createMultipartUpload({
+        bucket: this.bucket,
+        objectKey,
+        contentType: input.contentType.trim(),
+        metadata: {
+          'upload-session-id': uploadSessionId,
+          'owner-id': ownerId,
+        },
+      }),
+    )
+
+    const identity: MultipartIdentity = {
+      bucket: this.bucket,
+      objectKey,
+      storageUploadId: storageResult.storageUploadId,
+    }
+
+    try {
+      const created = await this.uploadRepository.create({
+        id: uploadSessionId,
+        ownerId,
+        clientUploadId: input.clientUploadId,
+        bucket: this.bucket,
+        objectKey,
+        storageUploadId: storageResult.storageUploadId,
+        originalName: input.fileName.trim(),
+        contentType: input.contentType.trim(),
+        fileSize: input.fileSize,
+        partSize: UPLOAD_PART_SIZE,
+        totalParts,
+        status: 'uploading',
+        expiresAt: new Date(Date.now() + this.sessionTtlMs),
+      })
+
+      if (created) {
+        return this.toStatusResponse(created, [])
+      }
+
+      const winner = await this.uploadRepository.findByClientUploadId(ownerId, input.clientUploadId)
+
+      await this.safeAbort(identity)
+
+      if (!winner) {
+        throw new Error('Upload session conflict winner was not found')
+      }
+
+      this.assertSameClientFile(winner, input)
+      return this.getStatus(ownerId, winner.id)
+    } catch (cause: unknown) {
+      await this.safeAbort(identity)
+      throw cause
+    }
   }
 
   private validateNewFile(fileSize: number) {
