@@ -73,6 +73,23 @@ export class UploadService {
     this.sessionTtlMs = config.getOrThrow<number>('storage.sessionTtlMs')
   }
 
+  async initiate(ownerId: string, input: InitiateMultipartUploadDto) {
+    this.validateNewFile(input.fileSize)
+
+    const existing = await this.uploadRepository.findByClientUploadId(ownerId, input.clientUploadId)
+
+    if (existing) {
+      this.assertSameClientFile(existing, input)
+      return this.getStatus(ownerId, existing.id)
+    }
+
+    const totalParts = calculateTotalParts(input.fileSize)
+
+    if (totalParts > UPLOAD_MAX_PARTS) {
+      throw new AppException(UPLOAD_ERRORS.FILE_TOO_LARGE)
+    }
+  }
+
   private validateNewFile(fileSize: number) {
     if (fileSize === 0) {
       throw new AppException(UPLOAD_ERRORS.FILE_EMPTY)
@@ -604,5 +621,20 @@ export class UploadService {
     await this.callStorage(() =>
       this.storage.abortMultipartUpload(this.toMultipartIdentity(claimed)),
     )
+
+    const aborted = await this.uploadRepository.markAborted(ownerId, uploadSessionId)
+
+    if (!aborted) {
+      const latest = await this.uploadRepository.findById(ownerId, uploadSessionId)
+
+      if (latest?.status === 'aborted') {
+        return {
+          uploadSessionId,
+          status: 'aborted' as const,
+        }
+      }
+
+      throw new Error('Aborted upload could not be persisted')
+    }
   }
 }
