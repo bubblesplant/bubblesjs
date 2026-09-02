@@ -18,6 +18,7 @@ import { DatabaseModule } from './database/db.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { TestDbModule } from './modules/test/db/db.module'
 import { TestRedisModule } from './modules/test/redis/redis.module'
+import { UploadModule } from './modules/upload/upload.module'
 import { ENV_ARR } from './utils/env-arr'
 
 @Module({
@@ -47,6 +48,7 @@ import { ENV_ARR } from './utils/env-arr'
     TestRedisModule,
     TestDbModule,
     AuthModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [
