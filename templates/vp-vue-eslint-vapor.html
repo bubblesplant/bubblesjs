@@ -6,12 +6,12 @@
 <script>{;var defaultLang = "zh", langs = ["en","zh"];if (!/bot|spider|crawl|lighthouse/i.test(window.navigator.userAgent)) {;var firstVisitKey = 'rspress-visited', visited = localStorage.getItem(firstVisitKey);if (!visited) {;localStorage.setItem(firstVisitKey, '1');var targetLang = window.navigator.language.split('-')[0], { pathname, search } = window.location, base = "/bubblesjs", cleanPathname = pathname.startsWith(base) ? pathname.slice(base.length) || '/' : pathname, pathSegments = cleanPathname.split('/').filter(Boolean), currentLang = langs.includes(pathSegments[0]) ? pathSegments[0] : defaultLang;if (langs.includes(targetLang) && targetLang !== currentLang) {;var newPathSegments = pathSegments.slice();if (targetLang === defaultLang) {;newPathSegments.splice(0, 1);} else if (currentLang === defaultLang) {;newPathSegments.splice(0, 0, targetLang);} else {;newPathSegments[0] = targetLang;};;var newPathname = '/' + newPathSegments.join('/'), trailingSlash = newPathname !== '/' && cleanPathname.endsWith('/') ? '/' : '';window.location['replace'](base + newPathname + trailingSlash + search);};};};}</script>
 <script>{;const saved = localStorage.getItem('rspress-theme-appearance');const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;const defaultTheme = 'auto';const theme = saved === 'light' || saved === 'dark' || saved === 'auto' ? saved : defaultTheme;const isDark = theme === 'auto' ? preferDark : theme === 'dark';document.documentElement.classList.toggle('dark', isDark);document.documentElement.classList.toggle('rp-dark', isDark);document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';}</script>
 <link href="/bubblesjs/static/css/styles.77e21bfc08.css" rel="stylesheet">
-<link rel="preload" href="/bubblesjs/static/js/async/route-7c2ba184782f.80026e53d1.js" as="script">
-<script defer src="/bubblesjs/static/js/styles.06d0ffaeb8.js"></script>
+<link rel="preload" href="/bubblesjs/static/js/async/route-7c2ba184782f.4e42582cf3.js" as="script">
+<script defer src="/bubblesjs/static/js/styles.92c9eb174c.js"></script>
 <script defer src="/bubblesjs/static/js/lib-react.589a971956.js"></script>
 <script defer src="/bubblesjs/static/js/lib-router.e4db4702ba.js"></script>
-<script defer src="/bubblesjs/static/js/897.7ff7c32724.js"></script>
-<script defer src="/bubblesjs/static/js/index.9934a2774c.js"></script>
+<script defer src="/bubblesjs/static/js/381.8fce39203a.js"></script>
+<script defer src="/bubblesjs/static/js/index.34a216016f.js"></script>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Rspress v2.0.21">
 <link rel="alternate" hreflang="en" href="/bubblesjs/en/templates/vp-vue-eslint-vapor.html">
