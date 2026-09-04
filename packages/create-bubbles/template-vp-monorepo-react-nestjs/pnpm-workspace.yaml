@@ -16,6 +16,7 @@ catalog:
   '@fastify/cookie': ^11.1.2
   '@fastify/static': ^10.1.0
   '@nestjs-modules/ioredis': ^2.2.1
+  '@nestjs/bullmq': ^12.0.0
   '@nestjs/cli': ^11.0.0
   '@nestjs/common': ^11.1.27
   '@nestjs/config': ^4.0.4
@@ -46,6 +47,7 @@ catalog:
   antdv-next: ^1.4.1
   argon2: ^0.45.0
   axios: ^1.18.1
+  bullmq: ^6.3.4
   classnames: ^2.5.1
   cross-env: ^10.1.0
   dayjs: ^1.11.21
@@ -110,3 +112,4 @@ allowBuilds:
   argon2: true
   esbuild: true
   lefthook: true
+  msgpackr-extract: set this to true or false
