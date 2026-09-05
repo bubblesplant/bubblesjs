@@ -2,6 +2,7 @@ import {
   appConfig,
   databaseConfig,
   llmConfig,
+  queueConfig,
   redisConfig,
   sessionConfig,
   storageConfig,
@@ -16,6 +17,7 @@ import { AppService } from './app.service'
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 import { DatabaseModule } from './database/db.module'
 import { AuthModule } from './modules/auth/auth.module'
+import { TaskQueueModule } from './modules/task-queue/task-queue.module'
 import { TestDbModule } from './modules/test/db/db.module'
 import { TestRedisModule } from './modules/test/redis/redis.module'
 import { UploadModule } from './modules/upload/upload.module'
@@ -26,7 +28,7 @@ import { ENV_ARR } from './utils/env-arr'
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ENV_ARR,
-      load: [appConfig, databaseConfig, llmConfig, redisConfig, sessionConfig, storageConfig],
+      load: [appConfig, databaseConfig, llmConfig, queueConfig, redisConfig, sessionConfig, storageConfig],
     }),
     DatabaseModule,
     RedisModule.forRootAsync({
@@ -45,6 +47,7 @@ import { ENV_ARR } from './utils/env-arr'
         },
       }),
     }),
+    TaskQueueModule,
     TestRedisModule,
     TestDbModule,
     AuthModule,

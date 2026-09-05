@@ -14,7 +14,7 @@ export class LoginResultDto extends createZodDto(
     accessToken: z.string().min(1),
     tokenType: z.literal('Bearer'),
     idleExpiresIn: z.number().int().positive(),
-    absoluteExpiresAt: z.string().datetime(),
+    absoluteExpiresAt: z.iso.datetime(),
   }),
 ) {}
 

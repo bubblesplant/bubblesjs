@@ -14,6 +14,7 @@ async function bootstrap() {
       colors: process.env.NODE_ENV === 'development',
     }),
   })
+  app.enableShutdownHooks()
   app.enableCors({
     origin: ['*'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Company-Id'],

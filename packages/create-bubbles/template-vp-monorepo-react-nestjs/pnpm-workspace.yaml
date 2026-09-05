@@ -112,4 +112,4 @@ allowBuilds:
   argon2: true
   esbuild: true
   lefthook: true
-  msgpackr-extract: set this to true or false
+  msgpackr-extract: true
