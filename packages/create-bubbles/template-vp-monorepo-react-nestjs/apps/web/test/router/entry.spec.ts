@@ -41,7 +41,18 @@ describe('默认入口 middleware 分流', () => {
     try {
       await fixture.router.navigate('/')
       expect(fixture.router.state.location.pathname).toBe(projectPath)
-      expect(api.getAccessContext).toHaveBeenCalledWith(companyScope, expect.any(AbortSignal))
+      expect(api.getAccessContext).toHaveBeenNthCalledWith(1, companyScope, {
+        workspaceKey: 'workspaces',
+        signal: expect.any(AbortSignal),
+      })
+      expect(api.getAccessContext).toHaveBeenNthCalledWith(2, projectScope, {
+        workspaceKey: 'workspaces',
+        signal: expect.any(AbortSignal),
+      })
+      expect(api.getAccessContext).toHaveBeenNthCalledWith(3, projectScope, {
+        workspaceKey: 'project:company-a:project-a',
+        signal: expect.any(AbortSignal),
+      })
     } finally {
       fixture.dispose()
     }

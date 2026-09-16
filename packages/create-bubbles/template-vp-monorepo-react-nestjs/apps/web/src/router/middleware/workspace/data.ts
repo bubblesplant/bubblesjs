@@ -12,7 +12,7 @@ export const workspacesMiddleware: MiddlewareFunction = async ({ request, contex
   enterWorkspace('workspaces')
   const state = getWorkspaceState()
   try {
-    const workspaces = await getWorkspaces(request.signal)
+    const workspaces = await getWorkspaces({ workspaceKey: 'workspaces', signal: request.signal })
     state.workspaces = workspaces
     context.set(workspacesContext, workspaces)
   } catch (error) {
@@ -39,8 +39,8 @@ export function scopeMiddleware(type: ScopeType): MiddlewareFunction {
     const state = getWorkspaceState()
     try {
       const [access, workspaces] = await Promise.all([
-        getAccessContext(scope, request.signal),
-        getWorkspaces(request.signal),
+        getAccessContext(scope, { workspaceKey: key, signal: request.signal }),
+        getWorkspaces({ workspaceKey: key, signal: request.signal }),
       ])
       state.accessByScope.set(key, {
         ...access,

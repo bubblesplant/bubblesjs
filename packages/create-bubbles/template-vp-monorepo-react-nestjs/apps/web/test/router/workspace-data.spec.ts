@@ -23,7 +23,10 @@ afterEach(() => fixture?.dispose())
 describe('工作空间数据交接', () => {
   it('切换项目等待期间保留原项目权限，完成后按新项目读取且无需 loader', async () => {
     await fixture.router.navigate(projectPath)
+    api.getAccessContext.mockClear()
+    api.getWorkspaces.mockClear()
     const nextScope = { ...projectScope, projectId: 'project-b' }
+    const nextWorkspaceKey = 'project:company-a:project-b'
     let resolve!: (value: AccessContext) => void
     api.getAccessContext.mockImplementationOnce(
       () =>
@@ -33,6 +36,14 @@ describe('工作空间数据交接', () => {
     )
     const navigation = fixture.router.navigate('/companies/company-a/projects/project-b')
     await vi.waitFor(() => expect(resolve).toBeDefined())
+    expect(api.getAccessContext).toHaveBeenCalledWith(nextScope, {
+      workspaceKey: nextWorkspaceKey,
+      signal: expect.any(AbortSignal),
+    })
+    expect(api.getWorkspaces).toHaveBeenCalledWith({
+      workspaceKey: nextWorkspaceKey,
+      signal: expect.any(AbortSignal),
+    })
     expect(fixture.access(projectScope)?.scope).toEqual(projectScope)
     expect(fixture.access(nextScope)).toBeUndefined()
     resolve(access(nextScope))

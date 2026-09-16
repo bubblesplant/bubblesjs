@@ -3,7 +3,9 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { App, Button, Popconfirm, Space, Tag } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type { RoleRecord } from 'shared/types'
+import { accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
+import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { managementApi } from './api'
 import RoleFormDialog, { type RoleFormDialogRef } from './components/RoleFormDialog'
 import RolePermissionsDialog, {
@@ -20,7 +22,7 @@ export default function RolesPage() {
   const actionRef = useRef<ActionType>(null)
   const formRef = useRef<RoleFormDialogRef>(null)
   const permissionsRef = useRef<RolePermissionsDialogRef>(null)
-  const [openingId, setOpeningId] = useState<string>()
+  const permissionsRequest = useLatestDialogRequest(accessScopeKey(access.scope))
   const { tr } = useI18n()
   const allowed = (operation: string) =>
     access.permissionKeys.includes(`${access.scope.type}.roles.${operation}`)
@@ -31,16 +33,21 @@ export default function RolesPage() {
 
   /** 同时读取角色详情和权限目录，按编辑权限打开配置弹窗。 */
   async function openPermissions(record: RoleRecord) {
-    setOpeningId(record.id)
-    try {
-      const [latest, tree] = await Promise.all([api.role(record.id), api.permissions()])
-      permissionsRef.current?.show(latest, tree, Boolean(latest.builtin) || !allowed('permissions'))
-    } catch (error) {
-      if ((error as Error).name !== 'AbortError')
-        void message.error(error instanceof Error ? error.message : tr('无法加载权限'))
-    } finally {
-      setOpeningId(undefined)
-    }
+    await permissionsRequest.run({
+      targetId: record.id,
+      load: () => Promise.all([api.role(record.id), api.permissions()]),
+      onSuccess: ([latest, tree]) => {
+        permissionsRef.current?.show(
+          latest,
+          tree,
+          Boolean(latest.builtin) || !allowed('permissions'),
+        )
+      },
+      onError: (error) => {
+        if ((error as Error).name !== 'AbortError')
+          void message.error(error instanceof Error ? error.message : tr('无法加载权限'))
+      },
+    })
   }
 
   const columns: ProColumns<RoleRecord>[] = [
@@ -78,7 +85,7 @@ export default function RolesPage() {
           <Button
             type="link"
             size="small"
-            loading={openingId === record.id}
+            loading={permissionsRequest.loadingId === record.id}
             onClick={() => void openPermissions(record)}
           >
             {record.builtin || !allowed('permissions') ? tr('查看权限') : tr('配置权限')}

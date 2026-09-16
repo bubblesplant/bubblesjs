@@ -112,6 +112,9 @@
     min-height: 0;
     overflow: hidden;
   }
+  .workspace-page-surface {
+    height: 100%;
+  }
   .workspace-navigation-loading {
     position: absolute;
     inset: 0;

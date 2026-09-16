@@ -33,6 +33,9 @@
     "build": "vp pack",
     "test": "vp test"
   },
+  "dependencies": {
+    "zod": "catalog:"
+  },
   "devDependencies": {
     "typescript": "catalog:",
     "vite": "catalog:",

@@ -62,4 +62,39 @@ export const ACCESS_ERRORS = {
     publicMessage: '账号不可用或不满足成员条件',
     status: 422,
   },
+  ORGANIZATION_CYCLE: {
+    code: 'ACCESS.ORGANIZATION_CYCLE',
+    publicMessage: '不能把资源移动到自身或其后代节点',
+    status: 409,
+  },
+  ORGANIZATION_DEPTH_EXCEEDED: {
+    code: 'ACCESS.ORGANIZATION_DEPTH_EXCEEDED',
+    publicMessage: '组织层级不能超过 10 层',
+    status: 409,
+  },
+  ORGANIZATION_LEADER_CONFLICT: {
+    code: 'ACCESS.ORGANIZATION_LEADER_CONFLICT',
+    publicMessage: '同一组织单元最多只能有一名主要负责人',
+    status: 409,
+  },
+  ORGANIZATION_SORT_EXHAUSTED: {
+    code: 'ACCESS.ORGANIZATION_SORT_EXHAUSTED',
+    publicMessage: '同级排序值已用尽，请先调整现有顺序',
+    status: 409,
+  },
+  INVALID_MEMBER_RELATION: {
+    code: 'ACCESS.INVALID_MEMBER_RELATION',
+    publicMessage: '成员、组织或岗位状态不允许建立该关系',
+    status: 422,
+  },
+  TEMPLATE_VERSION_CONFLICT: {
+    code: 'ACCESS.TEMPLATE_VERSION_CONFLICT',
+    publicMessage: '组织模板版本已变化，请刷新后重试',
+    status: 409,
+  },
+  TEMPLATE_UNAVAILABLE: {
+    code: 'ACCESS.TEMPLATE_UNAVAILABLE',
+    publicMessage: '当前组织模板不可用于项目初始化',
+    status: 422,
+  },
 } as const satisfies Record<string, AppErrorDefinition>

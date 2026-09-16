@@ -45,6 +45,8 @@ export type BasicTableSelectorProps<
   /** 确定时补查尚未取得对象的已选 key；返回顺序不限。 */
   requestByKeys?: (keys: Key[]) => Promise<T[]>
   labelRender?: (record: T) => ReactNode
+  /** 可选左侧浏览面板；选择摘要、错误和分页表格仍统一保留在右侧。 */
+  sidePanel?: ReactNode
   /** 保留 ProTable 的分页、排序、筛选回调，避免与选择结果 onChange 重名。 */
   onTableChange?: ProTableProps<T, Params, ValueType>['onChange']
   getCheckboxProps?: Exclude<

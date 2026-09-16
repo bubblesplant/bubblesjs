@@ -21,6 +21,7 @@ import { TaskQueueModule } from './modules/task-queue/task-queue.module'
 import { AccessModule } from './modules/access/access.module'
 import { CompaniesModule } from './modules/companies/companies.module'
 import { ProjectsModule } from './modules/projects/projects.module'
+import { OrganizationModule } from './modules/organization/organization.module'
 import { MembersModule } from './modules/members/members.module'
 import { MenusModule } from './modules/menus/menus.module'
 import { AuditModule } from './modules/audit/audit.module'
@@ -68,6 +69,7 @@ import { ENV_ARR } from './utils/env-arr'
     AuthModule,
     AccessModule,
     CompaniesModule,
+    OrganizationModule,
     ProjectsModule,
     MembersModule,
     MenusModule,

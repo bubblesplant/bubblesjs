@@ -20,6 +20,8 @@ export const projectRoutes: RouteObject[] = [
       page('project.profile', 'access', 'profile'),
       page('project.members', 'access', 'members'),
       page('project.roles', 'access', 'roles'),
+      page('project.organization', 'organization'),
+      page('project.positions', 'positions'),
       page('project.audit', 'access', 'audit'),
     ],
   },

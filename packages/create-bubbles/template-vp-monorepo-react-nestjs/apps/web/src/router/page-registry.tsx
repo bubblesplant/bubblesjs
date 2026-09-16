@@ -28,12 +28,20 @@ export const pageRegistry = {
   'company.profile': { path: 'profile', title: () => tr('企业资料') },
   'company.members': { path: 'members', title: () => tr('企业成员') },
   'company.roles': { path: 'roles', title: () => tr('企业角色') },
+  'company.organization': { path: 'organization', title: () => tr('企业组织架构') },
+  'company.positions': { path: 'positions', title: () => tr('企业岗位') },
+  'company.organization.templates': {
+    path: 'organization/templates',
+    title: () => tr('项目组织模板'),
+  },
   'company.projects': { path: 'projects', title: () => tr('项目管理') },
   'company.audit': { path: 'audit', title: () => tr('企业操作日志') },
   'project.home': { path: '', title: () => tr('项目工作台') },
   'project.profile': { path: 'profile', title: () => tr('项目资料') },
   'project.members': { path: 'members', title: () => tr('项目成员') },
   'project.roles': { path: 'roles', title: () => tr('项目角色') },
+  'project.organization': { path: 'organization', title: () => tr('项目组织架构') },
+  'project.positions': { path: 'positions', title: () => tr('项目岗位') },
   'project.audit': { path: 'audit', title: () => tr('项目操作日志') },
 } as const
 

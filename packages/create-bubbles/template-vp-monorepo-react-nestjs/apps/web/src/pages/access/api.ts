@@ -9,27 +9,39 @@ import type {
   AuditQuery,
   AuditRecord,
   CompanyDetail,
+  CompanyHierarchyDetail,
+  CompanyHierarchyNode,
+  CompanyHierarchyRecord,
   CompanyRecord,
   CreateCompanyRequest,
   CreateProjectRequest,
   CreateRoleRequest,
   DeleteResult,
   EntityStatus,
+  GlobalAccountCandidate,
+  GlobalAccountCandidateQuery,
   MemberRecord,
+  OrganizationMemberCandidate,
+  OrganizationMemberCandidateQuery,
+  OrganizationTemplateListQuery,
+  OrganizationTemplateSummary,
   PageQuery,
   PageResult,
   PermissionTreeResult,
   ProjectDetail,
   ProjectRecord,
   RoleRecord,
+  ResolveGlobalAccountCandidatesRequest,
+  ResolveOrganizationMemberCandidatesRequest,
   SetAdministratorRequest,
   SetAdministratorResult,
   SetRolePermissionsRequest,
   StatusRequest,
   UpdateProfileRequest,
   UpdateRoleRequest,
+  UpdateCompanyHierarchyRequest,
 } from 'shared/types'
-import { accessScopeBasePath } from 'shared/utils'
+import { accessScopeBasePath, accessScopeKey } from 'shared/utils'
 import {
   freshRequest,
   runWorkspaceRequest,
@@ -39,18 +51,23 @@ import {
 /** 为指定工作空间绑定管理接口，统一使用禁用缓存且可取消的请求。 */
 export function managementApi(scope: AccessScope) {
   const base = accessScopeBasePath(scope)
+  const workspaceKey = accessScopeKey(scope)
   /** 发送当前工作空间的无缓存查询，并将请求纳入会话取消控制。 */
-  const get = <T>(url: string, params?: object) =>
-    runWorkspaceRequest({ method: http.Get<T>(url, { ...freshRequest, params }) })
+  const get = <T>(url: string, params?: object, signal?: AbortSignal) =>
+    runWorkspaceRequest({
+      method: http.Get<T>(url, { ...freshRequest, params }),
+      workspaceKey,
+      signal,
+    })
   /** 发送当前工作空间的创建或动作请求，并纳入会话取消控制。 */
-  const post = <T>(url: string, data: object) =>
-    runWorkspaceRequest({ method: http.Post<T>(url, data, freshRequest) })
+  const post = <T>(url: string, data: object, signal?: AbortSignal) =>
+    runWorkspaceRequest({ method: http.Post<T>(url, data, freshRequest), workspaceKey, signal })
   /** 发送当前工作空间的局部更新请求，并纳入会话取消控制。 */
   const patch = <T>(url: string, data: object) =>
-    runWorkspaceRequest({ method: http.Patch<T>(url, data, freshRequest) })
+    runWorkspaceRequest({ method: http.Patch<T>(url, data, freshRequest), workspaceKey })
   /** 发送当前工作空间的整体更新请求，并纳入会话取消控制。 */
   const put = <T>(url: string, data: object) =>
-    runWorkspaceRequest({ method: http.Put<T>(url, data, freshRequest) })
+    runWorkspaceRequest({ method: http.Put<T>(url, data, freshRequest), workspaceKey })
   /** 将预期版本加入删除参数，避免删除并发变更后的数据。 */
   const remove = (url: string, expectedVersion: number) =>
     runWorkspaceRequest({
@@ -58,6 +75,7 @@ export function managementApi(scope: AccessScope) {
         ...freshRequest,
         params: { expectedVersion },
       }),
+      workspaceKey,
     })
   const entities = scope.type === 'platform' ? '/platform/companies' : `${base}/projects`
 
@@ -69,7 +87,7 @@ export function managementApi(scope: AccessScope) {
     projects: (params: PageQuery & { status?: EntityStatus }) =>
       get<PageResult<ProjectRecord>>(entities, params),
     /** 创建企业并返回包含管理员信息的企业详情。 */
-    createCompany: (data: CreateCompanyRequest) => post<CompanyDetail>(entities, data),
+    createCompany: (data: CreateCompanyRequest) => post<CompanyHierarchyDetail>(entities, data),
     /** 在当前企业下创建项目并返回项目详情。 */
     createProject: (data: CreateProjectRequest) => post<ProjectDetail>(entities, data),
     /** 读取企业详情及管理员信息。 */
@@ -83,6 +101,42 @@ export function managementApi(scope: AccessScope) {
     /** 为指定企业或项目补充或替换管理员。 */
     setAdministrator: (id: string, data: SetAdministratorRequest) =>
       post<SetAdministratorResult>(`${entities}/${id}/administrator`, data),
+    /** 查询平台全局账号候选；purpose 由服务端映射到对应企业管理权限。 */
+    globalAccountCandidates: (params: GlobalAccountCandidateQuery, signal?: AbortSignal) =>
+      get<PageResult<GlobalAccountCandidate>>('/platform/account-candidates', params, signal),
+    /** 按 userId 批量补查全局账号候选并保持请求顺序。 */
+    resolveGlobalAccountCandidates: (
+      data: ResolveGlobalAccountCandidatesRequest,
+      signal?: AbortSignal,
+    ) => post<GlobalAccountCandidate[]>('/platform/account-candidates/resolve', data, signal),
+    /** 查询当前企业或项目可见的组织成员候选。 */
+    organizationMemberCandidates: (
+      params: OrganizationMemberCandidateQuery,
+      signal?: AbortSignal,
+    ) =>
+      get<PageResult<OrganizationMemberCandidate>>(
+        `${base}/organization/member-candidates`,
+        params,
+        signal,
+      ),
+    /** 按 userId 批量补查当前作用域的组织成员候选。 */
+    resolveOrganizationMemberCandidates: (
+      data: ResolveOrganizationMemberCandidatesRequest,
+      signal?: AbortSignal,
+    ) =>
+      post<OrganizationMemberCandidate[]>(
+        `${base}/organization/member-candidates/resolve`,
+        data,
+        signal,
+      ),
+    /** 查询企业可用的项目组织模板摘要。 */
+    organizationTemplates: (params: OrganizationTemplateListQuery = {}) =>
+      get<PageResult<OrganizationTemplateSummary>>(`${base}/organization/templates`, params),
+    /** 查询平台可见企业层级树。 */
+    companyTree: () => get<CompanyHierarchyNode[]>('/platform/companies/tree'),
+    /** 更新企业父级、实体类型和同级排序。 */
+    updateCompanyHierarchy: (id: string, data: UpdateCompanyHierarchyRequest) =>
+      patch<CompanyHierarchyRecord>(`/platform/companies/${id}/hierarchy`, data),
     /** 读取当前工作空间的企业或项目资料。 */
     profile: () => get<CompanyDetail | ProjectDetail>(base),
     /** 携带版本条件更新当前企业或项目资料。 */

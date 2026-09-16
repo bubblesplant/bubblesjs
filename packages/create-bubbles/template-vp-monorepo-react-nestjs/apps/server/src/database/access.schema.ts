@@ -22,6 +22,7 @@ export const accessStatus = pgEnum('access_status', ['active', 'disabled'])
 export const scopeType = pgEnum('access_scope_type', ['platform', 'company', 'project'])
 export const menuType = pgEnum('menu_type', ['directory', 'page', 'operation'])
 export const builtinRole = pgEnum('builtin_role', ['administrator', 'member'])
+export const companyEntityType = pgEnum('company_entity_type', ['group', 'company'])
 /**
  * 为每张权限业务表创建独立的创建时间与更新时间列定义，并由数据库提供默认当前时间。
  */
@@ -34,17 +35,36 @@ export const companies = pgTable(
   'companies',
   {
     id: uuid('id').defaultRandom().primaryKey(),
+    parentCompanyId: uuid('parent_company_id'),
+    entityType: companyEntityType('entity_type').notNull().default('company'),
     name: varchar('name', { length: 100 }).notNull(),
-    code: varchar('code', { length: 64 }).notNull().unique(),
+    nameKey: text('name_key').notNull(),
+    code: varchar('code', { length: 64 }).notNull(),
     description: text('description').notNull().default(''),
+    sort: integer('sort').notNull().default(1),
     status: accessStatus('status').notNull().default('active'),
     version: integer('version').notNull().default(1),
     ...times(),
   },
   /**
-   * 约束公司版本号为正数。
+   * 约束企业层级、规范化名称、编码唯一性、排序及版本号。
    */
-  (t) => [check('companies_version_positive', sql`${t.version} > 0`)],
+  (t) => [
+    foreignKey({ columns: [t.parentCompanyId], foreignColumns: [t.id] }).onDelete('restrict'),
+    uniqueIndex('companies_root_name_key_uq')
+      .on(t.nameKey)
+      .where(sql`${t.parentCompanyId} IS NULL`),
+    uniqueIndex('companies_parent_name_key_uq')
+      .on(t.parentCompanyId, t.nameKey)
+      .where(sql`${t.parentCompanyId} IS NOT NULL`),
+    uniqueIndex('companies_code_normalized_uq').on(sql`lower(normalize(btrim(${t.code}), NFKC))`),
+    check(
+      'companies_name_key_normalized',
+      sql`${t.nameKey} = lower(normalize(btrim(${t.name}), NFKC))`,
+    ),
+    check('companies_sort_range', sql`${t.sort} BETWEEN 0 AND 999999999`),
+    check('companies_version_positive', sql`${t.version} > 0`),
+  ],
 )
 export const projects = pgTable(
   'projects',
@@ -64,7 +84,10 @@ export const projects = pgTable(
    * 约束公司内项目编码唯一及版本有效，并为公司下的项目状态查询建立索引。
    */
   (t) => [
-    unique('projects_company_code_uq').on(t.companyId, t.code),
+    uniqueIndex('projects_company_code_normalized_uq').on(
+      t.companyId,
+      sql`lower(normalize(btrim(${t.code}), NFKC))`,
+    ),
     unique('projects_company_id_uq').on(t.companyId, t.id),
     check('projects_version_positive', sql`${t.version} > 0`),
     index('projects_company_status_idx').on(t.companyId, t.status),

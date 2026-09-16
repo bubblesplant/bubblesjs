@@ -38,18 +38,27 @@ export function refreshAccess() {
 
 export const freshRequest = { cacheFor: 0, shareRequest: false } as const
 
-/** 在当前工作空间代次内发送请求，丢弃过期结果并处理会话失效和权限刷新。 */
+/**
+ * 在指定工作空间代次内发送请求，丢弃跨账号、跨空间或已取消的结果。
+ * `workspaceKey` 必须由 API 创建时绑定，不能在实际发送时读取当前空间后补写。
+ */
 export async function runWorkspaceRequest<T>(options: {
   method: { send: (force?: boolean) => Promise<T>; abort: () => void }
+  workspaceKey: string
   signal?: AbortSignal
   accessRequest?: boolean
 }): Promise<T> {
-  const { method, signal, accessRequest } = options
+  const { method, workspaceKey, signal, accessRequest } = options
   const startedAt = generation
   const token = cookie.get('token')
+  const identityKey = `${token ?? ''}:${workspaceKey}`
   const abort = () => method.abort()
-  /** 检查取消信号、工作空间代次及登录令牌，判断请求结果是否已经过期。 */
-  const stale = () => signal?.aborted || generation !== startedAt || token !== cookie.get('token')
+  /** 检查取消信号、调用方空间、工作空间代次及登录令牌，判断请求是否已经过期。 */
+  const stale = () =>
+    signal?.aborted ||
+    currentKey !== identityKey ||
+    generation !== startedAt ||
+    token !== cookie.get('token')
   if (stale()) throw new DOMException('请求已取消', 'AbortError')
   pending.add(abort)
   signal?.addEventListener('abort', abort, { once: true })

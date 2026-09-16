@@ -3,8 +3,15 @@ import type { AccessContext, AccessScope, WorkspaceEntry, WorkspacesResult } fro
 import { accessScopeKey } from 'shared/utils'
 
 const api = vi.hoisted(() => ({
-  getAccessContext: vi.fn<(scope: AccessScope, signal?: AbortSignal) => Promise<AccessContext>>(),
-  getWorkspaces: vi.fn<(signal?: AbortSignal) => Promise<WorkspacesResult>>(),
+  getAccessContext:
+    vi.fn<
+      (
+        scope: AccessScope,
+        options: { workspaceKey: string; signal?: AbortSignal },
+      ) => Promise<AccessContext>
+    >(),
+  getWorkspaces:
+    vi.fn<(options: { workspaceKey: string; signal?: AbortSignal }) => Promise<WorkspacesResult>>(),
 }))
 const session = vi.hoisted(() => ({ token: 'session' as string | null }))
 export { api, session }

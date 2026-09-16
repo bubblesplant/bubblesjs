@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { and, count, desc, eq, inArray, sql } from 'drizzle-orm'
+import { and, count, desc, eq, inArray, ne, sql } from 'drizzle-orm'
 import { projects, projectMembers } from '@/database/schema'
 import { AppException } from '@/common/exceptions/app.exception'
 import { AccessService, type AccessActor } from '@/modules/access/access.service'
@@ -13,6 +13,7 @@ import {
 } from '@/modules/access/access.store'
 import { MembersService } from '@/modules/members/members.service'
 import { AdministratorsService } from '@/modules/members/administrators/administrators.service'
+import { ProjectOrganizationInitializationService } from '@/modules/organization/initialization/project-organization-initialization.service'
 import type {
   AccessScope,
   CreateProjectRequest,
@@ -24,7 +25,7 @@ import type {
   StatusRequest,
   UpdateProfileRequest,
 } from 'shared/types'
-import { toTimestampRecord } from 'shared/utils'
+import { normalizeOrganizationCode, toTimestampRecord } from 'shared/utils'
 
 @Injectable()
 export class ProjectsService {
@@ -32,7 +33,30 @@ export class ProjectsService {
     private readonly access: AccessService,
     private readonly members: MembersService,
     private readonly administrators: AdministratorsService,
+    private readonly organizationInitialization: ProjectOrganizationInitializationService,
   ) {}
+
+  /** 拒绝当前企业内与既有项目规范化编码冲突的创建或更新。 */
+  private async assertUniqueCode(
+    db: AccessDb,
+    input: { companyId: string; code: string; excludeProjectId?: string },
+  ) {
+    const [duplicate] = await db
+      .select({ id: projects.id })
+      .from(projects)
+      .where(
+        and(
+          eq(projects.companyId, input.companyId),
+          eq(
+            sql<string>`lower(normalize(btrim(${projects.code}), NFKC))`,
+            normalizeOrganizationCode(input.code),
+          ),
+          input.excludeProjectId ? ne(projects.id, input.excludeProjectId) : undefined,
+        ),
+      )
+      .limit(1)
+    if (duplicate) throw new AppException(ACCESS_ERRORS.DUPLICATE_RESOURCE)
+  }
 
   /** 按公司和项目标识共同查找项目，隔离跨公司访问并转换时间字段。 */
   async project(
@@ -103,7 +127,7 @@ export class ProjectsService {
   /**
    * 要求公司管理员具备创建权限，验证公司内编码唯一性和管理员成员资格后创建项目并记录审计。
    *
-   * 同时初始化项目内置角色与首位管理员，返回项目详情。
+   * 同时初始化项目内置角色、首位管理员及显式选择的空白／模板组织快照，返回项目详情。
    */
   create(input: { actor: AccessActor; companyId: string; body: CreateProjectRequest }) {
     return this.access.write(
@@ -113,18 +137,16 @@ export class ProjectsService {
         permission: 'company.projects.create',
         adminOnly: true,
       },
-      /** 校验初始管理员公司成员资格，原子创建项目、内置角色及管理员关系。 */
+      /** 校验初始管理员公司成员资格，原子创建项目、权限基线、组织快照及对应审计。 */
       async (tx, access) => {
-        const user = await this.members.userForAccount(
-          tx,
-          { type: 'project', companyId: input.companyId, projectId: '' },
-          input.body.administratorAccount,
-        )
-        const [duplicate] = await tx
-          .select()
-          .from(projects)
-          .where(and(eq(projects.companyId, input.companyId), eq(projects.code, input.body.code)))
-        if (duplicate) throw new AppException(ACCESS_ERRORS.DUPLICATE_RESOURCE)
+        const user = await this.members.userForAdministrator(tx, {
+          userId: input.body.administratorUserId,
+          companyId: input.companyId,
+        })
+        await this.assertUniqueCode(tx, {
+          companyId: input.companyId,
+          code: input.body.code,
+        })
         const [created] = await tx
           .insert(projects)
           .values({
@@ -140,13 +162,27 @@ export class ProjectsService {
           projectId: created!.id,
         }
         await this.administrators.initialize(tx, scope, user.id)
+        const initialization = await this.organizationInitialization.initializeProject(tx, {
+          companyId: input.companyId,
+          projectId: created!.id,
+          initialization: input.body.organizationInitialization,
+          actor: input.actor,
+          access,
+        })
         await this.access.audit(tx, {
           actor: input.actor,
           access,
           action: 'project.create',
           objectType: 'project',
           objectId: created!.id,
-          summary: { targetUserId: user.id },
+          summary: {
+            targetUserId: user.id,
+            organizationInitializationMode: initialization.mode,
+            organizationTemplateId: initialization.templateId,
+            organizationTemplateVersion: initialization.templateVersion,
+            organizationUnitCount: initialization.unitCount,
+            positionCount: initialization.positionCount,
+          },
         })
         return this.projectDetail(tx, scope)
       },
@@ -182,19 +218,17 @@ export class ProjectsService {
       async (tx, access) => {
         const existing = await this.project(tx, input)
         checkVersion(existing.version, input.body.expectedVersion)
-        if (input.body.code) {
-          const [duplicate] = await tx
-            .select()
-            .from(projects)
-            .where(and(eq(projects.companyId, input.companyId), eq(projects.code, input.body.code)))
-          if (duplicate && duplicate.id !== existing.id)
-            throw new AppException(ACCESS_ERRORS.DUPLICATE_RESOURCE)
-        }
+        if (input.body.code)
+          await this.assertUniqueCode(tx, {
+            companyId: input.companyId,
+            code: input.body.code,
+            excludeProjectId: existing.id,
+          })
         const { expectedVersion: _, ...changes } = input.body
         await tx
           .update(projects)
           .set({ ...changes, version: sql`${projects.version} + 1`, updatedAt: new Date() })
-          .where(eq(projects.id, existing.id))
+          .where(and(eq(projects.companyId, input.companyId), eq(projects.id, existing.id)))
         await this.access.audit(tx, {
           actor: input.actor,
           access,
@@ -244,7 +278,7 @@ export class ProjectsService {
             version: sql`${projects.version} + 1`,
             updatedAt: new Date(),
           })
-          .where(eq(projects.id, target.id))
+          .where(and(eq(projects.companyId, input.companyId), eq(projects.id, target.id)))
         if (input.body.status === 'active')
           await this.access.assertAdministrators(tx, {
             companyId: input.companyId,

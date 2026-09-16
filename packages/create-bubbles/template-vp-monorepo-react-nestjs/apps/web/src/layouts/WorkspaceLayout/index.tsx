@@ -14,6 +14,7 @@ import { useI18n } from '@bubblesjs/i18n-react'
 import { App, Avatar, Button, Tooltip } from 'antd'
 import type { AccessScope } from 'shared/types'
 import { accessScopeKey } from 'shared/utils'
+import WorkspaceNavigationBoundary from './components/WorkspaceNavigationBoundary'
 import './workspace.css'
 
 /** 根据当前工作空间权限构建导航并同步刷新状态，页面懒加载交由全局边界等待。 */
@@ -162,17 +163,19 @@ export default function WorkspaceLayout() {
           key={accessScopeKey(scope)}
           aria-busy={navigating || refreshing}
         >
-          <RouteTransition>
-            <div hidden={refreshing} inert={navigating || refreshing} style={{ height: '100%' }}>
+          <WorkspaceNavigationBoundary
+            navigating={navigating}
+            refreshing={refreshing}
+            fallback={
+              <div className="workspace-navigation-loading">
+                <PageLoading />
+              </div>
+            }
+          >
+            <RouteTransition>
               <Outlet context={access} />
-            </div>
-          </RouteTransition>
-          {refreshing && <PageLoading />}
-          {navigating && !refreshing && (
-            <div className="workspace-navigation-loading">
-              <PageLoading />
-            </div>
-          )}
+            </RouteTransition>
+          </WorkspaceNavigationBoundary>
         </div>
       </div>
     </ProLayout>

@@ -1,8 +1,8 @@
 import type { SelectProps } from 'antd'
-import type { AccountRecord } from 'shared/types'
+import type { GlobalAccountCandidate } from 'shared/types'
 
-/** 全局账号下拉框展示和回填所需的最小账号资料。 */
-export type GlobalAccountOption = Pick<AccountRecord, 'id' | 'account' | 'name' | 'status'>
+/** 全局账号选择器直接消费服务端按 purpose 裁剪后的候选记录。 */
+export type GlobalAccountOption = GlobalAccountCandidate
 
 /** 传给 Ant Design Select 的账号选项，保留完整账号快照供渲染和回调使用。 */
 export interface GlobalAccountSelectOption {
@@ -30,6 +30,12 @@ export interface GlobalAccountSearchResult {
   total?: number
 }
 
+/** 业务侧按稳定 userId 补查账号快照的函数，并接收组件生命周期内的取消信号。 */
+export type GlobalAccountResolver = (
+  userIds: readonly string[],
+  signal: AbortSignal,
+) => Promise<readonly GlobalAccountOption[]>
+
 type ManagedSelectProps =
   | 'value'
   | 'defaultValue'
@@ -56,6 +62,8 @@ export interface GlobalAccountSelectProps extends Omit<
   selectedAccount?: GlobalAccountOption
   /** 由业务侧注入受权限保护的候选账号查询。 */
   request: (input: GlobalAccountSearchRequest) => Promise<GlobalAccountSearchResult>
+  /** 由业务侧注入与搜索 purpose 相同的 userId 补查请求。 */
+  resolve: GlobalAccountResolver
   /** 触发远程查询所需的最少字符数，默认 2。 */
   minSearchLength?: number
   /** 输入停止后发起查询的等待时间，单位毫秒，默认 300。 */

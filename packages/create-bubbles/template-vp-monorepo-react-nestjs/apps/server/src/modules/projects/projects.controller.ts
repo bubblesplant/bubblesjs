@@ -3,7 +3,10 @@ import type { FastifyRequest } from 'fastify'
 import { AccessPolicy } from '@/common/decorators/access-policy.decorator'
 import { actor, ids } from '@/modules/access/access-http'
 import { entityListSchema, parse, statusSchema } from '@/modules/access/access.validation'
-import { createScopeSchema, profileSchema } from '@/modules/access/workspaces/workspaces.validation'
+import {
+  createProjectSchema,
+  profileSchema,
+} from '@/modules/access/workspaces/workspaces.validation'
 import { administratorSchema } from '@/modules/members/administrators/administrators.validation'
 import { ProjectsService } from './projects.service'
 
@@ -31,14 +34,14 @@ export class ProjectsController {
       query: parse(entityListSchema, query),
     })
   }
-  /** 校验公司标识、项目资料和初始管理员账号，提交公司管理员创建项目操作。 */
+  /** 校验公司标识、项目资料和初始管理员 userId，提交公司管理员创建项目操作。 */
   @Post('companies/:companyId/projects')
   @AccessPolicy({ scope: 'company', permission: 'company.projects.create', adminOnly: true })
   createProject(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.projectsService.create({
       actor: actor(req),
       companyId: ids(req).companyId!,
-      body: parse(createScopeSchema, body),
+      body: parse(createProjectSchema, body),
     })
   }
   /** 校验公司和项目标识，读取项目资料及管理员详情。 */
@@ -64,7 +67,7 @@ export class ProjectsController {
       body: parse(statusSchema, body),
     })
   }
-  /** 校验公司、项目标识及管理员账号，提交追加或替换项目管理员操作。 */
+  /** 校验公司、项目标识及管理员 userId，提交追加或替换项目管理员操作。 */
   @Post('companies/:companyId/projects/:projectId/administrator')
   @HttpCode(200)
   @AccessPolicy({ scope: 'company', permission: 'company.projects.administrator', adminOnly: true })

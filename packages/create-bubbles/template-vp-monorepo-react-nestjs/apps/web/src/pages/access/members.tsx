@@ -1,13 +1,32 @@
 import { PlusOutlined } from '@ant-design/icons'
-import type { ActionType, ProColumns } from '@ant-design/pro-components'
-import { App, Button, Popconfirm, Space, Tag } from 'antd'
+import type { ActionType } from '@ant-design/pro-components'
+import { App, Button } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
-import type { AccountRecord, EntityStatus, MemberRecord } from 'shared/types'
+import type {
+  AccountRecord,
+  EntityStatus,
+  MemberRecord,
+  OrganizationMemberCandidate,
+  OrganizationScope,
+} from 'shared/types'
+import { accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
+import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { managementApi } from './api'
 import AddMemberDialog, { type AddMemberDialogRef } from './components/AddMemberDialog'
 import MemberRolesDialog, { type MemberRolesDialogRef } from './components/MemberRolesDialog'
+import {
+  MemberOrganizationsDialog,
+  type MemberOrganizationsDialogRef,
+  MemberPositionsDialog,
+  type MemberPositionsDialogRef,
+  loadAllOrganizationUnits,
+  loadAllPositions,
+} from './components/MemberAffiliations'
+import { createMemberTableColumns, removeMemberCandidate } from './components/MemberTable'
 import { useAccess, useManagementAction } from './use-access'
+import { organizationApi } from '@/pages/organization/api'
+import { positionsApi } from '@/pages/positions/api'
 
 /** 按作用域管理账号或成员，处理状态、移除及角色分配。 */
 export default function MembersPage() {
@@ -19,10 +38,29 @@ export default function MembersPage() {
   const actionRef = useRef<ActionType>(null)
   const addRef = useRef<AddMemberDialogRef>(null)
   const rolesRef = useRef<MemberRolesDialogRef>(null)
-  const [openingId, setOpeningId] = useState<string>()
+  const organizationsRef = useRef<MemberOrganizationsDialogRef>(null)
+  const positionsRef = useRef<MemberPositionsDialogRef>(null)
+  const [candidateByUserId, setCandidateByUserId] = useState(
+    () => new Map<string, OrganizationMemberCandidate>(),
+  )
   const { tr } = useI18n()
   const prefix = `${access.scope.type}.${platform ? 'accounts' : 'members'}`
   const allowed = (action: string) => access.permissionKeys.includes(`${prefix}.${action}`)
+  const organizationPrefix = `${access.scope.type}.organization`
+  const positionsPrefix = `${access.scope.type}.positions`
+  const canReadOrganization =
+    !platform && access.permissionKeys.includes(`${organizationPrefix}.read`)
+  const canAssignOrganization =
+    !platform && access.permissionKeys.includes(`${organizationPrefix}.assign`)
+  const canAssignPositions =
+    !platform && access.permissionKeys.includes(`${positionsPrefix}.assign`)
+  const scope = platform ? undefined : (access.scope as OrganizationScope)
+  const scopeKey = accessScopeKey(access.scope)
+  const rolesRequest = useLatestDialogRequest(scopeKey)
+  const organizationsRequest = useLatestDialogRequest(scopeKey)
+  const positionsRequest = useLatestDialogRequest(scopeKey)
+  const organization = useMemo(() => (scope ? organizationApi(scope) : undefined), [scopeKey])
+  const positions = useMemo(() => (scope ? positionsApi(scope) : undefined), [scopeKey])
   /** 重新查询当前表格，使管理操作立即反映到列表。 */
   const refresh = () => {
     void actionRef.current?.reload()
@@ -30,149 +68,123 @@ export default function MembersPage() {
 
   /** 加载可分配角色，并将当前成员或账号带入角色分配弹窗。 */
   async function openRoles(record: AccountRecord | MemberRecord) {
-    setOpeningId(record.id)
-    try {
-      const first = await api.roles({ page: 1, pageSize: 100 })
-      const rest = await Promise.all(
-        Array.from({ length: Math.ceil(first.total / 100) - 1 }, (_, index) =>
-          api.roles({ page: index + 2, pageSize: 100 }),
-        ),
-      )
-      rolesRef.current?.show(record, [...first.items, ...rest.flatMap((page) => page.items)])
-    } catch (error) {
-      if ((error as Error).name !== 'AbortError')
-        void message.error(error instanceof Error ? error.message : tr('无法加载角色'))
-    } finally {
-      setOpeningId(undefined)
-    }
+    await rolesRequest.run({
+      targetId: record.id,
+      load: async () => {
+        const first = await api.roles({ page: 1, pageSize: 100 })
+        const rest = await Promise.all(
+          Array.from({ length: Math.ceil(first.total / 100) - 1 }, (_, index) =>
+            api.roles({ page: index + 2, pageSize: 100 }),
+          ),
+        )
+        return [...first.items, ...rest.flatMap((page) => page.items)]
+      },
+      onSuccess: (roles) => rolesRef.current?.show(record, roles),
+      onError: (error) => {
+        if ((error as Error).name !== 'AbortError')
+          void message.error(error instanceof Error ? error.message : tr('无法加载角色'))
+      },
+    })
   }
 
-  const columns: ProColumns<MemberRecord | AccountRecord>[] = [
-    {
-      title: tr('搜索'),
-      dataIndex: 'query',
-      hideInTable: true,
-      fieldProps: { placeholder: tr('搜索姓名或账号') },
-    },
-    { title: tr('姓名'), dataIndex: 'name', search: false, width: 150 },
-    { title: tr('完整账号'), dataIndex: 'account', search: false, copyable: true, width: 180 },
-    {
-      title: platform ? tr('账号状态') : tr('成员状态'),
-      dataIndex: 'status',
-      width: 100,
-      valueEnum: {
-        active: { text: tr('启用'), status: 'Success' },
-        disabled: { text: tr('停用'), status: 'Default' },
-        ...(platform ? { locked: { text: tr('锁定'), status: 'Warning' } } : {}),
+  /** 通过组织浏览权限取得成员当前组织和岗位快照。 */
+  async function resolveOrganizationCandidate(record: MemberRecord) {
+    const cached = candidateByUserId.get(record.userId)
+    if (cached) return cached
+    if (!organization) throw new Error(tr('当前作用域不支持组织关系'))
+    const [candidate] = await organization.resolveMemberCandidates({
+      userIds: [record.userId],
+      purpose: 'browseOrganization',
+    })
+    if (!candidate) throw new Error(tr('成员当前不可见'))
+    return candidate
+  }
+
+  /** 通过岗位分配权限取得成员当前岗位快照，不依赖组织读取权限。 */
+  async function resolvePositionCandidate(record: MemberRecord) {
+    if (!positions) throw new Error(tr('当前作用域不支持岗位关系'))
+    const [candidate] = await positions.resolveMemberCandidates({
+      userIds: [record.userId],
+      purpose: 'assignPositionMembers',
+    })
+    if (!candidate) throw new Error(tr('成员当前不可见'))
+    return candidate
+  }
+
+  /** 加载组织候选和完整组织树后打开成员组织归属编辑器。 */
+  async function openOrganizations(record: MemberRecord) {
+    await organizationsRequest.run({
+      targetId: record.id,
+      load: () =>
+        Promise.all([
+          resolveOrganizationCandidate(record),
+          organization ? loadAllOrganizationUnits(organization) : [],
+        ]),
+      onSuccess: ([candidate, units]) => {
+        setCandidateByUserId((current) => new Map(current).set(candidate.userId, candidate))
+        organizationsRef.current?.show(record, candidate, units)
       },
+      onError: (error) => {
+        if ((error as Error).name !== 'AbortError')
+          void message.error(error instanceof Error ? error.message : tr('无法加载组织归属'))
+      },
+    })
+  }
+
+  /** 加载成员候选和完整岗位列表后打开岗位任职编辑器。 */
+  async function openPositions(record: MemberRecord) {
+    await positionsRequest.run({
+      targetId: record.id,
+      load: () =>
+        Promise.all([
+          resolvePositionCandidate(record),
+          positions ? loadAllPositions(positions) : [],
+        ]),
+      onSuccess: ([candidate, availablePositions]) => {
+        positionsRef.current?.show(record, candidate, availablePositions)
+      },
+      onError: (error) => {
+        if ((error as Error).name !== 'AbortError')
+          void message.error(error instanceof Error ? error.message : tr('无法加载岗位任职'))
+      },
+    })
+  }
+
+  const columns = createMemberTableColumns({
+    platform,
+    companyScope: access.scope.type === 'company',
+    canReadOrganization,
+    canAssignOrganization,
+    canAssignPositions,
+    canManageRoles: allowed('roles'),
+    canManageStatus: allowed('status'),
+    canRemove: allowed('remove'),
+    candidateByUserId,
+    openingOrganizationId: organizationsRequest.loadingId,
+    openingPositionId: positionsRequest.loadingId,
+    openingRoleId: rolesRequest.loadingId,
+    tr,
+    onOpenOrganizations: (record) => void openOrganizations(record),
+    onOpenPositions: (record) => void openPositions(record),
+    onOpenRoles: (record) => void openRoles(record),
+    onToggleStatus: (record) => {
+      void execute(
+        () =>
+          platform
+            ? api.accountStatus(record.id, {
+                status: record.status === 'active' ? 'disabled' : 'active',
+              })
+            : api.memberStatus(record.id, {
+                status: record.status === 'active' ? 'disabled' : 'active',
+                expectedVersion: (record as MemberRecord).version,
+              }),
+        refresh,
+      )
     },
-    ...(!platform
-      ? [
-          {
-            title: tr('账号状态'),
-            dataIndex: 'accountStatus',
-            width: 100,
-            search: false,
-            valueEnum: {
-              active: { text: tr('启用'), status: 'Success' },
-              disabled: { text: tr('停用'), status: 'Default' },
-              locked: { text: tr('锁定'), status: 'Warning' },
-            },
-          } as ProColumns<MemberRecord | AccountRecord>,
-        ]
-      : []),
-    {
-      title: platform ? tr('平台角色') : tr('角色'),
-      search: false,
-      render: (_, record) =>
-        'roleNames' in record ? (
-          <Space size={[0, 4]} wrap>
-            {record.roleNames.map((name) => (
-              <Tag key={name}>{name}</Tag>
-            ))}
-          </Space>
-        ) : (
-          tr('{count} 个角色', { count: record.platformRoleIds.length })
-        ),
+    onRemove: (record) => {
+      void execute(() => api.removeMember(record.id, record.version), refresh)
     },
-    {
-      title: tr('加入时间'),
-      dataIndex: 'createdAt',
-      valueType: 'dateTime',
-      search: false,
-      width: 180,
-    },
-    {
-      title: tr('操作'),
-      valueType: 'option',
-      width: 240,
-      render: (_, record) => (
-        <Space size={4} wrap>
-          {allowed('roles') && (
-            <Button
-              type="link"
-              size="small"
-              loading={openingId === record.id}
-              onClick={() => void openRoles(record)}
-            >
-              {tr('分配角色')}
-            </Button>
-          )}
-          {allowed('status') && (
-            <Popconfirm
-              title={tr('{action}{type}？', {
-                action: record.status === 'active' ? tr('停用') : tr('启用'),
-                type: platform ? tr('账号') : tr('成员'),
-              })}
-              description={
-                platform
-                  ? tr('账号停用后所有工作空间均不可访问；重新启用后须重新登录。')
-                  : tr('停用保留成员关系和角色，阻断此身份提供的访问。')
-              }
-              onConfirm={() =>
-                execute(
-                  () =>
-                    platform
-                      ? api.accountStatus(record.id, {
-                          status: record.status === 'active' ? 'disabled' : 'active',
-                        })
-                      : api.memberStatus(record.id, {
-                          status: record.status === 'active' ? 'disabled' : 'active',
-                          expectedVersion: (record as MemberRecord).version,
-                        }),
-                  refresh,
-                )
-              }
-            >
-              <Button type="link" size="small" danger={record.status === 'active'}>
-                {record.status === 'active' ? tr('停用') : tr('启用')}
-              </Button>
-            </Popconfirm>
-          )}
-          {!platform && allowed('remove') && (
-            <Popconfirm
-              title={tr('移除成员？')}
-              description={
-                access.scope.type === 'company'
-                  ? tr('同时清理该成员的企业角色及下属项目关系和角色。重新加入不会恢复旧授权。')
-                  : tr('清理该成员在此项目的关系和角色。')
-              }
-              onConfirm={() =>
-                execute(
-                  () => api.removeMember(record.id, (record as MemberRecord).version),
-                  refresh,
-                )
-              }
-            >
-              <Button type="link" size="small" danger>
-                {tr('移除')}
-              </Button>
-            </Popconfirm>
-          )}
-        </Space>
-      ),
-    },
-  ]
+  })
   return (
     <>
       <FullHeightProTable<MemberRecord | AccountRecord>
@@ -196,6 +208,21 @@ export default function MembersPage() {
               status: params.status as EntityStatus | undefined,
             }
             const result = platform ? await api.accounts(query) : await api.members(query)
+            if (!platform && canReadOrganization && result.items.length && organization) {
+              try {
+                const candidates = await organization.resolveMemberCandidates({
+                  userIds: result.items.map((item) => (item as MemberRecord).userId),
+                  purpose: 'browseOrganization',
+                })
+                setCandidateByUserId(
+                  new Map(candidates.map((candidate) => [candidate.userId, candidate])),
+                )
+              } catch (error) {
+                if ((error as Error).name !== 'AbortError') throw error
+              }
+            } else if (!platform) {
+              setCandidateByUserId(new Map())
+            }
             return { data: result.items, total: result.total, success: true }
           }
         }
@@ -237,6 +264,36 @@ export default function MembersPage() {
           )
         }
       />
+      {scope && organization && positions && (
+        <>
+          <MemberOrganizationsDialog
+            ref={organizationsRef}
+            scope={scope}
+            onSave={(record, relations) =>
+              execute(
+                () => organization.replaceMemberUnits(record.userId, { relations }),
+                () => {
+                  setCandidateByUserId((current) => removeMemberCandidate(current, record.userId))
+                  refresh()
+                },
+              )
+            }
+          />
+          <MemberPositionsDialog
+            ref={positionsRef}
+            scope={scope}
+            onSave={(record, positionIds) =>
+              execute(
+                () => positions.replaceMemberPositions(record.userId, { positionIds }),
+                () => {
+                  setCandidateByUserId((current) => removeMemberCandidate(current, record.userId))
+                  refresh()
+                },
+              )
+            }
+          />
+        </>
+      )}
     </>
   )
 }

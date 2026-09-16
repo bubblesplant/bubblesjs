@@ -12,8 +12,19 @@ export type {
 export { default as GlobalAccountSelect } from './GlobalAccountSelect'
 export type {
   GlobalAccountOption,
+  GlobalAccountResolver,
   GlobalAccountSearchRequest,
   GlobalAccountSearchResult,
   GlobalAccountSelectOption,
   GlobalAccountSelectProps,
 } from './GlobalAccountSelect'
+export { default as OrganizationMemberSelector } from './OrganizationMemberSelector'
+export type {
+  OrganizationMemberBrowserFilters,
+  OrganizationMemberBrowserProps,
+  OrganizationMemberBrowserRef,
+  OrganizationMemberFilterOption,
+  OrganizationMemberSearchRequest,
+  OrganizationMemberSearchResult,
+  OrganizationMemberSelectorProps,
+} from './OrganizationMemberSelector'

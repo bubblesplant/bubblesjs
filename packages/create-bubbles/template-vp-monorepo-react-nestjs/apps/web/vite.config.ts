@@ -21,7 +21,7 @@ export default defineConfig(
     return {
       test: {
         environment: 'node',
-        include: ['test/**/*.spec.ts'],
+        include: ['test/**/*.spec.{ts,tsx}'],
         restoreMocks: true,
       },
       resolve: {

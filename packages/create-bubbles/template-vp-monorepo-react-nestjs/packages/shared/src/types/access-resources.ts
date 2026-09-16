@@ -73,29 +73,10 @@ export interface RoleRecord {
   updatedAt: string
 }
 
-export interface CreateCompanyRequest {
-  name: string
-  code: string
-  description?: string
-  administratorAccount: string
-}
-
-export interface CreateProjectRequest {
-  name: string
-  code: string
-  description?: string
-  administratorAccount: string
-}
-
 export interface UpdateProfileRequest extends VersionRequest {
   name?: string
   code?: string
   description?: string
-}
-
-export interface SetAdministratorRequest {
-  account: string
-  replaceUserId?: string
 }
 
 export interface SetAdministratorResult {

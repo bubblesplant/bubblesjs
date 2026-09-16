@@ -1,6 +1,6 @@
 import type { AccessPageDefinition, PermissionDefinition, ScopeType } from '../types'
 
-export const ACCESS_CATALOG_VERSION = '2026-09-09.1'
+export const ACCESS_CATALOG_VERSION = '2026-09-16.1'
 export const ACCESS_DEFAULT_PAGE_SIZE = 20
 export const ACCESS_MAX_PAGE_SIZE = 100
 export const ACCESS_CODE_PATTERN = /^[A-Za-z0-9_-]+$/
@@ -67,6 +67,7 @@ const pageSpecs: readonly PageSpec[] = [
       { suffix: 'create', title: '开通企业', adminOnly: true },
       { suffix: 'status', title: '启用或停用企业' },
       { suffix: 'administrator', title: '设置企业管理员', adminOnly: true },
+      { suffix: 'hierarchy', title: '调整企业层级' },
     ],
   },
   {
@@ -155,6 +156,42 @@ const pageSpecs: readonly PageSpec[] = [
   },
   {
     scopeType: 'company',
+    routeKey: 'company.organization',
+    path: '/companies/:companyId/organization',
+    title: '企业组织',
+    icon: 'ApartmentOutlined',
+    operations: [
+      { suffix: 'create', title: '创建组织单元' },
+      { suffix: 'update', title: '修改组织单元' },
+      { suffix: 'move', title: '移动组织单元' },
+      { suffix: 'assign', title: '分配组织成员' },
+    ],
+  },
+  {
+    scopeType: 'company',
+    routeKey: 'company.positions',
+    path: '/companies/:companyId/positions',
+    title: '企业岗位',
+    icon: 'TeamOutlined',
+    operations: [
+      { suffix: 'create', title: '创建岗位' },
+      { suffix: 'update', title: '修改岗位' },
+      { suffix: 'assign', title: '分配岗位成员' },
+    ],
+  },
+  {
+    scopeType: 'company',
+    routeKey: 'company.organization.templates',
+    path: '/companies/:companyId/organization/templates',
+    title: '项目组织模板',
+    icon: 'ProfileOutlined',
+    operations: [
+      { suffix: 'create', title: '创建组织模板' },
+      { suffix: 'update', title: '修改组织模板' },
+    ],
+  },
+  {
+    scopeType: 'company',
     routeKey: 'company.audit',
     path: '/companies/:companyId/audit',
     title: '企业操作日志',
@@ -195,6 +232,31 @@ const pageSpecs: readonly PageSpec[] = [
   },
   {
     scopeType: 'project',
+    routeKey: 'project.organization',
+    path: '/companies/:companyId/projects/:projectId/organization',
+    title: '项目组织',
+    icon: 'ApartmentOutlined',
+    operations: [
+      { suffix: 'create', title: '创建组织单元' },
+      { suffix: 'update', title: '修改组织单元' },
+      { suffix: 'move', title: '移动组织单元' },
+      { suffix: 'assign', title: '分配组织成员' },
+    ],
+  },
+  {
+    scopeType: 'project',
+    routeKey: 'project.positions',
+    path: '/companies/:companyId/projects/:projectId/positions',
+    title: '项目岗位',
+    icon: 'TeamOutlined',
+    operations: [
+      { suffix: 'create', title: '创建岗位' },
+      { suffix: 'update', title: '修改岗位' },
+      { suffix: 'assign', title: '分配岗位成员' },
+    ],
+  },
+  {
+    scopeType: 'project',
     routeKey: 'project.audit',
     path: '/companies/:companyId/projects/:projectId/audit',
     title: '项目操作日志',
@@ -226,18 +288,16 @@ export const ACCESS_PERMISSION_CATALOG: readonly PermissionDefinition[] = pageSp
       adminOnly: false,
       deprecated: false,
     },
-    ...page.operations.map(
-      (operation): PermissionDefinition => ({
-        key: `${page.routeKey}.${operation.suffix}`,
-        scopeType: page.scopeType,
-        kind: 'operation',
-        title: operation.title,
-        routeKey: page.routeKey,
-        pagePermissionKey: `${page.routeKey}.read`,
-        adminOnly: operation.adminOnly ?? false,
-        deprecated: false,
-      }),
-    ),
+    ...page.operations.map((operation): PermissionDefinition => ({
+      key: `${page.routeKey}.${operation.suffix}`,
+      scopeType: page.scopeType,
+      kind: 'operation',
+      title: operation.title,
+      routeKey: page.routeKey,
+      pagePermissionKey: `${page.routeKey}.read`,
+      adminOnly: operation.adminOnly ?? false,
+      deprecated: false,
+    })),
   ],
 )
 

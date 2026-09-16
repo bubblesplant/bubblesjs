@@ -2,22 +2,40 @@ import { PlusOutlined } from '@ant-design/icons'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { App, Button, Empty, Popconfirm, Space } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
-import type { CompanyRecord, EntityStatus } from 'shared/types'
+import type {
+  CompanyRecord,
+  CreateCompanyRequest,
+  CreateProjectRequest,
+  EntityStatus,
+} from 'shared/types'
+import { accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
+import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { managementApi } from './api'
 import AdministratorDialog, { type AdministratorDialogRef } from './components/AdministratorDialog'
+import CompanyHierarchyDialog, {
+  type CompanyHierarchyDialogRef,
+} from './components/CompanyHierarchyDialog'
 import EntityFormDialog, { type EntityFormDialogRef } from './components/EntityFormDialog'
+import {
+  createGlobalAccountResolver,
+  createGlobalAccountSearch,
+  createOrganizationMemberResolver,
+  createOrganizationMemberSearch,
+} from './components/EntitySelectors'
 import { useAccess, useManagementAction } from './use-access'
 
 /** 按当前作用域管理下级企业或项目，并提供状态及管理员维护入口。 */
 export default function EntitiesPage() {
   const access = useAccess()
   const project = access.scope.type === 'company'
+  const memberContextKey = accessScopeKey(access.scope)
   const api = managementApi(access.scope)
   const actionRef = useRef<ActionType>(null)
   const formRef = useRef<EntityFormDialogRef>(null)
   const administratorRef = useRef<AdministratorDialogRef>(null)
-  const [openingId, setOpeningId] = useState<string>()
+  const hierarchyRef = useRef<CompanyHierarchyDialogRef>(null)
+  const administratorRequest = useLatestDialogRequest(accessScopeKey(access.scope))
   const { message } = App.useApp()
   const execute = useManagementAction()
   const { tr } = useI18n()
@@ -31,18 +49,18 @@ export default function EntitiesPage() {
 
   /** 获取实体当前管理员信息后打开管理员维护弹窗。 */
   async function openAdministrator(record: CompanyRecord) {
-    setOpeningId(record.id)
-    try {
-      const administrators = project
-        ? await api.projectAdministrators(record.id)
-        : (await api.companyDetail(record.id)).administrators
-      administratorRef.current?.show(record, administrators)
-    } catch (error) {
-      if ((error as Error).name !== 'AbortError')
-        void message.error(error instanceof Error ? error.message : tr('无法加载管理员，请重试'))
-    } finally {
-      setOpeningId(undefined)
-    }
+    await administratorRequest.run({
+      targetId: record.id,
+      load: async () =>
+        project
+          ? api.projectAdministrators(record.id)
+          : (await api.companyDetail(record.id)).administrators,
+      onSuccess: (administrators) => administratorRef.current?.show(record, administrators),
+      onError: (error) => {
+        if ((error as Error).name !== 'AbortError')
+          void message.error(error instanceof Error ? error.message : tr('无法加载管理员，请重试'))
+      },
+    })
   }
 
   const columns: ProColumns<CompanyRecord>[] = [
@@ -94,7 +112,7 @@ export default function EntitiesPage() {
             <Button
               type="link"
               size="small"
-              loading={openingId === record.id}
+              loading={administratorRequest.loadingId === record.id}
               onClick={() => void openAdministrator(record)}
             >
               {tr('设置管理员')}
@@ -178,8 +196,15 @@ export default function EntitiesPage() {
         onRequestError={(error) => {
           if (error.name !== 'AbortError') void message.error(error.message)
         }}
-        toolBarRender={() =>
-          canCreate
+        toolBarRender={() => [
+          ...(!project && allowed('hierarchy')
+            ? [
+                <Button key="hierarchy" onClick={() => hierarchyRef.current?.show()}>
+                  {tr('企业层级')}
+                </Button>,
+              ]
+            : []),
+          ...(canCreate
             ? [
                 <Button
                   key="create"
@@ -190,21 +215,54 @@ export default function EntitiesPage() {
                   {project ? tr('创建项目') : tr('开通企业')}
                 </Button>,
               ]
-            : []
-        }
+            : []),
+        ]}
       />
       <EntityFormDialog
         ref={formRef}
         project={project}
+        memberContextKey={memberContextKey}
+        globalAccountRequest={createGlobalAccountSearch(api, 'createCompanyAdministrator')}
+        resolveGlobalAccounts={createGlobalAccountResolver(api, 'createCompanyAdministrator')}
+        memberRequest={createOrganizationMemberSearch(api, 'createProjectAdministrator')}
+        resolveMembers={createOrganizationMemberResolver(api, 'createProjectAdministrator')}
+        loadCompanyTree={!project ? api.companyTree : undefined}
+        loadTemplates={
+          project && access.permissionKeys.includes('company.organization.templates.read')
+            ? async () =>
+                (await api.organizationTemplates({ page: 1, pageSize: 100, status: 'active' }))
+                  .items
+            : undefined
+        }
         onSave={(values) =>
-          execute(() => (project ? api.createProject(values) : api.createCompany(values)), refresh)
+          execute(
+            () =>
+              project
+                ? api.createProject(values as CreateProjectRequest)
+                : api.createCompany(values as CreateCompanyRequest),
+            refresh,
+          )
         }
       />
       <AdministratorDialog
         ref={administratorRef}
         project={project}
+        memberContextKey={memberContextKey}
+        globalAccountRequest={createGlobalAccountSearch(api, 'setCompanyAdministrator')}
+        resolveGlobalAccounts={createGlobalAccountResolver(api, 'setCompanyAdministrator')}
+        memberRequest={createOrganizationMemberSearch(api, 'setProjectAdministrator')}
+        resolveMembers={createOrganizationMemberResolver(api, 'setProjectAdministrator')}
         onSave={(record, input) => execute(() => api.setAdministrator(record.id, input), refresh)}
       />
+      {!project && (
+        <CompanyHierarchyDialog
+          ref={hierarchyRef}
+          loadTree={api.companyTree}
+          onSave={(record, values) =>
+            execute(() => api.updateCompanyHierarchy(record.id, values), refresh)
+          }
+        />
+      )}
     </>
   )
 }

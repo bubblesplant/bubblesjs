@@ -3,26 +3,25 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vite-plus/test'
 import { Pool } from 'pg'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { migrate } from 'drizzle-orm/node-postgres/migrator'
-import { eq, inArray } from 'drizzle-orm'
+import { and, eq, inArray } from 'drizzle-orm'
 import Redis from 'ioredis'
 import { ConfigService } from '@nestjs/config'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { randomBytes } from 'node:crypto'
-import type {
-  AccessScope,
-  CompanyDetail,
-  MemberRecord,
-  PermissionDefinition,
-  ProjectDetail,
-} from 'shared/types'
+import type { CompanyDetail, MemberRecord, PermissionDefinition, ProjectDetail } from 'shared/types'
 import * as schema from '@/database/schema'
 import { AccessService } from '@/modules/access/access.service'
 import { AccessSeedService } from '@/modules/access/seed/access-seed.service'
 import { MembersService } from '@/modules/members/members.service'
 import { CompaniesService } from '@/modules/companies/companies.service'
 import { ProjectsService } from '@/modules/projects/projects.service'
+import { ProjectOrganizationInitializationService } from '@/modules/organization/initialization/project-organization-initialization.service'
+import { OrganizationTemplatesService } from '@/modules/organization/templates/organization-templates.service'
+import { OrganizationUnitsService } from '@/modules/organization/units/organization-units.service'
+import { MemberCandidatesService } from '@/modules/organization/candidates/member-candidates.service'
+import { GlobalAccountCandidatesService } from '@/modules/organization/candidates/global-account/global-account-candidates.service'
 import { AdministratorsService } from '@/modules/members/administrators/administrators.service'
 import { AccountsService } from '@/modules/members/accounts/accounts.service'
 import { WorkspacesService } from '@/modules/access/workspaces/workspaces.service'
@@ -86,6 +85,10 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
   let members: MembersService
   let companies: CompaniesService
   let projects: ProjectsService
+  let organizationTemplates: OrganizationTemplatesService
+  let organizationUnits: OrganizationUnitsService
+  let memberCandidates: MemberCandidatesService
+  let globalAccountCandidates: GlobalAccountCandidatesService
   let accounts: AccountsService
   let workspaces: WorkspacesService
   let roles: RolesService
@@ -100,7 +103,7 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
   let project: ProjectDetail
   let member: MemberRecord
   let temporaryDirectory: string
-  let companyScope: AccessScope
+  let companyScope: { type: 'company'; companyId: string }
 
   beforeAll(async () => {
     if (!process.env.DATABASE_URL) throw new Error('真实测试必须提供隔离容器 DATABASE_URL')
@@ -130,7 +133,16 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
     members = new MembersService(access, seed)
     const administrators = new AdministratorsService(access, members, seed)
     companies = new CompaniesService(access, members, administrators)
-    projects = new ProjectsService(access, members, administrators)
+    organizationTemplates = new OrganizationTemplatesService(access)
+    organizationUnits = new OrganizationUnitsService(access)
+    memberCandidates = new MemberCandidatesService(access)
+    globalAccountCandidates = new GlobalAccountCandidatesService(access)
+    projects = new ProjectsService(
+      access,
+      members,
+      administrators,
+      new ProjectOrganizationInitializationService(access, organizationTemplates),
+    )
     accounts = new AccountsService(access, members, sessions)
     workspaces = new WorkspacesService(access)
     roles = new RolesService(access)
@@ -219,7 +231,7 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
   it('创建企业、添加成员、创建项目完整事务；平台身份不等于企业成员', async () => {
     company = (await companies.create({
       actor: actor(platformId),
-      body: { name: '集成企业', code: 'integration', administratorAccount: 'company_admin_it' },
+      body: { name: '集成企业', code: 'integration', administratorUserId: companyAdminId },
     })) as CompanyDetail
     companyScope = { type: 'company', companyId: company.id }
     member = await members.add({
@@ -230,8 +242,33 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
     project = (await projects.create({
       actor: actor(companyAdminId),
       companyId: company.id,
-      body: { name: '集成项目', code: 'project_it', administratorAccount: 'ordinary_it' },
+      body: {
+        name: '集成项目',
+        code: 'project_it',
+        administratorUserId: memberId,
+        organizationInitialization: { mode: 'blank' },
+      },
     })) as ProjectDetail
+    const blankTrees = await db
+      .select()
+      .from(schema.organizationTrees)
+      .where(
+        and(
+          eq(schema.organizationTrees.scopeType, 'project'),
+          eq(schema.organizationTrees.companyId, company.id),
+          eq(schema.organizationTrees.projectId, project.id),
+        ),
+      )
+    expect(blankTrees).toHaveLength(1)
+    expect(
+      await db
+        .select()
+        .from(schema.organizationUnits)
+        .where(eq(schema.organizationUnits.treeId, blankTrees[0]!.id)),
+    ).toHaveLength(0)
+    expect(
+      await db.select().from(schema.positions).where(eq(schema.positions.projectId, project.id)),
+    ).toHaveLength(0)
     await expect(
       access.read({ actor: actor(platformId), scope: companyScope }, async () => true),
     ).rejects.toMatchObject({ definition: { code: 'ACCESS.NOT_FOUND' } })
@@ -253,11 +290,662 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       projects.create({
         actor: actor(memberId),
         companyId: company.id,
-        body: { name: '不能创建', code: 'forbidden', administratorAccount: 'ordinary_it' },
+        body: {
+          name: '不能创建',
+          code: 'forbidden',
+          administratorUserId: memberId,
+          organizationInitialization: { mode: 'blank' },
+        },
       }),
     ).rejects.toMatchObject({ definition: { code: 'ACCESS.FORBIDDEN' } })
   })
+  it('全局账号候选按用途鉴权、稳定区分同名账号并按请求顺序回显', async () => {
+    const sharedName = '同名全局候选'
+    const [laterAccount, earlierAccount, lockedAccount] = await db
+      .insert(schema.users)
+      .values([
+        {
+          account: 'global_candidate_b',
+          name: sharedName,
+          passwordHash: 'test-only-no-login',
+        },
+        {
+          account: 'global_candidate_a',
+          name: sharedName,
+          passwordHash: 'test-only-no-login',
+        },
+        {
+          account: 'global_candidate_locked',
+          name: sharedName,
+          passwordHash: 'test-only-no-login',
+          status: 'locked' as const,
+        },
+      ])
+      .returning()
+    const read = vi.spyOn(access, 'read')
+    const createCandidates = await globalAccountCandidates.search({
+      actor: actor(platformId),
+      query: { purpose: 'createCompanyAdministrator', query: sharedName, pageSize: 100 },
+    })
+    const setCandidates = await globalAccountCandidates.search({
+      actor: actor(platformId),
+      query: { purpose: 'setCompanyAdministrator', query: sharedName, pageSize: 100 },
+    })
+    expect(read.mock.calls[0]?.[0]).toMatchObject({
+      scope: { type: 'platform' },
+      permission: 'platform.companies.create',
+      adminOnly: true,
+    })
+    expect(read.mock.calls[1]?.[0]).toMatchObject({
+      scope: { type: 'platform' },
+      permission: 'platform.companies.administrator',
+      adminOnly: true,
+    })
+    read.mockRestore()
+    expect(createCandidates.items.map((item) => item.account)).toEqual([
+      'global_candidate_a',
+      'global_candidate_b',
+      'global_candidate_locked',
+    ])
+    expect(new Set(createCandidates.items.map((item) => item.userId)).size).toBe(3)
+    expect(setCandidates.items).toHaveLength(3)
+    expect(createCandidates.items.find((item) => item.userId === lockedAccount!.id)).toMatchObject({
+      status: 'locked',
+      disabled: true,
+      disabledReason: 'accountInactive',
+    })
+    const resolved = await globalAccountCandidates.resolve({
+      actor: actor(platformId),
+      body: {
+        purpose: 'setCompanyAdministrator',
+        userIds: [laterAccount!.id, crypto.randomUUID(), lockedAccount!.id, earlierAccount!.id],
+      },
+    })
+    expect(resolved.map((item) => item.userId)).toEqual([
+      laterAccount!.id,
+      lockedAccount!.id,
+      earlierAccount!.id,
+    ])
+    expect(resolved[1]).toMatchObject({ disabled: true, disabledReason: 'accountInactive' })
+    await expect(
+      globalAccountCandidates.search({
+        actor: actor(companyAdminId),
+        query: { purpose: 'createCompanyAdministrator', query: sharedName },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.FORBIDDEN' } })
+  })
+  it('岗位成员候选只接受 URL 当前企业或项目作用域内的岗位 ID', async () => {
+    const foreignCompany = await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: '候选隔离企业',
+        code: 'candidate_isolation_company',
+        administratorUserId: replacementId,
+      },
+    })
+    const foreignProject = await projects.create({
+      actor: actor(replacementId),
+      companyId: foreignCompany.id,
+      body: {
+        name: '候选隔离项目',
+        code: 'candidate_isolation_project',
+        administratorUserId: replacementId,
+        organizationInitialization: { mode: 'blank' },
+      },
+    })
+    const [companyPosition, projectPosition, foreignCompanyPosition, foreignProjectPosition] =
+      await db
+        .insert(schema.positions)
+        .values([
+          {
+            scopeType: 'company',
+            companyId: company.id,
+            name: '候选企业岗位',
+            nameKey: '候选企业岗位',
+            code: 'candidate_company_position',
+            codeKey: 'candidate_company_position',
+          },
+          {
+            scopeType: 'project',
+            companyId: company.id,
+            projectId: project.id,
+            name: '候选项目岗位',
+            nameKey: '候选项目岗位',
+            code: 'candidate_project_position',
+            codeKey: 'candidate_project_position',
+          },
+          {
+            scopeType: 'company',
+            companyId: foreignCompany.id,
+            name: '候选隔离企业岗位',
+            nameKey: '候选隔离企业岗位',
+            code: 'candidate_foreign_company_pos',
+            codeKey: 'candidate_foreign_company_pos',
+          },
+          {
+            scopeType: 'project',
+            companyId: foreignCompany.id,
+            projectId: foreignProject.id,
+            name: '候选隔离项目岗位',
+            nameKey: '候选隔离项目岗位',
+            code: 'candidate_foreign_project_pos',
+            codeKey: 'candidate_foreign_project_pos',
+          },
+        ])
+        .returning()
+    await expect(
+      memberCandidates.search({
+        actor: actor(companyAdminId),
+        scope: companyScope,
+        query: { purpose: 'assignPositionMembers', positionIds: [companyPosition!.id] },
+      }),
+    ).resolves.toMatchObject({ page: 1, pageSize: 20 })
+    for (const positionId of [projectPosition!.id, foreignCompanyPosition!.id]) {
+      await expect(
+        memberCandidates.search({
+          actor: actor(companyAdminId),
+          scope: companyScope,
+          query: { purpose: 'assignPositionMembers', positionIds: [positionId] },
+        }),
+      ).rejects.toMatchObject({ definition: { code: 'ACCESS.NOT_FOUND' } })
+    }
+    const projectScope = {
+      type: 'project' as const,
+      companyId: company.id,
+      projectId: project.id,
+    }
+    await expect(
+      memberCandidates.search({
+        actor: actor(companyAdminId),
+        scope: projectScope,
+        query: { purpose: 'assignPositionMembers', positionIds: [projectPosition!.id] },
+      }),
+    ).resolves.toMatchObject({ page: 1, pageSize: 20 })
+    for (const positionId of [companyPosition!.id, foreignProjectPosition!.id]) {
+      await expect(
+        memberCandidates.search({
+          actor: actor(companyAdminId),
+          scope: projectScope,
+          query: { purpose: 'assignPositionMembers', positionIds: [positionId] },
+        }),
+      ).rejects.toMatchObject({ definition: { code: 'ACCESS.NOT_FOUND' } })
+    }
+  })
+  it('企业与项目组织负责人可原子交接，双负责人请求和数据库写入仍整批失败', async () => {
+    const [oldLeader, newLeader] = await db
+      .insert(schema.users)
+      .values([
+        {
+          account: 'organization_old_leader',
+          name: '原组织负责人',
+          passwordHash: 'test-only-no-login',
+        },
+        {
+          account: 'organization_new_leader',
+          name: '新组织负责人',
+          passwordHash: 'test-only-no-login',
+        },
+      ])
+      .returning()
+    for (const account of [oldLeader!.account, newLeader!.account]) {
+      await members.add({
+        actor: actor(companyAdminId),
+        scope: companyScope,
+        body: { account },
+      })
+      await members.add({
+        actor: actor(companyAdminId),
+        scope: { type: 'project', companyId: company.id, projectId: project.id },
+        body: { account },
+      })
+    }
+    const companyUnit = await organizationUnits.create({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      body: { name: '企业负责人交接单元', code: 'company_leader_handover' },
+    })
+    const projectScope = {
+      type: 'project' as const,
+      companyId: company.id,
+      projectId: project.id,
+    }
+    const projectUnit = await organizationUnits.create({
+      actor: actor(companyAdminId),
+      scope: projectScope,
+      body: { name: '项目负责人交接单元', code: 'project_leader_handover' },
+    })
+
+    for (const target of [
+      {
+        scope: companyScope,
+        unitId: companyUnit.id,
+        table: schema.companyOrganizationUnitMembers,
+      },
+      {
+        scope: projectScope,
+        unitId: projectUnit.id,
+        table: schema.projectOrganizationUnitMembers,
+      },
+    ] as const) {
+      await organizationUnits.replaceUnitMembers({
+        actor: actor(companyAdminId),
+        scope: target.scope,
+        unitId: target.unitId,
+        body: {
+          // 先插入未来负责人，确保旧实现会按危险顺序先尝试升级该行。
+          members: [
+            { userId: newLeader!.id, duty: 'member' },
+            { userId: oldLeader!.id, duty: 'leader' },
+          ],
+        },
+      })
+      const swapped = await organizationUnits.replaceUnitMembers({
+        actor: actor(companyAdminId),
+        scope: target.scope,
+        unitId: target.unitId,
+        body: {
+          members: [
+            { userId: newLeader!.id, duty: 'leader' },
+            { userId: oldLeader!.id, duty: 'member' },
+          ],
+        },
+      })
+      expect(
+        Object.fromEntries(swapped.members.map((item) => [item.member.userId, item.duty])),
+      ).toEqual({ [newLeader!.id]: 'leader', [oldLeader!.id]: 'member' })
+      await expect(
+        organizationUnits.replaceUnitMembers({
+          actor: actor(companyAdminId),
+          scope: target.scope,
+          unitId: target.unitId,
+          body: {
+            members: [
+              { userId: newLeader!.id, duty: 'leader' },
+              { userId: oldLeader!.id, duty: 'leader' },
+            ],
+          },
+        }),
+      ).rejects.toMatchObject({
+        definition: { code: 'ACCESS.ORGANIZATION_LEADER_CONFLICT' },
+      })
+      await expect(
+        db
+          .update(target.table)
+          .set({ duty: 'leader' })
+          .where(
+            and(
+              eq(target.table.organizationUnitId, target.unitId),
+              eq(target.table.userId, oldLeader!.id),
+            ),
+          ),
+      ).rejects.toBeTruthy()
+      const persisted = await db
+        .select({ userId: target.table.userId, duty: target.table.duty })
+        .from(target.table)
+        .where(eq(target.table.organizationUnitId, target.unitId))
+      expect(Object.fromEntries(persisted.map((item) => [item.userId, item.duty]))).toEqual({
+        [newLeader!.id]: 'leader',
+        [oldLeader!.id]: 'member',
+      })
+    }
+  })
+  it('项目按模板复制组织与岗位快照，不复制成员任职或角色，并校验模板版本、状态和企业归属', async () => {
+    const template = await organizationTemplates.create({
+      actor: actor(companyAdminId),
+      companyId: company.id,
+      body: {
+        name: '标准项目组织',
+        description: '用于验证项目初始化快照',
+        isDefault: true,
+        units: [
+          {
+            clientKey: 'management',
+            parentClientKey: null,
+            name: '项目管理部',
+            code: 'management',
+            description: '模板根节点',
+            sort: 10,
+          },
+          {
+            clientKey: 'finance',
+            parentClientKey: 'management',
+            name: '项目财务组',
+            code: 'finance',
+            description: '模板子节点',
+            sort: 20,
+          },
+        ],
+        positions: [
+          {
+            name: '项目经理',
+            code: 'project_manager',
+            description: '启用岗位',
+            status: 'active',
+          },
+          {
+            name: '项目资料员',
+            code: 'document_controller',
+            description: '停用岗位也应按快照复制',
+            status: 'disabled',
+          },
+        ],
+      },
+    })
+    const templateProject = await projects.create({
+      actor: actor(companyAdminId),
+      companyId: company.id,
+      body: {
+        name: '模板初始化项目',
+        code: 'template_project',
+        administratorUserId: memberId,
+        organizationInitialization: {
+          mode: 'template',
+          templateId: template.id,
+          templateVersion: template.version,
+        },
+      },
+    })
+    const [projectTree] = await db
+      .select()
+      .from(schema.organizationTrees)
+      .where(eq(schema.organizationTrees.projectId, templateProject.id))
+    expect(projectTree).toBeDefined()
+    const copiedUnits = await db
+      .select()
+      .from(schema.organizationUnits)
+      .where(eq(schema.organizationUnits.treeId, projectTree!.id))
+    const copiedPositions = await db
+      .select()
+      .from(schema.positions)
+      .where(eq(schema.positions.projectId, templateProject.id))
+    expect(copiedUnits).toHaveLength(template.units.length)
+    expect(copiedPositions).toHaveLength(template.positions.length)
+    expect(new Set(copiedUnits.map((item) => item.sourceTemplateUnitId))).toEqual(
+      new Set(template.units.map((item) => item.id)),
+    )
+    expect(new Set(copiedPositions.map((item) => item.sourceTemplatePositionId))).toEqual(
+      new Set(template.positions.map((item) => item.id)),
+    )
+    expect(copiedUnits.find((item) => item.code === 'finance')?.parentId).toBe(
+      copiedUnits.find((item) => item.code === 'management')?.id,
+    )
+    expect(
+      await db
+        .select()
+        .from(schema.projectMembers)
+        .where(eq(schema.projectMembers.projectId, templateProject.id)),
+    ).toMatchObject([{ userId: memberId }])
+    expect(
+      await db
+        .select()
+        .from(schema.projectOrganizationUnitMembers)
+        .where(eq(schema.projectOrganizationUnitMembers.projectId, templateProject.id)),
+    ).toHaveLength(0)
+    expect(
+      await db
+        .select()
+        .from(schema.projectPositionMembers)
+        .where(eq(schema.projectPositionMembers.projectId, templateProject.id)),
+    ).toHaveLength(0)
+    const projectRoles = await db
+      .select()
+      .from(schema.roles)
+      .where(eq(schema.roles.projectId, templateProject.id))
+    expect(projectRoles).toHaveLength(2)
+    expect(projectRoles.every((item) => item.builtin !== null)).toBe(true)
+
+    const replaced = await organizationTemplates.replace({
+      actor: actor(companyAdminId),
+      companyId: company.id,
+      templateId: template.id,
+      body: {
+        expectedVersion: template.version,
+        name: template.name,
+        description: '模板已产生下一版本',
+        isDefault: true,
+        units: [
+          {
+            clientKey: 'new-root',
+            parentClientKey: null,
+            name: '新版组织节点',
+            code: 'new_root',
+            sort: 1,
+          },
+        ],
+        positions: [],
+      },
+    })
+    expect(
+      await db
+        .select()
+        .from(schema.organizationUnits)
+        .where(eq(schema.organizationUnits.treeId, projectTree!.id)),
+    ).toHaveLength(2)
+    await expect(
+      projects.create({
+        actor: actor(companyAdminId),
+        companyId: company.id,
+        body: {
+          name: '过期模板版本项目',
+          code: 'stale_template_project',
+          administratorUserId: memberId,
+          organizationInitialization: {
+            mode: 'template',
+            templateId: template.id,
+            templateVersion: template.version,
+          },
+        },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.TEMPLATE_VERSION_CONFLICT' } })
+    const disabled = await organizationTemplates.status({
+      actor: actor(companyAdminId),
+      companyId: company.id,
+      templateId: template.id,
+      body: { expectedVersion: replaced.version, status: 'disabled' },
+    })
+    await expect(
+      projects.create({
+        actor: actor(companyAdminId),
+        companyId: company.id,
+        body: {
+          name: '停用模板项目',
+          code: 'disabled_template_project',
+          administratorUserId: memberId,
+          organizationInitialization: {
+            mode: 'template',
+            templateId: disabled.id,
+            templateVersion: disabled.version,
+          },
+        },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.TEMPLATE_UNAVAILABLE' } })
+
+    const otherCompany = await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: '模板隔离企业',
+        code: 'template_isolation',
+        administratorUserId: companyAdminId,
+      },
+    })
+    const foreignTemplate = await organizationTemplates.create({
+      actor: actor(companyAdminId),
+      companyId: otherCompany.id,
+      body: {
+        name: '其他企业模板',
+        units: [],
+        positions: [],
+      },
+    })
+    await expect(
+      projects.create({
+        actor: actor(companyAdminId),
+        companyId: company.id,
+        body: {
+          name: '跨企业模板项目',
+          code: 'foreign_template_project',
+          administratorUserId: memberId,
+          organizationInitialization: {
+            mode: 'template',
+            templateId: foreignTemplate.id,
+            templateVersion: foreignTemplate.version,
+          },
+        },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.NOT_FOUND' } })
+    expect(
+      await db
+        .select()
+        .from(schema.projects)
+        .where(
+          inArray(schema.projects.code, [
+            'stale_template_project',
+            'disabled_template_project',
+            'foreign_template_project',
+          ]),
+        ),
+    ).toHaveLength(0)
+  })
+  it('企业层级按同父规范名称、默认排序和循环规则维护，旧接口不泄漏层级字段', async () => {
+    const parent = await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: '层级父企业',
+        code: 'hierarchy_parent',
+        administratorUserId: replacementId,
+        entityType: 'group',
+      },
+    })
+    const firstChild = await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: 'ＡＢＣ 子企业',
+        code: 'hierarchy_child_1',
+        administratorUserId: replacementId,
+        parentCompanyId: parent.id,
+      },
+    })
+    const secondChild = await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: '第二子企业',
+        code: 'hierarchy_child_2',
+        administratorUserId: replacementId,
+        parentCompanyId: parent.id,
+      },
+    })
+    expect(parent).toMatchObject({ parentCompanyId: null, entityType: 'group' })
+    expect(firstChild.sort).toBe(1)
+    expect(secondChild.sort).toBe(2)
+    await expect(
+      companies.create({
+        actor: actor(platformId),
+        body: {
+          name: 'ABC 子企业',
+          code: 'hierarchy_duplicate_name',
+          administratorUserId: replacementId,
+          parentCompanyId: parent.id,
+        },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.DUPLICATE_RESOURCE' } })
+    await expect(
+      companies.updateHierarchy({
+        actor: actor(platformId),
+        companyId: parent.id,
+        body: {
+          expectedVersion: parent.version,
+          parentCompanyId: firstChild.id,
+          entityType: parent.entityType,
+        },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.ORGANIZATION_CYCLE' } })
+    await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: '排序上限子企业',
+        code: 'hierarchy_child_max',
+        administratorUserId: replacementId,
+        parentCompanyId: parent.id,
+        sort: 999_999_999,
+      },
+    })
+    await expect(
+      companies.create({
+        actor: actor(platformId),
+        body: {
+          name: '无法自动排序子企业',
+          code: 'hierarchy_sort_exhausted',
+          administratorUserId: replacementId,
+          parentCompanyId: parent.id,
+        },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.ORGANIZATION_SORT_EXHAUSTED' } })
+    const tree = await companies.hierarchyTree({ actor: actor(platformId) })
+    expect(
+      tree
+        .find((item) => item.id === parent.id)
+        ?.children.slice(0, 2)
+        .map((item) => item.id),
+    ).toEqual([firstChild.id, secondChild.id])
+    expect(
+      await db
+        .select()
+        .from(schema.organizationTrees)
+        .where(eq(schema.organizationTrees.companyId, parent.id)),
+    ).toHaveLength(1)
+    const oldListRecord = (
+      await companies.listCompanies({ actor: actor(platformId), query: { pageSize: 100 } })
+    ).items.find((item) => item.id === parent.id)!
+    const oldDetail = await companies.get({
+      actor: actor(platformId),
+      companyId: parent.id,
+      platform: true,
+    })
+    expect(Object.hasOwn(oldListRecord, 'parentCompanyId')).toBe(false)
+    expect(Object.hasOwn(oldDetail, 'parentCompanyId')).toBe(false)
+    const [hierarchyOperator] = await db
+      .insert(schema.users)
+      .values({
+        account: 'hierarchy_operator',
+        name: '企业层级维护员',
+        passwordHash: 'test-only-no-login',
+      })
+      .returning()
+    const hierarchyRole = await roles.create({
+      actor: actor(platformId),
+      scope: { type: 'platform' },
+      body: {
+        name: '企业层级维护角色',
+        permissionKeys: ['platform.companies.read', 'platform.companies.hierarchy'],
+      },
+    })
+    await accounts.accountChange({
+      actor: actor(platformId),
+      userId: hierarchyOperator!.id,
+      body: { roleIds: [hierarchyRole.id] },
+    })
+    await expect(
+      companies.updateHierarchy({
+        actor: actor(hierarchyOperator!.id),
+        companyId: secondChild.id,
+        body: {
+          expectedVersion: secondChild.version,
+          parentCompanyId: null,
+          entityType: 'group',
+        },
+      }),
+    ).resolves.toMatchObject({
+      id: secondChild.id,
+      parentCompanyId: null,
+      entityType: 'group',
+    })
+  })
   it('项目创建审计失败时项目、角色和成员全部回滚', async () => {
+    const before = {
+      trees: (await db.select().from(schema.organizationTrees)).length,
+      roles: (await db.select().from(schema.roles)).length,
+      members: (await db.select().from(schema.projectMembers)).length,
+    }
     const failingAudit = vi
       .spyOn(access, 'audit')
       .mockRejectedValueOnce(new Error('transaction audit fixture'))
@@ -265,13 +953,21 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       projects.create({
         actor: actor(companyAdminId),
         companyId: company.id,
-        body: { name: '回滚项目', code: 'rollback', administratorAccount: 'ordinary_it' },
+        body: {
+          name: '回滚项目',
+          code: 'rollback',
+          administratorUserId: memberId,
+          organizationInitialization: { mode: 'blank' },
+        },
       }),
     ).rejects.toThrow('transaction audit fixture')
     failingAudit.mockRestore()
     expect(
       await db.select().from(schema.projects).where(eq(schema.projects.code, 'rollback')),
     ).toHaveLength(0)
+    expect(await db.select().from(schema.organizationTrees)).toHaveLength(before.trees)
+    expect(await db.select().from(schema.roles)).toHaveLength(before.roles)
+    expect(await db.select().from(schema.projectMembers)).toHaveLength(before.members)
   })
   it('同范围唯一、内置角色保护、非法授权与跨企业成员约束', async () => {
     await expect(
@@ -302,7 +998,7 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
     ).rejects.toMatchObject({ definition: { code: 'ACCESS.INVALID_PERMISSION_SET' } })
     const foreignCompany = (await companies.create({
       actor: actor(platformId),
-      body: { name: '另一企业', code: 'foreign_it', administratorAccount: 'replacement_it' },
+      body: { name: '另一企业', code: 'foreign_it', administratorUserId: replacementId },
     })) as CompanyDetail
     await expect(
       db
@@ -378,6 +1074,173 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       projectId: project.id,
       body: { expectedVersion: p.version, status: 'active' },
     })
+    const isolatedCompany = await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: '成员隔离企业',
+        code: 'member_isolation',
+        administratorUserId: memberId,
+      },
+    })
+    const isolatedProject = await projects.create({
+      actor: actor(memberId),
+      companyId: isolatedCompany.id,
+      body: {
+        name: '成员隔离项目',
+        code: 'member_isolation_project',
+        administratorUserId: memberId,
+        organizationInitialization: { mode: 'blank' },
+      },
+    })
+    const trees = await db.select().from(schema.organizationTrees)
+    const companyTree = trees.find(
+      (item) => item.scopeType === 'company' && item.companyId === company.id,
+    )!
+    const projectTree = trees.find((item) => item.projectId === project.id)!
+    const isolatedCompanyTree = trees.find(
+      (item) => item.scopeType === 'company' && item.companyId === isolatedCompany.id,
+    )!
+    const isolatedProjectTree = trees.find((item) => item.projectId === isolatedProject.id)!
+    const [companyUnit, projectUnit, isolatedCompanyUnit, isolatedProjectUnit] = await db
+      .insert(schema.organizationUnits)
+      .values([
+        {
+          treeId: companyTree.id,
+          name: '原企业组织',
+          nameKey: '原企业组织',
+          code: 'source_company_unit',
+          codeKey: 'source_company_unit',
+          sort: 1,
+        },
+        {
+          treeId: projectTree.id,
+          name: '原项目组织',
+          nameKey: '原项目组织',
+          code: 'source_project_unit',
+          codeKey: 'source_project_unit',
+          sort: 1,
+        },
+        {
+          treeId: isolatedCompanyTree.id,
+          name: '隔离企业组织',
+          nameKey: '隔离企业组织',
+          code: 'isolated_company_unit',
+          codeKey: 'isolated_company_unit',
+          sort: 1,
+        },
+        {
+          treeId: isolatedProjectTree.id,
+          name: '隔离项目组织',
+          nameKey: '隔离项目组织',
+          code: 'isolated_project_unit',
+          codeKey: 'isolated_project_unit',
+          sort: 1,
+        },
+      ])
+      .returning()
+    const [companyPosition, projectPosition, isolatedCompanyPosition, isolatedProjectPosition] =
+      await db
+        .insert(schema.positions)
+        .values([
+          {
+            scopeType: 'company',
+            companyId: company.id,
+            name: '原企业岗位',
+            nameKey: '原企业岗位',
+            code: 'source_company_position',
+            codeKey: 'source_company_position',
+          },
+          {
+            scopeType: 'project',
+            companyId: company.id,
+            projectId: project.id,
+            name: '原项目岗位',
+            nameKey: '原项目岗位',
+            code: 'source_project_position',
+            codeKey: 'source_project_position',
+          },
+          {
+            scopeType: 'company',
+            companyId: isolatedCompany.id,
+            name: '隔离企业岗位',
+            nameKey: '隔离企业岗位',
+            code: 'isolated_company_position',
+            codeKey: 'isolated_company_position',
+          },
+          {
+            scopeType: 'project',
+            companyId: isolatedCompany.id,
+            projectId: isolatedProject.id,
+            name: '隔离项目岗位',
+            nameKey: '隔离项目岗位',
+            code: 'isolated_project_position',
+            codeKey: 'isolated_project_position',
+          },
+        ])
+        .returning()
+    await db.insert(schema.companyOrganizationUnitMembers).values([
+      {
+        companyId: company.id,
+        treeId: companyTree.id,
+        organizationUnitId: companyUnit!.id,
+        userId: memberId,
+        duty: 'leader',
+      },
+      {
+        companyId: isolatedCompany.id,
+        treeId: isolatedCompanyTree.id,
+        organizationUnitId: isolatedCompanyUnit!.id,
+        userId: memberId,
+        duty: 'leader',
+      },
+    ])
+    await db.insert(schema.projectOrganizationUnitMembers).values([
+      {
+        companyId: company.id,
+        projectId: project.id,
+        treeId: projectTree.id,
+        organizationUnitId: projectUnit!.id,
+        userId: memberId,
+        duty: 'deputy',
+      },
+      {
+        companyId: isolatedCompany.id,
+        projectId: isolatedProject.id,
+        treeId: isolatedProjectTree.id,
+        organizationUnitId: isolatedProjectUnit!.id,
+        userId: memberId,
+        duty: 'deputy',
+      },
+    ])
+    await db.insert(schema.companyPositionMembers).values([
+      { companyId: company.id, positionId: companyPosition!.id, userId: memberId },
+      {
+        companyId: isolatedCompany.id,
+        positionId: isolatedCompanyPosition!.id,
+        userId: memberId,
+      },
+    ])
+    await db.insert(schema.projectPositionMembers).values([
+      {
+        companyId: company.id,
+        projectId: project.id,
+        positionId: projectPosition!.id,
+        userId: memberId,
+      },
+      {
+        companyId: isolatedCompany.id,
+        projectId: isolatedProject.id,
+        positionId: isolatedProjectPosition!.id,
+        userId: memberId,
+      },
+    ])
+    const isolatedRoleAssignments = await db
+      .select({ roleId: schema.userRoles.roleId })
+      .from(schema.userRoles)
+      .innerJoin(schema.roles, eq(schema.roles.id, schema.userRoles.roleId))
+      .where(
+        and(eq(schema.userRoles.userId, memberId), eq(schema.roles.companyId, isolatedCompany.id)),
+      )
     await members.change({
       actor: actor(companyAdminId),
       scope: companyScope,
@@ -389,8 +1252,121 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       await db
         .select()
         .from(schema.projectMembers)
-        .where(eq(schema.projectMembers.userId, memberId)),
+        .where(
+          and(
+            eq(schema.projectMembers.companyId, company.id),
+            eq(schema.projectMembers.userId, memberId),
+          ),
+        ),
     ).toHaveLength(0)
+    expect(
+      await db
+        .select()
+        .from(schema.projectMembers)
+        .where(
+          and(
+            eq(schema.projectMembers.projectId, isolatedProject.id),
+            eq(schema.projectMembers.userId, memberId),
+          ),
+        ),
+    ).toHaveLength(1)
+    expect(
+      await db
+        .select()
+        .from(schema.companyOrganizationUnitMembers)
+        .where(
+          and(
+            eq(schema.companyOrganizationUnitMembers.companyId, company.id),
+            eq(schema.companyOrganizationUnitMembers.userId, memberId),
+          ),
+        ),
+    ).toHaveLength(0)
+    expect(
+      await db
+        .select()
+        .from(schema.projectOrganizationUnitMembers)
+        .where(
+          and(
+            eq(schema.projectOrganizationUnitMembers.companyId, company.id),
+            eq(schema.projectOrganizationUnitMembers.userId, memberId),
+          ),
+        ),
+    ).toHaveLength(0)
+    expect(
+      await db
+        .select()
+        .from(schema.companyPositionMembers)
+        .where(
+          and(
+            eq(schema.companyPositionMembers.companyId, company.id),
+            eq(schema.companyPositionMembers.userId, memberId),
+          ),
+        ),
+    ).toHaveLength(0)
+    expect(
+      await db
+        .select()
+        .from(schema.projectPositionMembers)
+        .where(
+          and(
+            eq(schema.projectPositionMembers.companyId, company.id),
+            eq(schema.projectPositionMembers.userId, memberId),
+          ),
+        ),
+    ).toHaveLength(0)
+    expect(
+      await db
+        .select()
+        .from(schema.userRoles)
+        .innerJoin(schema.roles, eq(schema.roles.id, schema.userRoles.roleId))
+        .where(and(eq(schema.userRoles.userId, memberId), eq(schema.roles.companyId, company.id))),
+    ).toHaveLength(0)
+    expect(
+      await db
+        .select()
+        .from(schema.companyOrganizationUnitMembers)
+        .where(eq(schema.companyOrganizationUnitMembers.companyId, isolatedCompany.id)),
+    ).toHaveLength(1)
+    expect(
+      await db
+        .select()
+        .from(schema.projectOrganizationUnitMembers)
+        .where(eq(schema.projectOrganizationUnitMembers.projectId, isolatedProject.id)),
+    ).toHaveLength(1)
+    expect(
+      await db
+        .select()
+        .from(schema.companyPositionMembers)
+        .where(eq(schema.companyPositionMembers.companyId, isolatedCompany.id)),
+    ).toHaveLength(1)
+    expect(
+      await db
+        .select()
+        .from(schema.projectPositionMembers)
+        .where(eq(schema.projectPositionMembers.projectId, isolatedProject.id)),
+    ).toHaveLength(1)
+    expect(
+      await db
+        .select({ roleId: schema.userRoles.roleId })
+        .from(schema.userRoles)
+        .innerJoin(schema.roles, eq(schema.roles.id, schema.userRoles.roleId))
+        .where(
+          and(
+            eq(schema.userRoles.userId, memberId),
+            eq(schema.roles.companyId, isolatedCompany.id),
+          ),
+        ),
+    ).toEqual(isolatedRoleAssignments)
+    const [removalAudit] = await db
+      .select()
+      .from(schema.auditLogs)
+      .where(
+        and(eq(schema.auditLogs.action, 'member.remove'), eq(schema.auditLogs.objectId, member.id)),
+      )
+    expect(removalAudit?.summary).toMatchObject({
+      removedOrganizationRelationCount: 2,
+      removedPositionAssignmentCount: 2,
+    })
     member = await members.add({
       actor: actor(companyAdminId),
       scope: companyScope,
@@ -519,7 +1495,7 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
     await companies.setAdministrator({
       actor: actor(platformId),
       companyId: company.id,
-      body: { account: 'replacement_it' },
+      body: { administratorUserId: replacementId },
     })
     const currentMembers = (
       await members.list({ actor: actor(companyAdminId), scope: companyScope, query: {} })
@@ -546,12 +1522,12 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
     await companies.setAdministrator({
       actor: actor(platformId),
       companyId: company.id,
-      body: { account: 'company_admin_it' },
+      body: { administratorUserId: companyAdminId },
     })
     await companies.setAdministrator({
       actor: actor(platformId),
       companyId: company.id,
-      body: { account: 'replacement_it' },
+      body: { administratorUserId: replacementId },
     })
   })
   it('账号禁用允许平台补任更换，旧会话撤销、恢复不恢复旧管理员角色', async () => {
@@ -576,7 +1552,7 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
     await companies.setAdministrator({
       actor: actor(platformId),
       companyId: company.id,
-      body: { account: 'replacement_it', replaceUserId: companyAdminId },
+      body: { administratorUserId: replacementId, replaceUserId: companyAdminId },
     })
     await accounts.accountChange({
       actor: actor(platformId),
@@ -604,7 +1580,7 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
     await companies.setAdministrator({
       actor: actor(platformId),
       companyId: company.id,
-      body: { account: 'company_admin_it' },
+      body: { administratorUserId: companyAdminId },
     })
   })
   it('账号停用审计失败回滚时保留账号状态和现有会话', async () => {

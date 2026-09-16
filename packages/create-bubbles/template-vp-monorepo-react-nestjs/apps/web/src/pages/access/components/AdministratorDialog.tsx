@@ -1,22 +1,50 @@
-import { ModalForm, ProFormSelect, ProFormText } from '@ant-design/pro-components'
-import { Alert } from 'antd'
+import { ModalForm, ProFormSelect } from '@ant-design/pro-components'
+import { Alert, Form } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
-import type { AdministratorSummary, CompanyRecord, SetAdministratorRequest } from 'shared/types'
-import { ACCOUNT_PATTERN, normalizeAccount } from 'shared/utils'
+import type {
+  AdministratorSummary,
+  CompanyRecord,
+  OrganizationMemberCandidate,
+  SetAdministratorRequest,
+} from 'shared/types'
+import GlobalAccountSelect from '@/components/Selector/GlobalAccountSelect'
+import type {
+  GlobalAccountResolver,
+  GlobalAccountSearchRequest,
+  GlobalAccountSearchResult,
+} from '@/components/Selector/GlobalAccountSelect'
+import OrganizationMemberSelector from '@/components/Selector/OrganizationMemberSelector'
+import type {
+  OrganizationMemberSearchRequest,
+  OrganizationMemberSearchResult,
+} from '@/components/Selector/OrganizationMemberSelector'
+
+const PROJECT_ADMINISTRATOR_SOURCE_SCOPE = { type: 'company' } as const
 
 export interface AdministratorDialogRef {
   show: (record: CompanyRecord, administrators: AdministratorSummary[]) => void
   hide: () => void
 }
 
-/** 展示现有管理员，支持补充或替换企业、项目管理员。 */
+/** 展示现有管理员，按企业或项目权限域选择稳定 userId 进行补充或替换。 */
 export default function AdministratorDialog({
   ref,
   project,
+  memberContextKey,
+  globalAccountRequest,
+  resolveGlobalAccounts,
+  memberRequest,
+  resolveMembers,
   onSave,
 }: {
   ref: Ref<AdministratorDialogRef>
   project: boolean
+  /** 当前管理页的完整访问作用域键，用于隔离项目管理员候选缓存。 */
+  memberContextKey: string
+  globalAccountRequest: (input: GlobalAccountSearchRequest) => Promise<GlobalAccountSearchResult>
+  resolveGlobalAccounts: GlobalAccountResolver
+  memberRequest: (input: OrganizationMemberSearchRequest) => Promise<OrganizationMemberSearchResult>
+  resolveMembers: (userIds: string[]) => Promise<OrganizationMemberCandidate[]>
   onSave: (record: CompanyRecord, input: SetAdministratorRequest) => Promise<boolean>
 }) {
   const [record, setRecord] = useState<CompanyRecord>()
@@ -40,17 +68,17 @@ export default function AdministratorDialog({
         name: record?.name ?? '',
       })}
       open={open}
-      width={580}
+      width={640}
       modalProps={{ destroyOnHidden: true, onCancel: hide }}
       onOpenChange={(visible) => {
         if (!visible) hide()
       }}
       submitter={{ searchConfig: { submitText: tr('保存管理员') } }}
       onFinish={
-        /** 规范化新管理员账号，并按可选替换对象提交管理员设置。 */ async (values) => {
+        /** 按稳定 userId 和可选替换对象提交管理员设置。 */ async (values) => {
           if (!record) return false
           const ok = await onSave(record, {
-            account: normalizeAccount(values.account),
+            administratorUserId: values.administratorUserId,
             ...(values.replaceUserId ? { replaceUserId: values.replaceUserId } : {}),
           })
           if (ok) hide()
@@ -67,12 +95,24 @@ export default function AdministratorDialog({
         )}
         style={{ marginBottom: 20 }}
       />
-      <ProFormText
-        name="account"
-        label={tr('新管理员完整账号')}
-        extra={project ? tr('新管理员须为有效的企业成员。') : tr('新管理员须为有效的已注册账号。')}
-        rules={[{ required: true, pattern: ACCOUNT_PATTERN, message: tr('请输入完整账号') }]}
-      />
+      <Form.Item
+        name="administratorUserId"
+        label={tr('新管理员')}
+        rules={[{ required: true, message: tr('请选择新管理员') }]}
+        extra={project ? tr('新管理员须为有效企业成员。') : tr('新管理员须为有效全局账号。')}
+      >
+        {project ? (
+          <OrganizationMemberSelector
+            candidateContextKey={`${memberContextKey}:setProjectAdministrator`}
+            scope={PROJECT_ADMINISTRATOR_SOURCE_SCOPE}
+            request={memberRequest}
+            resolve={resolveMembers}
+            placeholder={tr('选择企业成员')}
+          />
+        ) : (
+          <GlobalAccountSelect request={globalAccountRequest} resolve={resolveGlobalAccounts} />
+        )}
+      </Form.Item>
       <ProFormSelect
         name="replaceUserId"
         label={tr('被替换的管理员（可选）')}

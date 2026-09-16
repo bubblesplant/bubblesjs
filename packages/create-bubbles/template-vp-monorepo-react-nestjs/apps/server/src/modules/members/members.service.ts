@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { and, count, desc, eq, inArray, sql } from 'drizzle-orm'
 import {
+  companyOrganizationUnitMembers,
   companyMembers,
+  companyPositionMembers,
+  projectOrganizationUnitMembers,
   projectMembers,
+  projectPositionMembers,
   rolePermissions,
   roles,
   userRoles,
@@ -81,6 +85,33 @@ export class MembersService {
           ),
         )
       if (!companyMember) throw new AppException(ACCESS_ERRORS.INVALID_MEMBER_ACCOUNT)
+    }
+    return user
+  }
+
+  /**
+   * 按稳定 userId 校验管理员候选；项目管理员额外要求目标是直接企业的有效成员。
+   *
+   * 企业管理员允许使用尚未加入企业的有效全局账号，后续由调用事务创建成员关系。
+   */
+  async userForAdministrator(db: AccessDb, input: { userId: string; companyId?: string }) {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(and(eq(users.id, input.userId), eq(users.status, 'active')))
+    if (!user) throw new AppException(ACCESS_ERRORS.INVALID_MEMBER_RELATION)
+    if (input.companyId) {
+      const [member] = await db
+        .select()
+        .from(companyMembers)
+        .where(
+          and(
+            eq(companyMembers.companyId, input.companyId),
+            eq(companyMembers.userId, input.userId),
+            eq(companyMembers.status, 'active'),
+          ),
+        )
+      if (!member) throw new AppException(ACCESS_ERRORS.INVALID_MEMBER_RELATION)
     }
     return user
   }
@@ -191,6 +222,120 @@ export class MembersService {
         .where(and(eq(userRoles.userId, userId), inArray(userRoles.roleId, scopeIds)))
     if (roleIds.length)
       await tx.insert(userRoles).values(roleIds.map((roleId) => ({ roleId, userId })))
+  }
+
+  /**
+   * 显式清理用户在一个项目或当前企业全部直属项目中的组织、岗位、角色和成员关系。
+   *
+   * 数据库级联只作为完整性兜底；这里返回实际删除数量供成员移除审计使用。
+   */
+  private async cleanupProjectMemberships(
+    tx: AccessTx,
+    input: { companyId: string; projectId?: string; userId: string },
+  ) {
+    const removedOrganizationRelations = await tx
+      .delete(projectOrganizationUnitMembers)
+      .where(
+        and(
+          eq(projectOrganizationUnitMembers.companyId, input.companyId),
+          input.projectId
+            ? eq(projectOrganizationUnitMembers.projectId, input.projectId)
+            : undefined,
+          eq(projectOrganizationUnitMembers.userId, input.userId),
+        ),
+      )
+      .returning({ id: projectOrganizationUnitMembers.id })
+    const removedPositionAssignments = await tx
+      .delete(projectPositionMembers)
+      .where(
+        and(
+          eq(projectPositionMembers.companyId, input.companyId),
+          input.projectId ? eq(projectPositionMembers.projectId, input.projectId) : undefined,
+          eq(projectPositionMembers.userId, input.userId),
+        ),
+      )
+      .returning({ id: projectPositionMembers.id })
+    const projectRoles = await tx
+      .select({ id: roles.id })
+      .from(roles)
+      .where(
+        and(
+          eq(roles.scopeType, 'project'),
+          eq(roles.companyId, input.companyId),
+          input.projectId ? eq(roles.projectId, input.projectId) : undefined,
+        ),
+      )
+    if (projectRoles.length)
+      await tx.delete(userRoles).where(
+        and(
+          eq(userRoles.userId, input.userId),
+          inArray(
+            userRoles.roleId,
+            projectRoles.map(({ id }) => id),
+          ),
+        ),
+      )
+    await tx
+      .delete(projectMembers)
+      .where(
+        and(
+          eq(projectMembers.companyId, input.companyId),
+          input.projectId ? eq(projectMembers.projectId, input.projectId) : undefined,
+          eq(projectMembers.userId, input.userId),
+        ),
+      )
+    return {
+      removedOrganizationRelationCount: removedOrganizationRelations.length,
+      removedPositionAssignmentCount: removedPositionAssignments.length,
+    }
+  }
+
+  /** 显式清理用户在企业本级的组织关系、岗位任职与角色分配，并返回审计计数。 */
+  private async cleanupCompanyMembership(
+    tx: AccessTx,
+    input: { companyId: string; userId: string },
+  ) {
+    const removedOrganizationRelations = await tx
+      .delete(companyOrganizationUnitMembers)
+      .where(
+        and(
+          eq(companyOrganizationUnitMembers.companyId, input.companyId),
+          eq(companyOrganizationUnitMembers.userId, input.userId),
+        ),
+      )
+      .returning({ id: companyOrganizationUnitMembers.id })
+    const removedPositionAssignments = await tx
+      .delete(companyPositionMembers)
+      .where(
+        and(
+          eq(companyPositionMembers.companyId, input.companyId),
+          eq(companyPositionMembers.userId, input.userId),
+        ),
+      )
+      .returning({ id: companyPositionMembers.id })
+    const companyRoles = await tx
+      .select({ id: roles.id })
+      .from(roles)
+      .where(and(eq(roles.scopeType, 'company'), eq(roles.companyId, input.companyId)))
+    if (companyRoles.length)
+      await tx.delete(userRoles).where(
+        and(
+          eq(userRoles.userId, input.userId),
+          inArray(
+            userRoles.roleId,
+            companyRoles.map(({ id }) => id),
+          ),
+        ),
+      )
+    await tx
+      .delete(companyMembers)
+      .where(
+        and(eq(companyMembers.companyId, input.companyId), eq(companyMembers.userId, input.userId)),
+      )
+    return {
+      removedOrganizationRelationCount: removedOrganizationRelations.length,
+      removedPositionAssignmentCount: removedPositionAssignments.length,
+    }
   }
 
   /** 在成员读取权限下分页查询当前作用域成员，按状态、姓名或账号筛选并批量聚合角色。 */
@@ -310,6 +455,8 @@ export class MembersService {
         const previous = (await this.access.effectiveAdministratorScopes(tx, administratorOptions))
           .effective
         const table = this.table(input.scope)
+        let removedOrganizationRelationCount = 0
+        let removedPositionAssignmentCount = 0
         if (input.action === 'roles')
           await this.validateRoleAssignment(tx, {
             access,
@@ -317,34 +464,28 @@ export class MembersService {
             roleIds: (input.body as AssignMemberRolesRequest).roleIds,
           })
         if (input.action === 'remove') {
-          const affectedRoles = await tx
-            .select({ id: roles.id })
-            .from(roles)
-            .where(
-              input.scope.type === 'company'
-                ? eq(roles.companyId, input.scope.companyId)
-                : scopeFilter(input.scope),
-            )
-          if (affectedRoles.length)
-            await tx.delete(userRoles).where(
-              and(
-                eq(userRoles.userId, member.userId),
-                inArray(
-                  userRoles.roleId,
-                  affectedRoles.map((r) => r.id),
-                ),
-              ),
-            )
-          if (input.scope.type === 'company')
-            await tx
-              .delete(projectMembers)
-              .where(
-                and(
-                  eq(projectMembers.companyId, input.scope.companyId),
-                  eq(projectMembers.userId, member.userId),
-                ),
-              )
-          await tx.delete(table).where(and(this.filter(input.scope), eq(table.id, input.memberId)))
+          if (input.scope.type === 'project') {
+            const projectCleanup = await this.cleanupProjectMemberships(tx, {
+              companyId: input.scope.companyId,
+              projectId: input.scope.projectId,
+              userId: member.userId,
+            })
+            removedOrganizationRelationCount += projectCleanup.removedOrganizationRelationCount
+            removedPositionAssignmentCount += projectCleanup.removedPositionAssignmentCount
+          } else if (input.scope.type === 'company') {
+            const projectCleanup = await this.cleanupProjectMemberships(tx, {
+              companyId: input.scope.companyId,
+              userId: member.userId,
+            })
+            removedOrganizationRelationCount += projectCleanup.removedOrganizationRelationCount
+            removedPositionAssignmentCount += projectCleanup.removedPositionAssignmentCount
+            const companyCleanup = await this.cleanupCompanyMembership(tx, {
+              companyId: input.scope.companyId,
+              userId: member.userId,
+            })
+            removedOrganizationRelationCount += companyCleanup.removedOrganizationRelationCount
+            removedPositionAssignmentCount += companyCleanup.removedPositionAssignmentCount
+          }
         } else {
           await tx
             .update(table)
@@ -367,6 +508,9 @@ export class MembersService {
             ...('roleIds' in input.body ? { roleIds: input.body.roleIds } : {}),
             ...('status' in input.body
               ? { fromStatus: member.status, toStatus: input.body.status }
+              : {}),
+            ...(input.action === 'remove'
+              ? { removedOrganizationRelationCount, removedPositionAssignmentCount }
               : {}),
           },
         })

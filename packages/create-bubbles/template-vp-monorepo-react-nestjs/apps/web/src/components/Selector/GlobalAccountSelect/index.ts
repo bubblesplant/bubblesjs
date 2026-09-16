@@ -1,6 +1,7 @@
 export { default } from './GlobalAccountSelect'
 export type {
   GlobalAccountOption,
+  GlobalAccountResolver,
   GlobalAccountSearchRequest,
   GlobalAccountSearchResult,
   GlobalAccountSelectOption,

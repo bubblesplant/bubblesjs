@@ -28,7 +28,9 @@ export const entryMiddleware: MiddlewareFunction = async ({ request, context }) 
     const companyAccess = await Promise.all(
       data.workspaces
         .filter((entry) => entry.scope.type === 'company')
-        .map((entry) => getAccessContext(entry.scope, request.signal)),
+        .map((entry) =>
+          getAccessContext(entry.scope, { workspaceKey: 'workspaces', signal: request.signal }),
+        ),
     )
     const hasCompanyResponsibilities = companyAccess.some(
       (access) =>
@@ -36,7 +38,10 @@ export const entryMiddleware: MiddlewareFunction = async ({ request, context }) 
         access.permissionKeys.some((key) => !companyMemberPermissions.has(key)),
     )
     if (!hasCompanyResponsibilities) {
-      const access = await getAccessContext(project.scope, request.signal)
+      const access = await getAccessContext(project.scope, {
+        workspaceKey: 'workspaces',
+        signal: request.signal,
+      })
       destination = firstAccessiblePagePath(access)
     }
   } catch (error) {

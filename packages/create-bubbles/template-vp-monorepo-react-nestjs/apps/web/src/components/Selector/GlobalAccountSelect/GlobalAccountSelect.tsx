@@ -15,6 +15,7 @@ export default function GlobalAccountSelect({
   value,
   selectedAccount,
   request,
+  resolve,
   minSearchLength = DEFAULT_MIN_SEARCH_LENGTH,
   debounceMs = DEFAULT_DEBOUNCE_MS,
   pageSize = DEFAULT_PAGE_SIZE,
@@ -28,24 +29,59 @@ export default function GlobalAccountSelect({
   const [accounts, setAccounts] = useState<readonly GlobalAccountOption[]>([])
   const [currentAccount, setCurrentAccount] = useState(selectedAccount)
   const [loading, setLoading] = useState(false)
+  const [resolving, setResolving] = useState(false)
   const [error, setError] = useState(false)
   const requestRef = useRef(request)
+  const resolveRef = useRef(resolve)
+  const accountCacheRef = useRef(new Map<string, GlobalAccountOption>())
   const requestSequence = useRef(0)
+  const resolveSequence = useRef(0)
+  const attemptedResolveValueRef = useRef<string | undefined>(undefined)
   requestRef.current = request
+  resolveRef.current = resolve
 
-  /** 根据外部 userId、回显快照和最新结果同步当前选中账号。 */
+  /** 优先使用业务快照或当前搜索结果，并按需通过 userId 补齐账号回显。 */
   useEffect(() => {
     if (!value) {
+      attemptedResolveValueRef.current = undefined
       setCurrentAccount(undefined)
+      setResolving(false)
       return
     }
-    if (selectedAccount?.id === value) {
-      setCurrentAccount(selectedAccount)
+
+    const knownAccount =
+      (selectedAccount?.userId === value ? selectedAccount : undefined) ??
+      accountCacheRef.current.get(value)
+    if (knownAccount) {
+      accountCacheRef.current.set(knownAccount.userId, knownAccount)
+      attemptedResolveValueRef.current = undefined
+      setCurrentAccount(knownAccount)
+      setResolving(false)
       return
     }
-    const loadedAccount = accounts.find((account) => account.id === value)
-    setCurrentAccount((current) => loadedAccount ?? (current?.id === value ? current : undefined))
-  }, [accounts, selectedAccount, value])
+
+    if (attemptedResolveValueRef.current === value) return
+    attemptedResolveValueRef.current = value
+    const sequence = ++resolveSequence.current
+    const controller = new AbortController()
+    setCurrentAccount(undefined)
+    setResolving(true)
+    void resolveRef
+      .current([value], controller.signal)
+      .then((resolvedAccounts) => {
+        if (resolveSequence.current !== sequence || controller.signal.aborted) return
+        for (const account of resolvedAccounts) accountCacheRef.current.set(account.userId, account)
+        setCurrentAccount(accountCacheRef.current.get(value))
+      })
+      .catch(() => {
+        // 补查失败时保留受控 userId，但不伪造候选；同一值等待显式变化后再重试。
+      })
+      .finally(() => {
+        if (resolveSequence.current === sequence && !controller.signal.aborted) setResolving(false)
+      })
+
+    return () => controller.abort()
+  }, [selectedAccount, value])
 
   /** 防抖查询候选账号，并取消或忽略已经失效的请求结果。 */
   useEffect(() => {
@@ -72,8 +108,10 @@ export default function GlobalAccountSelect({
         .then((result) => {
           if (requestSequence.current !== sequence || controller.signal.aborted) return
           const uniqueAccounts = new Map(
-            result.items.map((account) => [account.id, account] as const),
+            result.items.map((account) => [account.userId, account] as const),
           )
+          for (const account of uniqueAccounts.values())
+            accountCacheRef.current.set(account.userId, account)
           setAccounts([...uniqueAccounts.values()])
         })
         .catch(() => {
@@ -92,11 +130,11 @@ export default function GlobalAccountSelect({
     }
   }, [debounceMs, minSearchLength, pageSize, query])
 
-  const accountById = new Map(accounts.map((account) => [account.id, account] as const))
+  const accountById = new Map(accounts.map((account) => [account.userId, account] as const))
   const options: GlobalAccountSelectOption[] = accounts.map((account) => ({
-    value: account.id,
+    value: account.userId,
     label: `${account.name} · ${account.account}`,
-    disabled: account.status !== 'active',
+    disabled: account.disabled,
     account,
   }))
   const normalizedQueryLength = query.trim().length
@@ -108,7 +146,7 @@ export default function GlobalAccountSelect({
       placeholder={placeholder ?? tr('搜索姓名或账号')}
       allowClear={allowClear}
       showSearch={{ onSearch: setQuery, filterOption: false }}
-      loading={loading}
+      loading={loading || resolving}
       options={options}
       onChange={
         /** 回传稳定 userId 和本次选项快照，并保留选中账号用于后续回显。 */ (
@@ -117,36 +155,31 @@ export default function GlobalAccountSelect({
         ) => {
           const option = Array.isArray(selectedOption) ? selectedOption[0] : selectedOption
           const account = userId ? (option?.account ?? accountById.get(userId)) : undefined
+          if (account) accountCacheRef.current.set(account.userId, account)
           setQuery('')
           setCurrentAccount(account)
           onChange?.(userId, account)
         }
       }
       labelRender={
-        /** 搜索结果清空后仍使用账号快照渲染选中值，避免退化为裸 userId。 */ ({
-          label,
+        /** 使用可信账号快照渲染选中值；缺失时给出不可用提示而不暴露裸 userId。 */ ({
           value: selectedUserId,
         }) => {
           const account =
-            selectedAccount?.id === selectedUserId
+            selectedAccount?.userId === selectedUserId
               ? selectedAccount
-              : currentAccount?.id === selectedUserId
+              : currentAccount?.userId === selectedUserId
                 ? currentAccount
-                : undefined
-          return account
-            ? `${account.name} · ${account.account}`
-            : (label ?? String(selectedUserId))
+                : typeof selectedUserId === 'string'
+                  ? accountCacheRef.current.get(selectedUserId)
+                  : undefined
+          return account ? `${account.name} · ${account.account}` : tr('账号信息不可用')
         }
       }
       optionRender={
         /** 在候选项中同时展示姓名、完整账号和账号状态。 */ (option) => {
           const account = option.data.account
-          const statusText =
-            account.status === 'active'
-              ? tr('启用')
-              : account.status === 'locked'
-                ? tr('锁定')
-                : tr('停用')
+          const statusText = account.status === 'active' ? tr('启用') : tr('不可选')
           return (
             <Flex align="center" justify="space-between" gap={12}>
               <Flex vertical style={{ minWidth: 0 }}>
@@ -155,7 +188,7 @@ export default function GlobalAccountSelect({
                   {account.account}
                 </Typography.Text>
               </Flex>
-              <Tag color={account.status === 'active' ? 'success' : 'error'}>{statusText}</Tag>
+              <Tag color={account.disabled ? 'error' : 'success'}>{statusText}</Tag>
             </Flex>
           )
         }

@@ -70,19 +70,22 @@ export class AdministratorsService {
   }
 
   /**
-   * 验证新管理员账号并保证成员关系有效，授予管理员角色后按需撤销被替换用户的管理员角色。
+   * 验证新管理员 userId 并保证成员关系有效，授予管理员角色后按需撤销旧管理员角色。
    *
    * 新旧成员版本都会递增；调用方负责作用域鉴权、审计记录及事务提交。
    * @returns 新管理员对应的用户记录。
    */
   async assign(tx: AccessTx, input: { scope: AccessScope; body: SetAdministratorRequest }) {
     const { scope, body } = input
-    const user = await this.members.userForAccount(tx, scope, body.account)
+    const user = await this.members.userForAdministrator(tx, {
+      userId: body.administratorUserId,
+      companyId: scope.type === 'project' ? scope.companyId : undefined,
+    })
     const builtins = await this.seed.ensureRoles(tx, scope)
     const role = builtins.find((item) => item.builtin === 'administrator')!
     if (body.replaceUserId) {
       if (user.id === body.replaceUserId)
-        throw new AppException(ACCESS_ERRORS.INVALID_MEMBER_ACCOUNT)
+        throw new AppException(ACCESS_ERRORS.INVALID_MEMBER_RELATION)
       const [old] = await tx
         .select()
         .from(userRoles)
