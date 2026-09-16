@@ -1,17 +1,19 @@
 import type { ParamsType, ProTableProps } from '@ant-design/pro-components'
 import type { ModalProps } from 'antd'
 
-export type SelectorRowKey<T> = (keyof T & string) | ((record: T) => Key)
+export type BasicTableSelectorRowKey<T> = (keyof T & string) | ((record: T) => Key)
 
-export interface SelectorShowOptions<T> {
+export interface BasicTableSelectorShowOptions<T> {
   /** 单选也传数组；省略表示从空选择开始。 */
   value?: readonly Key[]
   /** 为已有 key 提供对象，避免依赖当前页数据。组件不会修改这些对象。 */
   selectedRows?: readonly T[]
 }
 
-export interface SelectorRef<T> {
-  show: (options?: SelectorShowOptions<T>) => void
+export interface BasicTableSelectorRef<T> {
+  /** 打开一个隔离的选择会话，并可传入已有选中值和对象。 */
+  show: (options?: BasicTableSelectorShowOptions<T>) => void
+  /** 关闭当前选择会话，不提交本轮临时修改。 */
   hide: () => void
 }
 
@@ -28,14 +30,14 @@ type ManagedTableProps =
   | 'tableAlertRender'
   | 'tableAlertOptionRender'
 
-export type SelectorProps<
+export type BasicTableSelectorProps<
   T extends object,
   Params extends ParamsType = ParamsType,
   ValueType = 'text',
 > = Omit<ProTableProps<T, Params, ValueType>, ManagedTableProps> & {
-  ref: Ref<SelectorRef<T>>
+  ref: Ref<BasicTableSelectorRef<T>>
   title: ReactNode
-  rowKey: SelectorRowKey<T>
+  rowKey: BasicTableSelectorRowKey<T>
   request: NonNullable<ProTableProps<T, Params, ValueType>['request']>
   multiple?: boolean
   /** 仅点击确定时触发；keys 和 rows 长度、顺序始终一致。 */

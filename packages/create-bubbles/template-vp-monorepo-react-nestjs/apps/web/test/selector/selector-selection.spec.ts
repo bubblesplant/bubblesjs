@@ -1,6 +1,6 @@
 import { describe, expect, expectTypeOf, it, vi } from 'vite-plus/test'
-import type { SelectorProps } from '../../src/components/Selector'
-import { SelectorSelection } from '../../src/components/Selector/src/SelectorSelection'
+import type { BasicTableSelectorProps } from '../../src/components/Selector'
+import { BasicTableSelectorSelection } from '../../src/components/Selector/BasicTableSelector/BasicTableSelectorSelection'
 
 interface Row {
   id: string | number
@@ -12,9 +12,9 @@ const alice: Row = { id: 'a', name: '甲' }
 const bob: Row = { id: 'b', name: '乙' }
 const carol: Row = { id: 'c', name: '丙' }
 
-describe('Selector 跨页选择与完整对象契约', () => {
+describe('BasicTableSelector 跨页选择与完整对象契约', () => {
   it('公开接口接受普通标题、表格配置和数组结果回调', () => {
-    const props: SelectorProps<Row> = {
+    const props: BasicTableSelectorProps<Row> = {
       ref: null,
       title: '选择条目',
       rowKey: 'id',
@@ -31,7 +31,7 @@ describe('Selector 跨页选择与完整对象契约', () => {
   })
 
   it('跨页、搜索后保留此前选择，取消某一页的选择只移除对应项', () => {
-    const empty = new SelectorSelection<Row>({ rowKey: 'id', multiple: true })
+    const empty = new BasicTableSelectorSelection<Row>({ rowKey: 'id', multiple: true })
     const firstPage = empty.select({ value: ['a'], rows: [alice] })
     const nextPage = firstPage.remember([bob, carol])
     const selected = nextPage.select({ value: ['a', 'b'], rows: [bob] })
@@ -43,7 +43,7 @@ describe('Selector 跨页选择与完整对象契约', () => {
   })
 
   it('保留跨页初始 key，只补查缺失对象，按 key 顺序返回对象', async () => {
-    const selection = new SelectorSelection<Row>({
+    const selection = new BasicTableSelectorSelection<Row>({
       rowKey: 'id',
       multiple: true,
       value: ['c', 'a', 'b'],
@@ -57,7 +57,11 @@ describe('Selector 跨页选择与完整对象契约', () => {
   })
 
   it('仅传 key 且对象未加载时拒绝不完整结果，补查漏项也不静默删除 key', async () => {
-    const selection = new SelectorSelection<Row>({ rowKey: 'id', multiple: true, value: ['a'] })
+    const selection = new BasicTableSelectorSelection<Row>({
+      rowKey: 'id',
+      multiple: true,
+      value: ['a'],
+    })
     await expect(selection.resolve()).rejects.toThrow('尚未加载')
     await expect(selection.resolve(async () => [])).rejects.toThrow('已不可用')
     await expect(
@@ -69,7 +73,7 @@ describe('Selector 跨页选择与完整对象契约', () => {
   })
 
   it('已有完整对象无需补查；单选替换与清空也统一返回数组', async () => {
-    const selection = new SelectorSelection<Row>({
+    const selection = new BasicTableSelectorSelection<Row>({
       rowKey: 'id',
       multiple: false,
       value: ['a'],
@@ -91,7 +95,7 @@ describe('Selector 跨页选择与完整对象契约', () => {
       { id: 0, name: '零' },
       { id: '0', name: '字符串零' },
     ]
-    const selection = new SelectorSelection<Row>({
+    const selection = new BasicTableSelectorSelection<Row>({
       rowKey: (row) => row.id,
       multiple: true,
       value: [0, '0', 0],
@@ -101,7 +105,7 @@ describe('Selector 跨页选择与完整对象契约', () => {
     expect(selection.rows).toEqual(rows)
     expect(
       () =>
-        new SelectorSelection<Row>({
+        new BasicTableSelectorSelection<Row>({
           rowKey: 'id',
           multiple: false,
           value: ['a', 'b'],
@@ -110,7 +114,7 @@ describe('Selector 跨页选择与完整对象契约', () => {
   })
 
   it('丢弃未确认快照不改变原选择，重开不继承上一轮对象缓存', () => {
-    const original = new SelectorSelection<Row>({
+    const original = new BasicTableSelectorSelection<Row>({
       rowKey: 'id',
       multiple: true,
       value: ['a'],
@@ -118,7 +122,11 @@ describe('Selector 跨页选择与完整对象契约', () => {
     })
     original.select({ value: ['b'], rows: [bob] })
     expect(original.rows).toEqual([alice])
-    const reopened = new SelectorSelection<Row>({ rowKey: 'id', multiple: true, value: ['b'] })
+    const reopened = new BasicTableSelectorSelection<Row>({
+      rowKey: 'id',
+      multiple: true,
+      value: ['b'],
+    })
     expect(reopened.missingKeys).toEqual(['b'])
   })
 })

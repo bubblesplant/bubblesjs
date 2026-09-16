@@ -1,11 +1,11 @@
 import { ProTable, type ParamsType } from '@ant-design/pro-components'
 import { useI18n } from '@bubblesjs/i18n-react'
 import { Alert, Button, Flex, Modal, Tag, Typography } from 'antd'
-import { SelectorSelection } from './SelectorSelection'
-import type { SelectorProps } from './SelectorTypes'
+import { BasicTableSelectorSelection } from './BasicTableSelectorSelection'
+import type { BasicTableSelectorProps } from './BasicTableSelectorTypes'
 
-/** 在独立选择会话中展示分页数据，支持跨页选择和缺失记录补查。 */
-export default function Selector<
+/** 在独立弹窗中展示分页表格，支持跨页选择和缺失记录补查。 */
+export default function BasicTableSelector<
   T extends object,
   Params extends ParamsType = ParamsType,
   ValueType = 'text',
@@ -26,9 +26,12 @@ export default function Selector<
   pagination,
   scroll,
   ...tableProps
-}: SelectorProps<T, Params, ValueType>) {
+}: BasicTableSelectorProps<T, Params, ValueType>) {
   const { tr } = useI18n()
-  const [session, setSession] = useState<{ id: number; selection: SelectorSelection<T> }>()
+  const [session, setSession] = useState<{
+    id: number
+    selection: BasicTableSelectorSelection<T>
+  }>()
   const [confirming, setConfirming] = useState(false)
   const [error, setError] = useState<string>()
   const sessionId = useRef(0)
@@ -54,7 +57,7 @@ export default function Selector<
   useImperativeHandle(ref, () => ({
     /** 根据初始选中项开启新会话，并清除上一会话的提交和错误状态。 */
     show: (options = {}) => {
-      const selection = new SelectorSelection<T>({ ...options, rowKey, multiple })
+      const selection = new BasicTableSelectorSelection<T>({ ...options, rowKey, multiple })
       const id = ++sessionId.current
       pendingId.current = null
       setConfirming(false)
@@ -65,7 +68,7 @@ export default function Selector<
   }))
 
   /** 仅更新当前且未提交的选择会话，并清除之前的错误提示。 */
-  const changeSelection = (selection: SelectorSelection<T>) => {
+  const changeSelection = (selection: BasicTableSelectorSelection<T>) => {
     if (!session || pendingId.current !== null || session.id !== sessionId.current) return
     setSession({ ...session, selection })
     setError(undefined)
@@ -85,7 +88,7 @@ export default function Selector<
       if (sessionId.current === id) hide()
     } catch (cause) {
       if (sessionId.current === id) {
-        setError(cause instanceof Error ? cause.message : tr('确认选择失败，请重试'))
+        setError(tr(cause instanceof Error ? cause.message : '确认选择失败，请重试'))
       }
     } finally {
       if (sessionId.current === id) {
