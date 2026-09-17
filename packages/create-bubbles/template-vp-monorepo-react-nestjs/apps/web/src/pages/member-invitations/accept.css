@@ -1,0 +1,47 @@
+@layer components {
+  .invitation-accept-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .invitation-ticket-mark {
+    position: absolute;
+    top: -38px;
+    right: -32px;
+    display: grid;
+    width: 132px;
+    height: 132px;
+    place-items: center;
+    border: 1px solid #ffffffcc;
+    border-radius: 50%;
+    color: #8270db24;
+    font-size: 64px;
+    background: radial-gradient(circle, #ebe6fb8f, transparent 68%);
+    pointer-events: none;
+  }
+
+  .invitation-accept-card .ant-alert {
+    margin-bottom: 22px;
+    border-radius: 12px;
+  }
+
+  .invitation-accept-card > .ant-btn,
+  .invitation-auth-actions {
+    width: 100%;
+  }
+
+  .invitation-auth-actions a {
+    display: block;
+    width: 100%;
+  }
+
+  .invitation-auth-actions .ant-btn {
+    margin: 0;
+  }
+
+  @media (max-width: 767px) {
+    .invitation-accept-card {
+      margin-top: 18px;
+    }
+  }
+}

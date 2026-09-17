@@ -1,6 +1,5 @@
-import { PlusOutlined } from '@ant-design/icons'
 import type { ActionType } from '@ant-design/pro-components'
-import { App, Button } from 'antd'
+import { App } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type {
   AccountRecord,
@@ -13,7 +12,7 @@ import { accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
 import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { managementApi } from './api'
-import AddMemberDialog, { type AddMemberDialogRef } from './components/AddMemberDialog'
+import MemberOnboardingActions from './components/MemberOnboarding/MemberOnboardingActions'
 import MemberRolesDialog, { type MemberRolesDialogRef } from './components/MemberRolesDialog'
 import {
   MemberOrganizationsDialog,
@@ -36,7 +35,6 @@ export default function MembersPage() {
   const execute = useManagementAction()
   const { message } = App.useApp()
   const actionRef = useRef<ActionType>(null)
-  const addRef = useRef<AddMemberDialogRef>(null)
   const rolesRef = useRef<MemberRolesDialogRef>(null)
   const organizationsRef = useRef<MemberOrganizationsDialogRef>(null)
   const positionsRef = useRef<MemberPositionsDialogRef>(null)
@@ -230,24 +228,21 @@ export default function MembersPage() {
           if (error.name !== 'AbortError') void message.error(error.message)
         }}
         toolBarRender={() =>
-          !platform && allowed('add')
+          !platform && scope && allowed('add')
             ? [
-                <Button
-                  key="add"
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={() => addRef.current?.show()}
-                >
-                  {tr('添加成员')}
-                </Button>,
+                <MemberOnboardingActions
+                  key={scopeKey}
+                  scope={scope}
+                  memberContextKey={scopeKey}
+                  api={api}
+                  onRegisterCompanyMember={(data) =>
+                    execute(() => api.registerCompanyMember(data), refresh)
+                  }
+                  onAddProjectMember={(data) => execute(() => api.addProjectMember(data), refresh)}
+                />,
               ]
             : []
         }
-      />
-      <AddMemberDialog
-        ref={addRef}
-        project={access.scope.type === 'project'}
-        onSave={(data) => execute(() => api.addMember(data), refresh)}
       />
       <MemberRolesDialog
         ref={rolesRef}

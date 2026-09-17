@@ -3,6 +3,7 @@ import type {
   AccountStatus,
   BuiltinRole,
   EntityStatus,
+  PageQuery,
   UserSummary,
   VersionRequest,
 } from './access'
@@ -92,8 +93,59 @@ export interface AssignPlatformRolesRequest {
   roleIds: string[]
 }
 
-export interface AddMemberRequest {
+export interface RegisterCompanyMemberRequest {
+  name: string
   account: string
+  password: string
+}
+
+export type CompanyMemberInvitationStatus = 'pending' | 'expired' | 'accepted' | 'revoked'
+
+/** 企业成员邀请的可持久化公开信息；任何查询响应都不会包含 token 或 token 摘要。 */
+export interface CompanyMemberInvitationRecord {
+  id: string
+  companyId: string
+  status: CompanyMemberInvitationStatus
+  createdByUserId: string
+  acceptedByUserId: string | null
+  expiresAt: string
+  acceptedAt: string | null
+  revokedAt: string | null
+  version: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface CompanyMemberInvitationQuery extends PageQuery {
+  status?: CompanyMemberInvitationStatus
+}
+
+/** 创建不绑定具体账号的一次性企业邀请链接。 */
+export type CreateCompanyMemberInvitationRequest = Record<string, never>
+
+export type RevokeCompanyMemberInvitationRequest = VersionRequest
+
+export type ResendCompanyMemberInvitationRequest = VersionRequest
+
+/** 创建或重发时仅返回一次的原始 token，调用方负责组装并安全传递邀请链接。 */
+export interface CompanyMemberInvitationIssueResult {
+  invitation: CompanyMemberInvitationRecord
+  token: string
+}
+
+export interface AcceptCompanyMemberInvitationRequest {
+  token: string
+}
+
+export interface AcceptCompanyMemberInvitationResult {
+  invitationId: string
+  companyId: string
+  companyName: string
+  member: MemberRecord
+}
+
+export interface AddProjectMemberRequest {
+  userId: string
 }
 
 export interface AssignMemberRolesRequest extends VersionRequest {

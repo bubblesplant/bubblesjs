@@ -9,12 +9,16 @@ import { ConfigService } from '@nestjs/config'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { randomBytes } from 'node:crypto'
+import { createHash, randomBytes } from 'node:crypto'
 import type { CompanyDetail, MemberRecord, PermissionDefinition, ProjectDetail } from 'shared/types'
 import * as schema from '@/database/schema'
 import { AccessService } from '@/modules/access/access.service'
 import { AccessSeedService } from '@/modules/access/seed/access-seed.service'
 import { MembersService } from '@/modules/members/members.service'
+import {
+  COMPANY_MEMBER_INVITATION_TTL_MS,
+  MemberInvitationsService,
+} from '@/modules/members/invitations/member-invitations.service'
 import { CompaniesService } from '@/modules/companies/companies.service'
 import { ProjectsService } from '@/modules/projects/projects.service'
 import { ProjectOrganizationInitializationService } from '@/modules/organization/initialization/project-organization-initialization.service'
@@ -30,6 +34,7 @@ import { MenusService } from '@/modules/menus/menus.service'
 import { PermissionsCleanupService } from '@/modules/access/maintenance/permissions-cleanup.service'
 import { SessionStoreService } from '@/modules/auth/session/session-store.service'
 import { AuthRepository } from '@/modules/auth/auth.repository'
+import { PasswordService } from '@/modules/auth/password.service'
 import { lockAccess } from '@/modules/access/access.store'
 import { ACCESS_CATALOG_VERSION, ACCESS_ICON_NAMES, ACCESS_PERMISSION_CATALOG } from 'shared/utils'
 
@@ -83,6 +88,7 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
   let access: AccessService
   let seed: AccessSeedService
   let members: MembersService
+  let invitations: MemberInvitationsService
   let companies: CompaniesService
   let projects: ProjectsService
   let organizationTemplates: OrganizationTemplatesService
@@ -130,7 +136,8 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
     )
     access = new AccessService(db)
     seed = new AccessSeedService(db)
-    members = new MembersService(access, seed)
+    members = new MembersService(access, seed, new PasswordService())
+    invitations = new MemberInvitationsService(access, members)
     const administrators = new AdministratorsService(access, members, seed)
     companies = new CompaniesService(access, members, administrators)
     organizationTemplates = new OrganizationTemplatesService(access)
@@ -213,6 +220,25 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       )
       .toBeGreaterThan(0)
 
+  /** 通过生产邀请流程把已有全局账号加入企业，供后续集成场景复用。 */
+  const joinCompanyByInvitation = async (input: {
+    companyId: string
+    inviterUserId: string
+    inviteeUserId: string
+  }) => {
+    const issued = await invitations.create({
+      actor: actor(input.inviterUserId),
+      scope: { type: 'company', companyId: input.companyId },
+      body: {},
+    })
+    return (
+      await invitations.accept({
+        actor: actor(input.inviteeUserId),
+        body: { token: issued.token },
+      })
+    ).member
+  }
+
   it('幂等初始化不提权其他账号，公开新账号没有工作空间', async () => {
     await expect(seed.initialize('platform_it')).resolves.toMatchObject({
       alreadyInitialized: true,
@@ -234,10 +260,10 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       body: { name: '集成企业', code: 'integration', administratorUserId: companyAdminId },
     })) as CompanyDetail
     companyScope = { type: 'company', companyId: company.id }
-    member = await members.add({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      body: { account: 'ordinary_it' },
+    member = await joinCompanyByInvitation({
+      companyId: company.id,
+      inviterUserId: companyAdminId,
+      inviteeUserId: memberId,
     })
     project = (await projects.create({
       actor: actor(companyAdminId),
@@ -298,6 +324,287 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
         },
       }),
     ).rejects.toMatchObject({ definition: { code: 'ACCESS.FORBIDDEN' } })
+  })
+  it('企业邀请仅保存摘要，并覆盖并发幂等、轮换、撤销和过期边界', async () => {
+    const [idempotentUser, otherUser, expiredUser, revokedUser] = await db
+      .insert(schema.users)
+      .values(
+        [
+          ['invite_idempotent', '邀请幂等账号'],
+          ['invite_other', '邀请复用账号'],
+          ['invite_expired', '邀请过期账号'],
+          ['invite_revoked', '邀请撤销账号'],
+        ].map(([account, name]) => ({ account: account!, name: name!, passwordHash: 'test-only' })),
+      )
+      .returning()
+    const beforeIssue = Date.now()
+    const issued = await invitations.create({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      body: {},
+    })
+    const afterIssue = Date.now()
+    const expiresAt = new Date(issued.invitation.expiresAt).getTime()
+    expect(expiresAt).toBeGreaterThanOrEqual(beforeIssue + COMPANY_MEMBER_INVITATION_TTL_MS)
+    expect(expiresAt).toBeLessThanOrEqual(afterIssue + COMPANY_MEMBER_INVITATION_TTL_MS)
+    const [stored] = await db
+      .select()
+      .from(schema.companyMemberInvitations)
+      .where(eq(schema.companyMemberInvitations.id, issued.invitation.id))
+    expect(stored?.tokenDigest).toBe(
+      createHash('sha256').update(issued.token, 'utf8').digest('hex'),
+    )
+    expect(stored?.tokenDigest).not.toBe(issued.token)
+    const listed = await invitations.list({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      query: { pageSize: 100 },
+    })
+    const listedInvitation = listed.items.find((item) => item.id === issued.invitation.id)
+    expect(listedInvitation).toBeDefined()
+    expect(listedInvitation).not.toHaveProperty('token')
+    expect(listedInvitation).not.toHaveProperty('tokenDigest')
+    expect(
+      await db
+        .select()
+        .from(schema.companyMembers)
+        .where(eq(schema.companyMembers.userId, idempotentUser!.id)),
+    ).toHaveLength(0)
+
+    const concurrentAccepted = await Promise.all([
+      invitations.accept({
+        actor: actor(idempotentUser!.id),
+        body: { token: issued.token },
+      }),
+      invitations.accept({
+        actor: actor(idempotentUser!.id),
+        body: { token: issued.token },
+      }),
+    ])
+    expect(concurrentAccepted[0].member.id).toBe(concurrentAccepted[1].member.id)
+    expect(concurrentAccepted[0].member.roleNames).toEqual(['内置普通成员'])
+    await expect(
+      invitations.accept({ actor: actor(idempotentUser!.id), body: { token: issued.token } }),
+    ).resolves.toMatchObject({ member: { id: concurrentAccepted[0].member.id } })
+    await expect(
+      invitations.accept({ actor: actor(otherUser!.id), body: { token: issued.token } }),
+    ).rejects.toMatchObject({
+      definition: { code: 'ACCESS.MEMBER_INVITATION_ALREADY_ACCEPTED' },
+    })
+
+    const expired = await invitations.create({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      body: {},
+    })
+    await db
+      .update(schema.companyMemberInvitations)
+      .set({ expiresAt: new Date(Date.now() - 1000) })
+      .where(eq(schema.companyMemberInvitations.id, expired.invitation.id))
+    await expect(
+      invitations.accept({ actor: actor(expiredUser!.id), body: { token: expired.token } }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.MEMBER_INVITATION_EXPIRED' } })
+    const expiredList = await invitations.list({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      query: { status: 'expired', pageSize: 100 },
+    })
+    expect(expiredList.items.map(({ id }) => id)).toContain(expired.invitation.id)
+    const resent = await invitations.resend({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      invitationId: expired.invitation.id,
+      body: { expectedVersion: expired.invitation.version },
+    })
+    expect(resent.token).not.toBe(expired.token)
+    await expect(
+      invitations.accept({ actor: actor(expiredUser!.id), body: { token: expired.token } }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.MEMBER_INVITATION_NOT_FOUND' } })
+    await expect(
+      invitations.accept({ actor: actor(expiredUser!.id), body: { token: resent.token } }),
+    ).resolves.toMatchObject({ member: { userId: expiredUser!.id } })
+
+    const revoked = await invitations.create({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      body: {},
+    })
+    await invitations.revoke({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      invitationId: revoked.invitation.id,
+      body: { expectedVersion: revoked.invitation.version },
+    })
+    await expect(
+      invitations.accept({ actor: actor(revokedUser!.id), body: { token: revoked.token } }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.MEMBER_INVITATION_REVOKED' } })
+    const existingMemberInvitation = await invitations.create({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      body: {},
+    })
+    await expect(
+      invitations.accept({
+        actor: actor(memberId),
+        body: { token: existingMemberInvitation.token },
+      }),
+    ).rejects.toMatchObject({
+      definition: { code: 'ACCESS.MEMBER_INVITATION_MEMBER_EXISTS' },
+    })
+
+    const invitationAudits = await db
+      .select()
+      .from(schema.auditLogs)
+      .where(
+        inArray(schema.auditLogs.action, [
+          'member.invitation.create',
+          'member.invitation.accept',
+          'member.invitation.resend',
+          'member.invitation.revoke',
+        ]),
+      )
+    expect(invitationAudits.map(({ action }) => action)).toEqual(
+      expect.arrayContaining([
+        'member.invitation.create',
+        'member.invitation.accept',
+        'member.invitation.resend',
+        'member.invitation.revoke',
+      ]),
+    )
+    for (const audit of invitationAudits) {
+      expect(audit.summary).not.toHaveProperty('token')
+      expect(audit.summary).not.toHaveProperty('tokenDigest')
+      for (const token of [issued.token, expired.token, resent.token, revoked.token])
+        expect(JSON.stringify(audit.summary)).not.toContain(token)
+    }
+  })
+  it('企业直接注册的审计调用和落库摘要均不携带明文密码', async () => {
+    const password = 'Audit-only-password_123'
+    const audit = vi.spyOn(access, 'audit')
+    const registered = await members.registerCompanyMember({
+      actor: actor(companyAdminId),
+      scope: companyScope,
+      body: { name: '审计注册成员', account: 'audit_direct_member', password },
+    })
+    const auditCall = audit.mock.calls.find(
+      ([, input]) => input.action === 'member.add' && input.objectId === registered.id,
+    )
+    audit.mockRestore()
+    expect(auditCall?.[1]).not.toHaveProperty('body')
+    expect(JSON.stringify(auditCall?.[1])).not.toContain(password)
+    const [storedUser] = await db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.id, registered.userId))
+    expect(storedUser?.passwordHash).not.toBe(password)
+    const [storedAudit] = await db
+      .select()
+      .from(schema.auditLogs)
+      .where(eq(schema.auditLogs.objectId, registered.id))
+    expect(JSON.stringify(storedAudit?.summary)).not.toContain(password)
+  })
+  it('项目成员候选强制排除失效账号、失效企业成员和已有项目成员', async () => {
+    const [eligibleUser, disabledMemberUser, lockedUser] = await db
+      .insert(schema.users)
+      .values([
+        { account: 'project_candidate_valid', name: '有效项目候选', passwordHash: 'test-only' },
+        {
+          account: 'project_candidate_member_off',
+          name: '停用企业成员候选',
+          passwordHash: 'test-only',
+        },
+        {
+          account: 'project_candidate_account_off',
+          name: '停用账号候选',
+          passwordHash: 'test-only',
+        },
+      ])
+      .returning()
+    for (const user of [eligibleUser!, disabledMemberUser!, lockedUser!])
+      await joinCompanyByInvitation({
+        companyId: company.id,
+        inviterUserId: companyAdminId,
+        inviteeUserId: user.id,
+      })
+    await db
+      .update(schema.companyMembers)
+      .set({ status: 'disabled' })
+      .where(
+        and(
+          eq(schema.companyMembers.companyId, company.id),
+          eq(schema.companyMembers.userId, disabledMemberUser!.id),
+        ),
+      )
+    await db
+      .update(schema.users)
+      .set({ status: 'locked' })
+      .where(eq(schema.users.id, lockedUser!.id))
+    const projectScope = {
+      type: 'project' as const,
+      companyId: company.id,
+      projectId: project.id,
+    }
+    const resolved = await memberCandidates.resolve({
+      actor: actor(companyAdminId),
+      scope: projectScope,
+      body: {
+        purpose: 'addProjectMember',
+        userIds: [lockedUser!.id, eligibleUser!.id, disabledMemberUser!.id, memberId],
+      },
+    })
+    expect(resolved.map(({ userId }) => userId)).toEqual([eligibleUser!.id])
+    for (const account of [disabledMemberUser!.account, lockedUser!.account, 'ordinary_it']) {
+      const result = await memberCandidates.search({
+        actor: actor(companyAdminId),
+        scope: projectScope,
+        query: { purpose: 'addProjectMember', query: account, includeDisabled: true },
+      })
+      expect(result.items).toHaveLength(0)
+    }
+    await expect(
+      members.addProjectMember({
+        actor: actor(companyAdminId),
+        scope: projectScope,
+        body: { userId: disabledMemberUser!.id },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.INVALID_MEMBER_ACCOUNT' } })
+    await expect(
+      members.addProjectMember({
+        actor: actor(companyAdminId),
+        scope: projectScope,
+        body: { userId: lockedUser!.id },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.INVALID_MEMBER_ACCOUNT' } })
+    await members.addProjectMember({
+      actor: actor(companyAdminId),
+      scope: projectScope,
+      body: { userId: eligibleUser!.id },
+    })
+    await expect(
+      memberCandidates.search({
+        actor: actor(companyAdminId),
+        scope: projectScope,
+        query: { purpose: 'addProjectMember', query: eligibleUser!.account },
+      }),
+    ).resolves.toMatchObject({ items: [], total: 0 })
+    await db
+      .update(schema.companies)
+      .set({ status: 'disabled' })
+      .where(eq(schema.companies.id, company.id))
+    try {
+      await expect(
+        memberCandidates.search({
+          actor: actor(companyAdminId),
+          scope: projectScope,
+          query: { purpose: 'addProjectMember', query: eligibleUser!.account },
+        }),
+      ).rejects.toMatchObject({ definition: { code: 'ACCESS.FORBIDDEN' } })
+    } finally {
+      await db
+        .update(schema.companies)
+        .set({ status: 'active' })
+        .where(eq(schema.companies.id, company.id))
+    }
   })
   it('全局账号候选按用途鉴权、稳定区分同名账号并按请求顺序回显', async () => {
     const sharedName = '同名全局候选'
@@ -487,16 +794,16 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
         },
       ])
       .returning()
-    for (const account of [oldLeader!.account, newLeader!.account]) {
-      await members.add({
-        actor: actor(companyAdminId),
-        scope: companyScope,
-        body: { account },
+    for (const user of [oldLeader!, newLeader!]) {
+      await joinCompanyByInvitation({
+        companyId: company.id,
+        inviterUserId: companyAdminId,
+        inviteeUserId: user.id,
       })
-      await members.add({
+      await members.addProjectMember({
         actor: actor(companyAdminId),
         scope: { type: 'project', companyId: company.id, projectId: project.id },
-        body: { account },
+        body: { userId: user.id },
       })
     }
     const companyUnit = await organizationUnits.create({
@@ -971,10 +1278,10 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
   })
   it('同范围唯一、内置角色保护、非法授权与跨企业成员约束', async () => {
     await expect(
-      members.add({
+      members.addProjectMember({
         actor: actor(companyAdminId),
-        scope: companyScope,
-        body: { account: 'ordinary_it' },
+        scope: { type: 'project', companyId: company.id, projectId: project.id },
+        body: { userId: memberId },
       }),
     ).rejects.toMatchObject({ definition: { code: 'ACCESS.DUPLICATE_RESOURCE' } })
     const builtin = (
@@ -1367,10 +1674,10 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       removedOrganizationRelationCount: 2,
       removedPositionAssignmentCount: 2,
     })
-    member = await members.add({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      body: { account: 'ordinary_it' },
+    member = await joinCompanyByInvitation({
+      companyId: company.id,
+      inviterUserId: companyAdminId,
+      inviteeUserId: memberId,
     })
     expect(member.roleNames).toEqual(['内置普通成员'])
     project = { ...project, ...p }

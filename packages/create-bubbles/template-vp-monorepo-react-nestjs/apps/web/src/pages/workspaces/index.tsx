@@ -89,11 +89,8 @@ export default function WorkspacesPage() {
             <Empty
               description={
                 <>
-                  <strong>{tr('暂未加入企业，请联系管理员添加')}</strong>
-                  <p>
-                    {tr('将完整账号')} <TypographyAccount account={data.user.account} />{' '}
-                    {tr('提供给企业管理员。添加后，刷新此页即可进入。')}
-                  </p>
+                  <strong>{tr('暂未加入企业，请联系管理员获取邀请链接')}</strong>
+                  <p>{tr('登录后确认加入企业；加入后，刷新此页即可进入。')}</p>
                 </>
               }
             />
@@ -134,9 +131,4 @@ export default function WorkspacesPage() {
       </section>
     </main>
   )
-}
-
-/** 以等宽样式展示当前登录账号。 */
-function TypographyAccount({ account }: { account: string }) {
-  return <code>{account}</code>
 }

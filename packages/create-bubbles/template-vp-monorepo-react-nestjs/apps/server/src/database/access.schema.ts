@@ -23,6 +23,11 @@ export const scopeType = pgEnum('access_scope_type', ['platform', 'company', 'pr
 export const menuType = pgEnum('menu_type', ['directory', 'page', 'operation'])
 export const builtinRole = pgEnum('builtin_role', ['administrator', 'member'])
 export const companyEntityType = pgEnum('company_entity_type', ['group', 'company'])
+export const companyMemberInvitationStatus = pgEnum('company_member_invitation_status', [
+  'pending',
+  'accepted',
+  'revoked',
+])
 /**
  * 为每张权限业务表创建独立的创建时间与更新时间列定义，并由数据库提供默认当前时间。
  */
@@ -114,6 +119,52 @@ export const companyMembers = pgTable(
     unique('company_members_company_user_uq').on(t.companyId, t.userId),
     check('company_members_version_positive', sql`${t.version} > 0`),
     index('company_members_user_idx').on(t.userId),
+  ],
+)
+export const companyMemberInvitations = pgTable(
+  'company_member_invitations',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    companyId: uuid('company_id')
+      .notNull()
+      .references(() => companies.id, { onDelete: 'restrict' }),
+    tokenDigest: varchar('token_digest', { length: 64 }).notNull(),
+    status: companyMemberInvitationStatus('status').notNull().default('pending'),
+    createdByUserId: uuid('created_by_user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'restrict' }),
+    acceptedByUserId: uuid('accepted_by_user_id').references(() => users.id, {
+      onDelete: 'restrict',
+    }),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    acceptedAt: timestamp('accepted_at', { withTimezone: true }),
+    revokedAt: timestamp('revoked_at', { withTimezone: true }),
+    version: integer('version').notNull().default(1),
+    ...times(),
+  },
+  /**
+   * 保证邀请 token 摘要全局唯一、状态时间字段一致，并优化企业邀请列表和过期判断。
+   */
+  (t) => [
+    uniqueIndex('company_member_invitations_token_digest_uq').on(t.tokenDigest),
+    index('company_member_invitations_company_status_created_idx').on(
+      t.companyId,
+      t.status,
+      t.createdAt,
+      t.id,
+    ),
+    index('company_member_invitations_pending_expires_idx')
+      .on(t.expiresAt)
+      .where(sql`${t.status} = 'pending'`),
+    check(
+      'company_member_invitations_token_digest_length',
+      sql`char_length(${t.tokenDigest}) = 64`,
+    ),
+    check('company_member_invitations_version_positive', sql`${t.version} > 0`),
+    check(
+      'company_member_invitations_state_check',
+      sql`(${t.status} = 'pending' AND ${t.acceptedByUserId} IS NULL AND ${t.acceptedAt} IS NULL AND ${t.revokedAt} IS NULL) OR (${t.status} = 'accepted' AND ${t.acceptedByUserId} IS NOT NULL AND ${t.acceptedAt} IS NOT NULL AND ${t.revokedAt} IS NULL) OR (${t.status} = 'revoked' AND ${t.acceptedByUserId} IS NULL AND ${t.acceptedAt} IS NULL AND ${t.revokedAt} IS NOT NULL)`,
+    ),
   ],
 )
 export const projectMembers = pgTable(

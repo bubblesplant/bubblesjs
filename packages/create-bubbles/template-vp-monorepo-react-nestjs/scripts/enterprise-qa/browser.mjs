@@ -10,7 +10,7 @@ import {
   randomIdentity,
   ensure,
   createReporter,
-  evidenceDirectory,
+  uiDirectory,
 } from './runtime.mjs'
 import {
   apiClient,
@@ -37,7 +37,7 @@ const report = createReporter('browser')
 const baseUrl = 'http://127.0.0.1:5301'
 const suffix = randomBytes(4).toString('hex')
 const errors = []
-const screenshots = resolve(evidenceDirectory, 'screenshots')
+const screenshots = uiDirectory
 mkdirSync(screenshots, { recursive: true })
 let browser
 let page
@@ -122,9 +122,37 @@ async function screenshot(name) {
     mask: masks,
     animations: 'disabled',
   })
-  return `qa/screenshots/${name}.png`
+  return `ui/${name}.png`
 }
 
+/** 在全局账号选择器中按完整账号搜索并选择目标账号。 */
+async function selectGlobalAccount({ dialog, label, identity }) {
+  const field = dialog.getByLabel(label, { exact: true })
+  await field.click()
+  await field.fill(identity.account)
+  const option = page
+    .locator('.ant-select-item-option:not(.ant-select-item-option-disabled)')
+    .filter({ hasText: identity.account })
+    .first()
+  await option.waitFor({ state: 'visible' })
+  await option.click()
+}
+
+/** 打开组织成员浏览器，按完整账号定位并确认单个企业成员。 */
+async function selectOrganizationMember({ dialog, label, identity }) {
+  await dialog.getByLabel(label, { exact: true }).click()
+  const selector = page.getByRole('dialog', { name: '选择成员', exact: true })
+  await selector.waitFor({ state: 'visible' })
+  await selector.getByLabel('搜索', { exact: true }).fill(identity.account)
+  await selector.getByRole('button', { name: '查询', exact: true }).click()
+  const row = selector.getByRole('row').filter({ hasText: identity.account })
+  await row.waitFor({ state: 'visible' })
+  await row.getByRole('radio').check()
+  await selector.getByRole('button', { name: /确\s*定/ }).click()
+  await selector.waitFor({ state: 'hidden' })
+}
+
+/** 通过当前实体创建弹窗选择首位管理员并提交企业或项目。 */
 async function createEntity({ project = false, identity, base }) {
   const label = project ? '项目' : '企业'
   const action = project ? '创建项目' : '开通企业'
@@ -134,7 +162,8 @@ async function createEntity({ project = false, identity, base }) {
   await dialog
     .getByLabel(`${label}编码`, { exact: true })
     .fill(`ui_${project ? 'p' : 'c'}_${suffix}`)
-  await dialog.getByLabel('首位管理员账号', { exact: true }).fill(identity.account)
+  if (project) await selectOrganizationMember({ dialog, label: '首位项目管理员', identity })
+  else await selectGlobalAccount({ dialog, label: '首位企业管理员', identity })
   return submit({
     button: action,
     path: project ? `${base}/projects` : '/platform/companies',
@@ -142,9 +171,52 @@ async function createEntity({ project = false, identity, base }) {
   })
 }
 
-async function addMember({ identity, base }) {
+/** 创建企业邀请链接，切换到目标账号接受，再恢复企业管理员会话。 */
+async function inviteCompanyMember({ administrator, member, base }) {
+  await page.getByRole('button', { name: '邀请成员', exact: true }).click()
+  const dialog = page.getByRole('dialog', { name: '邀请企业成员', exact: true })
+  await dialog.waitFor({ state: 'visible' })
+  const response = page.waitForResponse(
+    (item) =>
+      new URL(item.url()).pathname === `/api${base}/member-invitations` &&
+      item.request().method() === 'POST',
+  )
+  await dialog.getByRole('button', { name: '创建邀请链接', exact: true }).click()
+  const issued = await response
+  ensure(issued.status() === 201, `UI 创建企业邀请预期 201，实际 ${issued.status()}`)
+  const invitationUrl = await dialog.locator('textarea[readonly]').inputValue()
+  ensure(
+    invitationUrl.startsWith(`${baseUrl}/member-invitations/accept?token=`),
+    '企业邀请弹窗未显示有效的完整邀请链接',
+  )
+  await dialog.getByRole('button', { name: '关闭', exact: true }).click()
+  await dialog.waitFor({ state: 'hidden' })
+
+  await logout()
+  await login(member)
+  await page.goto(invitationUrl)
+  const acceptance = page.waitForResponse(
+    (item) =>
+      new URL(item.url()).pathname === '/api/company-member-invitations/accept' &&
+      item.request().method() === 'POST',
+  )
+  await page.getByRole('button', { name: '确认加入企业', exact: true }).click()
+  const accepted = await acceptance
+  ensure(accepted.status() === 200, `UI 接受企业邀请预期 200，实际 ${accepted.status()}`)
+  await page.waitForURL('**/workspaces')
+
+  await logout()
+  await login(administrator)
+  await enter(base)
+  await enter(`${base}/members`)
+  await visible(member.name)
+}
+
+/** 从所属企业成员中选择目标账号并添加为项目成员。 */
+async function addProjectMember({ identity, base }) {
   await page.getByRole('button', { name: '添加成员' }).click()
-  await page.getByRole('dialog').getByLabel('完整账号', { exact: true }).fill(identity.account)
+  const dialog = page.getByRole('dialog', { name: '添加项目成员', exact: true })
+  await selectOrganizationMember({ dialog, label: '企业成员', identity })
   await submit({ button: '添加成员', path: `${base}/members`, status: 201 })
   await visible(identity.name)
 }
@@ -234,8 +306,16 @@ try {
     await login(state.identities.enterprise)
     await enter(base)
     await enter(`${base}/members`)
-    await addMember({ identity: state.identities.project, base })
-    await addMember({ identity: state.identities.member, base })
+    await inviteCompanyMember({
+      administrator: state.identities.enterprise,
+      member: state.identities.project,
+      base,
+    })
+    await inviteCompanyMember({
+      administrator: state.identities.enterprise,
+      member: state.identities.member,
+      base,
+    })
     await enter(`${base}/projects`)
     state.fixtures.project = await createEntity({
       project: true,
@@ -324,7 +404,7 @@ try {
       )
       await enter(projectBase)
       await enter(`${projectBase}/members`)
-      await addMember({ identity: state.identities.member, base: projectBase })
+      await addProjectMember({ identity: state.identities.member, base: projectBase })
       await logout()
       await login(state.identities.member)
       await enter(base)
@@ -563,9 +643,11 @@ try {
       await row.getByRole('button', { name: '启用', exact: true }).waitFor()
       await row.getByRole('button', { name: '设置管理员', exact: true }).click()
       const dialog = page.getByRole('dialog')
-      await dialog
-        .getByLabel('新管理员完整账号', { exact: true })
-        .fill(state.identities.replacement.account)
+      await selectGlobalAccount({
+        dialog,
+        label: '新管理员',
+        identity: state.identities.replacement,
+      })
       await dialog.getByLabel('被替换的管理员（可选）', { exact: true }).click()
       await page
         .locator('.ant-select-item-option-content')

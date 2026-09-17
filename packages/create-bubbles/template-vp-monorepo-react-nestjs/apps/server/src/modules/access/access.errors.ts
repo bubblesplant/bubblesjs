@@ -62,6 +62,36 @@ export const ACCESS_ERRORS = {
     publicMessage: '账号不可用或不满足成员条件',
     status: 422,
   },
+  MEMBER_INVITATION_NOT_FOUND: {
+    code: 'ACCESS.MEMBER_INVITATION_NOT_FOUND',
+    publicMessage: '邀请不存在或链接无效',
+    status: 404,
+  },
+  MEMBER_INVITATION_EXPIRED: {
+    code: 'ACCESS.MEMBER_INVITATION_EXPIRED',
+    publicMessage: '邀请已过期，请联系企业管理员重新生成',
+    status: 410,
+  },
+  MEMBER_INVITATION_REVOKED: {
+    code: 'ACCESS.MEMBER_INVITATION_REVOKED',
+    publicMessage: '邀请已被撤销',
+    status: 410,
+  },
+  MEMBER_INVITATION_ALREADY_ACCEPTED: {
+    code: 'ACCESS.MEMBER_INVITATION_ALREADY_ACCEPTED',
+    publicMessage: '邀请已被其他账号使用',
+    status: 409,
+  },
+  MEMBER_INVITATION_MEMBER_EXISTS: {
+    code: 'ACCESS.MEMBER_INVITATION_MEMBER_EXISTS',
+    publicMessage: '当前账号已经是该企业成员',
+    status: 409,
+  },
+  MEMBER_INVITATION_NOT_PENDING: {
+    code: 'ACCESS.MEMBER_INVITATION_NOT_PENDING',
+    publicMessage: '当前邀请状态不允许执行此操作',
+    status: 409,
+  },
   ORGANIZATION_CYCLE: {
     code: 'ACCESS.ORGANIZATION_CYCLE',
     publicMessage: '不能把资源移动到自身或其后代节点',

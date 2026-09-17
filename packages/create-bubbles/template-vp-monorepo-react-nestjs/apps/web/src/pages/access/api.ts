@@ -2,12 +2,15 @@ import type {
   AccessScope,
   AccountRecord,
   AccountStatusRequest,
-  AddMemberRequest,
+  AddProjectMemberRequest,
   AdministratorSummary,
   AssignMemberRolesRequest,
   AssignPlatformRolesRequest,
   AuditQuery,
   AuditRecord,
+  CompanyMemberInvitationIssueResult,
+  CompanyMemberInvitationQuery,
+  CompanyMemberInvitationRecord,
   CompanyDetail,
   CompanyHierarchyDetail,
   CompanyHierarchyNode,
@@ -30,6 +33,9 @@ import type {
   PermissionTreeResult,
   ProjectDetail,
   ProjectRecord,
+  RegisterCompanyMemberRequest,
+  ResendCompanyMemberInvitationRequest,
+  RevokeCompanyMemberInvitationRequest,
   RoleRecord,
   ResolveGlobalAccountCandidatesRequest,
   ResolveOrganizationMemberCandidatesRequest,
@@ -144,8 +150,36 @@ export function managementApi(scope: AccessScope) {
     /** 分页查询当前工作空间成员，支持按成员状态筛选。 */
     members: (params: PageQuery & { status?: EntityStatus }) =>
       get<PageResult<MemberRecord>>(`${base}/members`, params),
-    /** 通过账号向当前工作空间添加成员。 */
-    addMember: (data: AddMemberRequest) => post<MemberRecord>(`${base}/members`, data),
+    /** 直接注册新账号并加入当前企业。 */
+    registerCompanyMember: (data: RegisterCompanyMemberRequest) =>
+      post<MemberRecord>(`${base}/members`, data),
+    /** 分页读取当前企业的一次性成员邀请，不返回原始 token。 */
+    companyMemberInvitations: (params: CompanyMemberInvitationQuery) =>
+      get<PageResult<CompanyMemberInvitationRecord>>(`${base}/member-invitations`, params),
+    /** 创建不绑定账号的一次性企业邀请，原始 token 仅在本次响应返回。 */
+    createCompanyMemberInvitation: () =>
+      post<CompanyMemberInvitationIssueResult>(`${base}/member-invitations`, {}),
+    /** 携带当前版本撤销尚未接受的企业成员邀请。 */
+    revokeCompanyMemberInvitation: (
+      invitationId: string,
+      data: RevokeCompanyMemberInvitationRequest,
+    ) =>
+      post<CompanyMemberInvitationRecord>(
+        `${base}/member-invitations/${invitationId}/revoke`,
+        data,
+      ),
+    /** 使旧凭证失效并签发新的企业邀请 token，原始 token 仅在本次响应返回。 */
+    resendCompanyMemberInvitation: (
+      invitationId: string,
+      data: ResendCompanyMemberInvitationRequest,
+    ) =>
+      post<CompanyMemberInvitationIssueResult>(
+        `${base}/member-invitations/${invitationId}/resend`,
+        data,
+      ),
+    /** 按稳定 userId 将所属企业的有效成员加入当前项目。 */
+    addProjectMember: (data: AddProjectMemberRequest) =>
+      post<MemberRecord>(`${base}/members`, data),
     /** 携带版本条件更新指定成员的启用状态。 */
     memberStatus: (id: string, data: StatusRequest) =>
       patch<MemberRecord>(`${base}/members/${id}/status`, data),

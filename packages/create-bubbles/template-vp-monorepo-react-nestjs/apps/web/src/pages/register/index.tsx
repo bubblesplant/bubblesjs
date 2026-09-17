@@ -7,15 +7,18 @@ import { ACCOUNT_PATTERN, normalizeAccount } from 'shared/utils'
 import { useI18n } from '@bubblesjs/i18n-react'
 import Brand from '@/components/Brand/Brand'
 import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
+import { buildAuthPath, safeNextPath } from '@/utils/safe-next'
 import { register } from './api'
 import '../login/login.css'
 
 /** 展示注册表单，校验账号及确认密码后引导登录。 */
 export default function RegisterPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { send, loading } = useRequest(register, { immediate: false })
   const [error, setError] = useState<string | null>(null)
   const { tr } = useI18n()
+  const next = safeNextPath(searchParams.get('next'))
 
   /** 规范化注册资料并提交账号创建，成功后返回登录入口。 */
   async function handleRegister(values: RegisterRequest) {
@@ -27,7 +30,7 @@ export default function RegisterPage() {
         account: normalizeAccount(values.account),
         name: values.name.trim(),
       })
-      void navigate('/login?registered=1', { replace: true })
+      void navigate(buildAuthPath('/login', { next, registered: true }), { replace: true })
       return true
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : tr('注册失败，请稍后重试'))
@@ -62,7 +65,7 @@ export default function RegisterPage() {
           <p className="login-form-eyebrow">{tr('加入万物')}</p>
           <h2 id="register-title">{tr('创建账号')}</h2>
           <p className="login-description">
-            {tr('注册后，将账号提供给企业管理员，待添加后即可进入工作空间。')}
+            {tr('注册后登录，即可接受邀请或进入已加入的工作空间。')}
           </p>
           <LoginForm<RegisterRequest>
             autoFocusFirstInput={false}
@@ -100,7 +103,7 @@ export default function RegisterPage() {
             <ProFormText
               name="account"
               label={tr('账号')}
-              extra={tr('4–32 位字母、数字或下划线，添加成员时使用此账号。')}
+              extra={tr('4–32 位字母、数字或下划线。')}
               fieldProps={{
                 maxLength: 32,
                 autoComplete: 'username',
@@ -144,7 +147,7 @@ export default function RegisterPage() {
           </LoginForm>
           <p className="login-account-hint">
             {tr('已有账号？')}
-            <Link to="/login">{tr('返回登录')}</Link>
+            <Link to={buildAuthPath('/login', { next })}>{tr('返回登录')}</Link>
           </p>
         </div>
         <footer className="login-footer">{tr('万物 · 工作空间')}</footer>

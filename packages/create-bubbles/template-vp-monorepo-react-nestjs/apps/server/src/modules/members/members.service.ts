@@ -15,13 +15,16 @@ import {
 import { AppException } from '@/common/exceptions/app.exception'
 import type {
   AccessScope,
-  AddMemberRequest,
+  AddProjectMemberRequest,
   AssignMemberRolesRequest,
   EntityPageQuery,
   MemberRecord,
+  RegisterCompanyMemberRequest,
   StatusRequest,
 } from 'shared/types'
 import { normalizeAccount } from 'shared/utils'
+import { PasswordService } from '@/modules/auth/password.service'
+import { AUTH_ERRORS } from '@/modules/auth/auth.errors'
 import {
   AccessService,
   type AccessActor,
@@ -44,6 +47,7 @@ export class MembersService {
   constructor(
     private readonly access: AccessService,
     private readonly seed: AccessSeedService,
+    private readonly passwords: PasswordService,
   ) {}
   /** 根据公司或项目作用域选择成员表；平台作用域没有成员记录，调用时拒绝访问。 */
   table(scope: AccessScope) {
@@ -63,30 +67,29 @@ export class MembersService {
   }
 
   /**
-   * 查找规范化账号对应的有效用户；添加项目成员时还要求其是该公司的有效成员。
+   * 按稳定 userId 查找有效账号，并验证其属于项目直属企业的有效成员。
    *
-   * @throws 账号不存在、停用或缺少有效公司成员关系时抛出账号不可加入异常。
+   * @throws 账号不存在、停用或不属于项目直属企业时抛出账号不可加入异常。
    */
-  async userForAccount(db: AccessDb, scope: AccessScope, account: string) {
-    const [user] = await db
-      .select()
+  async userForProjectMember(
+    db: AccessDb,
+    scope: Extract<AccessScope, { type: 'project' }>,
+    userId: string,
+  ) {
+    const [row] = await db
+      .select({ user: users, companyMemberId: companyMembers.id })
       .from(users)
-      .where(and(eq(users.account, normalizeAccount(account)), eq(users.status, 'active')))
-    if (!user) throw new AppException(ACCESS_ERRORS.INVALID_MEMBER_ACCOUNT)
-    if (scope.type === 'project') {
-      const [companyMember] = await db
-        .select()
-        .from(companyMembers)
-        .where(
-          and(
-            eq(companyMembers.companyId, scope.companyId),
-            eq(companyMembers.userId, user.id),
-            eq(companyMembers.status, 'active'),
-          ),
-        )
-      if (!companyMember) throw new AppException(ACCESS_ERRORS.INVALID_MEMBER_ACCOUNT)
-    }
-    return user
+      .innerJoin(
+        companyMembers,
+        and(
+          eq(companyMembers.userId, users.id),
+          eq(companyMembers.companyId, scope.companyId),
+          eq(companyMembers.status, 'active'),
+        ),
+      )
+      .where(and(eq(users.id, userId), eq(users.status, 'active')))
+    if (!row) throw new AppException(ACCESS_ERRORS.INVALID_MEMBER_ACCOUNT)
+    return row.user
   }
 
   /**
@@ -403,22 +406,69 @@ export class MembersService {
       },
     )
   }
-  /** 验证账号与上级成员资格后添加新成员、分配默认角色并记录审计；已有成员不重复添加。 */
-  add(input: { actor: AccessActor; scope: AccessScope; body: AddMemberRequest }) {
+  /**
+   * 由企业管理员直接注册新账号，并在同一事务中建立企业成员关系和默认角色。
+   *
+   * 密码只用于生成摘要，不进入审计；账号冲突时整个事务回滚。
+   */
+  async registerCompanyMember(input: {
+    actor: AccessActor
+    scope: Extract<AccessScope, { type: 'company' }>
+    body: RegisterCompanyMemberRequest
+  }) {
+    const passwordHash = await this.passwords.hash(input.body.password)
     return this.access.write(
-      { ...input, permission: `${input.scope.type}.members.add` },
-      /** 将账号资格检查、成员去重、默认角色初始化和审计记录放入同一事务。 */
+      { ...input, permission: 'company.members.add' },
+      /** 原子写入账号、企业成员、默认角色和成功审计。 */ async (tx, access) => {
+        const [user] = await tx
+          .insert(users)
+          .values({
+            name: input.body.name.trim(),
+            account: normalizeAccount(input.body.account),
+            passwordHash,
+          })
+          .onConflictDoNothing({ target: users.account })
+          .returning()
+        if (!user) throw new AppException(AUTH_ERRORS.ACCOUNT_ALREADY_EXISTS)
+        const id = await this.ensureMember(tx, input.scope, user.id)
+        await this.access.audit(tx, {
+          actor: input.actor,
+          access,
+          action: 'member.add',
+          objectType: 'member',
+          objectId: id,
+          summary: { targetUserId: user.id, onboarding: 'directRegistration' },
+        })
+        return this.record(tx, input.scope, id)
+      },
+    )
+  }
+
+  /** 按稳定 userId 将项目直属企业的有效成员加入项目，并分配默认角色。 */
+  addProjectMember(input: {
+    actor: AccessActor
+    scope: Extract<AccessScope, { type: 'project' }>
+    body: AddProjectMemberRequest
+  }) {
+    return this.access.write(
+      { ...input, permission: 'project.members.add' },
+      /** 在提交时复核企业成员资格，原子创建项目成员、默认角色和审计。 */
       async (tx, access) => {
-        const user = await this.userForAccount(tx, input.scope, input.body.account)
-        const table = this.table(input.scope)
+        const user = await this.userForProjectMember(tx, input.scope, input.body.userId)
         const [existing] = await tx
-          .select()
-          .from(table)
-          .where(and(this.filter(input.scope), eq(table.userId, user.id)))
+          .select({ id: projectMembers.id })
+          .from(projectMembers)
+          .where(
+            and(
+              eq(projectMembers.companyId, input.scope.companyId),
+              eq(projectMembers.projectId, input.scope.projectId),
+              eq(projectMembers.userId, user.id),
+            ),
+          )
         if (existing) throw new AppException(ACCESS_ERRORS.DUPLICATE_RESOURCE)
         const id = await this.ensureMember(tx, input.scope, user.id)
         await this.access.audit(tx, {
-          ...input,
+          actor: input.actor,
           access,
           action: 'member.add',
           objectType: 'member',

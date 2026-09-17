@@ -1,0 +1,12 @@
+.dialog :global(.ant-input):-webkit-autofill,
+.dialog :global(.ant-input):-webkit-autofill:hover,
+.dialog :global(.ant-input):-webkit-autofill:focus,
+.dialog :global(.ant-input):-webkit-autofill:active,
+.dialog :global(.ant-input):autofill,
+.dialog :global(.ant-input):autofill:hover,
+.dialog :global(.ant-input):autofill:focus,
+.dialog :global(.ant-input):autofill:active {
+  -webkit-text-fill-color: #302b49;
+  caret-color: #8270db;
+  transition: background-color 900000000s ease-in-out 0s;
+}

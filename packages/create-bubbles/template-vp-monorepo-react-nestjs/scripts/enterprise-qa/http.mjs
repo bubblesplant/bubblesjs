@@ -53,6 +53,27 @@ async function setStatus({ actor, path, current, status, expected = 200 }) {
   ).body
 }
 
+/** 由企业管理员签发一次性邀请，并由目标账号接受以建立企业成员关系。 */
+async function inviteCompanyMember({ administrator, member, base }) {
+  const invitation = (
+    await request({
+      actor: administrator,
+      path: `${base}/member-invitations`,
+      method: 'POST',
+      expected: 201,
+      body: {},
+    })
+  ).body
+  ensure(invitation.token, '企业成员邀请未返回一次性 token')
+  await request({
+    actor: member,
+    path: '/company-member-invitations/accept',
+    method: 'POST',
+    expected: 200,
+    body: { token: invitation.token },
+  })
+}
+
 async function menuTree(scopeType) {
   return (
     await request({ actor: accounts.platform, path: `/platform/menus?scopeType=${scopeType}` })
@@ -147,7 +168,7 @@ try {
       body: {
         name: `验收企业甲${suffix}`,
         code: `qa_a_${suffix}`,
-        administratorAccount: accounts.enterprise.account,
+        administratorUserId: accounts.enterprise.id,
       },
     })
   ).body
@@ -160,27 +181,19 @@ try {
       body: {
         name: `验收企业乙${suffix}`,
         code: `qa_b_${suffix}`,
-        administratorAccount: accounts.other.account,
+        administratorUserId: accounts.other.id,
       },
     })
   ).body
   const base = `/companies/${company.id}`
   const otherBase = `/companies/${otherCompany.id}`
   for (const user of [accounts.project, accounts.member]) {
-    await request({
-      actor: accounts.enterprise,
-      path: `${base}/members`,
-      method: 'POST',
-      expected: 201,
-      body: { account: user.account },
-    })
+    await inviteCompanyMember({ administrator: accounts.enterprise, member: user, base })
   }
-  await request({
-    actor: accounts.other,
-    path: `${otherBase}/members`,
-    method: 'POST',
-    expected: 201,
-    body: { account: accounts.enterprise.account },
+  await inviteCompanyMember({
+    administrator: accounts.other,
+    member: accounts.enterprise,
+    base: otherBase,
   })
   const project = (
     await request({
@@ -191,7 +204,8 @@ try {
       body: {
         name: `验收项目甲${suffix}`,
         code: `project_a_${suffix}`,
-        administratorAccount: accounts.project.account,
+        administratorUserId: accounts.project.id,
+        organizationInitialization: { mode: 'blank' },
       },
     })
   ).body
@@ -204,7 +218,8 @@ try {
       body: {
         name: `验收项目乙${suffix}`,
         code: `project_b_${suffix}`,
-        administratorAccount: accounts.project.account,
+        administratorUserId: accounts.project.id,
+        organizationInitialization: { mode: 'blank' },
       },
     })
   ).body
@@ -215,7 +230,7 @@ try {
     path: `${projectBase}/members`,
     method: 'POST',
     expected: 201,
-    body: { account: accounts.member.account },
+    body: { userId: accounts.member.id },
   })
   fixtures = {
     company,
@@ -244,7 +259,8 @@ try {
       body: {
         name: '应当回滚的项目',
         code: failedCode,
-        administratorAccount: accounts.empty.account,
+        administratorUserId: accounts.empty.id,
+        organizationInitialization: { mode: 'blank' },
       },
     })
     const failed = await db.query(
@@ -293,14 +309,14 @@ try {
       actor: accounts.enterprise,
       path: `${base}/members`,
       method: 'POST',
-      expected: 409,
+      expected: 400,
       body: { account: accounts.member.account },
     })
     await request({
       actor: accounts.project,
       path: `${projectBase}/members`,
       method: 'POST',
-      expected: 422,
+      expected: 400,
       body: { account: accounts.empty.account },
     })
     await request({
@@ -308,14 +324,24 @@ try {
       path: `${base}/projects`,
       method: 'POST',
       expected: 403,
-      body: { name: '越权项目', code: 'forbidden', administratorAccount: accounts.member.account },
+      body: {
+        name: '越权项目',
+        code: 'forbidden',
+        administratorUserId: accounts.member.id,
+        organizationInitialization: { mode: 'blank' },
+      },
     })
     await request({
       actor: accounts.project,
       path: `${base}/projects`,
       method: 'POST',
       expected: 403,
-      body: { name: '越权项目', code: 'forbidden', administratorAccount: accounts.project.account },
+      body: {
+        name: '越权项目',
+        code: 'forbidden',
+        administratorUserId: accounts.project.id,
+        organizationInitialization: { mode: 'blank' },
+      },
     })
     await request({
       actor: accounts.enterprise,
@@ -695,7 +721,10 @@ try {
         actor: accounts.platform,
         path: `/platform/companies/${otherCompany.id}/administrator`,
         method: 'POST',
-        body: { account: accounts.replacement.account, replaceUserId: accounts.other.id },
+        body: {
+          administratorUserId: accounts.replacement.id,
+          replaceUserId: accounts.other.id,
+        },
       })
       target = (
         await request({ actor: accounts.platform, path: `/platform/companies/${otherCompany.id}` })
@@ -1016,12 +1045,10 @@ try {
       )
       ensure(child.rows[0].count === 0, '移除企业成员未清理项目关系')
       await request({ actor: accounts.member, path: `${projectBase}/access`, expected: 404 })
-      await request({
-        actor: accounts.enterprise,
-        path: `${base}/members`,
-        method: 'POST',
-        expected: 201,
-        body: { account: accounts.member.account },
+      await inviteCompanyMember({
+        administrator: accounts.enterprise,
+        member: accounts.member,
+        base,
       })
       const restored = await findMember({
         request,
@@ -1038,7 +1065,7 @@ try {
         path: `${projectBase}/members`,
         method: 'POST',
         expected: 201,
-        body: { account: accounts.member.account },
+        body: { userId: accounts.member.id },
       })
     },
   )

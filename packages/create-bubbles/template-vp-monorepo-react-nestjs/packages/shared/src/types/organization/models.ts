@@ -279,6 +279,7 @@ export type OrganizationMemberCandidatePurpose =
   | 'assignPositionMembers'
   | 'createProjectAdministrator'
   | 'setProjectAdministrator'
+  | 'addProjectMember'
 export type CandidateDisabledReason =
   | 'accountInactive'
   | 'memberInactive'

@@ -211,6 +211,7 @@ const organizationPurposeSchema = z.enum([
   'assignPositionMembers',
   'createProjectAdministrator',
   'setProjectAdministrator',
+  'addProjectMember',
 ])
 export const globalAccountCandidateQuerySchema = z.strictObject({
   ...pageFields,

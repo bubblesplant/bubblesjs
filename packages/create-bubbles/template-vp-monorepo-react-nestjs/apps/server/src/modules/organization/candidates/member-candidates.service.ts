@@ -109,6 +109,14 @@ export class MemberCandidatesService {
         scope: input.scope,
         permission: `${input.scope.type}.positions.read`,
       }
+    if (input.purpose === 'addProjectMember') {
+      if (input.scope.type !== 'project') throw new AppException(COMMON_ERRORS.VALIDATION_FAILED)
+      return {
+        actor: input.actor,
+        scope: input.scope,
+        permission: 'project.members.add',
+      }
+    }
     if (input.scope.type !== 'company') throw new AppException(COMMON_ERRORS.VALIDATION_FAILED)
     return {
       actor: input.actor,
@@ -132,6 +140,18 @@ export class MemberCandidatesService {
     if (purpose === 'assignPositionMembers') {
       if (
         query.organizationUnitIds !== undefined ||
+        query.roleIds !== undefined ||
+        query.projectIds !== undefined ||
+        query.unassigned !== undefined
+      )
+        throw new AppException(COMMON_ERRORS.VALIDATION_FAILED)
+      return
+    }
+    if (purpose === 'addProjectMember') {
+      if (
+        scope.type !== 'project' ||
+        query.organizationUnitIds !== undefined ||
+        query.positionIds !== undefined ||
         query.roleIds !== undefined ||
         query.projectIds !== undefined ||
         query.unassigned !== undefined
@@ -764,11 +784,15 @@ export class MemberCandidatesService {
   ) {
     if (input.purpose === 'assignPositionMembers')
       this.requirePermission(input.access, `${input.scope.type}.positions.assign`)
+    const sourceScope: OrganizationScope =
+      input.purpose === 'addProjectMember' && input.scope.type === 'project'
+        ? { type: 'company', companyId: input.scope.companyId }
+        : input.scope
     const candidates = await this.loadCurrentScopeCandidates(db, {
-      scope: input.scope,
+      scope: sourceScope,
       userIds: input.userIds,
     })
-    const currentIdentityMap = this.identitiesForScope(candidates, input.scope)
+    const currentIdentityMap = this.identitiesForScope(candidates, sourceScope)
     const currentOrganization = input.purpose === 'browseOrganization'
     const currentPosition =
       input.purpose === 'assignPositionMembers' ||
@@ -778,7 +802,7 @@ export class MemberCandidatesService {
       input.purpose === 'browseOrganization' &&
       input.access.permissionKeys.includes(`${input.scope.type}.roles.read`)
     await this.fillIdentityTags(db, {
-      scope: input.scope,
+      scope: sourceScope,
       identities: currentIdentityMap,
       organization: currentOrganization,
       position: currentPosition,
@@ -836,7 +860,28 @@ export class MemberCandidatesService {
           visibleProjectIds: new Set(visibleProjectRows.map((project) => project.id)),
         },
       })
-    return this.filterCandidates(candidates, input.query, input.scope)
+    const effectiveQuery =
+      input.purpose === 'addProjectMember'
+        ? { ...input.query, includeDisabled: false as const }
+        : input.query
+    const result = this.filterCandidates(candidates, effectiveQuery, sourceScope)
+    if (input.purpose !== 'addProjectMember' || input.scope.type !== 'project') return result
+    if (!result.length) return result
+    const existing = await db
+      .select({ userId: projectMembers.userId })
+      .from(projectMembers)
+      .where(
+        and(
+          eq(projectMembers.companyId, input.scope.companyId),
+          eq(projectMembers.projectId, input.scope.projectId),
+          inArray(
+            projectMembers.userId,
+            result.map(({ userId }) => userId),
+          ),
+        ),
+      )
+    const existingUserIds = new Set(existing.map(({ userId }) => userId))
+    return result.filter(({ userId }) => !existingUserIds.has(userId))
   }
 
   /** 按用途鉴权后分页搜索组织成员候选。 */
@@ -859,7 +904,7 @@ export class MemberCandidatesService {
     })
   }
 
-  /** 按请求 userId 顺序回显候选，未知或越权用户不补占位且始终保留停用项。 */
+  /** 按请求 userId 顺序回显候选；项目加成员用途仍强制剔除失效身份和已有项目成员。 */
   resolve(input: {
     actor: AccessActor
     scope: OrganizationScope

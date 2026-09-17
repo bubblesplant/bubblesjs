@@ -8,6 +8,7 @@ import { useI18n } from '@bubblesjs/i18n-react'
 import Brand from '@/components/Brand/Brand'
 import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
 import { cookie } from '@/utils/storage/cookie'
+import { buildAuthPath, safeNextPath } from '@/utils/safe-next'
 import { login } from './api'
 import './login.css'
 
@@ -18,6 +19,7 @@ export default function LoginPage() {
   const { send, loading } = useRequest(login, { immediate: false })
   const [error, setError] = useState<string | null>(null)
   const { tr } = useI18n()
+  const next = safeNextPath(searchParams.get('next'))
 
   /** 规范化账号并提交登录，将令牌按服务端绝对过期时间保存。 */
   async function handleLogin(values: LoginRequest) {
@@ -31,7 +33,7 @@ export default function LoginPage() {
       cookie.set('token', result.accessToken, {
         expires: new Date(result.absoluteExpiresAt),
       })
-      void navigate('/', { replace: true })
+      void navigate(next, { replace: true })
       return true
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : tr('登录失败，请稍后重试'))
@@ -91,7 +93,7 @@ export default function LoginPage() {
                 className="login-error"
                 type="success"
                 showIcon
-                title={tr('账号已创建，请登录后等待企业管理员添加。')}
+                title={tr('账号已创建，请登录后继续。')}
               />
             )}
             {error && (
@@ -142,7 +144,7 @@ export default function LoginPage() {
           </LoginForm>
           <p className="login-account-hint">
             {tr('还没有账号？')}
-            <Link to="/register">{tr('注册账号')}</Link>
+            <Link to={buildAuthPath('/register', { next })}>{tr('注册账号')}</Link>
           </p>
         </div>
         <footer className="login-footer">{tr('万物 · 工作空间')}</footer>

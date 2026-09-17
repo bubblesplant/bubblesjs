@@ -7,7 +7,8 @@ import { randomBytes } from 'node:crypto'
 
 export const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 export const serverRequire = createRequire(resolve(root, 'apps/server/package.json'))
-export const evidenceDirectory = resolve(root, 'artifacts/dev-team/qa')
+export const evidenceDirectory = resolve(root, '.spaces/01.企业级项目级/权限与菜单/测试证据')
+export const uiDirectory = resolve(root, '.spaces/01.企业级项目级/权限与菜单/ui')
 
 export function ensure(condition, message) {
   if (!condition) throw new Error(message)
