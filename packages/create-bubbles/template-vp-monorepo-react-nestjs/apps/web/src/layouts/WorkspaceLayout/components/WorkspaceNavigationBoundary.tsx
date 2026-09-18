@@ -7,8 +7,9 @@ interface WorkspaceNavigationBoundaryProps extends PropsWithChildren {
 }
 
 /**
- * 跨路由导航时卸载旧页面；同路由权限重校验时保留页面状态但隔离全部页面交互。
- * 页面级 Ant Design portal 统一挂到独立宿主；静态 Modal 不受上下文管理，等待时直接清理。
+ * 导航或权限重校验期间保留页面结构，隔离全部页面交互并显示等待态；目标路由提交后由
+ * Outlet 替换旧页面，以便页面过渡捕获连续的新旧快照。页面级 Ant Design portal 统一挂到
+ * 独立宿主；静态 Modal 不受上下文管理，等待时直接清理。
  */
 export default function WorkspaceNavigationBoundary({
   navigating,
@@ -29,16 +30,10 @@ export default function WorkspaceNavigationBoundary({
   return (
     <>
       <ConfigProvider getPopupContainer={getPopupContainer}>
-        {navigating ? (
-          fallback
-        ) : (
-          <>
-            <div className="workspace-page-surface" hidden={refreshing} inert={refreshing}>
-              {children}
-            </div>
-            {refreshing && fallback}
-          </>
-        )}
+        <div className="workspace-page-surface" hidden={refreshing} inert={blocked}>
+          {children}
+        </div>
+        {blocked && fallback}
       </ConfigProvider>
       {createPortal(
         <div

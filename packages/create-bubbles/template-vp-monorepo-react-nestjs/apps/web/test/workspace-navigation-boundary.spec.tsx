@@ -53,6 +53,7 @@ function WorkspacePage({ onSave, onUnmount }: { onSave: () => void; onUnmount: (
 interface RenderBoundaryOptions {
   navigating?: boolean
   refreshing?: boolean
+  pageKey?: string
   onSave: () => void
   onUnmount: () => void
 }
@@ -61,6 +62,7 @@ interface RenderBoundaryOptions {
 function renderBoundary({
   navigating = false,
   refreshing = false,
+  pageKey = 'current-page',
   onSave,
   onUnmount,
 }: RenderBoundaryOptions) {
@@ -71,7 +73,9 @@ function renderBoundary({
         refreshing={refreshing}
         fallback={<div data-testid="workspace-loading">加载中</div>}
       >
-        <WorkspacePage onSave={onSave} onUnmount={onUnmount} />
+        <div key={pageKey}>
+          <WorkspacePage onSave={onSave} onUnmount={onUnmount} />
+        </div>
       </WorkspaceNavigationBoundary>,
     )
   })
@@ -131,7 +135,7 @@ describe('工作空间等待交互边界', () => {
     expect(unmount).not.toHaveBeenCalled()
   })
 
-  it('跨路由导航仍卸载旧页面及其 portal，并在返回后创建全新页面状态', () => {
+  it('跨路由导航保留旧页面快照并隔离交互，提交新路由后创建全新页面状态', () => {
     const save = vi.fn()
     const unmount = vi.fn()
     renderBoundary({ onSave: save, onUnmount: unmount })
@@ -143,20 +147,23 @@ describe('工作空间等待交互边界', () => {
 
     renderBoundary({ navigating: true, onSave: save, onUnmount: unmount })
 
+    const pageSurface = document.querySelector('.workspace-page-surface') as HTMLDivElement
     const portalHost = document.querySelector('.workspace-portal-host') as HTMLDivElement
-    expect(document.querySelector('[data-testid="workspace-page"]')).toBeNull()
-    expect(document.querySelector('[data-testid="portal-save"]')).toBeNull()
+    expect(document.querySelector('[data-testid="workspace-page"]')).not.toBeNull()
+    expect(document.querySelector('[data-testid="draft-count"]')?.textContent).toBe('1')
+    expect(document.querySelector('[data-testid="portal-save"]')).toBe(oldPortalButton)
     expect(document.querySelector('[data-testid="workspace-loading"]')).not.toBeNull()
+    expect(pageSurface.hidden).toBe(false)
+    expect(pageSurface.hasAttribute('inert')).toBe(true)
     expect(portalHost.hidden).toBe(true)
     expect(portalHost.hasAttribute('inert')).toBe(true)
-    expect(unmount).toHaveBeenCalledOnce()
+    expect(unmount).not.toHaveBeenCalled()
     expect(antdMocks.destroyAll).toHaveBeenCalledOnce()
 
-    oldPortalButton.click()
-    expect(save).not.toHaveBeenCalled()
-
-    renderBoundary({ onSave: save, onUnmount: unmount })
+    renderBoundary({ pageKey: 'next-page', onSave: save, onUnmount: unmount })
+    expect(unmount).toHaveBeenCalledOnce()
     expect(document.querySelector('[data-testid="draft-count"]')?.textContent).toBe('0')
     expect(document.querySelector('[data-testid="portal-save"]')).toBeNull()
+    expect(save).not.toHaveBeenCalled()
   })
 })

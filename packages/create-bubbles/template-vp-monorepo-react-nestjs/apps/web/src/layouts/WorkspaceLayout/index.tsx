@@ -1,7 +1,7 @@
 import { logout } from '@/api/auth'
 import Brand, { BrandMark } from '@/components/Brand/Brand'
-import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
 import PageLoading from '@/components/Loading/PageLoading'
+import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
 import RouteTransition from '@/components/RouteTransition/RouteTransition'
 import { workspaceLayoutToken } from '@/config/theme'
 import { getWorkspaceState } from '@/pages/workspaces/state'
