@@ -7,3 +7,4 @@ export {
 } from './config'
 export type { AppLocale } from './config'
 export { appI18nStore, tr } from './instance'
+export { getUiLocale } from './ui-locale'

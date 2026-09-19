@@ -10,6 +10,7 @@ export const ACCESS_ICON_KEY_PATTERN =
 interface OperationSpec {
   suffix: string
   title: string
+  icon: string
   adminOnly?: boolean
 }
 
@@ -23,17 +24,17 @@ interface PageSpec {
 }
 
 const roleOperations: readonly OperationSpec[] = [
-  { suffix: 'create', title: '创建角色' },
-  { suffix: 'update', title: '修改角色' },
-  { suffix: 'delete', title: '删除角色' },
-  { suffix: 'permissions', title: '设置角色权限' },
+  { suffix: 'create', title: '创建角色', icon: 'add' },
+  { suffix: 'update', title: '修改角色', icon: 'edit' },
+  { suffix: 'delete', title: '删除角色', icon: 'delete' },
+  { suffix: 'permissions', title: '设置角色权限', icon: 'permissions' },
 ]
 
 const memberOperations: readonly OperationSpec[] = [
-  { suffix: 'add', title: '添加成员' },
-  { suffix: 'status', title: '启用或停用成员' },
-  { suffix: 'remove', title: '移除成员' },
-  { suffix: 'roles', title: '分配成员角色' },
+  { suffix: 'add', title: '添加成员', icon: 'add' },
+  { suffix: 'status', title: '启用或停用成员', icon: 'status' },
+  { suffix: 'remove', title: '移除成员', icon: 'remove' },
+  { suffix: 'roles', title: '分配成员角色', icon: 'roles' },
 ]
 
 const pageSpecs: readonly PageSpec[] = [

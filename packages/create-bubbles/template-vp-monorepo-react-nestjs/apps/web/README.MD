@@ -34,7 +34,8 @@ ProComponents 3 的部分 API 已调整，例如 ProCard 使用 `variant="outlin
 ## 全局配置
 
 - `src/App.tsx`：`StyleProvider → ConfigProvider → ProConfigProvider → AntdApp`。
-  Ant Design、ProComponents、Day.js 和 `<html lang>` 跟随应用当前语言。
+  Ant Design、ProComponents（通过 `IntlType`）、Day.js 和 `<html lang>` 跟随应用当前语言；
+  `src/i18n/ui-locale.ts` 集中维护这些适配关系。
 - `src/config/theme.ts`：统一配置主题 token，Ant Design 与 ProComponents 共同使用。
 - `src/styles/index.css`：声明 `theme → base → antd → antd-pro → components → utilities`
   样式层级、引入基础重置并设置 `html / body / #root` 的全局基础样式，配合 `StyleProvider layer` 使用。
@@ -66,7 +67,8 @@ export default function MessageExample() {
   `@bubblesjs/i18n-react`。应用只在 `src/main.tsx` 注册一个 `I18nProvider`，页面或功能模块不得创建独立
   store 或嵌套 Provider。
 - 支持的语言在 `src/i18n/config.ts` 中统一声明；词条由 `src/i18n/instance.ts` 懒加载，并将用户选择保存到
-  localStorage。新增语言时必须同步补充语言配置、词条加载器、Ant Design 与 Day.js 语言包。
+  localStorage。新增语言时必须同步补充语言配置、词条加载器、`ui-locale.ts` 中的 Ant Design、
+  Pro Components `IntlType` 与 Day.js 语言包。
 - React 组件内使用 `useI18n()` 获取 `tr`、`locale` 和 `loadLocale`；组件外的路由、请求等逻辑从
   `@/i18n` 导入全局 `tr`。用户可见的标题、按钮、表单标签、校验提示、空状态、通知、错误信息和无障碍文本
   均不得硬编码。
