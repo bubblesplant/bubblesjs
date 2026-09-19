@@ -1,6 +1,6 @@
 import { ClearOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 import type { ProColumns } from '@ant-design/pro-components'
-import { Alert, App, Button, Popconfirm, Space, Tabs, Tag } from 'antd'
+import { Alert, App, Button, Popconfirm, Space, Tabs, Tag, Typography } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type {
   CreateMenuRequest,
@@ -75,7 +75,7 @@ export default function MenusPage() {
   /** 递归展开菜单树，保留父级路径供表格搜索和展示。 */
   const append = (items: MenuNode[], parentName: string) => {
     for (const item of items) {
-      rows.push({ ...item, children: [], parentName })
+      rows.push({ ...item, parentName })
       append(item.children, `${parentName === tr('根目录') ? '' : `${parentName} / `}${item.name}`)
     }
   }
@@ -115,11 +115,17 @@ export default function MenusPage() {
       title: tr('名称'),
       dataIndex: 'name',
       search: false,
-      width: 180,
+      width: 220,
+      ellipsis: true,
       render: (_, record) => (
-        <Space>
+        <Space size={8} wrap={false} style={{ width: '100%', minWidth: 0 }}>
           <SvgAssetIcon name={record.icon} />
-          {record.name}
+          <Typography.Text
+            ellipsis={{ tooltip: record.name }}
+            style={{ minWidth: 0, flex: '1 1 auto' }}
+          >
+            {record.name}
+          </Typography.Text>
           {record.protected && <Tag color="blue">{tr('保护')}</Tag>}
         </Space>
       ),
@@ -230,6 +236,8 @@ export default function MenusPage() {
           rowKey="id"
           columns={columns}
           dataSource={filteredRows}
+          // 菜单管理数据已扁平化，并通过“父级”列展示层级；避免空 children 触发展开加号。
+          childrenColumnName="__menuChildren"
           loading={loading}
           headerTitle={tr('菜单与操作')}
           options={{ reload: false }}
