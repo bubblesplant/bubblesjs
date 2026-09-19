@@ -36,6 +36,13 @@
       "when": 1789622665438,
       "tag": "0004_company-member-invitations",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1789790400000,
+      "tag": "0005_menu_svg_icons",
+      "breakpoints": true
     }
   ]
 }

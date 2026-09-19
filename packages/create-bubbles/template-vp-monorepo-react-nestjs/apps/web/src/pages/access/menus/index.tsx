@@ -10,6 +10,7 @@ import type {
   ScopeType,
 } from 'shared/types'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
+import { SvgAssetIcon } from '@/components/Icon/SvgAsset'
 import CleanupDialog, { type CleanupDialogRef } from '../components/CleanupDialog'
 import MenuFormDialog, { type MenuFormDialogRef } from '../components/MenuFormDialog'
 import { useAccess, useManagementAction } from '../use-access'
@@ -117,6 +118,7 @@ export default function MenusPage() {
       width: 180,
       render: (_, record) => (
         <Space>
+          <SvgAssetIcon name={record.icon} />
           {record.name}
           {record.protected && <Tag color="blue">{tr('保护')}</Tag>}
         </Space>

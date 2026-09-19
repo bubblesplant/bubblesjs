@@ -17,6 +17,7 @@ import {
 import { and, eq, sql } from 'drizzle-orm'
 import type { AccessScope } from 'shared/types'
 import {
+  ACCESS_PAGE_CATALOG,
   ACCESS_PERMISSION_CATALOG,
   ACCESS_PROTECTED_ROUTE_KEYS,
   getBuiltinPermissionKeys,
@@ -105,6 +106,10 @@ export class AccessSeedService implements OnModuleInit {
       const [parent] = item.pagePermissionKey
         ? await tx.select().from(menus).where(eq(menus.permissionKey, item.pagePermissionKey))
         : []
+      const defaultIcon =
+        item.kind === 'page'
+          ? (ACCESS_PAGE_CATALOG.find((page) => page.routeKey === item.routeKey)?.icon ?? '')
+          : ''
       await tx.insert(menus).values({
         scopeType: item.scopeType,
         type: item.kind,
@@ -112,6 +117,7 @@ export class AccessSeedService implements OnModuleInit {
         routeKey: item.routeKey,
         permissionKey: item.key,
         parentId: parent?.id ?? null,
+        icon: defaultIcon,
         protected: (ACCESS_PROTECTED_ROUTE_KEYS as readonly string[]).includes(item.routeKey),
         sort: catalog.indexOf(item),
       })

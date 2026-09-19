@@ -23,7 +23,7 @@ pnpm --filter web test --run
 | --- | --- | --- |
 | `antd` | `^6.6.2` | 基础组件、中英文语言包与主题 |
 | `@ant-design/pro-components` | `3.1.14-7`（固定 beta 版本） | ProLayout、PageContainer、ProCard，以及后续的 ProTable / ProForm |
-| `@ant-design/icons` | `^6.3.4` | 平台导航图标 |
+| `@ant-design/icons` | `^6.3.4` | 通用操作图标；平台菜单图标使用 `src/assets/svg/` |
 | `@ant-design/cssinjs` | `^2.1.2` | CSS 样式层级配置 |
 
 接入时，ProComponents 的 `latest` 为 2.8.10，其 peerDependencies 仅声明支持 Ant Design 4/5；

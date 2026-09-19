@@ -4,7 +4,8 @@ import { menus, menuVersions, rolePermissions } from '@/database/schema'
 import type { CreateMenuRequest, MenuTreeResult, ScopeType, UpdateMenuRequest } from 'shared/types'
 import {
   ACCESS_CATALOG_VERSION,
-  ACCESS_ICON_NAMES,
+  ACCESS_ICON_KEY_PATTERN,
+  ACCESS_PAGE_CATALOG,
   ACCESS_PERMISSION_CATALOG,
   ACCESS_PROTECTED_ROUTE_KEYS,
 } from 'shared/utils'
@@ -26,7 +27,7 @@ export class MenusService {
       .where(eq(menuVersions.scopeType, scopeType))
     return { scopeType, version: version?.version ?? 1, items: this.access.tree(rows) }
   }
-  /** 校验平台菜单读取权限后，返回指定作用域类型的代码权限目录、目录版本和可选图标。 */
+  /** 校验平台菜单读取权限后，返回指定作用域类型的代码权限目录和目录版本。 */
   catalog(input: { actor: AccessActor; scopeType: ScopeType }) {
     return this.access.read(
       { actor: input.actor, scope: { type: 'platform' }, permission: 'platform.menus.read' },
@@ -35,7 +36,6 @@ export class MenusService {
         items: ACCESS_PERMISSION_CATALOG.filter((p) => p.scopeType === input.scopeType).map(
           (p) => ({ ...p }),
         ),
-        icons: [...ACCESS_ICON_NAMES],
       }),
     )
   }
@@ -55,7 +55,7 @@ export class MenusService {
   validate(rows: MenuRow[]) {
     const byId = new Map(rows.map((m) => [m.id, m]))
     for (const row of rows) {
-      if (row.icon && !(ACCESS_ICON_NAMES as readonly string[]).includes(row.icon))
+      if (row.icon && !ACCESS_ICON_KEY_PATTERN.test(row.icon))
         throw new AppException(ACCESS_ERRORS.INVALID_MENU_STRUCTURE)
       const parent = row.parentId ? byId.get(row.parentId) : undefined
       if (row.parentId && (!parent || parent.scopeType !== row.scopeType))
@@ -128,13 +128,17 @@ export class MenusService {
         )
           throw new AppException(ACCESS_ERRORS.INVALID_MENU_STRUCTURE)
         const now = new Date()
+        const defaultIcon =
+          body.type === 'page'
+            ? (ACCESS_PAGE_CATALOG.find((page) => page.routeKey === permission?.routeKey)?.icon ?? '')
+            : ''
         const row: MenuRow = {
           id: crypto.randomUUID(),
           scopeType: input.scopeType,
           parentId: body.parentId ?? null,
           type: body.type,
           name: body.name,
-          icon: body.icon ?? '',
+          icon: body.icon ?? defaultIcon,
           sort: body.sort ?? 0,
           hidden: body.hidden ?? false,
           status: body.status ?? 'active',

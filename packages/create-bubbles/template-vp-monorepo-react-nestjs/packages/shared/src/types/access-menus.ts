@@ -86,7 +86,6 @@ export interface UpdateMenuRequest extends VersionRequest {
 export interface FunctionCatalogResult {
   catalogVersion: string
   items: PermissionDefinition[]
-  icons: string[]
 }
 
 export interface FilterSupportedAccessMenusInput {

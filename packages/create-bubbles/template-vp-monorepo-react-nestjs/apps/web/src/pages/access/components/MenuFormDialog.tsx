@@ -1,5 +1,6 @@
 import {
   ModalForm,
+  ProForm,
   ProFormDependency,
   ProFormDigit,
   ProFormSelect,
@@ -15,6 +16,7 @@ import type {
   MenuTreeResult,
   UpdateMenuRequest,
 } from 'shared/types'
+import { IconSelector } from '@/components/Icon/SvgAsset'
 
 interface EditorState {
   record?: MenuNode
@@ -93,7 +95,8 @@ export default function MenuFormDialog({
             expectedVersion: state.tree.version,
             name: values.name.trim(),
             parentId: values.parentId ?? null,
-            icon: values.icon ?? '',
+            // 新建页面未选择图标时省略字段，让服务端按页面目录补默认图标；编辑时保留空值以支持显式清空。
+            icon: record ? (values.icon ?? '') : values.icon || undefined,
             sort: values.sort ?? 0,
             hidden: values.hidden ?? false,
             status: values.status ?? 'active',
@@ -217,14 +220,9 @@ export default function MenuFormDialog({
           }
         }
       </ProFormDependency>
-      <ProFormSelect
-        name="icon"
-        label={tr('图标')}
-        allowClear
-        options={(state?.catalog.icons ?? [])
-          .filter(Boolean)
-          .map((icon) => ({ value: icon, label: icon }))}
-      />
+      <ProForm.Item name="icon" label={tr('图标')}>
+        <IconSelector placeholder={tr('搜索并选择图标')} />
+      </ProForm.Item>
       <ProFormDigit
         name="sort"
         label={tr('排序')}

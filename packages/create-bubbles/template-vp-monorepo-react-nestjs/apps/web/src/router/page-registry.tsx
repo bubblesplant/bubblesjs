@@ -1,19 +1,6 @@
-import {
-  AuditOutlined,
-  DashboardOutlined,
-  ApartmentOutlined,
-  IdcardOutlined,
-  MenuOutlined,
-  ProjectOutlined,
-  SafetyCertificateOutlined,
-  TeamOutlined,
-  UserOutlined,
-  SafetyOutlined,
-  HomeOutlined,
-  ProfileOutlined,
-} from '@ant-design/icons'
 import type { AccessContext, AccessScope, MenuNode } from 'shared/types'
 import { accessRoutePath, filterSupportedAccessMenus } from 'shared/utils'
+import { SvgAssetIcon } from '@/components/Icon/SvgAsset'
 import { tr } from '@/i18n'
 
 /** 此表随 Web 发布；服务端下发的 routeKey 不能动态 import 任意组件。 */
@@ -76,21 +63,6 @@ export function firstAccessiblePagePath(context: AccessContext): string | null {
   )
 }
 
-export const menuIcons = {
-  DashboardOutlined: <DashboardOutlined />,
-  ApartmentOutlined: <ApartmentOutlined />,
-  ProjectOutlined: <ProjectOutlined />,
-  TeamOutlined: <TeamOutlined />,
-  SafetyCertificateOutlined: <SafetyCertificateOutlined />,
-  MenuOutlined: <MenuOutlined />,
-  AuditOutlined: <AuditOutlined />,
-  IdcardOutlined: <IdcardOutlined />,
-  UserOutlined: <UserOutlined />,
-  SafetyOutlined: <SafetyOutlined />,
-  HomeOutlined: <HomeOutlined />,
-  ProfileOutlined: <ProfileOutlined />,
-}
-
 interface NavigationItem {
   key: string
   name: string
@@ -109,7 +81,7 @@ export function navigationTree(nodes: MenuNode[], scope: AccessScope): Navigatio
       node,
     ): NavigationItem[] => {
       if (node.hidden || node.status !== 'active' || node.type === 'operation') return []
-      const icon = menuIcons[node.icon as keyof typeof menuIcons] ?? <ApartmentOutlined />
+      const icon = <SvgAssetIcon name={node.icon} />
       if (node.type === 'page') {
         const path = pagePath(scope, node.routeKey ?? '')
         const page = pageRegistry[node.routeKey as RegisteredPage]

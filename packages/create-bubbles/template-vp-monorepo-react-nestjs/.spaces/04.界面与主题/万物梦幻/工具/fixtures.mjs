@@ -10,27 +10,27 @@ export const workspaces = [
 
 const pageDefinitions = {
   platform: [
-    ['home', '平台工作台', 'DashboardOutlined'],
-    ['companies', '企业管理', 'ApartmentOutlined'],
-    ['accounts', '全局账号', 'UserOutlined'],
-    ['roles', '平台角色', 'SafetyOutlined'],
-    ['menus', '菜单管理', 'MenuOutlined'],
-    ['audit', '平台操作日志', 'AuditOutlined'],
+    ['home', '平台工作台', 'dashboard'],
+    ['companies', '企业管理', 'companies'],
+    ['accounts', '全局账号', 'accounts'],
+    ['roles', '平台角色', 'roles'],
+    ['menus', '菜单管理', 'menus'],
+    ['audit', '平台操作日志', 'audit-log'],
   ],
   company: [
-    ['home', '企业工作台', 'HomeOutlined'],
-    ['profile', '企业资料', 'ProfileOutlined'],
-    ['members', '企业成员', 'TeamOutlined'],
-    ['roles', '企业角色', 'SafetyOutlined'],
-    ['projects', '项目管理', 'ProjectOutlined'],
-    ['audit', '企业操作日志', 'AuditOutlined'],
+    ['home', '企业工作台', 'home'],
+    ['profile', '企业资料', 'profile'],
+    ['members', '企业成员', 'members'],
+    ['roles', '企业角色', 'roles'],
+    ['projects', '项目管理', 'projects'],
+    ['audit', '企业操作日志', 'audit-log'],
   ],
   project: [
-    ['home', '项目工作台', 'HomeOutlined'],
-    ['profile', '项目资料', 'ProfileOutlined'],
-    ['members', '项目成员', 'TeamOutlined'],
-    ['roles', '项目角色', 'SafetyOutlined'],
-    ['audit', '项目操作日志', 'AuditOutlined'],
+    ['home', '项目工作台', 'home'],
+    ['profile', '项目资料', 'profile'],
+    ['members', '项目成员', 'members'],
+    ['roles', '项目角色', 'roles'],
+    ['audit', '项目操作日志', 'audit-log'],
   ],
 }
 
@@ -61,7 +61,7 @@ function access(scope) {
     ),
     menus,
     menuVersion: 1,
-    catalogVersion: '2026-09-09.1',
+    catalogVersion: '2026-09-19.1',
   }
 }
 

@@ -187,6 +187,7 @@
   "启用": "Enable",
   "启用{type}？": "Enable {type}?",
   "图标": "Icon",
+  "搜索并选择图标": "Search and choose an icon",
   "多个角色的权限合并生效": "Permissions from multiple roles are combined",
   "完成进度": "Progress",
   "完成进度（%）": "Progress (%)",
