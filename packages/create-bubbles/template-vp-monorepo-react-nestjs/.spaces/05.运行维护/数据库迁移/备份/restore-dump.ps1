@@ -24,7 +24,7 @@ if ($status -ne 'true') {
   throw "容器 $ContainerName 未运行，请先执行: docker compose up -d postgres"
 }
 
-# 2. 恢复会 DROP 并重建备份中的所有对象，要求显式确认
+# 2. 恢复会删除并重建整个 postgres 库，要求显式确认
 if (-not $Force) {
   $answer = Read-Host "将用 $DumpName 覆盖 $ContainerName 中的 $DbName 库，输入 YES 确认"
   if ($answer -ne 'YES') {
@@ -40,17 +40,33 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 try {
-  # 4. --clean --if-exists: 先删除备份中存在的旧对象
-  #    --no-owner:        忽略属主差异，统一归属连接用户
-  #    --single-transaction: 整体一个事务，失败自动回滚，不会留下半恢复状态
-  docker exec $ContainerName pg_restore -U $DbUser -d $DbName `
-    --clean --if-exists --no-owner --single-transaction $ContainerPath
+  # 4. 删除旧库之前先验证备份格式，避免无效文件造成数据丢失
+  docker exec $ContainerName pg_restore --list $ContainerPath | Out-Null
   if ($LASTEXITCODE -ne 0) {
-    throw 'pg_restore 执行失败'
+    throw '备份文件无效，未删除目标数据库'
+  }
+
+  # 5. 从维护库 template1 连接，断开占用 postgres 的会话后完整重建数据库
+  docker exec $ContainerName dropdb -U $DbUser --maintenance-db=template1 --force --if-exists $DbName
+  if ($LASTEXITCODE -ne 0) {
+    throw '删除旧数据库失败，未执行恢复'
+  }
+
+  docker exec $ContainerName createdb -U $DbUser --maintenance-db=template1 $DbName
+  if ($LASTEXITCODE -ne 0) {
+    throw '创建空数据库失败，请修复后重新执行恢复'
+  }
+
+  # 6. --single-transaction 保证导入失败时不会留下部分备份对象；旧库已被删除
+  #    --no-owner 使恢复对象归属当前连接用户
+  docker exec $ContainerName pg_restore -U $DbUser -d $DbName `
+    --no-owner --single-transaction --exit-on-error $ContainerPath
+  if ($LASTEXITCODE -ne 0) {
+    throw 'pg_restore 执行失败，目标数据库为空，请修复后重新执行恢复'
   }
 }
 finally {
-  # 5. 无论成功失败都清理容器内临时文件
+  # 7. 无论成功失败都清理容器内临时文件
   docker exec $ContainerName rm -f $ContainerPath | Out-Null
 }
 
