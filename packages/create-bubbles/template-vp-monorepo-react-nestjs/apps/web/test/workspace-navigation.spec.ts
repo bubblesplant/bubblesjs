@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vite-plus/test'
 import type { AccessContext, MenuNode } from 'shared/types'
-import { ACCESS_ICON_NAMES } from 'shared/utils'
+import { ACCESS_PAGE_CATALOG } from 'shared/utils'
+import { resolveSvgAsset, svgAssets } from '../src/components/Icon/SvgAsset'
 import {
   firstAccessiblePagePath,
-  menuIcons,
   navigationTree,
   pagePath,
 } from '../src/router/page-registry'
@@ -65,8 +65,13 @@ describe('前端静态页面注册与菜单', () => {
     expect(pagePath({ type: 'platform' }, 'platform.future')).toBeNull()
   })
 
-  it('菜单目录允许的每个图标均有前端映射', () => {
-    for (const icon of ACCESS_ICON_NAMES.filter(Boolean)) expect(menuIcons).toHaveProperty(icon)
+  it('菜单目录图标均能解析为本地 SVG 资源', () => {
+    for (const page of ACCESS_PAGE_CATALOG) {
+      expect(resolveSvgAsset(page.icon).key).toBe(page.icon)
+    }
+    expect(svgAssets.map((asset) => asset.key)).toContain('menu-item')
+    expect(resolveSvgAsset('').key).toBe('menu-item')
+    expect(resolveSvgAsset('missing-icon').key).toBe('menu-item')
   })
 
   it('进入空间优先落在已授权的可见菜单，排除未知及跨作用域页面', () => {

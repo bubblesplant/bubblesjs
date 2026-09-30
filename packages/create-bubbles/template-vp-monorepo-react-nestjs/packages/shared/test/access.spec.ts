@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vite-plus/test'
 import type { MenuNode, ScopeType } from '../src/types'
 import {
   ACCESS_BUILTIN_MEMBER_PERMISSIONS,
-  ACCESS_ICON_NAMES,
+  ACCESS_ICON_KEY_PATTERN,
   ACCESS_PAGE_CATALOG,
   ACCESS_PERMISSION_CATALOG,
   ACCESS_PROTECTED_ROUTE_KEYS,
@@ -24,7 +24,7 @@ describe('共享权限目录约束', () => {
     )
 
     for (const page of ACCESS_PAGE_CATALOG) {
-      expect(ACCESS_ICON_NAMES).toContain(page.icon)
+      expect(ACCESS_ICON_KEY_PATTERN.test(page.icon)).toBe(true)
       expect(getAccessPermission(page.permissionKey)).toMatchObject({
         kind: 'page',
         scopeType: page.scopeType,

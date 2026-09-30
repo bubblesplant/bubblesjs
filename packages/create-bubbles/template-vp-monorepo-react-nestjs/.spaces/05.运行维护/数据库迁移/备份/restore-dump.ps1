@@ -26,7 +26,7 @@ if ($status -ne 'true') {
 
 # 2. 恢复会删除并重建整个 postgres 库，要求显式确认
 if (-not $Force) {
-  $answer = Read-Host "将用 $DumpName 覆盖 $ContainerName 中的 $DbName 库，输入 YES 确认"
+  $answer = Read-Host "将清空 $ContainerName/$DbName 的 public、drizzle schema（含备份之外的对象），并用 $DumpName 恢复，输入 YES 确认"
   if ($answer -ne 'YES') {
     Write-Host '已取消'
     exit 1

@@ -1,27 +1,16 @@
 import type { AccessPageDefinition, PermissionDefinition, ScopeType } from '../types'
 
-export const ACCESS_CATALOG_VERSION = '2026-09-16.1'
+export const ACCESS_CATALOG_VERSION = '2026-09-19.1'
 export const ACCESS_DEFAULT_PAGE_SIZE = 20
 export const ACCESS_MAX_PAGE_SIZE = 100
 export const ACCESS_CODE_PATTERN = /^[A-Za-z0-9_-]+$/
-
-export const ACCESS_ICON_NAMES: readonly string[] = [
-  '',
-  'DashboardOutlined',
-  'ApartmentOutlined',
-  'UserOutlined',
-  'SafetyOutlined',
-  'MenuOutlined',
-  'AuditOutlined',
-  'HomeOutlined',
-  'ProfileOutlined',
-  'TeamOutlined',
-  'ProjectOutlined',
-]
+export const ACCESS_ICON_KEY_PATTERN =
+  /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)*$/
 
 interface OperationSpec {
   suffix: string
   title: string
+  icon: string
   adminOnly?: boolean
 }
 
@@ -35,17 +24,17 @@ interface PageSpec {
 }
 
 const roleOperations: readonly OperationSpec[] = [
-  { suffix: 'create', title: '创建角色' },
-  { suffix: 'update', title: '修改角色' },
-  { suffix: 'delete', title: '删除角色' },
-  { suffix: 'permissions', title: '设置角色权限' },
+  { suffix: 'create', title: '创建角色', icon: 'add' },
+  { suffix: 'update', title: '修改角色', icon: 'edit' },
+  { suffix: 'delete', title: '删除角色', icon: 'delete' },
+  { suffix: 'permissions', title: '设置角色权限', icon: 'permissions' },
 ]
 
 const memberOperations: readonly OperationSpec[] = [
-  { suffix: 'add', title: '添加成员' },
-  { suffix: 'status', title: '启用或停用成员' },
-  { suffix: 'remove', title: '移除成员' },
-  { suffix: 'roles', title: '分配成员角色' },
+  { suffix: 'add', title: '添加成员', icon: 'add' },
+  { suffix: 'status', title: '启用或停用成员', icon: 'status' },
+  { suffix: 'remove', title: '移除成员', icon: 'remove' },
+  { suffix: 'roles', title: '分配成员角色', icon: 'roles' },
 ]
 
 const pageSpecs: readonly PageSpec[] = [
@@ -54,7 +43,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'platform.home',
     path: '/platform',
     title: '平台工作台',
-    icon: 'DashboardOutlined',
+    icon: 'dashboard',
     operations: [],
   },
   {
@@ -62,7 +51,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'platform.companies',
     path: '/platform/companies',
     title: '企业管理',
-    icon: 'ApartmentOutlined',
+    icon: 'companies',
     operations: [
       { suffix: 'create', title: '开通企业', adminOnly: true },
       { suffix: 'status', title: '启用或停用企业' },
@@ -75,7 +64,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'platform.accounts',
     path: '/platform/accounts',
     title: '全局账号',
-    icon: 'UserOutlined',
+    icon: 'accounts',
     operations: [
       { suffix: 'status', title: '启用或停用账号' },
       { suffix: 'roles', title: '分配平台角色' },
@@ -86,7 +75,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'platform.roles',
     path: '/platform/roles',
     title: '平台角色',
-    icon: 'SafetyOutlined',
+    icon: 'roles',
     operations: roleOperations,
   },
   {
@@ -94,7 +83,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'platform.menus',
     path: '/platform/menus',
     title: '菜单管理',
-    icon: 'MenuOutlined',
+    icon: 'menus',
     operations: [
       { suffix: 'create', title: '新增菜单节点' },
       { suffix: 'update', title: '修改菜单节点' },
@@ -107,7 +96,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'platform.audit',
     path: '/platform/audit',
     title: '平台操作日志',
-    icon: 'AuditOutlined',
+    icon: 'audit-log',
     operations: [],
   },
   {
@@ -115,7 +104,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'company.home',
     path: '/companies/:companyId',
     title: '企业工作台',
-    icon: 'HomeOutlined',
+    icon: 'home',
     operations: [],
   },
   {
@@ -123,7 +112,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'company.profile',
     path: '/companies/:companyId/profile',
     title: '企业资料',
-    icon: 'ProfileOutlined',
+    icon: 'profile',
     operations: [{ suffix: 'update', title: '修改企业资料' }],
   },
   {
@@ -131,7 +120,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'company.members',
     path: '/companies/:companyId/members',
     title: '企业成员',
-    icon: 'TeamOutlined',
+    icon: 'members',
     operations: memberOperations,
   },
   {
@@ -139,7 +128,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'company.roles',
     path: '/companies/:companyId/roles',
     title: '企业角色',
-    icon: 'SafetyOutlined',
+    icon: 'roles',
     operations: roleOperations,
   },
   {
@@ -147,7 +136,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'company.projects',
     path: '/companies/:companyId/projects',
     title: '项目管理',
-    icon: 'ProjectOutlined',
+    icon: 'projects',
     operations: [
       { suffix: 'create', title: '创建项目', adminOnly: true },
       { suffix: 'status', title: '启用或停用项目' },
@@ -159,7 +148,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'company.organization',
     path: '/companies/:companyId/organization',
     title: '企业组织',
-    icon: 'ApartmentOutlined',
+    icon: 'organization',
     operations: [
       { suffix: 'create', title: '创建组织单元' },
       { suffix: 'update', title: '修改组织单元' },
@@ -172,7 +161,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'company.positions',
     path: '/companies/:companyId/positions',
     title: '企业岗位',
-    icon: 'TeamOutlined',
+    icon: 'positions',
     operations: [
       { suffix: 'create', title: '创建岗位' },
       { suffix: 'update', title: '修改岗位' },
@@ -184,7 +173,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'company.organization.templates',
     path: '/companies/:companyId/organization/templates',
     title: '项目组织模板',
-    icon: 'ProfileOutlined',
+    icon: 'organization-template',
     operations: [
       { suffix: 'create', title: '创建组织模板' },
       { suffix: 'update', title: '修改组织模板' },
@@ -195,7 +184,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'company.audit',
     path: '/companies/:companyId/audit',
     title: '企业操作日志',
-    icon: 'AuditOutlined',
+    icon: 'audit-log',
     operations: [],
   },
   {
@@ -203,7 +192,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'project.home',
     path: '/companies/:companyId/projects/:projectId',
     title: '项目工作台',
-    icon: 'HomeOutlined',
+    icon: 'home',
     operations: [],
   },
   {
@@ -211,7 +200,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'project.profile',
     path: '/companies/:companyId/projects/:projectId/profile',
     title: '项目资料',
-    icon: 'ProfileOutlined',
+    icon: 'profile',
     operations: [{ suffix: 'update', title: '修改项目资料' }],
   },
   {
@@ -219,7 +208,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'project.members',
     path: '/companies/:companyId/projects/:projectId/members',
     title: '项目成员',
-    icon: 'TeamOutlined',
+    icon: 'members',
     operations: memberOperations,
   },
   {
@@ -227,7 +216,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'project.roles',
     path: '/companies/:companyId/projects/:projectId/roles',
     title: '项目角色',
-    icon: 'SafetyOutlined',
+    icon: 'roles',
     operations: roleOperations,
   },
   {
@@ -235,7 +224,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'project.organization',
     path: '/companies/:companyId/projects/:projectId/organization',
     title: '项目组织',
-    icon: 'ApartmentOutlined',
+    icon: 'organization',
     operations: [
       { suffix: 'create', title: '创建组织单元' },
       { suffix: 'update', title: '修改组织单元' },
@@ -248,7 +237,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'project.positions',
     path: '/companies/:companyId/projects/:projectId/positions',
     title: '项目岗位',
-    icon: 'TeamOutlined',
+    icon: 'positions',
     operations: [
       { suffix: 'create', title: '创建岗位' },
       { suffix: 'update', title: '修改岗位' },
@@ -260,7 +249,7 @@ const pageSpecs: readonly PageSpec[] = [
     routeKey: 'project.audit',
     path: '/companies/:companyId/projects/:projectId/audit',
     title: '项目操作日志',
-    icon: 'AuditOutlined',
+    icon: 'audit-log',
     operations: [],
   },
 ]

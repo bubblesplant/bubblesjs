@@ -1,6 +1,6 @@
 import { ClearOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 import type { ProColumns } from '@ant-design/pro-components'
-import { Alert, App, Button, Popconfirm, Space, Tabs, Tag } from 'antd'
+import { Alert, App, Button, Popconfirm, Space, Tabs, Tag, Typography } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type {
   CreateMenuRequest,
@@ -10,13 +10,21 @@ import type {
   ScopeType,
 } from 'shared/types'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
+import { SvgAssetIcon } from '@/components/Icon/SvgAsset'
 import CleanupDialog, { type CleanupDialogRef } from '../components/CleanupDialog'
 import MenuFormDialog, { type MenuFormDialogRef } from '../components/MenuFormDialog'
 import { useAccess, useManagementAction } from '../use-access'
 import { menuApi } from './api'
 
-interface MenuRow extends MenuNode {
+type MenuRow = Omit<MenuNode, 'children'> & {
+  children?: MenuRow[]
   parentName: string
+}
+
+/** 将管理表格行还原为编辑弹窗所需的菜单节点，移除仅用于展示的父级路径。 */
+function toMenuNode(row: MenuRow): MenuNode {
+  const { parentName: _parentName, children, ...node } = row
+  return { ...node, children: children?.map(toMenuNode) ?? [] }
 }
 
 /** 管理各作用域的菜单树、功能绑定和废弃权限清理。 */
@@ -70,25 +78,34 @@ export default function MenusPage() {
     [scopeType, refresh],
   )
 
-  const rows: MenuRow[] = []
-  /** 递归展开菜单树，保留父级路径供表格搜索和展示。 */
-  const append = (items: MenuNode[], parentName: string) => {
-    for (const item of items) {
-      rows.push({ ...item, children: [], parentName })
-      append(item.children, `${parentName === tr('根目录') ? '' : `${parentName} / `}${item.name}`)
-    }
-  }
-  append(tree?.items ?? [], tr('根目录'))
-  const filteredRows = rows.filter(
-    /** 按菜单名称或功能标识匹配关键字，并叠加状态及节点类型筛选。 */
-    (row) =>
-      (!filter.query ||
-        `${row.name} ${row.routeKey ?? ''} ${row.permissionKey ?? ''}`
-          .toLowerCase()
-          .includes(filter.query.toLowerCase())) &&
-      (!filter.status || row.status === filter.status) &&
-      (!filter.type || row.type === filter.type),
-  )
+  /** 判断菜单节点是否满足当前列表筛选条件。 */
+  const matchesFilter = (item: MenuNode) =>
+    (!filter.query ||
+      `${item.name} ${item.routeKey ?? ''} ${item.permissionKey ?? ''}`
+        .toLowerCase()
+        .includes(filter.query.toLowerCase())) &&
+    (!filter.status || item.status === filter.status) &&
+    (!filter.type || item.type === filter.type)
+
+  /** 构造保留层级的菜单表格数据；叶子节点不写入空 children，避免显示展开加号。 */
+  const buildRows = (items: MenuNode[], parentName: string): MenuRow[] =>
+    items.flatMap((item) => {
+      const childRows = buildRows(
+        item.children,
+        `${parentName === tr('根目录') ? '' : `${parentName} / `}${item.name}`,
+      )
+      const itemMatches = matchesFilter(item)
+      if (!itemMatches && !childRows.length) return []
+      const { children: _children, ...node } = item
+      return [
+        {
+          ...node,
+          parentName,
+          ...(childRows.length ? { children: childRows } : {}),
+        },
+      ]
+    })
+  const filteredRows = buildRows(tree?.items ?? [], tr('根目录'))
 
   /** 加载废弃权限清理预览，并展示请求失败信息。 */
   async function previewCleanup() {
@@ -114,10 +131,17 @@ export default function MenusPage() {
       title: tr('名称'),
       dataIndex: 'name',
       search: false,
-      width: 180,
+      width: 220,
+      ellipsis: true,
       render: (_, record) => (
-        <Space>
-          {record.name}
+        <Space size={8} wrap={false} style={{ width: '100%', minWidth: 0 }}>
+          <SvgAssetIcon name={record.icon} />
+          <Typography.Text
+            ellipsis={{ tooltip: record.name }}
+            style={{ minWidth: 0, flex: '1 1 auto' }}
+          >
+            {record.name}
+          </Typography.Text>
           {record.protected && <Tag color="blue">{tr('保护')}</Tag>}
         </Space>
       ),
@@ -169,7 +193,8 @@ export default function MenusPage() {
               type="link"
               size="small"
               onClick={() => {
-                if (tree && catalog) formRef.current?.show({ record, tree, catalog })
+                if (tree && catalog)
+                  formRef.current?.show({ record: toMenuNode(record), tree, catalog })
               }}
             >
               {tr('编辑')}

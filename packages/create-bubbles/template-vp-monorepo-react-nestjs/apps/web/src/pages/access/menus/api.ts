@@ -26,7 +26,7 @@ export const menuApi = {
       }),
       workspaceKey,
     }),
-  /** 读取指定作用域已发布功能和图标目录。 */
+  /** 读取指定作用域已发布功能目录；图标由 Web 本地 SVG 注册表提供。 */
   catalog: (scopeType: ScopeType) =>
     runWorkspaceRequest({
       method: http.Get<FunctionCatalogResult>('/platform/function-catalog', {

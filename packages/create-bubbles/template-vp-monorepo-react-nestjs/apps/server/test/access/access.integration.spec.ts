@@ -36,7 +36,7 @@ import { SessionStoreService } from '@/modules/auth/session/session-store.servic
 import { AuthRepository } from '@/modules/auth/auth.repository'
 import { PasswordService } from '@/modules/auth/password.service'
 import { lockAccess } from '@/modules/access/access.store'
-import { ACCESS_CATALOG_VERSION, ACCESS_ICON_NAMES, ACCESS_PERMISSION_CATALOG } from 'shared/utils'
+import { ACCESS_CATALOG_VERSION, ACCESS_PERMISSION_CATALOG } from 'shared/utils'
 
 // 仅测试模块扩展目录；生产首版没有废弃功能，不加入虚构的业务菜单。
 vi.mock('shared/utils', async (original) => {
@@ -2164,7 +2164,7 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
         expectedVersion: withDirectory.version,
         parentId: directory.id,
         name: '升级前自定义资料页',
-        icon: ACCESS_ICON_NAMES[0]!,
+        icon: '',
         sort: 987,
         hidden: true,
         status: 'disabled',

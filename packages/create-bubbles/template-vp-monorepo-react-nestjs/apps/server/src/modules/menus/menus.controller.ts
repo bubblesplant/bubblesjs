@@ -9,7 +9,7 @@ import { createMenuSchema, menuQuerySchema, updateMenuSchema } from './menus.val
 @Controller('platform')
 export class MenusController {
   constructor(private readonly menus: MenusService) {}
-  /** 校验目标作用域类型，读取菜单配置可用的权限目录和图标。 */
+  /** 校验目标作用域类型，读取菜单配置可用的权限目录。 */
   @Get('function-catalog')
   @AccessPolicy({ scope: 'platform', permission: 'platform.menus.read' })
   catalog(@Req() req: FastifyRequest, @Query() query: unknown) {
