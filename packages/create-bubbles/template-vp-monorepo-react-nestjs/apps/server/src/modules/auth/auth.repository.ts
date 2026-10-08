@@ -5,6 +5,12 @@ import { eq } from 'drizzle-orm'
 
 type CreateUserInput = Pick<typeof users.$inferInsert, 'name' | 'account' | 'passwordHash'>
 
+interface PasswordWriteContext {
+  passwordHash: string
+  /** 在当前用户行锁和事务中写入新摘要。 */
+  setPasswordHash: (passwordHash: string) => Promise<void>
+}
+
 @Injectable()
 export class AuthRepository {
   constructor(@Inject(DRIZZLE) private readonly db: DrizzleDB) {}
@@ -48,15 +54,47 @@ export class AuthRepository {
   }
 
   /**
-   * 在事务中对启用用户持有共享行锁，再执行会话创建操作，避免与用户停用并发。
+   * 在事务中对启用用户持有共享行锁，并把锁内的最新密码摘要交给回调。
+   * 登录须复核该摘要，避免在并发改密撤销后凭旧密码建立新会话。
    * @returns 操作结果；用户不存在或已停用时返回 null。
    */
-  withActiveUserLock<T>(userId: string, operation: () => Promise<T>) {
-    /** 在事务结束前保留共享行锁，保证回调执行期间账号不会被并发停用。 */
+  withActiveUserLock<T>(userId: string, operation: (passwordHash: string) => Promise<T>) {
+    /** 在事务结束前保留共享行锁，保证回调执行期间账号状态及摘要不再变化。 */
     return this.db.transaction(async (tx) => {
-      const [user] = await tx.select().from(users).where(eq(users.id, userId)).for('share')
+      const [user] = await tx
+        .select({ status: users.status, passwordHash: users.passwordHash })
+        .from(users)
+        .where(eq(users.id, userId))
+        .for('share')
       if (!user || user.status !== 'active') return null
-      return operation()
+      return operation(user.passwordHash)
+    })
+  }
+
+  /**
+   * 以排他行锁读取本人账号的最新摘要，并在同一事务中执行密码更新及会话撤销。
+   * 回调抛错时数据库更新回滚；已成功的 Redis 撤销不会恢复。
+   */
+  withPasswordWriteLock<T>(
+    userId: string,
+    operation: (context: PasswordWriteContext) => Promise<T>,
+  ) {
+    return this.db.transaction(async (tx) => {
+      const [user] = await tx
+        .select({ status: users.status, passwordHash: users.passwordHash })
+        .from(users)
+        .where(eq(users.id, userId))
+        .for('update')
+      if (!user || user.status !== 'active') return null
+      return operation({
+        passwordHash: user.passwordHash,
+        setPasswordHash: async (passwordHash) => {
+          await tx
+            .update(users)
+            .set({ passwordHash, updatedAt: new Date() })
+            .where(eq(users.id, userId))
+        },
+      })
     })
   }
 }

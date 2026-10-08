@@ -10,6 +10,9 @@ import type {
 } from 'shared/types'
 import { accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
+import ResetAccountPasswordDialog, {
+  type ResetAccountPasswordDialogRef,
+} from '@/components/PasswordActions/ResetAccountPasswordDialog'
 import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { managementApi } from './api'
 import MemberOnboardingActions from './components/MemberOnboarding/MemberOnboardingActions'
@@ -38,6 +41,7 @@ export default function MembersPage() {
   const rolesRef = useRef<MemberRolesDialogRef>(null)
   const organizationsRef = useRef<MemberOrganizationsDialogRef>(null)
   const positionsRef = useRef<MemberPositionsDialogRef>(null)
+  const resetPasswordRef = useRef<ResetAccountPasswordDialogRef>(null)
   const [candidateByUserId, setCandidateByUserId] = useState(
     () => new Map<string, OrganizationMemberCandidate>(),
   )
@@ -150,12 +154,14 @@ export default function MembersPage() {
 
   const columns = createMemberTableColumns({
     platform,
+    currentUserId: access.user.id,
     companyScope: access.scope.type === 'company',
     canReadOrganization,
     canAssignOrganization,
     canAssignPositions,
     canManageRoles: allowed('roles'),
     canManageStatus: allowed('status'),
+    canResetPassword: platform && access.administrator === 'platform' && allowed('reset-password'),
     canRemove: allowed('remove'),
     candidateByUserId,
     openingOrganizationId: organizationsRequest.loadingId,
@@ -179,6 +185,7 @@ export default function MembersPage() {
         refresh,
       )
     },
+    onResetPassword: (record) => resetPasswordRef.current?.show(record),
     onRemove: (record) => {
       void execute(() => api.removeMember(record.id, record.version), refresh)
     },
@@ -259,6 +266,15 @@ export default function MembersPage() {
           )
         }
       />
+      {platform && (
+        <ResetAccountPasswordDialog
+          key={scopeKey}
+          ref={resetPasswordRef}
+          onSave={async (record, values) => {
+            await api.resetAccountPassword(record.id, values)
+          }}
+        />
+      )}
       {scope && organization && positions && (
         <>
           <MemberOrganizationsDialog

@@ -7,6 +7,7 @@ import type { FastifyRequest } from 'fastify'
 import { CurrentUser } from 'shared/types'
 import { AuthService } from './auth.service'
 import { LoginDto } from './dto/login.dto'
+import { ChangePasswordDto } from './password/change-password.dto'
 import { RegisterDto } from './dto/register.dto'
 import type { CurrentAuthType } from './session/session.types'
 
@@ -65,5 +66,15 @@ export class AuthController {
       ...user,
       terminal: auth.terminal,
     }
+  }
+
+  /** 根据当前会话身份修改本人密码，成功后该用户全部终端会话失效。 */
+  @ApiBearerAuth('session')
+  @ApiOperation({ summary: '修改本人密码并撤销全部终端会话' })
+  @Post('change-password')
+  @HttpCode(HttpStatus.OK)
+  @Authenticated()
+  changePassword(@CurrentAuth() auth: CurrentAuthType, @Body() body: ChangePasswordDto) {
+    return this.authService.changePassword(auth.userId, body)
   }
 }

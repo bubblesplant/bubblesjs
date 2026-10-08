@@ -34,6 +34,8 @@ import type {
   ProjectDetail,
   ProjectRecord,
   RegisterCompanyMemberRequest,
+  ResetAccountPasswordRequest,
+  ResetAccountPasswordResult,
   ResendCompanyMemberInvitationRequest,
   RevokeCompanyMemberInvitationRequest,
   RoleRecord,
@@ -198,6 +200,9 @@ export function managementApi(scope: AccessScope) {
     /** 替换全局账号在平台范围内的角色分配。 */
     accountRoles: (id: string, data: AssignPlatformRolesRequest) =>
       put<AccountRecord>(`/platform/accounts/${id}/roles`, data),
+    /** 为其他全局账号设定新密码；请求不缓存，目标会话撤销由服务端确认。 */
+    resetAccountPassword: (id: string, data: ResetAccountPasswordRequest) =>
+      post<ResetAccountPasswordResult>(`/platform/accounts/${id}/reset-password`, data),
     /** 分页读取当前工作空间的角色列表。 */
     roles: (params: PageQuery = {}) => get<PageResult<RoleRecord>>(`${base}/roles`, params),
     /** 读取指定角色的详情及权限配置。 */

@@ -15,6 +15,7 @@ import './login.css'
 /** 展示登录表单，保存会话令牌并跳转到登录后的入口。 */
 export default function LoginPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [searchParams] = useSearchParams()
   const { send, loading } = useRequest(login, { immediate: false })
   const [error, setError] = useState<string | null>(null)
@@ -94,6 +95,14 @@ export default function LoginPage() {
                 type="success"
                 showIcon
                 title={tr('账号已创建，请登录后继续。')}
+              />
+            )}
+            {(location.state as { passwordChanged?: boolean } | null)?.passwordChanged === true && (
+              <Alert
+                className="login-error"
+                type="success"
+                showIcon
+                title={tr('密码已修改，请使用新密码重新登录。')}
               />
             )}
             {error && (

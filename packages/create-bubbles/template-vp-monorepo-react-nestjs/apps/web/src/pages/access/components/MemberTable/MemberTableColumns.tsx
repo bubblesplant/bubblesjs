@@ -7,12 +7,14 @@ type ManagedMemberRecord = MemberRecord | AccountRecord
 
 interface MemberTableColumnOptions {
   platform: boolean
+  currentUserId: string
   companyScope: boolean
   canReadOrganization: boolean
   canAssignOrganization: boolean
   canAssignPositions: boolean
   canManageRoles: boolean
   canManageStatus: boolean
+  canResetPassword: boolean
   canRemove: boolean
   candidateByUserId: ReadonlyMap<string, OrganizationMemberCandidate>
   openingOrganizationId?: string
@@ -23,6 +25,7 @@ interface MemberTableColumnOptions {
   onOpenPositions: (record: MemberRecord) => void
   onOpenRoles: (record: ManagedMemberRecord) => void
   onToggleStatus: (record: ManagedMemberRecord) => void
+  onResetPassword: (record: AccountRecord) => void
   onRemove: (record: MemberRecord) => void
 }
 
@@ -32,12 +35,14 @@ interface MemberTableColumnOptions {
  */
 export function createMemberTableColumns({
   platform,
+  currentUserId,
   companyScope,
   canReadOrganization,
   canAssignOrganization,
   canAssignPositions,
   canManageRoles,
   canManageStatus,
+  canResetPassword,
   canRemove,
   candidateByUserId,
   openingOrganizationId,
@@ -48,6 +53,7 @@ export function createMemberTableColumns({
   onOpenPositions,
   onOpenRoles,
   onToggleStatus,
+  onResetPassword,
   onRemove,
 }: MemberTableColumnOptions): ProColumns<ManagedMemberRecord>[] {
   return [
@@ -146,7 +152,7 @@ export function createMemberTableColumns({
     {
       title: tr('操作'),
       valueType: 'option',
-      width: platform ? 240 : 390,
+      width: platform ? 320 : 390,
       render: (_, record) => (
         <Space size={4} wrap>
           {!platform && canAssignOrganization && (
@@ -196,6 +202,15 @@ export function createMemberTableColumns({
                 {record.status === 'active' ? tr('停用') : tr('启用')}
               </Button>
             </Popconfirm>
+          )}
+          {platform && canResetPassword && record.id !== currentUserId && (
+            <Button
+              type="link"
+              size="small"
+              onClick={() => onResetPassword(record as AccountRecord)}
+            >
+              {tr('重置密码')}
+            </Button>
           )}
           {!platform && canRemove && (
             <Popconfirm

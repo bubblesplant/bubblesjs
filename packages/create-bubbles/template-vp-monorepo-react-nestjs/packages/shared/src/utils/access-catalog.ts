@@ -4,8 +4,7 @@ export const ACCESS_CATALOG_VERSION = '2026-09-19.1'
 export const ACCESS_DEFAULT_PAGE_SIZE = 20
 export const ACCESS_MAX_PAGE_SIZE = 100
 export const ACCESS_CODE_PATTERN = /^[A-Za-z0-9_-]+$/
-export const ACCESS_ICON_KEY_PATTERN =
-  /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)*$/
+export const ACCESS_ICON_KEY_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)*$/
 
 interface OperationSpec {
   suffix: string
@@ -68,6 +67,7 @@ const pageSpecs: readonly PageSpec[] = [
     operations: [
       { suffix: 'status', title: '启用或停用账号' },
       { suffix: 'roles', title: '分配平台角色' },
+      { suffix: 'reset-password', title: '重置账号密码', adminOnly: true },
     ],
   },
   {

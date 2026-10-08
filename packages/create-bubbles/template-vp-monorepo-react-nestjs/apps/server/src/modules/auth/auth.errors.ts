@@ -29,6 +29,16 @@ export const AUTH_ERRORS = {
     publicMessage: '账号已存在',
     status: HttpStatus.CONFLICT,
   },
+  OLD_PASSWORD_INCORRECT: {
+    code: 'AUTH.OLD_PASSWORD_INCORRECT',
+    publicMessage: '旧密码错误',
+    status: HttpStatus.UNPROCESSABLE_ENTITY,
+  },
+  PASSWORD_REUSE_NOT_ALLOWED: {
+    code: 'AUTH.PASSWORD_REUSE_NOT_ALLOWED',
+    publicMessage: '新密码不能与旧密码相同',
+    status: HttpStatus.UNPROCESSABLE_ENTITY,
+  },
   FORBIDDEN: {
     code: 'AUTH.FORBIDDEN',
     publicMessage: '没有权限执行此操作',

@@ -1,11 +1,15 @@
 export type {
   AuthUser,
+  ChangePasswordRequest,
+  ChangePasswordResult,
   CurrentUser,
   LoginRequest,
   LoginResult,
   LogoutResult,
   RegisterRequest,
   RegisterResult,
+  ResetAccountPasswordRequest,
+  ResetAccountPasswordResult,
   SessionTerminalType,
 } from './auth'
 export type { ApiErrorDetail, ApiFailure } from './common'

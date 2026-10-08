@@ -2,10 +2,13 @@ import { logout } from '@/api/auth'
 import Brand from '@/components/Brand/Brand'
 import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
 import PageLoading from '@/components/Loading/PageLoading'
+import ChangePasswordDialog, {
+  type ChangePasswordDialogRef,
+} from '@/components/PasswordActions/ChangePasswordDialog'
 import '@/layouts/WorkspaceLayout/workspace.css'
 import { clearWorkspaceRequests } from '@/utils/request/workspace'
 import { cookie } from '@/utils/storage/cookie'
-import { ArrowRightOutlined, LogoutOutlined, ReloadOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, KeyOutlined, LogoutOutlined, ReloadOutlined } from '@ant-design/icons'
 import { App, Button, Card, Empty, Input, Space, Tag } from 'antd'
 import { accessScopeBasePath, accessScopeKey } from 'shared/utils'
 import { useI18n } from '@bubblesjs/i18n-react'
@@ -15,6 +18,7 @@ import { getWorkspaceState } from './state'
 export default function WorkspacesPage() {
   const data = getWorkspaceState().workspaces
   const [query, setQuery] = useState('')
+  const changePasswordRef = useRef<ChangePasswordDialogRef>(null)
   const navigate = useNavigate()
   const revalidator = useRevalidator()
   const { message } = App.useApp()
@@ -57,6 +61,13 @@ export default function WorkspacesPage() {
         <Space>
           <span>{data.user.name}</span>
           <LocaleSwitch />
+          <Button
+            type="text"
+            icon={<KeyOutlined />}
+            onClick={() => changePasswordRef.current?.show()}
+          >
+            {tr('修改密码')}
+          </Button>
           <Button type="text" icon={<LogoutOutlined />} onClick={() => void handleLogout()}>
             {tr('退出登录')}
           </Button>
@@ -129,6 +140,7 @@ export default function WorkspacesPage() {
           </div>
         )}
       </section>
+      <ChangePasswordDialog ref={changePasswordRef} />
     </main>
   )
 }

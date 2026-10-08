@@ -13,6 +13,7 @@ import { ApiErrorDetail, ApiFailure } from 'shared/types'
 import { ZodError } from 'zod'
 import { COMMON_ERRORS } from '../error/common.error'
 import { AppException } from '../exceptions/app.exception'
+import { markPasswordFailure } from '../security/password-security-event'
 
 interface PublicHttpError {
   readonly code: string
@@ -378,9 +379,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const requestId = String(request.id)
     const normalized = this.normalize(exception)
     const { httpAdapter } = this.adapterHost
+    const passwordRequest = markPasswordFailure(request, normalized.body.code)
 
     // 只记录服务器错误 业务错误不记录
-    if (normalized.status >= 500) {
+    if (normalized.status >= 500 && !passwordRequest) {
       this.logServerFailure(exception, normalized, request, requestId)
     }
 

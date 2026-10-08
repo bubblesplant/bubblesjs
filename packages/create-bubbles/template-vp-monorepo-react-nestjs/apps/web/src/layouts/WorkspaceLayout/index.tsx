@@ -1,6 +1,9 @@
 import { logout } from '@/api/auth'
 import Brand, { BrandMark } from '@/components/Brand/Brand'
 import PageLoading from '@/components/Loading/PageLoading'
+import ChangePasswordDialog, {
+  type ChangePasswordDialogRef,
+} from '@/components/PasswordActions/ChangePasswordDialog'
 import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
 import RouteTransition from '@/components/RouteTransition/RouteTransition'
 import { workspaceLayoutToken } from '@/config/theme'
@@ -8,7 +11,7 @@ import { getWorkspaceState } from '@/pages/workspaces/state'
 import { navigationTree } from '@/router/page-registry'
 import { clearWorkspaceRequests } from '@/utils/request/workspace'
 import { cookie } from '@/utils/storage/cookie'
-import { LogoutOutlined, SwapOutlined } from '@ant-design/icons'
+import { KeyOutlined, LogoutOutlined, SwapOutlined } from '@ant-design/icons'
 import { ProLayout } from '@ant-design/pro-components'
 import { useI18n } from '@bubblesjs/i18n-react'
 import { App, Avatar, Button, Tooltip } from 'antd'
@@ -32,6 +35,7 @@ export default function WorkspaceLayout() {
   const revalidator = useRevalidator()
   const { message } = App.useApp()
   const { tr } = useI18n()
+  const changePasswordRef = useRef<ChangePasswordDialogRef>(null)
   const navigating = navigation.state !== 'idle'
   const refreshing = revalidator.state === 'loading'
 
@@ -139,6 +143,14 @@ export default function WorkspaceLayout() {
           </div>
         </Tooltip>,
         <LocaleSwitch key="locale" showLabel={false} />,
+        <Button
+          key="change-password"
+          type="text"
+          icon={<KeyOutlined />}
+          onClick={() => changePasswordRef.current?.show()}
+        >
+          {tr('修改密码')}
+        </Button>,
         <Link key="switch" to="/workspaces" aria-label={tr('切换空间')}>
           <Button className="workspace-switch" aria-label={tr('切换空间')} icon={<SwapOutlined />}>
             {tr('切换空间')}
@@ -178,6 +190,7 @@ export default function WorkspaceLayout() {
           </WorkspaceNavigationBoundary>
         </div>
       </div>
+      <ChangePasswordDialog ref={changePasswordRef} />
     </ProLayout>
   )
 }

@@ -2,13 +2,14 @@ import { detectSessionTerminal } from '@/common/constants/session.constants'
 import { AppException } from '@/common/exceptions/app.exception'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { AuthUser, LogoutResult, RegisterResult } from 'shared/types'
+import { AuthUser, ChangePasswordResult, LogoutResult, RegisterResult } from 'shared/types'
 import { normalizeAccount } from 'shared/utils'
 import { AUTH_ERRORS } from './auth.errors'
 import { AuthRepository } from './auth.repository'
 import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
 import { PasswordService } from './password.service'
+import { ChangePasswordDto } from './password/change-password.dto'
 import { SessionStoreService } from './session/session-store.service'
 import { SessionTokenService } from './session/session-token.service'
 
@@ -69,7 +70,7 @@ export class AuthService {
    * 校验启用账号及密码，并替换该用户在当前终端的 Redis 会话。
    * @param metadata 登录 IP 和 User-Agent，用于识别终端并记录会话来源。
    * @returns 仅本次返回的明文 Bearer 令牌及会话过期信息。
-   * @throws 账号不可用或密码不匹配时抛出凭据无效错误。
+   * @throws 账号不可用或密码不匹配时抛出凭据无效错误；认证依赖失败时返回服务不可用。
    */
   async login(input: LoginDto, metadata: LoginMetadata) {
     const account = normalizeAccount(input.account)
@@ -85,13 +86,18 @@ export class AuthService {
 
     const { rawToken, tokenDigest } = this.sessionTokenService.createToken()
 
-    const session = await this.authRepository.withActiveUserLock(user.id, () =>
-      this.sessionStoreService.createOrReplace({
-        tokenDigest,
-        userId: user.id,
-        terminal: detectSessionTerminal(metadata.userAgent),
-        loginIp: metadata.ip.slice(0, 64),
-        userAgent: metadata.userAgent.slice(0, 500),
+    const session = await this.useAuthInfrastrutrue(() =>
+      this.authRepository.withActiveUserLock(user.id, (lockedPasswordHash) => {
+        if (lockedPasswordHash !== passwordHash) {
+          throw new AppException(AUTH_ERRORS.INVALID_CREDENTIALS)
+        }
+        return this.sessionStoreService.createOrReplace({
+          tokenDigest,
+          userId: user.id,
+          terminal: detectSessionTerminal(metadata.userAgent),
+          loginIp: metadata.ip.slice(0, 64),
+          userAgent: metadata.userAgent.slice(0, 500),
+        })
       }),
     )
     if (!session) throw new AppException(AUTH_ERRORS.INVALID_CREDENTIALS)
@@ -135,6 +141,32 @@ export class AuthService {
       account: user.account,
       name: user.name,
     }
+  }
+
+  /**
+   * 在本人用户行排他锁内核验旧密码、写入新摘要并撤销全部终端会话。
+   * Redis 撤销失败时事务回滚，旧密码保持有效；成功后当前会话也失效。
+   */
+  async changePassword(userId: string, input: ChangePasswordDto): Promise<ChangePasswordResult> {
+    const result = await this.useAuthInfrastrutrue(() =>
+      this.authRepository.withPasswordWriteLock(userId, async (context) => {
+        const oldPasswordMatches = await this.passwordService.verify(
+          context.passwordHash,
+          input.oldPassword,
+        )
+        if (!oldPasswordMatches) throw new AppException(AUTH_ERRORS.OLD_PASSWORD_INCORRECT)
+        if (input.newPassword === input.oldPassword) {
+          throw new AppException(AUTH_ERRORS.PASSWORD_REUSE_NOT_ALLOWED)
+        }
+
+        const passwordHash = await this.passwordService.hash(input.newPassword)
+        await context.setPasswordHash(passwordHash)
+        await this.sessionStoreService.revokeAllForUser(userId)
+        return { passwordChanged: true as const }
+      }),
+    )
+    if (!result) throw new AppException(AUTH_ERRORS.SESSION_INVALID)
+    return result
   }
 
   /**
