@@ -1,5 +1,4 @@
-import type { VaporComponent } from 'vue'
-import { createVaporApp, vaporInteropPlugin } from 'vue'
+import { vaporInteropPlugin } from 'vue'
 
 import App from './App.vue'
 import { setupRouter } from './router'
@@ -11,7 +10,7 @@ import '@/styles/index.scss'
 import 'virtual:uno.css'
 
 // vue-tsc 3.3.8 still types SFC imports as VDOM components in global Vapor mode.
-const app = createVaporApp(App as unknown as VaporComponent)
+const app = createApp(App)
 app.use(vaporInteropPlugin)
 setupRouter(app)
 setupStore(app)

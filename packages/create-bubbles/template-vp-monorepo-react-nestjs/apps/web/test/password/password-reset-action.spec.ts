@@ -1,7 +1,7 @@
 import type { I18nState } from '@bubblesjs/i18n-core'
 import { describe, expect, it, vi } from 'vite-plus/test'
 import type { AccountRecord } from 'shared/types'
-import { createMemberTableColumns } from '../src/pages/access/components/MemberTable'
+import { createMemberTableColumns } from '../../src/pages/access/components/MemberTable'
 
 const tr = ((key: string) => key) as I18nState['tr']
 const target: AccountRecord = {
@@ -43,7 +43,9 @@ function resetAction(options: { currentUserId: string; canResetPassword: boolean
   const actions = render?.(undefined, target).props.children ?? []
   const button = actions.find(
     (item): item is { props: { children: string; onClick: () => void } } =>
-      typeof item === 'object' && item !== null && 'props' in item &&
+      typeof item === 'object' &&
+      item !== null &&
+      'props' in item &&
       (item as { props: { children?: unknown } }).props.children === '重置密码',
   )
   return { button, onResetPassword }

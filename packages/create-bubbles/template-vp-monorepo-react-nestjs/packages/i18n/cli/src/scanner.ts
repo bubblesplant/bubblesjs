@@ -21,9 +21,10 @@ interface ParsedEscape {
 
 const identifierContinuePattern = /[\p{ID_Continue}_$]/u
 const whitespacePattern = /\s/u
+const lineTerminatorPattern = /[\n\r\u2028\u2029]/u
 const hexPattern = /^[\dA-Fa-f]+$/
 
-/** 扫描文本中的翻译调用及其静态字符串参数，返回词条与从 1 开始的行列位置；跳过插值模板和动态表达式。 */
+/** 扫描文本中的翻译调用及其静态字符串参数，允许调用边界的空白与注释；返回原始源码行列位置，跳过插值模板和动态表达式。 */
 export function scanSource(source: string, options: ScanOptions = {}): MessageOccurrence[] {
   const callNames = normalizeCallNames(options.callNames)
   const occurrences: MessageOccurrence[] = []
@@ -44,12 +45,12 @@ export function scanSource(source: string, options: ScanOptions = {}): MessageOc
         continue
       }
 
-      let cursor = skipWhitespace(source, index + callName.length)
+      let cursor = skipWhitespaceAndComments(source, index + callName.length)
       if (source[cursor] !== '(') {
         continue
       }
 
-      cursor = skipWhitespace(source, cursor + 1)
+      cursor = skipWhitespaceAndComments(source, cursor + 1)
       const quote = source[cursor]
       if (quote !== "'" && quote !== '"' && quote !== '`') {
         continue
@@ -60,7 +61,7 @@ export function scanSource(source: string, options: ScanOptions = {}): MessageOc
         continue
       }
 
-      const nextTokenIndex = skipWhitespace(source, parsed.endIndex)
+      const nextTokenIndex = skipWhitespaceAndComments(source, parsed.endIndex)
       const nextToken = source[nextTokenIndex]
       if (nextToken !== ',' && nextToken !== ')') {
         continue
@@ -114,11 +115,33 @@ function isIdentifierContinue(character: string | undefined): boolean {
   )
 }
 
-/** 从指定位置跳过空白字符，返回下一个非空白字符的索引。 */
-function skipWhitespace(source: string, startIndex: number): number {
+/** 跳过调用边界的空白、行注释和块注释；未闭合块注释返回源码末尾，使当前候选匹配失败。 */
+function skipWhitespaceAndComments(source: string, startIndex: number): number {
   let index = startIndex
-  while (index < source.length && whitespacePattern.test(source[index] ?? '')) {
-    index += 1
+  while (index < source.length) {
+    if (whitespacePattern.test(source[index] ?? '')) {
+      index += 1
+      continue
+    }
+
+    if (source.startsWith('//', index)) {
+      index += 2
+      while (index < source.length && !lineTerminatorPattern.test(source[index] ?? '')) {
+        index += 1
+      }
+      continue
+    }
+
+    if (source.startsWith('/*', index)) {
+      const closingIndex = source.indexOf('*/', index + 2)
+      if (closingIndex === -1) {
+        return source.length
+      }
+      index = closingIndex + 2
+      continue
+    }
+
+    break
   }
   return index
 }
@@ -131,7 +154,7 @@ function parseString(
 ): ParsedString | undefined {
   let value = ''
 
-  for (let index = startIndex + 1; index < source.length; ) {
+  for (let index = startIndex + 1; index < source.length;) {
     const character = source[index]
 
     if (character === quote) {
@@ -258,7 +281,7 @@ function parseCodePointEscape(source: string, slashIndex: number): ParsedEscape 
   }
 }
 
-/** 收集每行起始偏移，兼容 LF、CRLF 和 CR 换行。 */
+/** 收集每行起始偏移，兼容 LF、CRLF、CR 以及 Unicode 行和段落分隔符。 */
 function collectLineStarts(source: string): number[] {
   const starts = [0]
 
@@ -268,7 +291,7 @@ function collectLineStarts(source: string): number[] {
         index += 1
       }
       starts.push(index + 1)
-    } else if (source[index] === '\n') {
+    } else if (lineTerminatorPattern.test(source[index] ?? '')) {
       starts.push(index + 1)
     }
   }

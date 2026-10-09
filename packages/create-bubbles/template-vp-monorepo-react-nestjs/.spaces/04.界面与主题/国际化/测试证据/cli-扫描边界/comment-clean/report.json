@@ -1,0 +1,16 @@
+{
+  "command": "sync",
+  "clean": true,
+  "dryRun": true,
+  "files": [
+    {
+      "project": "sample",
+      "path": "catalog/en_US.json",
+      "locale": "en_US",
+      "added": [],
+      "unused": [],
+      "deleted": [],
+      "unchangedCount": 2
+    }
+  ]
+}

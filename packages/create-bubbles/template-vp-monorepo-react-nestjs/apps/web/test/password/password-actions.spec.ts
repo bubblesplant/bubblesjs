@@ -2,10 +2,10 @@ import { describe, expect, it, vi } from 'vite-plus/test'
 import type { ChangePasswordRequest, ChangePasswordResult } from 'shared/types'
 
 const session = vi.hoisted(() => ({ clear: vi.fn(), remove: vi.fn() }))
-vi.mock('../src/utils/request/workspace', () => ({ clearWorkspaceRequests: session.clear }))
-vi.mock('../src/utils/storage/cookie', () => ({ cookie: { remove: session.remove } }))
+vi.mock('../../src/utils/request/workspace', () => ({ clearWorkspaceRequests: session.clear }))
+vi.mock('../../src/utils/storage/cookie', () => ({ cookie: { remove: session.remove } }))
 
-import { changePasswordAndClearSession } from '../src/components/PasswordActions/change-password-session'
+import { changePasswordAndClearSession } from '../../src/components/PasswordActions/change-password-session'
 
 const input: ChangePasswordRequest = {
   oldPassword: 'old-example',

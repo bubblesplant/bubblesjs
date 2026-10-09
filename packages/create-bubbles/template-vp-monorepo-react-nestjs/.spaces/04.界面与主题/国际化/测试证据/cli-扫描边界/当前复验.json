@@ -1,0 +1,86 @@
+{
+  "status": "验证记录",
+  "assessmentDate": "2026-10-09",
+  "executedAtUtc": "2026-10-09T06:04:52.4474679Z",
+  "build": "父代理完成四包构建后，直接执行当前 packages/i18n/cli/dist/cli.mjs",
+  "tests": {
+    "testsPassed": 71,
+    "freshCommand": "vp test run",
+    "freshWorkingDirectory": "packages/i18n/cli",
+    "taskExitCode": 0,
+    "filesPassed": 6,
+    "taskCache": "hit",
+    "taskCommand": "vp run --filter @bubblesjs/i18n-cli test",
+    "freshExitCode": 0
+  },
+  "isolation": "将既有场景复制到系统临时目录执行；原始配置、源码、词条及报告不被覆盖",
+  "scenarios": [
+    {
+      "scenario": "comment-clean",
+      "entry": "packages/i18n/cli/dist/cli.mjs",
+      "arguments": [
+        "sync",
+        "--clean",
+        "--dry-run",
+        "--config",
+        "i18n.config.mjs"
+      ],
+      "exitCode": 0,
+      "output": "bubbles-i18n sync dry-run\r\nConfig: i18n.config.mjs\r\nProject sample: 1 source files, 2 keys.\r\n  en_US catalog/en_US.json: added 0, unused 0, deleted 0, unchanged 2.\r\nTotal: added 0, unused 0, deleted 0, unchanged 2.\r\nReport: report.json",
+      "report": {
+        "command": "sync",
+        "clean": true,
+        "dryRun": true,
+        "files": [
+          {
+            "project": "sample",
+            "path": "catalog/en_US.json",
+            "locale": "en_US",
+            "added": [],
+            "unused": [],
+            "deleted": [],
+            "unchangedCount": 2
+          }
+        ]
+      },
+      "catalogHashBefore": "A47F0302D7F0345DFBC94A15BAF9C80C7FA23EA7F6E6D2C67D6F6C26D86DAF58",
+      "catalogHashAfter": "A47F0302D7F0345DFBC94A15BAF9C80C7FA23EA7F6E6D2C67D6F6C26D86DAF58",
+      "originalCatalogHashAfter": "A47F0302D7F0345DFBC94A15BAF9C80C7FA23EA7F6E6D2C67D6F6C26D86DAF58",
+      "catalogUnchanged": true
+    },
+    {
+      "scenario": "empty-scan",
+      "entry": "packages/i18n/cli/dist/cli.mjs",
+      "arguments": [
+        "check",
+        "--config",
+        "i18n.config.mjs"
+      ],
+      "exitCode": 0,
+      "output": "bubbles-i18n check\r\nConfig: i18n.config.mjs\r\nProject sample: 0 source files, 0 keys.\r\n  en_US catalog/en_US.json: added 0, unused 2, deleted 0, unchanged 0.\r\nTotal: added 0, unused 2, deleted 0, unchanged 0.\r\nReport: report.json\r\nCheck passed.",
+      "report": {
+        "command": "check",
+        "clean": false,
+        "dryRun": true,
+        "files": [
+          {
+            "project": "sample",
+            "path": "catalog/en_US.json",
+            "locale": "en_US",
+            "added": [],
+            "unused": [
+              "保留",
+              "正常"
+            ],
+            "deleted": [],
+            "unchangedCount": 0
+          }
+        ]
+      },
+      "catalogHashBefore": "A47F0302D7F0345DFBC94A15BAF9C80C7FA23EA7F6E6D2C67D6F6C26D86DAF58",
+      "catalogHashAfter": "A47F0302D7F0345DFBC94A15BAF9C80C7FA23EA7F6E6D2C67D6F6C26D86DAF58",
+      "originalCatalogHashAfter": "A47F0302D7F0345DFBC94A15BAF9C80C7FA23EA7F6E6D2C67D6F6C26D86DAF58",
+      "catalogUnchanged": true
+    }
+  ]
+}

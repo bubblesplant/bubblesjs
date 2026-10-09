@@ -1,0 +1,40 @@
+{
+  "status": "验证记录",
+  "verifiedAt": "2026-10-08T04:08:44.385Z",
+  "scope": "CLI 调用边界注释修复后，构建产物的 clean dry-run 回归",
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "win32"
+  },
+  "command": [
+    "C:\\Users\\Administrator\\.vite-plus\\js_runtime\\node\\24.21.0\\node.exe",
+    "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\packages\\i18n\\cli\\dist\\cli.mjs",
+    "sync",
+    "--clean",
+    "--dry-run",
+    "--config",
+    "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\国际化\\测试证据\\cli-扫描边界\\comment-clean\\i18n.config.mjs"
+  ],
+  "exitCode": 0,
+  "stdout": "bubbles-i18n sync dry-run\nConfig: .spaces/04.界面与主题/国际化/测试证据/cli-扫描边界/comment-clean/i18n.config.mjs\nProject sample: 1 source files, 2 keys.\n  en_US catalog/en_US.json: added 0, unused 0, deleted 0, unchanged 2.\nTotal: added 0, unused 0, deleted 0, unchanged 2.\nReport: report.json\n",
+  "stderr": "",
+  "report": {
+    "command": "sync",
+    "clean": true,
+    "dryRun": true,
+    "files": [
+      {
+        "project": "sample",
+        "path": "catalog/en_US.json",
+        "locale": "en_US",
+        "added": [],
+        "unused": [],
+        "deleted": [],
+        "unchangedCount": 2
+      }
+    ]
+  },
+  "catalogUnchanged": true,
+  "catalogSha256Before": "a47f0302d7f0345dfbc94a15baf9c80c7fa23ea7f6e6d2c67d6f6c26d86daf58",
+  "catalogSha256After": "a47f0302d7f0345dfbc94a15baf9c80c7fa23ea7f6e6d2c67d6f6c26d86daf58"
+}

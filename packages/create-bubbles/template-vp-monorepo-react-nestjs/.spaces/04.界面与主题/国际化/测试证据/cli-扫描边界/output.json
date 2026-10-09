@@ -1,0 +1,84 @@
+{
+  "status": "历史基线",
+  "verifiedAt": "2026-10-08T03:55:06.777Z",
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "win32",
+    "cwd": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs",
+    "cli": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\packages\\i18n\\cli\\dist\\cli.mjs"
+  },
+  "scenarios": [
+    {
+      "name": "comment-clean",
+      "command": [
+        "C:\\Users\\Administrator\\.vite-plus\\js_runtime\\node\\24.21.0\\node.exe",
+        "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\packages\\i18n\\cli\\dist\\cli.mjs",
+        "sync",
+        "--clean",
+        "--dry-run",
+        "--config",
+        "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\国际化\\测试证据\\cli-扫描边界\\comment-clean\\i18n.config.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "bubbles-i18n sync dry-run\nConfig: .spaces/04.界面与主题/国际化/测试证据/cli-扫描边界/comment-clean/i18n.config.mjs\nProject sample: 1 source files, 1 keys.\n  en_US catalog/en_US.json: added 0, unused 0, deleted 1, unchanged 1.\nTotal: added 0, unused 0, deleted 1, unchanged 1.\nReport: report.json\n",
+      "stderr": "",
+      "report": {
+        "command": "sync",
+        "clean": true,
+        "dryRun": true,
+        "files": [
+          {
+            "project": "sample",
+            "path": "catalog/en_US.json",
+            "locale": "en_US",
+            "added": [],
+            "unused": [],
+            "deleted": ["保留"],
+            "unchangedCount": 1
+          }
+        ]
+      },
+      "catalogUnchanged": true,
+      "catalogSha256Before": "a47f0302d7f0345dfbc94a15baf9c80c7fa23ea7f6e6d2c67d6f6c26d86daf58",
+      "catalogSha256After": "a47f0302d7f0345dfbc94a15baf9c80c7fa23ea7f6e6d2c67d6f6c26d86daf58"
+    },
+    {
+      "name": "empty-scan",
+      "command": [
+        "C:\\Users\\Administrator\\.vite-plus\\js_runtime\\node\\24.21.0\\node.exe",
+        "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\packages\\i18n\\cli\\dist\\cli.mjs",
+        "check",
+        "--config",
+        "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\国际化\\测试证据\\cli-扫描边界\\empty-scan\\i18n.config.mjs"
+      ],
+      "exitCode": 0,
+      "stdout": "bubbles-i18n check\nConfig: .spaces/04.界面与主题/国际化/测试证据/cli-扫描边界/empty-scan/i18n.config.mjs\nProject sample: 0 source files, 0 keys.\n  en_US catalog/en_US.json: added 0, unused 2, deleted 0, unchanged 0.\nTotal: added 0, unused 2, deleted 0, unchanged 0.\nReport: report.json\nCheck passed.\n",
+      "stderr": "",
+      "report": {
+        "command": "check",
+        "clean": false,
+        "dryRun": true,
+        "files": [
+          {
+            "project": "sample",
+            "path": "catalog/en_US.json",
+            "locale": "en_US",
+            "added": [],
+            "unused": ["保留", "正常"],
+            "deleted": [],
+            "unchangedCount": 0
+          }
+        ]
+      },
+      "catalogUnchanged": true,
+      "catalogSha256Before": "a47f0302d7f0345dfbc94a15baf9c80c7fa23ea7f6e6d2c67d6f6c26d86daf58",
+      "catalogSha256After": "a47f0302d7f0345dfbc94a15baf9c80c7fa23ea7f6e6d2c67d6f6c26d86daf58"
+    }
+  ],
+  "observations": {
+    "commentCallMarkedDeleted": true,
+    "emptyScanCheckPassed": true,
+    "allCatalogsUnchanged": true
+  },
+  "note": "调用边界注释修复前的执行结果；修复后的 comment-clean 结果见注释回归.json。empty-scan 问题本次未修复。"
+}

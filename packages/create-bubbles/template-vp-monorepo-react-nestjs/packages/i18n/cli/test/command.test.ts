@@ -62,6 +62,42 @@ describe('runCli', () => {
     expect(output.join('\n')).toContain('Project web: 1 source files, 2 keys.')
   })
 
+  it('keeps translations for calls with comments when cleaning catalogs', async () => {
+    const root = temporaryDirectory.path
+    await mkdir(join(root, 'src'), { recursive: true })
+    await mkdir(join(root, 'locales'), { recursive: true })
+    await writeFile(
+      join(root, 'src', 'app.ts'),
+      "tr('正常')\ntr(/* 参数说明 */ '保留' /* 结束说明 */)\n",
+      'utf8',
+    )
+    await writeFile(
+      join(root, 'locales', 'en_US.json'),
+      JSON.stringify({ 正常: 'Normal', 保留: 'Keep translation', 废弃: 'Remove translation' }),
+      'utf8',
+    )
+    await writeFile(join(root, 'locales', 'zh_CN.json'), '{}\n', 'utf8')
+    await writeConfig(root)
+
+    await expect(runCli(['sync', '--clean'], { cwd: root, stdout: () => undefined })).resolves.toBe(
+      0,
+    )
+    expect(JSON.parse(await readFile(join(root, 'locales', 'en_US.json'), 'utf8'))).toEqual({
+      正常: 'Normal',
+      保留: 'Keep translation',
+    })
+    const report = JSON.parse(await readFile(join(root, '.reports', 'i18n.json'), 'utf8'))
+    expect(report.files).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          locale: 'en_US',
+          deleted: ['废弃'],
+          unchangedCount: 2,
+        }),
+      ]),
+    )
+  })
+
   it('checks without writing and can fail on unused keys', async () => {
     const root = temporaryDirectory.path
     await mkdir(join(root, 'src'), { recursive: true })

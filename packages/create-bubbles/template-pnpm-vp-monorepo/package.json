@@ -1,0 +1,40 @@
+{
+  "name": "monorepo-template",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "vp run -r build",
+    "changeset": "changeset",
+    "check": "vp run quality",
+    "ci": "pnpm check && pnpm build && pnpm verify:packages",
+    "dev": "vp run playground#dev",
+    "docs:build": "vp run docs#build",
+    "docs:dev": "vp run docs#dev",
+    "docs:preview": "vp run docs#preview",
+    "format": "vp fmt --write .",
+    "format:check": "vp fmt --check .",
+    "hooks:install": "vp config --hooks-dir .vite-hooks --no-agent",
+    "lint": "pnpm lint:ox && pnpm lint:vue",
+    "lint:ox": "vp lint .",
+    "lint:vue": "eslint \"apps/**/*.vue\" \"packages/**/*.vue\" --no-error-on-unmatched-pattern --max-warnings=0",
+    "preview": "vp run playground#preview",
+    "ready": "pnpm run ci",
+    "release": "pnpm ready && changeset publish",
+    "test": "vp run -r test",
+    "typecheck": "tsc -p tsconfig.json --noEmit && vp run -r typecheck",
+    "verify:packages": "vp run -r verify:package",
+    "version-packages": "changeset version && pnpm install --lockfile-only --no-frozen-lockfile"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:",
+    "@changesets/cli": "catalog:",
+    "@commitlint/cli": "catalog:",
+    "@commitlint/config-conventional": "catalog:",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

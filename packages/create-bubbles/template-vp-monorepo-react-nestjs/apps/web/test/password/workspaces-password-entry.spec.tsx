@@ -2,7 +2,7 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
-vi.mock('../src/pages/workspaces/state', () => ({
+vi.mock('../../src/pages/workspaces/state', () => ({
   getWorkspaceState: () => ({
     workspaces: {
       user: { id: 'user-without-workspace', name: '无空间用户' },
@@ -10,14 +10,14 @@ vi.mock('../src/pages/workspaces/state', () => ({
     },
   }),
 }))
-vi.mock('../src/api/auth', () => ({ logout: vi.fn() }))
-vi.mock('../src/utils/request/workspace', () => ({ clearWorkspaceRequests: vi.fn() }))
-vi.mock('../src/components/Brand/Brand', () => ({ default: () => <span>万物</span> }))
-vi.mock('../src/components/LocaleSwitch/LocaleSwitch', () => ({ default: () => null }))
+vi.mock('../../src/api/auth', () => ({ logout: vi.fn() }))
+vi.mock('../../src/utils/request/workspace', () => ({ clearWorkspaceRequests: vi.fn() }))
+vi.mock('../../src/components/Brand/Brand', () => ({ default: () => <span>万物</span> }))
+vi.mock('../../src/components/LocaleSwitch/LocaleSwitch', () => ({ default: () => null }))
 vi.mock('@bubblesjs/i18n-react', () => ({
   useI18n: () => ({ tr: (key: string) => key }),
 }))
-vi.mock('../src/components/PasswordActions/ChangePasswordDialog', () => ({
+vi.mock('../../src/components/PasswordActions/ChangePasswordDialog', () => ({
   /** 模拟改密弹窗的引用接口，以验证页面入口能实际打开它。 */
   default: function PasswordDialog({ ref }: { ref: Ref<{ show: () => void; hide: () => void }> }) {
     const [open, setOpen] = useState(false)
@@ -27,7 +27,7 @@ vi.mock('../src/components/PasswordActions/ChangePasswordDialog', () => ({
 }))
 
 import { App } from 'antd'
-import WorkspacesPage from '../src/pages/workspaces'
+import WorkspacesPage from '../../src/pages/workspaces'
 
 let host: HTMLDivElement
 let root: ReturnType<typeof createRoot>

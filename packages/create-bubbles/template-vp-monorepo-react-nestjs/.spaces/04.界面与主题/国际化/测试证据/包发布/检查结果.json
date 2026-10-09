@@ -1,0 +1,339 @@
+{
+  "status": "验证记录",
+  "date": "2026-10-09",
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "win32",
+    "react": "19.3.0",
+    "reactDom": "19.3.0",
+    "vue": "3.5.42",
+    "dependencyResolution": {
+      "appRequireBase": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\apps\\web\\package.json",
+      "vueRequireBase": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\packages\\i18n\\vue\\package.json",
+      "happyDom": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\happy-dom@20.14.5\\node_modules\\happy-dom\\lib\\index.js",
+      "react": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\react@19.3.0\\node_modules\\react\\index.js",
+      "reactDomServer": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\react-dom@19.3.0_react@19.3.0\\node_modules\\react-dom\\server.node.js",
+      "reactDomClient": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\react-dom@19.3.0_react@19.3.0\\node_modules\\react-dom\\client.js",
+      "vue": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\vue@3.5.42_typescript@6.0.3\\node_modules\\vue\\index.js"
+    },
+    "pnpm": "12.10.1",
+    "vp": "1.1.0",
+    "vitePlus": "0.3.1"
+  },
+  "checks": [
+    {
+      "command": "vp run --filter '@bubblesjs/i18n-*' build",
+      "exitCode": 0,
+      "result": "四包构建成功；React 因源码变化重新构建，其余三个包命中任务缓存",
+      "rebuiltPackages": ["react"],
+      "cachedPackages": ["core", "vue", "cli"]
+    },
+    {
+      "command": "vp test run",
+      "workingDirectory": "packages/i18n/cli",
+      "exitCode": 0,
+      "testFiles": 6,
+      "tests": 71,
+      "note": "vp run 缓存通过后另执行包内测试确认",
+      "evidence": "../cli-扫描边界/当前复验.json"
+    },
+    {
+      "command": "vp check packages/i18n",
+      "exitCode": 1,
+      "output": "packages/i18n/cli/docs/excel-sync-plan.md (790ms)\npackages/i18n/cli/package.json (0ms)\npackages/i18n/cli/src/cli.ts (0ms)\npackages/i18n/cli/src/command.ts (1ms)\npackages/i18n/cli/src/config.ts (0ms)\npackages/i18n/cli/src/files.ts (0ms)\npackages/i18n/cli/src/index.ts (0ms)\npackages/i18n/cli/src/load-config.ts (0ms)\npackages/i18n/cli/src/report.ts (0ms)\npackages/i18n/cli/src/sync.ts (1ms)\npackages/i18n/cli/test/config.test.ts (0ms)\npackages/i18n/cli/test/load-config.test.ts (1ms)\npackages/i18n/cli/test/report.test.ts (0ms)\npackages/i18n/cli/test/sync.test.ts (0ms)\npackages/i18n/cli/test/temporary-directory.ts (0ms)\npackages/i18n/cli/tsconfig.json (1ms)\npackages/i18n/cli/vite.config.ts (1ms)\npackages/i18n/core/package.json (0ms)\npackages/i18n/core/src/format.ts (1ms)\npackages/i18n/core/src/i18n.ts (1ms)\npackages/i18n/core/src/index.ts (0ms)\npackages/i18n/core/src/storage.ts (1ms)\npackages/i18n/core/src/store.ts (1ms)\npackages/i18n/core/src/types.ts (0ms)\npackages/i18n/core/tsconfig.json (0ms)\npackages/i18n/core/vite.config.ts (1ms)\npackages/i18n/react/package.json (0ms)\npackages/i18n/react/src/index.tsx (0ms)\npackages/i18n/react/src/use-store.ts (0ms)\npackages/i18n/react/tsconfig.json (0ms)\npackages/i18n/react/vite.config.ts (0ms)\npackages/i18n/vue/package.json (0ms)\npackages/i18n/vue/src/index.ts (1ms)\npackages/i18n/vue/src/use-store.ts (0ms)\npackages/i18n/vue/tsconfig.json (0ms)\nerror: Formatting issues found\npackages/i18n/vue/vite.config.ts (0ms)\n\nFound formatting issues in 36 files (944ms, 24 threads). Run `vp check --fix` to fix them."
+    },
+    {
+      "command": "vp run --filter web test --run test/i18n-locale.spec.ts",
+      "exitCode": 0,
+      "output": "~/apps/web$ vp test --run test/i18n-locale.spec.ts\n\n    mode: test\n    VITE_PORT: 9999\n    VITE_API_AFFIX: /api\n    VITE_API_URL: undefined\n    \n\n RUN  v4.1.11 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web\n\n ✓ test/i18n-locale.spec.ts (2 tests) 2ms\n\n Test Files  1 passed (1)\n      Tests  2 passed (2)\n   Start at  14:03:56\n   Duration  5.28s (transform 33ms, setup 0ms, import 5.11s, tests 2ms, environment 0ms)\n\n\n---\nvp run: web#test not cached because it modified its input. (Run `vp run --last-details` for full details)"
+    },
+    {
+      "command": "vp check --no-fmt packages/i18n",
+      "exitCode": 1,
+      "output": "x typescript(TS2584): Cannot find name 'console'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.\n    ,-[packages/i18n/core/src/i18n.ts:41:11]\n 40 |         } catch (error) {\n 41 |           console.warn(`Failed to load locale file for ${nextLocale}:`, error)\n    :           ^^^^^^^\n 42 |         }\n    `----\n\n  x typescript(TS2584): Cannot find name 'console'. Do you need to change your target library? Try changing the 'lib' compiler option to include 'dom'.\n    ,-[packages/i18n/core/src/i18n.ts:74:5]\n 73 |   } catch (error) {\n 74 |     console.warn(`Failed to load locale file for ${locale}:`, error)\n    :     ^^^^^^^\n 75 |   }\nerror: Lint or type issues found\n    `----\n\nFound 2 errors and 0 warnings in 30 files (1.2s, 24 threads)"
+    },
+    {
+      "command": "vp check packages/i18n/react/src/use-store.ts",
+      "exitCode": 1,
+      "output": "packages/i18n/react/src/use-store.ts (0ms)\nerror: Formatting issues found\n\nFound formatting issues in 1 file (144ms, 24 threads). Run `vp check --fix` to fix them."
+    },
+    {
+      "command": "vp check --no-fmt packages/i18n/react/src/use-store.ts",
+      "exitCode": 0,
+      "output": "pass: Found no warnings, lint errors, or type errors in 1 file (329ms, 24 threads)"
+    },
+    {
+      "command": "node .spaces/04.界面与主题/国际化/工具/运行时发布检查.mjs",
+      "exitCode": 0,
+      "result": "具名和内联 React 对象 selector 各渲染两次、DOM 正确更新，无警告或异常；其他问题见运行时证据",
+      "evidence": "../运行时发布检查.json"
+    }
+  ],
+  "packageDryRuns": [
+    {
+      "packageName": "core",
+      "command": "pnpm pack --dry-run --json",
+      "exitCode": 0,
+      "result": {
+        "name": "@bubblesjs/i18n-core",
+        "version": "0.0.0",
+        "filename": "bubblesjs-i18n-core-0.0.0.tgz",
+        "files": [
+          {
+            "path": "package.json"
+          },
+          {
+            "path": "src/format.ts"
+          },
+          {
+            "path": "src/i18n.ts"
+          },
+          {
+            "path": "src/index.ts"
+          },
+          {
+            "path": "src/storage.ts"
+          },
+          {
+            "path": "src/store.ts"
+          },
+          {
+            "path": "src/types.ts"
+          },
+          {
+            "path": "tsconfig.json"
+          },
+          {
+            "path": "vite.config.ts"
+          }
+        ]
+      }
+    },
+    {
+      "packageName": "react",
+      "command": "pnpm pack --dry-run --json",
+      "exitCode": 0,
+      "result": {
+        "name": "@bubblesjs/i18n-react",
+        "version": "0.0.0",
+        "filename": "bubblesjs-i18n-react-0.0.0.tgz",
+        "files": [
+          {
+            "path": "package.json"
+          },
+          {
+            "path": "src/index.tsx"
+          },
+          {
+            "path": "src/use-store.ts"
+          },
+          {
+            "path": "tsconfig.json"
+          },
+          {
+            "path": "vite.config.ts"
+          }
+        ]
+      }
+    },
+    {
+      "packageName": "vue",
+      "command": "pnpm pack --dry-run --json",
+      "exitCode": 0,
+      "result": {
+        "name": "@bubblesjs/i18n-vue",
+        "version": "0.0.1",
+        "filename": "bubblesjs-i18n-vue-0.0.1.tgz",
+        "files": [
+          {
+            "path": "package.json"
+          },
+          {
+            "path": "src/index.ts"
+          },
+          {
+            "path": "src/use-store.ts"
+          },
+          {
+            "path": "tsconfig.json"
+          },
+          {
+            "path": "vite.config.ts"
+          }
+        ]
+      }
+    },
+    {
+      "packageName": "cli",
+      "command": "pnpm pack --dry-run --json",
+      "exitCode": 1,
+      "result": {
+        "error": {
+          "code": "ERR_PNPM_BIN_CRLF",
+          "message": "The bin file \"src/cli.ts\" has a shebang line ending with CRLF (\\r\\n)."
+        }
+      }
+    }
+  ],
+  "actualTarballs": [
+    {
+      "archive": "bubblesjs-i18n-core-0.0.0.tgz",
+      "sha256": "35AE07DFAA3C880AC36E01819E8DF58A58F9F913FB574744B1DF8DFB102E63FF",
+      "hasDist": false,
+      "private": true,
+      "entry": "./src/index.ts"
+    },
+    {
+      "archive": "bubblesjs-i18n-react-0.0.0.tgz",
+      "sha256": "E2040112B5E6B4693849DE438F029B64A7E6123EA15B47FA90EC1A29863AB27C",
+      "hasDist": false,
+      "private": true,
+      "entry": "./src/index.tsx"
+    },
+    {
+      "archive": "bubblesjs-i18n-vue-0.0.1.tgz",
+      "sha256": "E7D406D0254D645645E1B6FA823972394558FEBB59D3D9112A53D408C3CC5EAA",
+      "hasDist": false,
+      "private": true,
+      "entry": "./src/index.ts"
+    }
+  ],
+  "packageEvidence": "./产物复验.json",
+  "externalImports": [
+    {
+      "package": "@bubblesjs/i18n-core",
+      "command": "node --input-type=module --eval <dynamic import> @bubblesjs/i18n-core",
+      "exitCode": 1,
+      "result": {
+        "ok": false,
+        "code": "ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING",
+        "message": "Stripping types is currently unsupported for files under node_modules, for \"file:///C:/Users/Administrator/AppData/Local/Temp/i18n-pack-consumer-4d1a55e25578428986678bb5029b4011/node_modules/@bubblesjs/i18n-core/src/index.ts\""
+      }
+    },
+    {
+      "package": "@bubblesjs/i18n-react",
+      "command": "node --input-type=module --eval <dynamic import> @bubblesjs/i18n-react",
+      "exitCode": 1,
+      "result": {
+        "ok": false,
+        "code": "ERR_UNKNOWN_FILE_EXTENSION",
+        "message": "Unknown file extension \".tsx\" for C:\\Users\\Administrator\\AppData\\Local\\Temp\\i18n-pack-consumer-4d1a55e25578428986678bb5029b4011\\node_modules\\@bubblesjs\\i18n-react\\src\\index.tsx"
+      }
+    },
+    {
+      "package": "@bubblesjs/i18n-vue",
+      "command": "node --input-type=module --eval <dynamic import> @bubblesjs/i18n-vue",
+      "exitCode": 1,
+      "result": {
+        "ok": false,
+        "code": "ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING",
+        "message": "Stripping types is currently unsupported for files under node_modules, for \"file:///C:/Users/Administrator/AppData/Local/Temp/i18n-pack-consumer-4d1a55e25578428986678bb5029b4011/node_modules/@bubblesjs/i18n-vue/src/index.ts\""
+      }
+    }
+  ],
+  "runtimeChecks": {
+    "languageSwitchRace": {
+      "requestOrder": ["slow", "latest"],
+      "completionOrder": ["latest", "slow"],
+      "expectedLocale": "latest",
+      "actualLocale": "slow",
+      "actualTranslation": "Stale",
+      "problemReproduced": true
+    },
+    "instanceIsolation": {
+      "first": {
+        "locale": "en_US",
+        "translation": "Hello"
+      },
+      "second": {
+        "locale": "zh_CN",
+        "translation": "独立实例"
+      },
+      "passed": true
+    },
+    "prototypeMessageKeys": {
+      "values": [
+        {
+          "key": "constructor",
+          "expected": "constructor",
+          "actualType": "function",
+          "returnedString": false
+        },
+        {
+          "key": "toString",
+          "expected": "toString",
+          "actualType": "function",
+          "returnedString": false
+        }
+      ],
+      "interpolationError": {
+        "name": "TypeError",
+        "message": "message.replace is not a function"
+      },
+      "problemReproduced": true
+    },
+    "prototypeInterpolationKey": {
+      "expected": "Value: {toString}",
+      "actual": "Value: function toString() { [native code] }",
+      "problemReproduced": true
+    },
+    "shallowObjectKeys": {
+      "inputDescription": "{ first: undefined } 与 { second: undefined }",
+      "expected": false,
+      "actual": true,
+      "problemReproduced": true
+    },
+    "reactSSR": {
+      "expected": "完成服务端渲染",
+      "error": {
+        "name": "Error",
+        "message": "Missing getServerSnapshot, which is required for server-rendered content. Will revert to client rendering."
+      },
+      "problemReproduced": true
+    },
+    "reactObjectSelector": {
+      "expected": "稳定渲染，状态更新后 DOM 从 en_US 变为 zh_CN",
+      "selectorKind": "named",
+      "stateUpdates": 1,
+      "before": "en_US",
+      "after": "zh_CN",
+      "renderCount": 2,
+      "warnings": [],
+      "error": null,
+      "problemReproduced": false
+    },
+    "reactInlineObjectSelector": {
+      "expected": "稳定渲染，状态更新后 DOM 从 en_US 变为 zh_CN",
+      "selectorKind": "inline",
+      "stateUpdates": 1,
+      "before": "en_US",
+      "after": "zh_CN",
+      "renderCount": 2,
+      "warnings": [],
+      "error": null,
+      "problemReproduced": false
+    },
+    "vueProviderStoreReplacement": {
+      "before": "first",
+      "expectedAfter": "second",
+      "actualAfter": "first",
+      "problemReproduced": true
+    }
+  },
+  "supplementalReactStrictMode": {
+    "method": "补充只读脚本，使用当前 dist 及真实 React DOM；脚本未归档",
+    "inlineObjectSelector": true,
+    "renderCounts": [2, 4, 6, 8],
+    "domResults": ["first:1", "first:2", "updated:2", "second:3"],
+    "warnings": [],
+    "error": null
+  },
+  "historicalInstall": {
+    "date": "2026-10-08",
+    "command": "vp install --frozen-lockfile",
+    "exitCode": 0,
+    "note": "首次评估安装成功、锁文件未变化；本轮未重新安装"
+  },
+  "conclusion": "当前版本仍不宜直接发布；React 快照缓存及 CLI 边界注释已通过复验，打包、入口、core 类型错误及其他运行时缺陷仍需处理。",
+  "note": "未修改业务源码或 manifest，未执行远端发布。"
+}

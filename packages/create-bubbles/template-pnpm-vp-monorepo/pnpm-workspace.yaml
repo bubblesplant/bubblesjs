@@ -1,0 +1,27 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalogMode: prefer
+
+catalog:
+  "@antfu/eslint-config": ^9.5.1
+  "@changesets/cli": ^3.0.3
+  "@commitlint/cli": ^21.2.2
+  "@commitlint/config-conventional": ^21.2.2
+  "@types/node": ^26
+  "@vitejs/plugin-vue": ^6.0.9
+  eslint: ^10.9.0
+  typescript: ^6.0.3
+  vite: npm:@voidzero-dev/vite-plus-core@1.1.0
+  vite-plus: 1.1.0
+  vitepress: 2.0.0-alpha.20
+  vue: ^3.5.43
+  vue-tsc: ^3.3.12
+overrides:
+  vite@*: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"

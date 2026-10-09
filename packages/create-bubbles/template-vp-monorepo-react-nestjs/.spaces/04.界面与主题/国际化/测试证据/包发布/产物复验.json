@@ -1,0 +1,419 @@
+{
+  "assessmentDate": "2026-10-09",
+  "executedAtUtc": "2026-10-09T06:06:48.244Z",
+  "scope": "四个 i18n 包在最新构建后的本地打包及外部消费者入口复验；未修改业务源码和 manifest，未执行远端发布。",
+  "environment": {
+    "node": "24.21.0",
+    "pnpm": "12.10.1",
+    "platform": "win32"
+  },
+  "dryRun": [
+    {
+      "packageName": "core",
+      "command": "pnpm pack --dry-run --json",
+      "exitCode": 0,
+      "result": {
+        "name": "@bubblesjs/i18n-core",
+        "version": "0.0.0",
+        "filename": "bubblesjs-i18n-core-0.0.0.tgz",
+        "files": [
+          {
+            "path": "package.json"
+          },
+          {
+            "path": "src/format.ts"
+          },
+          {
+            "path": "src/i18n.ts"
+          },
+          {
+            "path": "src/index.ts"
+          },
+          {
+            "path": "src/storage.ts"
+          },
+          {
+            "path": "src/store.ts"
+          },
+          {
+            "path": "src/types.ts"
+          },
+          {
+            "path": "tsconfig.json"
+          },
+          {
+            "path": "vite.config.ts"
+          }
+        ]
+      }
+    },
+    {
+      "packageName": "react",
+      "command": "pnpm pack --dry-run --json",
+      "exitCode": 0,
+      "result": {
+        "name": "@bubblesjs/i18n-react",
+        "version": "0.0.0",
+        "filename": "bubblesjs-i18n-react-0.0.0.tgz",
+        "files": [
+          {
+            "path": "package.json"
+          },
+          {
+            "path": "src/index.tsx"
+          },
+          {
+            "path": "src/use-store.ts"
+          },
+          {
+            "path": "tsconfig.json"
+          },
+          {
+            "path": "vite.config.ts"
+          }
+        ]
+      }
+    },
+    {
+      "packageName": "vue",
+      "command": "pnpm pack --dry-run --json",
+      "exitCode": 0,
+      "result": {
+        "name": "@bubblesjs/i18n-vue",
+        "version": "0.0.1",
+        "filename": "bubblesjs-i18n-vue-0.0.1.tgz",
+        "files": [
+          {
+            "path": "package.json"
+          },
+          {
+            "path": "src/index.ts"
+          },
+          {
+            "path": "src/use-store.ts"
+          },
+          {
+            "path": "tsconfig.json"
+          },
+          {
+            "path": "vite.config.ts"
+          }
+        ]
+      }
+    },
+    {
+      "packageName": "cli",
+      "command": "pnpm pack --dry-run --json",
+      "exitCode": 1,
+      "result": {
+        "error": {
+          "code": "ERR_PNPM_BIN_CRLF",
+          "message": "The bin file \"src/cli.ts\" has a shebang line ending with CRLF (\\r\\n)."
+        }
+      }
+    }
+  ],
+  "actualPack": [
+    {
+      "packageName": "core",
+      "command": "pnpm pack --json --pack-destination <本功能测试证据/包发布>",
+      "exitCode": 0,
+      "result": {
+        "name": "@bubblesjs/i18n-core",
+        "version": "0.0.0",
+        "filename": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\国际化\\测试证据\\包发布\\bubblesjs-i18n-core-0.0.0.tgz",
+        "files": [
+          {
+            "path": "package.json"
+          },
+          {
+            "path": "src/format.ts"
+          },
+          {
+            "path": "src/i18n.ts"
+          },
+          {
+            "path": "src/index.ts"
+          },
+          {
+            "path": "src/storage.ts"
+          },
+          {
+            "path": "src/store.ts"
+          },
+          {
+            "path": "src/types.ts"
+          },
+          {
+            "path": "tsconfig.json"
+          },
+          {
+            "path": "vite.config.ts"
+          }
+        ]
+      }
+    },
+    {
+      "packageName": "react",
+      "command": "pnpm pack --json --pack-destination <本功能测试证据/包发布>",
+      "exitCode": 0,
+      "result": {
+        "name": "@bubblesjs/i18n-react",
+        "version": "0.0.0",
+        "filename": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\国际化\\测试证据\\包发布\\bubblesjs-i18n-react-0.0.0.tgz",
+        "files": [
+          {
+            "path": "package.json"
+          },
+          {
+            "path": "src/index.tsx"
+          },
+          {
+            "path": "src/use-store.ts"
+          },
+          {
+            "path": "tsconfig.json"
+          },
+          {
+            "path": "vite.config.ts"
+          }
+        ]
+      }
+    },
+    {
+      "packageName": "vue",
+      "command": "pnpm pack --json --pack-destination <本功能测试证据/包发布>",
+      "exitCode": 0,
+      "result": {
+        "name": "@bubblesjs/i18n-vue",
+        "version": "0.0.1",
+        "filename": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\国际化\\测试证据\\包发布\\bubblesjs-i18n-vue-0.0.1.tgz",
+        "files": [
+          {
+            "path": "package.json"
+          },
+          {
+            "path": "src/index.ts"
+          },
+          {
+            "path": "src/use-store.ts"
+          },
+          {
+            "path": "tsconfig.json"
+          },
+          {
+            "path": "vite.config.ts"
+          }
+        ]
+      }
+    },
+    {
+      "packageName": "cli",
+      "command": "pnpm pack --json --pack-destination <本功能测试证据/包发布>",
+      "exitCode": 1,
+      "result": {
+        "error": {
+          "code": "ERR_PNPM_BIN_CRLF",
+          "message": "The bin file \"src/cli.ts\" has a shebang line ending with CRLF (\\r\\n)."
+        }
+      }
+    }
+  ],
+  "tarballs": [
+    {
+      "archive": "bubblesjs-i18n-core-0.0.0.tgz",
+      "sha256": "35AE07DFAA3C880AC36E01819E8DF58A58F9F913FB574744B1DF8DFB102E63FF",
+      "files": [
+        "package/package.json",
+        "package/tsconfig.json",
+        "package/src/format.ts",
+        "package/src/i18n.ts",
+        "package/src/index.ts",
+        "package/src/storage.ts",
+        "package/src/store.ts",
+        "package/src/types.ts",
+        "package/vite.config.ts"
+      ],
+      "manifest": {
+        "name": "@bubblesjs/i18n-core",
+        "version": "0.0.0",
+        "private": true,
+        "type": "module",
+        "exports": {
+          ".": {
+            "types": "./src/index.ts",
+            "import": "./src/index.ts"
+          }
+        },
+        "devDependencies": {
+          "typescript": "^6.0.3",
+          "vite": "npm:@voidzero-dev/vite-plus-core@0.3.1",
+          "vite-plus": "0.3.1"
+        },
+        "scripts": {
+          "build": "vp pack"
+        }
+      }
+    },
+    {
+      "archive": "bubblesjs-i18n-react-0.0.0.tgz",
+      "sha256": "E2040112B5E6B4693849DE438F029B64A7E6123EA15B47FA90EC1A29863AB27C",
+      "files": [
+        "package/package.json",
+        "package/tsconfig.json",
+        "package/src/use-store.ts",
+        "package/vite.config.ts",
+        "package/src/index.tsx"
+      ],
+      "manifest": {
+        "name": "@bubblesjs/i18n-react",
+        "version": "0.0.0",
+        "private": true,
+        "type": "module",
+        "exports": {
+          ".": {
+            "types": "./src/index.tsx",
+            "import": "./src/index.tsx"
+          }
+        },
+        "dependencies": {
+          "@bubblesjs/i18n-core": "0.0.0"
+        },
+        "devDependencies": {
+          "@types/react": "^19.3.0",
+          "react": "^19.3.0",
+          "typescript": "^6.0.3",
+          "vite": "npm:@voidzero-dev/vite-plus-core@0.3.1",
+          "vite-plus": "0.3.1"
+        },
+        "peerDependencies": {
+          "react": ">=18.0.0"
+        },
+        "scripts": {
+          "build": "vp pack"
+        }
+      }
+    },
+    {
+      "archive": "bubblesjs-i18n-vue-0.0.1.tgz",
+      "sha256": "E7D406D0254D645645E1B6FA823972394558FEBB59D3D9112A53D408C3CC5EAA",
+      "files": [
+        "package/package.json",
+        "package/tsconfig.json",
+        "package/src/index.ts",
+        "package/src/use-store.ts",
+        "package/vite.config.ts"
+      ],
+      "manifest": {
+        "name": "@bubblesjs/i18n-vue",
+        "version": "0.0.1",
+        "private": true,
+        "type": "module",
+        "exports": {
+          ".": {
+            "types": "./src/index.ts",
+            "import": "./src/index.ts"
+          }
+        },
+        "dependencies": {
+          "@bubblesjs/i18n-core": "0.0.0"
+        },
+        "devDependencies": {
+          "typescript": "^6.0.3",
+          "vite": "npm:@voidzero-dev/vite-plus-core@0.3.1",
+          "vite-plus": "0.3.1",
+          "vue": "^3.5.42"
+        },
+        "peerDependencies": {
+          "vue": "^3.5.39"
+        },
+        "scripts": {
+          "build": "vp pack"
+        }
+      }
+    }
+  ],
+  "builtCliHelp": {
+    "command": "node packages/i18n/cli/dist/cli.mjs --help",
+    "exitCode": 0,
+    "output": "用法：\n  bubbles-i18n sync [options]\n  bubbles-i18n check [options]\n\n命令：\n  sync   把源码中缺失的静态 tr() key 添加到配置的语言包。\n  check  只检查、不修改语言包；存在缺失 key 时返回失败。\n\n选项：\n  --config <path>       使用指定配置文件，不再自动查找 i18n.config.ts。\n  --project <name>      只处理指定项目；可以多次传入。\n  --dry-run             预览同步结果，不修改语言包。\n  --clean               删除源码中已不存在的 key。\n  --allow-empty         配合 --clean，允许空扫描结果清空语言包。\n  --fail-on-stale       check 时发现废弃 key 也返回失败。\n  -h, --help            显示帮助信息。\n\n安全保护：\n  项目的 include 未匹配到任何源文件时，--clean 始终拒绝执行。\n  已有翻译保持不变；新增项默认使用 key 作为翻译值。\n"
+  },
+  "externalConsumer": {
+    "method": "将三个实际 tgz 解压至隔离临时目录的 node_modules/@bubblesjs/<包名>，在该目录执行 Node 动态 import。",
+    "checks": [
+      {
+        "package": "@bubblesjs/i18n-core",
+        "command": "node --input-type=module --eval <dynamic import> @bubblesjs/i18n-core",
+        "exitCode": 1,
+        "result": {
+          "ok": false,
+          "code": "ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING",
+          "message": "Stripping types is currently unsupported for files under node_modules, for \"file:///C:/Users/Administrator/AppData/Local/Temp/i18n-pack-consumer-4d1a55e25578428986678bb5029b4011/node_modules/@bubblesjs/i18n-core/src/index.ts\""
+        }
+      },
+      {
+        "package": "@bubblesjs/i18n-react",
+        "command": "node --input-type=module --eval <dynamic import> @bubblesjs/i18n-react",
+        "exitCode": 1,
+        "result": {
+          "ok": false,
+          "code": "ERR_UNKNOWN_FILE_EXTENSION",
+          "message": "Unknown file extension \".tsx\" for C:\\Users\\Administrator\\AppData\\Local\\Temp\\i18n-pack-consumer-4d1a55e25578428986678bb5029b4011\\node_modules\\@bubblesjs\\i18n-react\\src\\index.tsx"
+        }
+      },
+      {
+        "package": "@bubblesjs/i18n-vue",
+        "command": "node --input-type=module --eval <dynamic import> @bubblesjs/i18n-vue",
+        "exitCode": 1,
+        "result": {
+          "ok": false,
+          "code": "ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING",
+          "message": "Stripping types is currently unsupported for files under node_modules, for \"file:///C:/Users/Administrator/AppData/Local/Temp/i18n-pack-consumer-4d1a55e25578428986678bb5029b4011/node_modules/@bubblesjs/i18n-vue/src/index.ts\""
+        }
+      }
+    ],
+    "fixturePath": "C:/Users/Administrator/AppData/Local/Temp/i18n-pack-consumer-4d1a55e25578428986678bb5029b4011",
+    "fixtureRetained": true,
+    "cleanupNote": "首次合并执行、校验与清理命令被自动审批拦截。分拆后实际导入验证成功执行；按根代理要求保留隔离临时目录，审批结果不计作产品缺陷。"
+  },
+  "findings": [
+    {
+      "status": "blocked",
+      "problem": "四包 manifest 仍 private:true，不具备公开发布配置。",
+      "source": "packages/i18n/{core,react,vue,cli}/package.json:4"
+    },
+    {
+      "status": "blocked",
+      "problem": "已构建的 dist 没有进入三个实际 tarball；没有发布文件白名单，exports 仍指向 .ts/.tsx 源码。",
+      "sources": [
+        "packages/i18n/core/package.json:9",
+        "packages/i18n/react/package.json:9",
+        "packages/i18n/vue/package.json:9",
+        ".gitignore:12"
+      ],
+      "evidence": "tarballs[].files"
+    },
+    {
+      "status": "blocked",
+      "problem": "三个实际 tarball 放入 node_modules 后，Node 24 原生导入均失败；core/vue 不允许对 node_modules 下的 TS 源码 strip types，React .tsx 扩展不可执行。",
+      "evidence": "externalConsumer.checks"
+    },
+    {
+      "status": "blocked",
+      "problem": "CLI bin 仍指向 src/cli.ts，shebang 使用 CRLF，实际 pack 与 dry-run 均报 ERR_PNPM_BIN_CRLF。",
+      "source": "packages/i18n/cli/package.json:6",
+      "evidence": "dryRun[3]、actualPack[3]"
+    },
+    {
+      "status": "passed",
+      "problem": "构建产物 dist/cli.mjs 的 --help 可以正常执行。",
+      "evidence": "builtCliHelp"
+    },
+    {
+      "status": "passed",
+      "problem": "pnpm pack 会正确把 workspace:* 和 catalog: 转成真实依赖版本；不把这两种源码协议判定为发布问题。",
+      "evidence": "tarballs[].manifest.dependencies、tarballs[].manifest.devDependencies"
+    }
+  ],
+  "conclusion": "当前仍不能直接作为公开 npm 包发布；打包配置与入口的问题在本轮复验中仍然存在。"
+}

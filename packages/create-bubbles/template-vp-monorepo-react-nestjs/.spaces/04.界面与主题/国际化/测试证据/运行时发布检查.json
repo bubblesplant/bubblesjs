@@ -1,0 +1,131 @@
+{
+  "assessmentDate": "2026-10-09",
+  "executedAtUtc": "2026-10-09T06:03:55.731Z",
+  "command": "node .spaces/04.界面与主题/国际化/工具/运行时发布检查.mjs",
+  "method": "直接导入当前 dist；使用真实 React SSR、React DOM、Vue 渲染器与 happy-dom；未安装依赖、未构建、未修改业务代码。",
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "win32",
+    "react": "19.3.0",
+    "reactDom": "19.3.0",
+    "vue": "3.5.42",
+    "dependencyResolution": {
+      "appRequireBase": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\apps\\web\\package.json",
+      "vueRequireBase": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\packages\\i18n\\vue\\package.json",
+      "happyDom": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\happy-dom@20.14.5\\node_modules\\happy-dom\\lib\\index.js",
+      "react": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\react@19.3.0\\node_modules\\react\\index.js",
+      "reactDomServer": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\react-dom@19.3.0_react@19.3.0\\node_modules\\react-dom\\server.node.js",
+      "reactDomClient": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\react-dom@19.3.0_react@19.3.0\\node_modules\\react-dom\\client.js",
+      "vue": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\node_modules\\.pnpm\\vue@3.5.42_typescript@6.0.3\\node_modules\\vue\\index.js"
+    }
+  },
+  "artifacts": {
+    "core": {
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\packages\\i18n\\core\\dist\\index.js",
+      "sha256": "35ab1d08457977da247fa8a364eaa4725bb09698b8165dee82073f935621b537"
+    },
+    "react": {
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\packages\\i18n\\react\\dist\\index.js",
+      "sha256": "2264549c0f9e3200f6b495be3f8ddec0d7718433b8f211c4b7180610212796cf"
+    },
+    "vue": {
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\packages\\i18n\\vue\\dist\\index.js",
+      "sha256": "00ce1e688be4bd99c52fb0da93cce178cb172cb929f25c3796648e021db256f1"
+    }
+  },
+  "checks": {
+    "languageSwitchRace": {
+      "requestOrder": [
+        "slow",
+        "latest"
+      ],
+      "completionOrder": [
+        "latest",
+        "slow"
+      ],
+      "expectedLocale": "latest",
+      "actualLocale": "slow",
+      "actualTranslation": "Stale",
+      "problemReproduced": true
+    },
+    "instanceIsolation": {
+      "first": {
+        "locale": "en_US",
+        "translation": "Hello"
+      },
+      "second": {
+        "locale": "zh_CN",
+        "translation": "独立实例"
+      },
+      "passed": true
+    },
+    "prototypeMessageKeys": {
+      "values": [
+        {
+          "key": "constructor",
+          "expected": "constructor",
+          "actualType": "function",
+          "returnedString": false
+        },
+        {
+          "key": "toString",
+          "expected": "toString",
+          "actualType": "function",
+          "returnedString": false
+        }
+      ],
+      "interpolationError": {
+        "name": "TypeError",
+        "message": "message.replace is not a function"
+      },
+      "problemReproduced": true
+    },
+    "prototypeInterpolationKey": {
+      "expected": "Value: {toString}",
+      "actual": "Value: function toString() { [native code] }",
+      "problemReproduced": true
+    },
+    "shallowObjectKeys": {
+      "inputDescription": "{ first: undefined } 与 { second: undefined }",
+      "expected": false,
+      "actual": true,
+      "problemReproduced": true
+    },
+    "reactSSR": {
+      "expected": "完成服务端渲染",
+      "error": {
+        "name": "Error",
+        "message": "Missing getServerSnapshot, which is required for server-rendered content. Will revert to client rendering."
+      },
+      "problemReproduced": true
+    },
+    "reactObjectSelector": {
+      "expected": "稳定渲染，状态更新后 DOM 从 en_US 变为 zh_CN",
+      "selectorKind": "named",
+      "stateUpdates": 1,
+      "before": "en_US",
+      "after": "zh_CN",
+      "renderCount": 2,
+      "warnings": [],
+      "error": null,
+      "problemReproduced": false
+    },
+    "reactInlineObjectSelector": {
+      "expected": "稳定渲染，状态更新后 DOM 从 en_US 变为 zh_CN",
+      "selectorKind": "inline",
+      "stateUpdates": 1,
+      "before": "en_US",
+      "after": "zh_CN",
+      "renderCount": 2,
+      "warnings": [],
+      "error": null,
+      "problemReproduced": false
+    },
+    "vueProviderStoreReplacement": {
+      "before": "first",
+      "expectedAfter": "second",
+      "actualAfter": "first",
+      "problemReproduced": true
+    }
+  }
+}
