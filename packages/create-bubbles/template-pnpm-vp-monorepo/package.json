@@ -1,8 +1,8 @@
 {
-  "name": "monorepo-template",
-  "type": "module",
+  "name": "pnpm-vp-monorepo",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "vp run -r build",
     "changeset": "changeset",

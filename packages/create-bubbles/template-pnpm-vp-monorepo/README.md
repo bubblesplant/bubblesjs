@@ -6,6 +6,13 @@
 
 ## 环境与启动
 
+通过 create-bubbles 创建项目，在交互菜单中选择 **Monorepo → pnpm + vp monorepo**，或直接指定模板：
+
+```bash
+pnpm create bubbles my-monorepo -t pnpm-vp-monorepo
+cd my-monorepo
+```
+
 - Node.js 24（最低 24.11.0；`.node-version` / `mise.toml` 固定 24.21.0）
 - pnpm 12.10.1（`packageManager` 固定版本）
 

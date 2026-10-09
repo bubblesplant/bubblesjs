@@ -15,6 +15,7 @@ import type { Framework } from './interface'
 const colorMap = {
   vue: gradient(['#42B883', '#42B883']),
   react: gradient(['#087EA4', '#087EA4']),
+  monorepo: gradient(['#F59E0B', '#FBBF24']),
   taro: gradient(['#0000C2', '#fff']),
   nextjs: gradient(['#000', '#fff']),
   others: gradient(['#8B5CF6', '#A855F7']),
@@ -167,6 +168,18 @@ const FRAMEWORKS: Framework[] = [
     ],
   },
   {
+    name: 'monorepo',
+    display: 'Monorepo',
+    color: colorMap.monorepo,
+    variants: [
+      {
+        name: 'pnpm-vp-monorepo',
+        display: 'pnpm + vp monorepo',
+        color: colorMap.monorepo,
+      },
+    ],
+  },
+  {
     name: 'taro',
     display: 'Taro',
     color: colorMap.taro,
@@ -287,7 +300,7 @@ const copyDir = (srcDir: string, destDir: string) => {
   fs.mkdirSync(destDir, { recursive: true })
   for (const file of fs.readdirSync(srcDir)) {
     const srcFile = path.resolve(srcDir, file)
-    const destFile = path.resolve(destDir, file)
+    const destFile = path.resolve(destDir, renameFiles[file] ?? file)
     copy(srcFile, destFile)
   }
 }
@@ -453,7 +466,7 @@ const init = async () => {
     const framework = await prompts.select({
       message: hasInvalidArgTemplate
         ? `"${argTemplate}" isn't a valia template. please choose from below:`
-        : 'Select a framework',
+        : 'Select a framework or project type',
       options: FRAMEWORKS.map((framework) => {
         const frameworkColor = framework.color
         return {
@@ -485,7 +498,7 @@ const init = async () => {
   }
 
   /** 合起来就是 项目文件夹的 绝对路径  */
-  const root = path.join(cwd, targetDir)
+  const root = path.resolve(cwd, targetDir)
   // recursive 递归 是防止用户输入的是 targetDir 是个多级目录 比如 abc/template-project
   fs.mkdirSync(root, { recursive: true })
 
@@ -562,14 +575,15 @@ const init = async () => {
   if (root !== cwd) {
     doneMessage += `\n cd ${cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName} `
   }
-  switch (pkgManager) {
+  const projectPkgManager = template === 'pnpm-vp-monorepo' ? 'pnpm' : pkgManager
+  switch (projectPkgManager) {
     case 'yarn':
       doneMessage += `\n yarn`
       doneMessage += `\n yarn dev`
       break
     default:
-      doneMessage += gradient(['pink', 'white'])(`\n  ${pkgManager} install`)
-      doneMessage += gradient(['pink', 'white'])(`\n  ${pkgManager} run dev`)
+      doneMessage += gradient(['pink', 'white'])(`\n  ${projectPkgManager} install`)
+      doneMessage += gradient(['pink', 'white'])(`\n  ${projectPkgManager} run dev`)
       break
   }
 

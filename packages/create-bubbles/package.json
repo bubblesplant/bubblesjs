@@ -20,7 +20,15 @@
     "index.js",
     "template-*",
     "dist",
-    "template-*/**"
+    "template-*/**",
+    "!template-pnpm-vp-monorepo/**/node_modules/**",
+    "!template-pnpm-vp-monorepo/**/dist/**",
+    "!template-pnpm-vp-monorepo/**/coverage/**",
+    "!template-pnpm-vp-monorepo/**/.vite/**",
+    "!template-pnpm-vp-monorepo/**/.vitepress/cache/**",
+    "!template-pnpm-vp-monorepo/.vite-hooks/_/**",
+    "!template-pnpm-vp-monorepo/**/*.tsbuildinfo",
+    "!template-pnpm-vp-monorepo/**/*.tgz"
   ],
   "type": "module",
   "publishConfig": {
