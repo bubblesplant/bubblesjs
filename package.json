@@ -61,9 +61,5 @@
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged --concurrent false"
-  },
-  "engines": {
-    "node": "^18.0.0 || ^20.0.0 || >=22.0.0"
-  },
-  "packageManager": "pnpm@11.5.2"
+  }
 }
