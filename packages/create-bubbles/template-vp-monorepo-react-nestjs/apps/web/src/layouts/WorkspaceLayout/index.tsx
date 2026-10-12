@@ -1,4 +1,5 @@
 import { logout } from '@/api/auth'
+import AccountMenu from '@/components/AccountMenu/AccountMenu'
 import Brand, { BrandMark } from '@/components/Brand/Brand'
 import PageLoading from '@/components/Loading/PageLoading'
 import ChangePasswordDialog, {
@@ -11,10 +12,10 @@ import { getWorkspaceState } from '@/pages/workspaces/state'
 import { navigationTree } from '@/router/page-registry'
 import { clearWorkspaceRequests } from '@/utils/request/workspace'
 import { cookie } from '@/utils/storage/cookie'
-import { KeyOutlined, LogoutOutlined, SwapOutlined } from '@ant-design/icons'
+import { SwapOutlined } from '@ant-design/icons'
 import { ProLayout } from '@ant-design/pro-components'
 import { useI18n } from '@bubblesjs/i18n-react'
-import { App, Avatar, Button, Tooltip } from 'antd'
+import { App } from 'antd'
 import type { AccessScope } from 'shared/types'
 import { accessScopeKey } from 'shared/utils'
 import WorkspaceNavigationBoundary from './components/WorkspaceNavigationBoundary'
@@ -121,7 +122,13 @@ export default function WorkspaceLayout() {
         )
       }
       headerContentRender={() => (
-        <div className={`workspace-context workspace-context-${access.scope.type}`}>
+        <Link
+          className={`workspace-context workspace-switch workspace-context-${access.scope.type}`}
+          to="/workspaces"
+          state={{ workspaceKey: accessScopeKey(scope) }}
+          aria-label={tr('切换空间')}
+          title={`${scopeName} · ${workspaceName || scopeName} · ${tr('切换空间')}`}
+        >
           <span className="workspace-context-dot" aria-hidden="true" />
           <span className="workspace-context-type">{scopeName}</span>
           <strong title={workspaceName}>
@@ -130,42 +137,20 @@ export default function WorkspaceLayout() {
             )}
             {access.workspace?.name || scopeName}
           </strong>
-        </div>
+          <span className="workspace-context-divider" aria-hidden="true" />
+          <SwapOutlined className="workspace-context-switch-icon" aria-hidden="true" />
+          <span className="workspace-context-switch-label">{tr('切换空间')}</span>
+        </Link>
       )}
       actionsRender={() => [
-        <Tooltip title={tr('账号：{account}', { account: access.user.account })} key="user">
-          <div className="workspace-user" tabIndex={0}>
-            <Avatar size={34}>{access.user.name.slice(0, 1).toUpperCase()}</Avatar>
-            <span>
-              {access.user.name}
-              <small>{access.administrator ? tr('管理员') : tr('成员')}</small>
-            </span>
-          </div>
-        </Tooltip>,
-        <LocaleSwitch key="locale" showLabel={false} />,
-        <Button
-          key="change-password"
-          type="text"
-          icon={<KeyOutlined />}
-          onClick={() => changePasswordRef.current?.show()}
-        >
-          {tr('修改密码')}
-        </Button>,
-        <Link key="switch" to="/workspaces" aria-label={tr('切换空间')}>
-          <Button className="workspace-switch" aria-label={tr('切换空间')} icon={<SwapOutlined />}>
-            {tr('切换空间')}
-          </Button>
-        </Link>,
-        <Button
-          key="logout"
-          className="workspace-logout"
-          aria-label={tr('退出登录')}
-          type="text"
-          icon={<LogoutOutlined />}
-          onClick={() => void handleLogout()}
-        >
-          {tr('退出')}
-        </Button>,
+        <LocaleSwitch key="locale" />,
+        <AccountMenu
+          key="account"
+          user={access.user}
+          roleLabel={access.administrator ? tr('管理员') : tr('成员')}
+          onChangePassword={() => changePasswordRef.current?.show()}
+          onLogout={handleLogout}
+        />,
       ]}
     >
       <title>{`${workspaceName || scopeName} - ${tr('万物')}`}</title>

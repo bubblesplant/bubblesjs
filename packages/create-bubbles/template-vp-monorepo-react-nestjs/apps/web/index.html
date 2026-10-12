@@ -2,6 +2,10 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
+    <!-- 在任何模块样式加载前固定层序，避免重置样式覆盖组件主题。 -->
+    <style>
+      @layer theme, base, antd, antd-pro, components, utilities;
+    </style>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="万物，连接你的企业与项目工作空间。" />

@@ -1,0 +1,960 @@
+{
+  "baseUrl": "http://127.0.0.1:9999",
+  "mockData": true,
+  "browserVersion": "155.0.4283.45",
+  "executedAt": "2026-10-12T10:04:32.611Z",
+  "checks": [
+    {
+      "executedAt": "2026-10-12T09:56:02.156Z",
+      "name": "refresh-failure",
+      "width": 1440,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "columns": 3,
+        "cards": [
+          {
+            "x": 184,
+            "y": 436.15625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 436.15625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 436.15625,
+            "right": 1255.984375,
+            "width": 342.65625
+          },
+          {
+            "x": 184,
+            "y": 684.15625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 684.15625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 684.15625,
+            "right": 1255.984375,
+            "width": 342.65625
+          }
+        ]
+      },
+      "details": {
+        "refreshFailure": true,
+        "staleCardsHidden": true,
+        "retry": true
+      },
+      "passed": true
+    },
+    {
+      "executedAt": "2026-10-12T09:56:02.156Z",
+      "name": "missing-company-name",
+      "width": 1440,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "columns": 3,
+        "cards": [
+          {
+            "x": 184,
+            "y": 436.15625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 436.15625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 436.15625,
+            "right": 1255.984375,
+            "width": 342.65625
+          },
+          {
+            "x": 184,
+            "y": 684.15625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 684.15625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 684.15625,
+            "right": 1255.984375,
+            "width": 342.65625
+          }
+        ]
+      },
+      "details": {
+        "optionalCompanyName": true,
+        "knownCompanySearch": true,
+        "knownCompanyDisplay": true
+      },
+      "passed": true
+    },
+    {
+      "executedAt": "2026-10-12T09:56:02.156Z",
+      "name": "narrow-long",
+      "width": 320,
+      "locale": "zh_CN",
+      "longNames": true,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 320,
+        "scrollWidth": 320,
+        "columns": 1,
+        "cards": [
+          {
+            "x": 20,
+            "y": 510.203125,
+            "right": 300,
+            "width": 280
+          },
+          {
+            "x": 20,
+            "y": 758.734375,
+            "right": 300,
+            "width": 280
+          },
+          {
+            "x": 20,
+            "y": 1007.265625,
+            "right": 300,
+            "width": 280
+          },
+          {
+            "x": 20,
+            "y": 1255.796875,
+            "right": 300,
+            "width": 280
+          },
+          {
+            "x": 20,
+            "y": 1524.75,
+            "right": 300,
+            "width": 280
+          },
+          {
+            "x": 20,
+            "y": 1793.703125,
+            "right": 300,
+            "width": 280
+          }
+        ]
+      },
+      "details": {
+        "sixCards": true,
+        "header": {
+          "hover": [
+            {
+              "target": "切换语言",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "账户菜单",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            }
+          ],
+          "language": {
+            "count": 2,
+            "noSearch": true,
+            "arrow": true,
+            "switched": true
+          },
+          "account": true,
+          "accountActions": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "executedAt": "2026-10-12T09:56:02.156Z",
+      "name": "english",
+      "width": 1440,
+      "locale": "en_US",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "columns": 3,
+        "cards": [
+          {
+            "x": 184,
+            "y": 436.15625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 436.15625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 436.15625,
+            "right": 1255.984375,
+            "width": 342.65625
+          },
+          {
+            "x": 184,
+            "y": 689.265625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 689.265625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 689.265625,
+            "right": 1255.984375,
+            "width": 342.65625
+          }
+        ]
+      },
+      "details": {
+        "sixCards": true,
+        "header": {
+          "hover": [
+            {
+              "target": "Switch Language",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "Account menu",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            }
+          ],
+          "language": {
+            "count": 2,
+            "noSearch": true,
+            "arrow": true,
+            "switched": true
+          },
+          "account": true,
+          "accountActions": true
+        }
+      },
+      "passed": true
+    },
+    {
+      "executedAt": "2026-10-12T09:56:02.156Z",
+      "name": "reduced-motion",
+      "width": 1440,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "reduce",
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "columns": 3,
+        "cards": [
+          {
+            "x": 184,
+            "y": 436.15625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 436.15625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 436.15625,
+            "right": 1255.984375,
+            "width": 342.65625
+          },
+          {
+            "x": 184,
+            "y": 684.15625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 684.15625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 684.15625,
+            "right": 1255.984375,
+            "width": 342.65625
+          }
+        ]
+      },
+      "details": {
+        "sixCards": true,
+        "header": {
+          "hover": [
+            {
+              "target": "切换语言",
+              "layoutCount": 0,
+              "recalcStyleCount": 5,
+              "transition": "none",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "账户菜单",
+              "layoutCount": 0,
+              "recalcStyleCount": 2,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            }
+          ],
+          "language": {
+            "count": 2,
+            "noSearch": true,
+            "arrow": true,
+            "switched": true
+          },
+          "account": true,
+          "accountActions": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "executedAt": "2026-10-12T09:56:02.156Z",
+      "name": "empty",
+      "width": 390,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 390,
+        "scrollWidth": 390,
+        "columns": 0,
+        "cards": []
+      },
+      "details": {
+        "emptyAccess": true,
+        "header": {
+          "hover": [
+            {
+              "target": "切换语言",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "账户菜单",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            }
+          ],
+          "language": {
+            "count": 2,
+            "noSearch": true,
+            "arrow": true,
+            "switched": true
+          },
+          "account": true,
+          "accountActions": true
+        }
+      },
+      "passed": true
+    },
+    {
+      "executedAt": "2026-10-12T09:56:02.156Z",
+      "name": "navigation-platform",
+      "width": 1440,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "columns": 0,
+        "cards": []
+      },
+      "details": {
+        "scopeType": "platform",
+        "leftNavigation": true,
+        "noSpacePopover": true,
+        "currentCorrect": true,
+        "enterCurrent": true,
+        "shortcut": {
+          "exists": true,
+          "crossPage": true,
+          "filtered": true,
+          "entersOriginal": true,
+          "revokedHidden": true
+        },
+        "header": {
+          "hover": [
+            {
+              "target": "切换空间",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "切换语言",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "账户菜单",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            }
+          ],
+          "language": {
+            "count": 2,
+            "noSearch": true,
+            "arrow": true,
+            "switched": true
+          },
+          "account": true,
+          "accountActions": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "executedAt": "2026-10-12T09:56:02.156Z",
+      "name": "navigation-project",
+      "width": 1440,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "columns": 0,
+        "cards": []
+      },
+      "details": {
+        "scopeType": "project",
+        "leftNavigation": true,
+        "noSpacePopover": true,
+        "currentCorrect": true,
+        "enterCurrent": true,
+        "shortcut": {
+          "exists": true,
+          "crossPage": true,
+          "filtered": true,
+          "entersOriginal": true,
+          "revokedHidden": true
+        },
+        "header": {
+          "hover": [
+            {
+              "target": "切换空间",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "切换语言",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "账户菜单",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            }
+          ],
+          "language": {
+            "count": 2,
+            "noSearch": true,
+            "arrow": true,
+            "switched": true
+          },
+          "account": true,
+          "accountActions": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "executedAt": "2026-10-12T10:03:09.651Z",
+      "name": "filters-desktop",
+      "width": 1440,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "columns": 3,
+        "cards": [
+          {
+            "x": 184,
+            "y": 408.15625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 408.15625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 408.15625,
+            "right": 1255.984375,
+            "width": 342.65625
+          },
+          {
+            "x": 184,
+            "y": 656.15625,
+            "right": 526.65625,
+            "width": 342.65625
+          },
+          {
+            "x": 548.65625,
+            "y": 656.15625,
+            "right": 891.328125,
+            "width": 342.671875
+          },
+          {
+            "x": 913.328125,
+            "y": 656.15625,
+            "right": 1255.984375,
+            "width": 342.65625
+          }
+        ]
+      },
+      "details": {
+        "pagination": [
+          6,
+          6,
+          2
+        ],
+        "allRoutesChecked": 14,
+        "caseInsensitiveSearch": true,
+        "combinedFilters": true,
+        "typeCounts": true,
+        "projectOnlyCompany": true,
+        "refreshPreservesFilters": true,
+        "removedCompanyReset": true,
+        "outOfRangePageClamped": true,
+        "cardHover": {
+          "layoutCount": 0,
+          "geometryStable": true,
+          "sampledFrames": 12
+        }
+      },
+      "passed": true
+    },
+    {
+      "executedAt": "2026-10-12T10:03:14.558Z",
+      "name": "mobile",
+      "width": 390,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 390,
+        "scrollWidth": 390,
+        "columns": 1,
+        "cards": [
+          {
+            "x": 20,
+            "y": 413.59375,
+            "right": 370,
+            "width": 350
+          },
+          {
+            "x": 20,
+            "y": 641.59375,
+            "right": 370,
+            "width": 350
+          },
+          {
+            "x": 20,
+            "y": 869.59375,
+            "right": 370,
+            "width": 350
+          },
+          {
+            "x": 20,
+            "y": 1097.59375,
+            "right": 370,
+            "width": 350
+          },
+          {
+            "x": 20,
+            "y": 1325.59375,
+            "right": 370,
+            "width": 350
+          },
+          {
+            "x": 20,
+            "y": 1553.59375,
+            "right": 370,
+            "width": 350
+          }
+        ]
+      },
+      "details": {
+        "sixCards": true,
+        "header": {
+          "hover": [
+            {
+              "target": "切换语言",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "账户菜单",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            }
+          ],
+          "language": {
+            "count": 2,
+            "noSearch": true,
+            "arrow": true,
+            "switched": true
+          },
+          "account": true,
+          "accountActions": false
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "navigation-company",
+      "width": 1440,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "columns": 0,
+        "cards": []
+      },
+      "details": {
+        "scopeType": "company",
+        "leftNavigation": true,
+        "noSpacePopover": true,
+        "currentCorrect": true,
+        "enterCurrent": true,
+        "shortcut": {
+          "exists": true,
+          "crossPage": true,
+          "filtered": true,
+          "entersOriginal": true,
+          "revokedHidden": true
+        },
+        "header": {
+          "hover": [
+            {
+              "target": "切换空间",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "切换语言",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "账户菜单",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            }
+          ],
+          "language": {
+            "count": 2,
+            "noSearch": true,
+            "arrow": true,
+            "switched": true
+          },
+          "account": true,
+          "accountActions": false
+        }
+      },
+      "passed": true,
+      "executedAt": "2026-10-12T10:04:42.650Z"
+    },
+    {
+      "name": "navigation-company-narrow",
+      "width": 320,
+      "locale": "zh_CN",
+      "longNames": false,
+      "reducedMotion": "no-preference",
+      "geometry": {
+        "width": 320,
+        "scrollWidth": 320,
+        "columns": 0,
+        "cards": []
+      },
+      "details": {
+        "scopeType": "company",
+        "leftNavigation": true,
+        "noSpacePopover": true,
+        "currentCorrect": true,
+        "enterCurrent": true,
+        "shortcut": {
+          "exists": true,
+          "crossPage": true,
+          "filtered": true,
+          "entersOriginal": true,
+          "revokedHidden": true
+        },
+        "header": {
+          "hover": [
+            {
+              "target": "切换空间",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "切换语言",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            },
+            {
+              "target": "账户菜单",
+              "layoutCount": 0,
+              "recalcStyleCount": 20,
+              "transition": "color, background-color, border-color",
+              "sampledFrames": 24,
+              "geometryStable": true
+            }
+          ],
+          "language": {
+            "count": 2,
+            "noSearch": true,
+            "arrow": true,
+            "switched": true
+          },
+          "account": true,
+          "accountActions": false
+        }
+      },
+      "passed": true,
+      "executedAt": "2026-10-12T10:04:52.334Z"
+    }
+  ],
+  "failures": [],
+  "images": [
+    {
+      "name": "workspace-switch-refresh-error",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-refresh-error.png",
+      "bytes": 19251,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "name": "workspace-switch-missing-company-name",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-missing-company-name.png",
+      "bytes": 731790,
+      "width": 1440,
+      "height": 1040
+    },
+    {
+      "name": "workspace-switch-narrow-long",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-narrow-long.png",
+      "bytes": 411624,
+      "width": 320,
+      "height": 2182
+    },
+    {
+      "name": "workspace-switch-english",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-english.png",
+      "bytes": 747559,
+      "width": 1440,
+      "height": 1045
+    },
+    {
+      "name": "workspace-switch-reduced-motion",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-reduced-motion.png",
+      "bytes": 733567,
+      "width": 1440,
+      "height": 1040
+    },
+    {
+      "name": "workspace-switch-empty",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-empty.png",
+      "bytes": 215773,
+      "width": 390,
+      "height": 1000
+    },
+    {
+      "name": "workspace-switch-current-platform-1440",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-current-platform-1440.png",
+      "bytes": 750178,
+      "width": 1440,
+      "height": 1045
+    },
+    {
+      "name": "workspace-switch-current-project-1440",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-current-project-1440.png",
+      "bytes": 720260,
+      "width": 1440,
+      "height": 1017
+    },
+    {
+      "name": "workspace-switch-desktop",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-desktop.png",
+      "bytes": 704961,
+      "width": 1440,
+      "height": 1012
+    },
+    {
+      "name": "workspace-switch-project-only-company",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-project-only-company.png",
+      "bytes": 764566,
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "name": "workspace-switch-mobile",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-mobile.png",
+      "bytes": 389713,
+      "width": 390,
+      "height": 1900
+    },
+    {
+      "name": "workspace-switch-current-company-1440",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-current-company-1440.png",
+      "bytes": 710441,
+      "width": 1440,
+      "height": 1012,
+      "language": "zh-CN"
+    },
+    {
+      "name": "workspace-switch-current-company-320",
+      "path": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-current-company-320.png",
+      "bytes": 370624,
+      "width": 320,
+      "height": 2024,
+      "language": "zh-CN"
+    }
+  ],
+  "retests": [
+    {
+      "executedAt": "2026-10-12T10:01:41.265Z",
+      "scenarios": [
+        "navigation-company"
+      ],
+      "priorFailures": [
+        {
+          "name": "navigation-company",
+          "error": "纯 hover 区间发生布局\n\n1 !== 0\n",
+          "unexpected": [],
+          "pageErrors": []
+        }
+      ]
+    },
+    {
+      "executedAt": "2026-10-12T10:03:05.482Z",
+      "scenarios": [
+        "filters-desktop",
+        "mobile"
+      ],
+      "priorFailures": []
+    },
+    {
+      "executedAt": "2026-10-12T10:04:32.611Z",
+      "scenarios": [
+        "navigation-company",
+        "navigation-company-narrow"
+      ],
+      "priorFailures": []
+    }
+  ]
+}

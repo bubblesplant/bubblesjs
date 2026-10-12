@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-12",
+  "browserVersion": "145.0.7632.6",
+  "mockData": true,
+  "observation": {
+    "scope": "/workspaces account hover",
+    "neutralPointer": "blank header center (600,44)",
+    "geometryChanged": false,
+    "metrics": [
+      {
+        "name": "LayoutCount",
+        "delta": 0
+      },
+      {
+        "name": "RecalcStyleCount",
+        "delta": 22
+      }
+    ],
+    "transition": "all",
+    "note": "在当前 Chromium 隔离环境未复现可见几何抖动；保留默认 all 过渡风险，实施明确颜色过渡。此前从卡片移出产生的 Layout 不属于头部 hover。"
+  }
+}

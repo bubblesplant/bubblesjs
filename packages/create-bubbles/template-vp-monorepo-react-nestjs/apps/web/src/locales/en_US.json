@@ -1,4 +1,9 @@
 {
+  "选择语言": "Choose language",
+  "搜索语言": "Search languages",
+  "没有匹配的语言": "No matching languages",
+  "语言切换失败，请重试": "Unable to switch languages. Please try again.",
+  "账户菜单": "Account menu",
   "保存": "Save",
   "ProTable 示例": "ProTable Examples",
   "一个账号，访问你加入的企业和项目。": "Use one account to access the companies and projects you have joined.",
@@ -638,5 +643,17 @@
   "目标账号：{account}": "Target Account: {account}",
   "重置成功后，目标账号的所有终端会话失效。请通过现有线下渠道告知用户。": "After the reset, the account is signed out on every device. Share the new password through your existing offline channel.",
   "密码已重置，请通过现有线下渠道告知用户。": "Password reset. Share the new password through your existing offline channel.",
-  "确认重置": "Reset Password"
+  "确认重置": "Reset Password",
+  "搜索空间名称或所属企业": "Search spaces or companies",
+  "共 {count} 个空间": "{count} spaces",
+  "当前展示 {start}–{end}": "Showing {start}–{end}",
+  "返回空间": "Return to space",
+  "返回当前空间": "Return to current space",
+  "{count} 个 / 页": "{count} / page",
+  "所属企业 · {name}": "Company · {name}",
+  "全部企业": "All companies",
+  "清空筛选条件": "Clear filters",
+  "当前空间": "Current space",
+  "空间类型": "Space type",
+  "全部": "All"
 }

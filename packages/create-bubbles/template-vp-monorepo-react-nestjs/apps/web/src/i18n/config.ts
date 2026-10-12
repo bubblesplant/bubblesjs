@@ -2,6 +2,12 @@ export const APP_LOCALES = ['zh_CN', 'en_US'] as const
 
 export type AppLocale = (typeof APP_LOCALES)[number]
 
+/** 原生语言名称与标准标签；新增语言时须与资源加载器、UI 适配器一并注册。 */
+export const APP_LOCALE_LABELS = {
+  zh_CN: { nativeName: '简体中文', languageTag: 'zh-Hans', englishName: 'Simplified Chinese' },
+  en_US: { nativeName: 'English', languageTag: 'en', englishName: 'English' },
+} satisfies Record<AppLocale, { nativeName: string; languageTag: string; englishName: string }>
+
 export const DEFAULT_LOCALE: AppLocale = 'zh_CN'
 export const I18N_STORAGE_KEY = 'wanwu-locale'
 

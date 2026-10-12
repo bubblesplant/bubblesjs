@@ -1,0 +1,70 @@
+{
+  "baseUrl": "http://127.0.0.1:9999",
+  "mockData": true,
+  "checks": [
+    {
+      "name": "account-menu-desktop",
+      "width": 1440,
+      "empty": false,
+      "longName": false,
+      "english": false,
+      "reducedMotion": "no-preference",
+      "passed": true
+    },
+    {
+      "name": "account-menu-reduced-motion",
+      "width": 1440,
+      "empty": false,
+      "longName": false,
+      "english": false,
+      "reducedMotion": "reduce",
+      "passed": true
+    },
+    {
+      "name": "account-menu-mobile",
+      "width": 390,
+      "empty": false,
+      "longName": false,
+      "english": false,
+      "reducedMotion": "reduce",
+      "passed": true
+    },
+    {
+      "name": "account-menu-narrow",
+      "width": 320,
+      "empty": false,
+      "longName": false,
+      "english": false,
+      "reducedMotion": "reduce",
+      "passed": true
+    },
+    {
+      "name": "account-menu-long-name",
+      "width": 320,
+      "empty": false,
+      "longName": true,
+      "english": false,
+      "reducedMotion": "reduce",
+      "passed": true
+    },
+    {
+      "name": "account-menu-empty",
+      "width": 390,
+      "empty": true,
+      "longName": false,
+      "english": false,
+      "reducedMotion": "reduce",
+      "passed": true
+    },
+    {
+      "name": "account-menu-english",
+      "width": 390,
+      "empty": false,
+      "longName": false,
+      "english": true,
+      "reducedMotion": "reduce",
+      "passed": true
+    }
+  ],
+  "failures": []
+}

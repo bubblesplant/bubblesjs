@@ -44,7 +44,6 @@
     "eslint-plugin-format": "catalog:",
     "eslint-plugin-oxlint": "catalog:",
     "fast-glob": "catalog:",
-    "lefthook": "catalog:",
     "oxlint": "catalog:",
     "sass": "catalog:",
     "typescript": "catalog:",

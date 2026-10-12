@@ -1,0 +1,752 @@
+{
+  "baseUrl": "http://127.0.0.1:9999",
+  "mockData": true,
+  "browserVersion": "155.0.4283.45",
+  "checks": [
+    {
+      "name": "workspaces-desktop",
+      "path": "/workspaces",
+      "width": 1440,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 1064,
+          "y": 72,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 1196,
+          "y": 56,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 1188.609375,
+          "y": 28.921875,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": true,
+      "passed": true
+    },
+    {
+      "name": "workspaces-mobile",
+      "path": "/workspaces",
+      "width": 390,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 110,
+          "y": 68,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 269,
+          "y": 52,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 261,
+          "y": 24.921875,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": false,
+      "passed": true
+    },
+    {
+      "name": "workspaces-narrow",
+      "path": "/workspaces",
+      "width": 320,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 40,
+          "y": 68,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 199,
+          "y": 52,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 191,
+          "y": 24.921875,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": false,
+      "passed": true
+    },
+    {
+      "name": "company-desktop",
+      "path": "/companies/qa-company",
+      "width": 1440,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 1126,
+          "y": 64,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 1258,
+          "y": 48,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 1250,
+          "y": 20,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换空间",
+          "layoutCount": 0,
+          "recalcStyleCount": 26,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": true,
+      "passed": true
+    },
+    {
+      "name": "company-mobile",
+      "path": "/companies/qa-company",
+      "width": 390,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 110,
+          "y": 64,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 288,
+          "y": 48,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 280,
+          "y": 20,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换空间",
+          "layoutCount": 0,
+          "recalcStyleCount": 26,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": false,
+      "passed": true
+    },
+    {
+      "name": "company-narrow",
+      "path": "/companies/qa-company",
+      "width": 320,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 40,
+          "y": 64,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 218,
+          "y": 48,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 210,
+          "y": 20,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换空间",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 26,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 27,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": false,
+      "passed": true
+    },
+    {
+      "name": "project-desktop",
+      "path": "/companies/qa-company/projects/qa-project",
+      "width": 1440,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 1126,
+          "y": 64,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 1258,
+          "y": 48,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 1250,
+          "y": 20,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换空间",
+          "layoutCount": 0,
+          "recalcStyleCount": 26,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": true,
+      "passed": true
+    },
+    {
+      "name": "project-mobile",
+      "path": "/companies/qa-company/projects/qa-project",
+      "width": 390,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 110,
+          "y": 64,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 288,
+          "y": 48,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 280,
+          "y": 20,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换空间",
+          "layoutCount": 0,
+          "recalcStyleCount": 27,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": false,
+      "passed": true
+    },
+    {
+      "name": "project-narrow",
+      "path": "/companies/qa-company/projects/qa-project",
+      "width": 320,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 40,
+          "y": 64,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 218,
+          "y": 48,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 210,
+          "y": 20,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换空间",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 26,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 26,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": false,
+      "passed": true
+    },
+    {
+      "name": "platform-desktop",
+      "path": "/platform",
+      "width": 1440,
+      "locale": "zh_CN",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 1126,
+          "y": 64,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 1258,
+          "y": 48,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 1250,
+          "y": 20,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换空间",
+          "layoutCount": 0,
+          "recalcStyleCount": 26,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": true,
+      "passed": true
+    },
+    {
+      "name": "company-english",
+      "path": "/companies/qa-company",
+      "width": 1440,
+      "locale": "en_US",
+      "reducedMotion": "no-preference",
+      "bounds": {
+        "popup": {
+          "x": 1126,
+          "y": 64,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 1258,
+          "y": 48,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 1250,
+          "y": 20,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "Switch Workspace",
+          "layoutCount": 0,
+          "recalcStyleCount": 26,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "Switch Language",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "Account menu",
+          "layoutCount": 0,
+          "recalcStyleCount": 20,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": true,
+      "passed": true
+    },
+    {
+      "name": "project-reduced-motion",
+      "path": "/companies/qa-company/projects/qa-project",
+      "width": 1440,
+      "locale": "zh_CN",
+      "reducedMotion": "reduce",
+      "bounds": {
+        "popup": {
+          "x": 1126,
+          "y": 64,
+          "width": 280,
+          "height": 163.421875
+        },
+        "arrow": {
+          "x": 1258,
+          "y": 48,
+          "width": 16,
+          "height": 16
+        },
+        "trigger": {
+          "x": 1250,
+          "y": 20,
+          "width": 32,
+          "height": 32
+        }
+      },
+      "hover": [
+        {
+          "target": "切换空间",
+          "layoutCount": 0,
+          "recalcStyleCount": 6,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "切换语言",
+          "layoutCount": 0,
+          "recalcStyleCount": 3,
+          "transition": "none",
+          "sampledFrames": 24,
+          "geometryStable": true
+        },
+        {
+          "target": "账户菜单",
+          "layoutCount": 0,
+          "recalcStyleCount": 2,
+          "transition": "color, background-color, border-color",
+          "sampledFrames": 24,
+          "geometryStable": true
+        }
+      ],
+      "search": {
+        "visible": false,
+        "registeredLocales": 2,
+        "threshold": 5,
+        "visibilityChecked": true
+      },
+      "keyboard": true,
+      "switchLanguage": true,
+      "account": true,
+      "accountActions": true,
+      "passed": true
+    }
+  ],
+  "failures": []
+}

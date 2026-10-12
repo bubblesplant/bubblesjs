@@ -1,0 +1,303 @@
+{
+  "baseUrl": "http://localhost:9999",
+  "browserVersion": "155.0.8059.39",
+  "mockApi": true,
+  "checks": [
+    {
+      "name": "登录→工作空间",
+      "path": "/workspaces",
+      "region": "route-layout",
+      "reduce": false,
+      "events": [
+        {
+          "snapshots": [
+            {
+              "pseudo": "::view-transition-new(route-layout)",
+              "duration": 500,
+              "easing": "cubic-bezier(0.45, 0, 0.55, 1)"
+            },
+            {
+              "pseudo": "::view-transition-old(route-layout)",
+              "duration": 500,
+              "easing": "cubic-bezier(0.45, 0, 0.55, 1)"
+            }
+          ],
+          "animationResults": [
+            "finished",
+            "finished"
+          ],
+          "styles": {
+            "group": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 0, 0)"
+            },
+            "old": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, -720, 0)"
+            },
+            "new": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 720, 0)"
+            }
+          },
+          "paused": true,
+          "finished": true
+        }
+      ],
+      "image": "route-transition-speed-login-chrome.png"
+    },
+    {
+      "name": "工作空间→企业",
+      "path": "/companies/qa-company",
+      "region": "route-layout",
+      "reduce": false,
+      "events": [
+        {
+          "snapshots": [
+            {
+              "pseudo": "::view-transition-new(route-layout)",
+              "duration": 500,
+              "easing": "cubic-bezier(0.45, 0, 0.55, 1)"
+            },
+            {
+              "pseudo": "::view-transition-old(route-layout)",
+              "duration": 500,
+              "easing": "cubic-bezier(0.45, 0, 0.55, 1)"
+            }
+          ],
+          "animationResults": [
+            "finished",
+            "finished"
+          ],
+          "styles": {
+            "group": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 0, 0)"
+            },
+            "old": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, -720, 0)"
+            },
+            "new": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 720, 0)"
+            }
+          },
+          "paused": true,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "name": "企业菜单",
+      "path": "/companies/qa-company/projects",
+      "region": "route-page",
+      "reduce": false,
+      "events": [
+        {
+          "snapshots": [
+            {
+              "pseudo": "::view-transition-new(route-page)",
+              "duration": 320,
+              "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+            },
+            {
+              "pseudo": "::view-transition-old(route-page)",
+              "duration": 320,
+              "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+            }
+          ],
+          "animationResults": [
+            "finished",
+            "finished"
+          ],
+          "styles": {
+            "group": {
+              "width": "1208px",
+              "height": "928px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 232, 72)"
+            },
+            "old": {
+              "width": "1208px",
+              "height": "928px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, -936.878, 0)"
+            },
+            "new": {
+              "width": "1208px",
+              "height": "928px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 271.122, 0)"
+            }
+          },
+          "paused": true,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "name": "企业→工作空间",
+      "path": "/workspaces",
+      "region": "route-layout",
+      "reduce": false,
+      "events": [
+        {
+          "snapshots": [
+            {
+              "pseudo": "::view-transition-new(route-layout)",
+              "duration": 500,
+              "easing": "cubic-bezier(0.45, 0, 0.55, 1)"
+            },
+            {
+              "pseudo": "::view-transition-old(route-layout)",
+              "duration": 500,
+              "easing": "cubic-bezier(0.45, 0, 0.55, 1)"
+            }
+          ],
+          "animationResults": [
+            "finished",
+            "finished"
+          ],
+          "styles": {
+            "group": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 0, 0)"
+            },
+            "old": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, -720, 0)"
+            },
+            "new": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 720, 0)"
+            }
+          },
+          "paused": true,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "name": "工作空间→项目",
+      "path": "/companies/qa-company/projects/qa-project",
+      "region": "route-layout",
+      "reduce": false,
+      "events": [
+        {
+          "snapshots": [
+            {
+              "pseudo": "::view-transition-new(route-layout)",
+              "duration": 500,
+              "easing": "cubic-bezier(0.45, 0, 0.55, 1)"
+            },
+            {
+              "pseudo": "::view-transition-old(route-layout)",
+              "duration": 500,
+              "easing": "cubic-bezier(0.45, 0, 0.55, 1)"
+            }
+          ],
+          "animationResults": [
+            "finished",
+            "finished"
+          ],
+          "styles": {
+            "group": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 0, 0)"
+            },
+            "old": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, -720, 0)"
+            },
+            "new": {
+              "width": "1440px",
+              "height": "1000px",
+              "opacity": "1",
+              "visibility": "visible",
+              "transform": "matrix(1, 0, 0, 1, 720, 0)"
+            }
+          },
+          "paused": true,
+          "finished": true
+        }
+      ]
+    },
+    {
+      "name": "减少动态效果：登录",
+      "path": "/workspaces",
+      "region": "route-layout",
+      "reduce": true,
+      "events": [
+        {
+          "snapshots": [],
+          "animationResults": [],
+          "finished": true
+        }
+      ]
+    },
+    {
+      "name": "减少动态效果：工作空间→企业",
+      "path": "/companies/qa-company",
+      "region": "route-layout",
+      "reduce": true,
+      "events": [
+        {
+          "snapshots": [],
+          "animationResults": [],
+          "finished": true
+        }
+      ]
+    },
+    {
+      "name": "减少动态效果：企业菜单",
+      "path": "/companies/qa-company/projects",
+      "region": "route-page",
+      "reduce": true,
+      "events": [
+        {
+          "snapshots": [],
+          "animationResults": [],
+          "finished": true
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

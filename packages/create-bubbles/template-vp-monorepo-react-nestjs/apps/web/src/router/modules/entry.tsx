@@ -9,7 +9,7 @@ export const entryRoutes: RouteObject[] = [
   {
     id: 'workspaces',
     path: '/workspaces',
-    element: <RouteTransition>{lazyLoad('workspaces')}</RouteTransition>,
+    element: lazyLoad('workspaces'),
     middleware: [authMiddleware, workspacesMiddleware],
     errorElement: (
       <RouteTransition>

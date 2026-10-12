@@ -1,0 +1,129 @@
+@layer components {
+  .workspace-account-trigger.ant-btn {
+    height: 44px;
+    gap: 10px;
+    padding: 5px 10px 5px 6px;
+    border: 1px solid transparent;
+    border-radius: 26px;
+    background-color: transparent;
+    color: var(--wanwu-ink);
+    /* 初始即预留边框，只过渡颜色以保持页头与相邻控件稳定。 */
+    transition:
+      color 180ms,
+      background-color 180ms,
+      border-color 180ms;
+  }
+  .workspace-account-trigger.ant-btn:hover,
+  .workspace-account-trigger.ant-btn[aria-expanded='true'] {
+    background-color: #ffffff8c;
+    border-color: var(--wanwu-border);
+  }
+  .workspace-account-trigger.ant-btn:active {
+    background-color: #ffffffb3;
+    border-color: var(--wanwu-border);
+  }
+  .workspace-account-trigger.ant-btn:focus-visible {
+    outline: 2px solid #7864c4;
+    outline-offset: 3px;
+  }
+  .workspace-account-trigger .ant-avatar,
+  .workspace-account-identity .ant-avatar {
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #e9e1f7, #e3eafb);
+    border: 1px solid #ffffff;
+    color: #7763ad;
+    font-weight: 600;
+  }
+  .workspace-account-name {
+    max-width: 132px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .workspace-account-chevron {
+    color: var(--wanwu-muted);
+    font-size: 10px;
+    transition: color 180ms;
+  }
+  .workspace-account-trigger[aria-expanded='true'] .workspace-account-chevron {
+    color: var(--wanwu-ink);
+  }
+  .workspace-account-dropdown {
+    width: 272px;
+    max-width: calc(100vw - 32px);
+    padding-top: 8px;
+  }
+  .workspace-account-panel {
+    overflow: hidden;
+    padding: 6px;
+    background: #fcfbffed;
+    border: 1px solid var(--wanwu-border);
+    border-radius: 18px;
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 16px 48px #5b46901f,
+      0 2px 8px #5b469008;
+  }
+  .workspace-account-identity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 8px 6px;
+    padding: 14px 2px 18px;
+    border-bottom: 1px solid #eeebf5;
+  }
+  .workspace-account-details {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-wrap: anywhere;
+  }
+  .workspace-account-details strong {
+    color: var(--wanwu-ink);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .workspace-account-details > span,
+  .workspace-account-details > small {
+    color: var(--wanwu-muted);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .workspace-account-dropdown .ant-dropdown-menu {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .workspace-account-dropdown .ant-dropdown-menu-item {
+    min-height: 40px;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transition:
+      color 180ms,
+      background-color 180ms,
+      border-color 180ms;
+  }
+  .workspace-account-dropdown .ant-dropdown-menu-item-divider {
+    margin: 6px 10px;
+    background: #eeebf5;
+  }
+  @media (max-width: 767px) {
+    .workspace-account-name {
+      display: none;
+    }
+    .workspace-account-trigger.ant-btn {
+      gap: 6px;
+      padding-inline: 5px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .workspace-account-dropdown {
+      /* 浮层测量位置时须立即移动，避免全局短过渡影响定位。 */
+      transition: none !important;
+    }
+  }
+}

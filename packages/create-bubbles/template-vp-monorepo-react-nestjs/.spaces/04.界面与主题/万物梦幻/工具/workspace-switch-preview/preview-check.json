@@ -1,0 +1,30 @@
+{
+  "htmlPath": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-options.html",
+  "pngPath": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-options.png",
+  "bytes": 643068,
+  "width": 2160,
+  "height": 2406,
+  "evidence": [
+    {
+      "rows": 4,
+      "selected": 1,
+      "searchInputs": 0,
+      "panelInsideStage": true,
+      "arrowOffset": 0
+    },
+    {
+      "rows": 4,
+      "selected": 1,
+      "searchInputs": 0,
+      "panelInsideStage": true,
+      "arrowOffset": 0
+    },
+    {
+      "rows": 4,
+      "selected": 1,
+      "searchInputs": 0,
+      "panelInsideStage": true,
+      "arrowOffset": 0.00004999999998744897
+    }
+  ]
+}

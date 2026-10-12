@@ -1,0 +1,267 @@
+{
+  "baseUrl": "http://127.0.0.1:9999",
+  "mockData": true,
+  "browserVersion": "145.0.7632.6",
+  "checks": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "reducedMotion": "no-preference",
+      "english": false,
+      "empty": false,
+      "longName": false,
+      "details": [
+        {
+          "target": "切换语言",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        },
+        {
+          "target": "账户菜单",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "desktop-reduced-motion",
+      "width": 1440,
+      "reducedMotion": "reduce",
+      "english": false,
+      "empty": false,
+      "longName": false,
+      "details": [
+        {
+          "target": "切换语言",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 2
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        },
+        {
+          "target": "账户菜单",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 2
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "reducedMotion": "no-preference",
+      "english": false,
+      "empty": false,
+      "longName": false,
+      "details": [
+        {
+          "target": "切换语言",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        },
+        {
+          "target": "账户菜单",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "narrow",
+      "width": 320,
+      "reducedMotion": "no-preference",
+      "english": false,
+      "empty": false,
+      "longName": false,
+      "details": [
+        {
+          "target": "切换语言",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        },
+        {
+          "target": "账户菜单",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "long-name",
+      "width": 320,
+      "reducedMotion": "no-preference",
+      "english": false,
+      "empty": false,
+      "longName": true,
+      "details": [
+        {
+          "target": "切换语言",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        },
+        {
+          "target": "账户菜单",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "empty-workspaces",
+      "width": 390,
+      "reducedMotion": "no-preference",
+      "english": false,
+      "empty": true,
+      "longName": false,
+      "details": [
+        {
+          "target": "切换语言",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        },
+        {
+          "target": "账户菜单",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "name": "english",
+      "width": 1440,
+      "reducedMotion": "no-preference",
+      "english": true,
+      "empty": false,
+      "longName": false,
+      "details": [
+        {
+          "target": "Switch Language",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        },
+        {
+          "target": "Account menu",
+          "enterMetrics": {
+            "layoutCount": 0,
+            "recalcStyleCount": 20
+          },
+          "transition": "color, background-color, border-color",
+          "initialBorder": "rgba(0, 0, 0, 0)",
+          "sampledFrames": 54,
+          "hoverFeedback": true,
+          "keyboardFocus": true,
+          "pressedFeedback": true
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,30 @@
+{
+  "previewOnly": true,
+  "renderer": "local HTML/CSS + Edge headless",
+  "htmlPath": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-navigation.html",
+  "pngPath": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\万物梦幻\\ui\\workspace-switch-navigation.png",
+  "bytes": 1406947,
+  "width": 2160,
+  "height": 2187,
+  "decoded": true,
+  "checks": {
+    "navigationTriggers": 1,
+    "workspacePopovers": 0,
+    "displayedCards": 6,
+    "currentCards": 1,
+    "currentWorkspace": "星屿科技",
+    "tables": 0,
+    "cardColumns": 3,
+    "singleEntryPerCard": true,
+    "projectsWithCompany": true,
+    "lastPage": 12,
+    "pageSize": "6 个 / 页",
+    "searchInputs": 1,
+    "typeTabs": 4,
+    "enterpriseFilter": true,
+    "pagination": true,
+    "refreshButton": true,
+    "insideBoard": true,
+    "horizontallyContained": true
+  }
+}

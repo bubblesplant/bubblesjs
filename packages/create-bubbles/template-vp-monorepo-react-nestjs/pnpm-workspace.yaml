@@ -14,12 +14,12 @@ catalog:
   '@antdv-next/auto-import-resolver': ^1.2.0
   '@antdv-next/icons': ^1.1.2
   '@antfu/eslint-config': ^9.5.1
-  '@aws-sdk/client-s3': ^3.1129.0
-  '@commitlint/cli': ^21.2.2
-  '@commitlint/config-conventional': ^21.2.2
-  '@fastify/cookie': ^11.1.2
-  '@fastify/static': ^10.1.3
-  '@nestjs-modules/ioredis': ^2.2.2
+  '@aws-sdk/client-s3': ^3.1149.0
+  '@commitlint/cli': ^21.2.3
+  '@commitlint/config-conventional': ^21.2.3
+  '@fastify/cookie': ^11.1.3
+  '@fastify/static': ^10.1.6
+  '@nestjs-modules/ioredis': ^2.3.1
   '@nestjs/bullmq': ^12.0.0
   # nestjs-zod 5.5.0 尚未声明支持 NestJS 12，核心与 Swagger 保留最新兼容版本。
   '@nestjs/cli': ^11.0.24
@@ -33,59 +33,58 @@ catalog:
   '@nestjs/swagger': ^11.4.7
   '@nestjs/testing': ^11.2.3
   '@swc/cli': ^0.8.1
-  '@swc/core': ^1.16.2
+  '@swc/core': ^1.16.18
   '@tailwindcss/vite': ^4.3.3
   '@types/express': ^5.0.6
   # 保持现有 Node 26 类型系列；npm latest 标签目前指向维护中的 Node 22 类型。
-  '@types/node': ^26.5.1
+  '@types/node': ^26.6.5
   '@types/nprogress': ^0.2.3
   '@types/pg': ^8.23.1
   '@types/react': ^19.3.0
   '@types/react-dom': ^19.3.0
-  '@unocss/eslint-plugin': ^66.10.1
-  '@unocss/preset-attributify': ^66.10.1
-  '@unocss/preset-wind4': ^66.10.1
-  '@vitejs/plugin-react': ^6.1.1
-  '@vitejs/plugin-vue': ^6.0.8
+  '@unocss/eslint-plugin': ^66.11.0
+  '@unocss/preset-attributify': ^66.11.0
+  '@unocss/preset-wind4': ^66.11.0
+  '@vitejs/plugin-react': ^6.1.2
+  '@vitejs/plugin-vue': ^6.0.10
   '@vue/devtools-api': ^8.2.1
   '@vue/tsconfig': ^0.9.1
   alova: ^3.5.5
-  antd: ^6.6.3
-  antdv-next: ^1.5.3
+  antd: ^6.6.6
+  antdv-next: ^1.6.0
   argon2: ^0.45.1
   axios: ^1.20.0
-  bullmq: ^6.3.4
+  bullmq: ^6.3.13
   chokidar: ^5.0.0
   classnames: ^2.5.1
   cross-env: ^10.1.0
   dayjs: ^1.11.23
-  dotenv: ^17.4.2
-  drizzle-kit: ^0.31.10
-  drizzle-orm: ^0.45.2
+  dotenv: ^18.0.7
+  drizzle-kit: ^0.31.11
+  drizzle-orm: ^0.45.4
   drizzle-zod: ^0.8.3
   echarts: ^6.1.0
-  eslint: 10.10.0
+  eslint: 10.12.0
   eslint-plugin-format: ^2.0.1
-  eslint-plugin-oxlint: ^1.82.0
+  eslint-plugin-oxlint: ^1.87.0
   fast-glob: ^3.3.3
-  fastify: ^5.12.3
-  globals: ^17.12.0
-  happy-dom: ^20.14.5
+  fastify: ^5.12.5
+  globals: ^17.13.0
+  happy-dom: ^21.0.1
   ioredis: ^6.0.0
-  lefthook: ^2.1.12
   nestjs-zod: ^5.5.0
   nprogress: ^0.2.0
-  oxlint: ^1.82.0
-  pg: ^8.23.0
+  oxlint: ^1.87.0
+  pg: ^8.23.1
   pinia: ^4.0.3
   pinia-plugin-persistedstate: ^4.7.1
-  radashi: ^12.9.2
+  radashi: ^12.9.6
   react: ^19.3.0
   react-dom: ^19.3.0
-  react-router: ^8.3.1
+  react-router: ^8.4.0
   reflect-metadata: ^0.2.2
   rxjs: ^7.8.2
-  sass: ^1.104.0
+  sass: ^1.105.1
   source-map-support: ^0.5.21
   tailwindcss: ^4.3.3
   ts-loader: ^9.6.2
@@ -93,61 +92,56 @@ catalog:
   tsconfig-paths: ^4.2.0
   # vue-tsc 与 ts-node 仍依赖旧编译器 API，暂不兼容 TypeScript 7。
   typescript: ^6.0.3
-  unocss: 66.10.1
+  unocss: 66.11.0
   unplugin-auto-import: ^21.1.0
   unplugin-vue-components: ^32.1.0
-  vite: npm:@voidzero-dev/vite-plus-core@0.3.1
-  vite-plugin-inspect: ^12.0.2
+  vite: npm:@voidzero-dev/vite-plus-core@1.1.0
+  vite-plugin-inspect: ^12.1.0
   vite-plugin-svg-icons: ^2.0.1
   vite-plugin-svgr: ^5.2.0
-  vite-plus: 0.3.1
-  vue: ^3.5.42
-  vue-router: ^5.3.1
-  vue-tsc: ^3.3.11
-  zod: ^4.6.1
-overrides:
-  vite: 'catalog:'
-packageExtensions:
-  # Schematics 的 Angular DevKit 19 仍要求 Chokidar 4，与 SWC CLI 的 5 隔离。
-  '@nestjs/schematics@11.1.0':
-    dependencies:
-      chokidar: 4.0.3
-  # 避免从 vite-plugin-inspect 的旧 Devtools 分支解析到 Hub 0.8。
-  '@unocss/inspector@66.10.1':
-    dependencies:
-      '@devframes/hub': 0.9.16
-peerDependencyRules:
-  allowAny:
-    - vite
-  allowedVersions:
-    vite: '*'
+  vite-plus: 1.1.0
+  vue: ^3.5.43
+  vue-router: ^5.4.0
+  vue-tsc: ^3.3.13
+  zod: ^4.6.6
+
+minimumReleaseAgeExclude:
+  - '@unocss/autocomplete@66.11.0'
+  - '@unocss/cli@66.11.0'
+  - '@unocss/config@66.11.0'
+  - '@unocss/core@66.11.0'
+  - '@unocss/eslint-plugin@66.11.0'
+  - '@unocss/extractor-arbitrary-variants@66.11.0'
+  - '@unocss/inspector@66.11.0'
+  - '@unocss/language-server@66.11.0'
+  - '@unocss/preset-attributify@66.11.0'
+  - '@unocss/preset-icons@66.11.0'
+  - '@unocss/preset-mini@66.11.0'
+  - '@unocss/preset-tagify@66.11.0'
+  - '@unocss/preset-typography@66.11.0'
+  - '@unocss/preset-uno@66.11.0'
+  - '@unocss/preset-web-fonts@66.11.0'
+  - '@unocss/preset-wind3@66.11.0'
+  - '@unocss/preset-wind4@66.11.0'
+  - '@unocss/preset-wind@66.11.0'
+  - '@unocss/rollup@66.11.0'
+  - '@unocss/rule-utils@66.11.0'
+  - '@unocss/transformer-attributify-jsx@66.11.0'
+  - '@unocss/transformer-compile-class@66.11.0'
+  - '@unocss/transformer-directives@66.11.0'
+  - '@unocss/transformer-variant-group@66.11.0'
+  - '@unocss/vite@66.11.0'
+  - antd@6.6.6
+  - bullmq@6.3.13
+  - cac@7.1.0
+  - happy-dom@21.0.1
+  - unocss@66.11.0
+  - zod@4.6.6
+
 allowBuilds:
   '@parcel/watcher': true
   '@scarf/scarf': true
   '@swc/core': true
   argon2: true
   esbuild: true
-  lefthook: true
   msgpackr-extract: true
-minimumReleaseAgeExclude:
-  - '@aws-sdk/checksums@3.1001.0'
-  - '@aws-sdk/client-s3@3.1129.0'
-  - '@aws-sdk/core@3.978.0'
-  - '@aws-sdk/credential-provider-env@3.972.71'
-  - '@aws-sdk/credential-provider-http@3.972.73'
-  - '@aws-sdk/credential-provider-ini@3.973.16'
-  - '@aws-sdk/credential-provider-login@3.972.78'
-  - '@aws-sdk/credential-provider-node@3.972.83'
-  - '@aws-sdk/credential-provider-process@3.972.71'
-  - '@aws-sdk/credential-provider-sso@3.973.15'
-  - '@aws-sdk/credential-provider-web-identity@3.972.77'
-  - '@aws-sdk/middleware-sdk-s3@3.972.76'
-  - '@aws-sdk/nested-clients@3.997.45'
-  - '@aws-sdk/token-providers@3.1129.0'
-  - '@types/node@26.5.1'
-  - '@types/react-dom@19.3.0'
-  - '@types/react@19.3.0'
-  - react-dom@19.3.0
-  - react@19.3.0
-  - scheduler@0.28.0
-  - zod@4.6.1

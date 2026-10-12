@@ -5,7 +5,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 vi.mock('../../src/pages/workspaces/state', () => ({
   getWorkspaceState: () => ({
     workspaces: {
-      user: { id: 'user-without-workspace', name: '无空间用户' },
+      user: {
+        id: 'user-without-workspace',
+        name: '无空间用户',
+        account: 'no-workspace@example.test',
+      },
       workspaces: [],
     },
   }),
@@ -45,7 +49,7 @@ afterEach(() => {
 })
 
 describe('无工作空间账号的本人改密入口', () => {
-  it('显示空工作空间提示时仍可打开改密表单', async () => {
+  it('显示空工作空间提示时仍可从账户菜单打开改密表单', async () => {
     const router = createMemoryRouter([{ path: '/workspaces', element: <WorkspacesPage /> }], {
       initialEntries: ['/workspaces'],
     })
@@ -60,12 +64,27 @@ describe('无工作空间账号的本人改密入口', () => {
     await vi.waitFor(() => {
       expect(host.textContent).toContain('暂未加入企业')
     })
-    const button = [...host.querySelectorAll('button')].find((element) =>
-      element.textContent?.includes('修改密码'),
-    )
-    expect(button).toBeDefined()
+    const trigger = host.querySelector<HTMLButtonElement>('button[aria-label="账户菜单"]')
+    expect(trigger).not.toBeNull()
+    expect(trigger?.getAttribute('aria-expanded')).toBe('false')
 
-    flushSync(() => button?.click())
-    expect(host.querySelector('[role="dialog"]')?.textContent).toBe('修改密码表单')
+    flushSync(() => trigger?.click())
+    await vi.waitFor(() => {
+      expect(trigger?.getAttribute('aria-expanded')).toBe('true')
+      const identity = document.body.querySelector('.workspace-account-identity')
+      expect(identity?.textContent).toContain('无空间用户')
+      expect(identity?.textContent).toContain('no-workspace@example.test')
+    })
+
+    const passwordItem = [...document.body.querySelectorAll<HTMLElement>('[role="menuitem"]')].find(
+      (element) => element.textContent?.includes('修改密码'),
+    )
+    expect(passwordItem).toBeDefined()
+
+    flushSync(() => passwordItem?.click())
+    await vi.waitFor(() => {
+      expect(host.querySelector('[role="dialog"]')?.textContent).toBe('修改密码表单')
+      expect(trigger?.getAttribute('aria-expanded')).toBe('false')
+    })
   })
 })

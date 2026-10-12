@@ -1,17 +1,23 @@
 @layer components {
-  .route-transition-page {
+  .route-transition-page,
+  .route-transition-layout {
     height: 100%;
     min-height: 0;
   }
+
+  .route-transition-layout {
+    min-height: 100dvh;
+  }
 }
 
-/* 只让当前路由页面区域过渡，禁用浏览器默认的根节点动画。 */
+/* 由布局或内容区边界选择快照范围，禁用浏览器默认的根节点动画。 */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
 }
 
-::view-transition-group(route-page) {
+::view-transition-group(route-page),
+::view-transition-group(route-layout) {
   overflow: clip;
   animation-duration: 320ms;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -19,16 +25,28 @@
 
 /* 两张页面快照同步横向滑动，避免默认混合模式造成重影。 */
 ::view-transition-old(route-page),
-::view-transition-new(route-page) {
+::view-transition-new(route-page),
+::view-transition-old(route-layout),
+::view-transition-new(route-layout) {
   mix-blend-mode: normal;
 }
 
-::view-transition-old(route-page) {
+::view-transition-old(route-page),
+::view-transition-old(route-layout) {
   animation: route-page-out 320ms cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
-::view-transition-new(route-page) {
+::view-transition-new(route-page),
+::view-transition-new(route-layout) {
   animation: route-page-in 320ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* 整页滑动使用对称曲线，让主要位移过程更容易感知。 */
+::view-transition-group(route-layout),
+::view-transition-old(route-layout),
+::view-transition-new(route-layout) {
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 @keyframes route-page-out {
@@ -54,7 +72,10 @@
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(route-page),
   ::view-transition-old(route-page),
-  ::view-transition-new(route-page) {
+  ::view-transition-new(route-page),
+  ::view-transition-group(route-layout),
+  ::view-transition-old(route-layout),
+  ::view-transition-new(route-layout) {
     animation: none !important;
   }
 }

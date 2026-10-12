@@ -1,19 +1,28 @@
 import './RouteTransition.css'
 
-/** 为已提交的新路由播放页面区域滑动，并忽略同一路由的加载完成及异步更新。 */
-export default function RouteTransition({ children }: PropsWithChildren) {
-  const { key: locationKey } = useLocation()
-  const previousLocationKey = useRef(locationKey)
+/** 跨布局或工作空间滑动整页，同一布局内仅滑动内容区；忽略同一路由的异步更新。 */
+export default function RouteTransition({
+  children,
+  region = 'page',
+}: PropsWithChildren<{ region?: 'layout' | 'page' }>) {
+  const location = useLocation()
+  const matches = useMatches()
+  const transitionName = region === 'layout' ? 'route-layout' : 'route-page'
+  const transitionKey =
+    region === 'layout' ? (matches[1]?.pathname ?? location.pathname) : location.key
+  const previousTransitionKey = useRef(transitionKey)
+  const update =
+    region === 'layout' && previousTransitionKey.current === transitionKey ? 'none' : transitionName
 
   // onUpdate 先于 passive effect 执行；无动画的同步导航也需要更新基准。
   useEffect(() => {
-    previousLocationKey.current = locationKey
-  }, [locationKey])
+    previousTransitionKey.current = transitionKey
+  }, [transitionKey])
 
-  /** 同一导航只保留首次滑动，取消页内更新产生的页面快照动画。 */
+  /** 同一导航只保留首次滑动，取消当前区域因页内更新产生的快照动画。 */
   function handleUpdate() {
-    if (previousLocationKey.current !== locationKey) {
-      previousLocationKey.current = locationKey
+    if (previousTransitionKey.current !== transitionKey) {
+      previousTransitionKey.current = transitionKey
       return
     }
 
@@ -21,7 +30,7 @@ export default function RouteTransition({ children }: PropsWithChildren) {
       const effect = animation.effect
       if (
         effect instanceof KeyframeEffect &&
-        /^::view-transition-(group|image-pair|old|new)\(route-page\)$/.test(
+        new RegExp(`^::view-transition-(group|image-pair|old|new)\\(${transitionName}\\)$`).test(
           effect.pseudoElement ?? '',
         )
       ) {
@@ -32,13 +41,12 @@ export default function RouteTransition({ children }: PropsWithChildren) {
 
   return (
     <ReactViewTransition
-      name="route-page"
+      name={transitionName}
       default="none"
-      share="route-page"
-      update="route-page"
+      update={update}
       onUpdate={handleUpdate}
     >
-      <div className="route-transition-page">{children ?? <Outlet />}</div>
+      <div className={`route-transition-${region}`}>{children ?? <Outlet />}</div>
     </ReactViewTransition>
   )
 }

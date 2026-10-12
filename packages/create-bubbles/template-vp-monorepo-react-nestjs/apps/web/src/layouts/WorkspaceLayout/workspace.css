@@ -19,6 +19,16 @@
   .workspace-layout .ant-pro-global-header > div[style] {
     min-width: 0;
   }
+  .workspace-layout .ant-pro-global-header-header-actions {
+    flex-shrink: 0;
+  }
+  .workspace-layout .ant-pro-global-header-header-actions-item .ant-btn {
+    /* 不把按钮尺寸和浮层定位属性加入过渡，边框宽度由初始状态预留。 */
+    transition:
+      color 180ms,
+      background-color 180ms,
+      border-color 180ms;
+  }
   .workspace-layout .ant-pro-sider {
     background: linear-gradient(160deg, #ffffff70, #f4effc50 55%, #e7e7fa55);
     border-inline-end: 1px solid #ffffff80;
@@ -36,17 +46,43 @@
     margin-block: 6px;
   }
   .workspace-context {
-    display: flex;
+    display: inline-flex;
     width: fit-content;
-    max-width: 100%;
+    min-width: 0;
+    max-width: min(100%, 560px);
+    height: 38px;
+    box-sizing: border-box;
     align-items: center;
     gap: 10px;
-    padding: 6px 14px;
-    border: 1px solid #e7e0f1;
-    border-radius: 24px;
-    background: #ffffff66;
+    padding: 0 13px;
+    border: 1px solid #e3d8f1;
+    border-radius: 10px;
+    background-color: #ffffff99;
+    box-shadow: 0 2px 8px #9274cb00;
+    color: var(--wanwu-ink);
     font-size: 12px;
     line-height: 24px;
+    text-decoration: none;
+    /* 预留边框及阴影，交互只修改颜色，保持名称和右侧操作位置稳定。 */
+    transition:
+      color 180ms,
+      background-color 180ms,
+      border-color 180ms;
+  }
+  .workspace-context:hover,
+  .workspace-context:focus-visible {
+    border-color: #d4c6e9;
+    background-color: #f3edf9;
+    color: #7657b0;
+  }
+  .workspace-context:focus-visible {
+    outline: 2px solid #9274cb;
+    outline-offset: 3px;
+  }
+  .workspace-context:active {
+    border-color: #cbb9e4;
+    background-color: #ece3f7;
+    color: #6d4ea6;
   }
   .workspace-context-dot {
     width: 7px;
@@ -65,40 +101,35 @@
     box-shadow: 0 0 0 4px #f1e3ed;
   }
   .workspace-context-type {
+    flex-shrink: 0;
     color: var(--wanwu-muted);
     white-space: nowrap;
   }
   .workspace-context strong {
+    flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: 500;
-    color: var(--wanwu-ink);
+    color: inherit;
   }
-  .workspace-user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-inline-end: 14px;
-    line-height: 19px;
-    color: var(--wanwu-ink);
+  .workspace-context-divider {
+    width: 1px;
+    height: 17px;
+    flex-shrink: 0;
+    margin-inline: 4px 2px;
+    background-color: #e7ddf2;
   }
-  .workspace-user .ant-avatar {
-    color: #7763ad;
-    background: linear-gradient(135deg, #e9e1f7, #e3eafb);
-    border: 1px solid #ffffff;
+  .workspace-context-switch-icon {
+    flex-shrink: 0;
+    color: #9777c6;
+    font-size: 14px;
   }
-  .workspace-user > span:last-child {
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .workspace-context-switch-label {
+    flex-shrink: 0;
+    color: #8b6ab7;
     white-space: nowrap;
-  }
-  .workspace-user small {
-    display: block;
-    color: var(--wanwu-muted);
-    font-size: 11px;
   }
   .workspace-content {
     height: calc(100dvh - 72px);
@@ -186,9 +217,6 @@
     .workspace-context-type {
       display: none;
     }
-    .workspace-user {
-      margin-inline-end: 0;
-    }
   }
   @media (max-width: 767px) {
     .workspace-layout .ant-pro-global-header {
@@ -199,22 +227,15 @@
     .workspace-layout .ant-pro-global-header-collapsed-button {
       margin-inline-end: 0;
     }
-    .workspace-user,
     .workspace-context-dot,
     .workspace-context-parent,
-    .workspace-logout > span:not(.ant-btn-icon),
-    .workspace-switch > span:not(.ant-btn-icon) {
+    .workspace-context-divider,
+    .workspace-context-switch-label {
       display: none;
     }
-    .workspace-switch,
-    .workspace-logout {
-      width: 36px;
-      padding-inline: 0;
-    }
     .workspace-context {
-      border: 0;
-      background: transparent;
-      padding: 0 4px;
+      gap: 6px;
+      padding-inline: 8px;
     }
     .workspace-page {
       padding: 20px 16px;

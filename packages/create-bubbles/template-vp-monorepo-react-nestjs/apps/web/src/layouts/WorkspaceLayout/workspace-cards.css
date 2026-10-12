@@ -1,0 +1,147 @@
+@layer components {
+  .workspace-landing .ant-card {
+    background: var(--wanwu-glass);
+    border: 1px solid var(--wanwu-border);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px #8570af0d;
+  }
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+  .workspace-card {
+    height: 100%;
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    transition:
+      background-color 180ms,
+      border-color 180ms,
+      box-shadow 180ms;
+  }
+  .workspace-landing .workspace-card:hover {
+    background-color: #ffffffd9;
+    border-color: #cbb8e4;
+    box-shadow: 0 12px 30px #8570af1a;
+  }
+  .workspace-landing .workspace-card-current {
+    border-color: #bfa6dd;
+    background-color: #ffffffc9;
+  }
+  .workspace-card::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    right: -30px;
+    top: -45px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, #eee7fc80, #ded0f84d 50%, #e9e1f500 70%);
+  }
+  .workspace-card-company::after {
+    background: radial-gradient(circle, #dceefa99, #dceefa00 70%);
+  }
+  .workspace-card-project::after {
+    background: radial-gradient(circle, #f2dfef99, #f2dfef00 70%);
+  }
+  .workspace-card .ant-card-body {
+    min-height: 224px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 28px;
+  }
+  .workspace-card-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 24px;
+    z-index: 1;
+    font-size: 11px;
+  }
+  .workspace-type-tag {
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: #eee6f8;
+    color: #9878be;
+  }
+  .workspace-card-company .workspace-type-tag {
+    background: #e8f2f8;
+    color: #7396b1;
+  }
+  .workspace-card-project .workspace-type-tag {
+    background: #f6eaf3;
+    color: #b086a7;
+  }
+  .workspace-role {
+    color: var(--wanwu-muted);
+  }
+  .workspace-current-mark {
+    color: #8c68bb;
+    margin-left: auto;
+  }
+  .workspace-card h3 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .workspace-card p {
+    margin: 0;
+    color: var(--wanwu-muted);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+  .workspace-card .workspace-enter {
+    margin-top: auto;
+    width: fit-content;
+    padding: 4px 0;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background: transparent;
+    color: #9878be;
+    font-size: 13px;
+    font-weight: 500;
+    transition:
+      color 150ms,
+      background-color 150ms,
+      border-color 150ms;
+  }
+  .workspace-enter .anticon {
+    margin-left: 9px;
+  }
+  .workspace-card .workspace-enter:hover {
+    color: #7657b0;
+  }
+  .workspace-card .workspace-enter:active {
+    color: #654398;
+    background-color: #eee6f7;
+  }
+  @media (max-width: 1023px) {
+    .workspace-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 599px) {
+    .workspace-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .workspace-card .ant-card-body {
+      padding: 24px;
+      min-height: 210px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .workspace-card {
+      transition: none;
+    }
+  }
+}
