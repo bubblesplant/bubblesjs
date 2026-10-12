@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.28
+
+### Patch Changes
+
+- [`4b1fcaa`](https://github.com/bubblesplant/bubblesjs/commit/4b1fcaad8892b5ca7f6065b70827909a7d0e58b1) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 增加多仓项目升级template-vp-react依赖版本
+
 ## 0.1.27
 
 ### Patch Changes
