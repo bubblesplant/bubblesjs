@@ -1,15 +1,19 @@
 {
   "name": "@bubblesjs/request",
-  "version": "0.0.9",
-  "type": "module",
+  "version": "0.0.10",
   "private": false,
+  "bugs": {
+    "url": "git+https://github.com/435012357/bubblesjs/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/435012357/bubblesjs.git"
   },
-  "bugs": {
-    "url": "git+https://github.com/435012357/bubblesjs/issues"
-  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
@@ -17,10 +21,10 @@
       "import": "./dist/index.js"
     }
   },
-  "module": "./dist/index.js",
-  "files": [
-    "dist"
-  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "vp pack",
     "dev": "vp pack --watch",
@@ -31,21 +35,17 @@
   "dependencies": {
     "@bubblesjs/utils": "workspace:^"
   },
-  "peerDependencies": {
-    "alova": "^3.5.1"
-  },
   "devDependencies": {
     "vite": "catalog:",
-    "vitest": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "alova": "^3.5.1"
   },
   "peerDependenciesMeta": {
     "alova": {
       "optional": true
     }
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
   }
 }
