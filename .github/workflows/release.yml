@@ -28,6 +28,8 @@ jobs:
       # 安装 pnpm
       - name: Setup Pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 12.10.1
 
       - name: Install Dependencies
         run: pnpm install --no-frozen-lockfile
