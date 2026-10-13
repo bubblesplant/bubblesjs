@@ -1,6 +1,6 @@
 {
   "name": "@bubblesjs/vue-ai-chart",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A starter for creating a Vue component library.",
   "homepage": "https://github.com/author/library#readme",
   "bugs": {
