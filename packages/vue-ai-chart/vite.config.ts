@@ -1,9 +1,9 @@
-import vue from '@vitejs/plugin-vue'
-import type { PackUserConfig, TsdownPlugin } from 'vite-plus/pack'
-import { playwright } from 'vite-plus/test/browser-playwright'
-import UnoCSS from 'unocss/vite'
 import type { UserConfig } from 'vite-plus'
+import type { PackUserConfig, TsdownPlugin } from 'vite-plus/pack'
+import vue from '@vitejs/plugin-vue'
+import UnoCSS from 'unocss/vite'
 import { defineConfig, lazyPlugins } from 'vite-plus'
+import { playwright } from 'vite-plus/test/browser-playwright'
 
 const pack: PackUserConfig = {
   platform: 'neutral',

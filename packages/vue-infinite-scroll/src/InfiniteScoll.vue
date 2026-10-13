@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { nextTick, ref, useSlots, useTemplateRef, watch } from 'vue';
+import { nextTick, ref, useSlots, useTemplateRef, watch } from 'vue'
 
 const props = withDefaults(defineProps<{ animationTime?: number }>(), {
   animationTime: 15,
@@ -20,8 +20,7 @@ function scroll() {
   if (scrollHeight > warperHeight) {
     childDom2.value.innerHTML = childDom1?.value.innerHTML
     animationPlayState.value = 'running'
-  }
-  else {
+  } else {
     animationPlayState.value = 'paused'
   }
 }
@@ -29,14 +28,18 @@ function scroll() {
 const slots = useSlots()
 
 // 监听插槽内容变化
-watch(() => slots.default?.(), () => {
-  if (childDom2.value) {
-    childDom2.value.innerHTML = ''
-  }
-  nextTick(() => {
-    scroll()
-  })
-}, { deep: true, immediate: true })
+watch(
+  () => slots.default?.(),
+  () => {
+    if (childDom2.value) {
+      childDom2.value.innerHTML = ''
+    }
+    nextTick(() => {
+      scroll()
+    })
+  },
+  { deep: true, immediate: true },
+)
 </script>
 
 <template>
@@ -57,7 +60,7 @@ watch(() => slots.default?.(), () => {
   </div>
 </template>
 
-<style  scoped>
+<style scoped>
 .parent {
   width: 100%;
   height: 100%;

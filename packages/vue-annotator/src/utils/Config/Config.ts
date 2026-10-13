@@ -1,9 +1,9 @@
 interface Config {
-  radius: number;
-  lineWidth: number;
-  labelMargin: number;
-  diameter: number;
-  maxLabelLength: number;
+  radius: number
+  lineWidth: number
+  labelMargin: number
+  diameter: number
+  maxLabelLength: number
 }
 
 const defaultConfig: Config = Object.freeze({
@@ -11,11 +11,11 @@ const defaultConfig: Config = Object.freeze({
   lineWidth: 5,
   maxLabelLength: 12,
   get labelMargin(): number {
-    return 5 + this.radius;
+    return 5 + this.radius
   },
   get diameter(): number {
-    return this.radius * 2;
+    return this.radius * 2
   },
-});
+})
 
-export default defaultConfig;
+export default defaultConfig

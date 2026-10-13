@@ -9,12 +9,7 @@ export class Entity implements Identifiable {
   readonly startOffset: number
   readonly endOffset: number
 
-  constructor(
-    id: number,
-    label: number,
-    startOffset: number,
-    endOffset: number,
-  ) {
+  constructor(id: number, label: number, startOffset: number, endOffset: number) {
     this.id = id
     this.label = label
     this.startOffset = startOffset
@@ -34,16 +29,16 @@ export class Entity implements Identifiable {
    */
   isIn(startOffset: number, endOffset: number): boolean {
     return (
-      (startOffset <= this.startOffset && this.startOffset < endOffset)
-      || (startOffset < this.endOffset && this.endOffset <= endOffset)
-      || (this.startOffset < startOffset && endOffset < this.endOffset)
+      (startOffset <= this.startOffset && this.startOffset < endOffset) ||
+      (startOffset < this.endOffset && this.endOffset <= endOffset) ||
+      (this.startOffset < startOffset && endOffset < this.endOffset)
     )
   }
 
   /**
    * Return true if the provided entity equals to the entity.
    * @param {Entity} other - the provided entity.
-   * @returns {boolean}
+   * @returns {boolean} true if the entities are equal.
    */
   equalTo(other: Entity): boolean {
     return this.id === other.id
@@ -81,13 +76,11 @@ export class Entities {
   static valueOf(entities: Entity[], text?: Text): Entities {
     return new Entities(
       entities.map(
-        entity =>
+        (entity) =>
           new Entity(
             entity.id,
             entity.label,
-            text
-              ? text.toCodePointOffset(entity.startOffset)!
-              : entity.startOffset,
+            text ? text.toCodePointOffset(entity.startOffset)! : entity.startOffset,
             text ? text.toCodePointOffset(entity.endOffset)! : entity.endOffset,
           ),
       ),

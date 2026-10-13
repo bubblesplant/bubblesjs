@@ -2,15 +2,45 @@ packages:
   - 'packages/*'
   - docs
 
+catalogMode: prefer
+
 allowBuilds:
   '@parcel/watcher': true
 
 catalog:
+  '@element-plus/icons-vue': ^2.3.2
+  '@flatten-js/interval-tree': ^2.0.3
+  '@types/node': ^26.6.5
+  '@unocss/cli': ^66.11.0
+  '@unocss/postcss': ^66.11.0
+  '@unocss/preset-attributify': ^66.11.0
+  '@unocss/preset-wind3': ^66.11.0
+  '@vitejs/plugin-vue': ^6.0.10
+  '@vueuse/core': ^14.1.0
+  bumpp: ^12.3.0
+  dayjs: ^1.11.19
+  element-plus: ^2.13.0
+  grapheme-splitter: ^1.0.4
+  nanoid: ^5.1.6
+  radashi: ^12.7.1
+  sass: ^1.105.1
+  swiper: ^12.0.3
   typescript: ^6.0.3
+  unocss: ^66.11.0
+  unplugin-vue: ^8.0.0
   vite: npm:@voidzero-dev/vite-plus-core@1.1.0
   vite-plus: 1.1.0
   vitest: ^5.0.4
   '@vitest/browser-playwright': ^5.0.4
+  eslint: ^10.12.0
+  '@antfu/eslint-config': ^9.5.1
+  eslint-plugin-format: ^2.0.1
+  '@unocss/eslint-plugin': ^66.11.0
+  playwright: ^1.64.0
+  vitest-browser-vue: ^3.1.0
+  vue: ^3.5.43
+  vue-element-plus-x: ^1.3.98
+  vue-tsc: ^3.3.13
 
 minimumReleaseAgeExclude:
   - '@vitest/browser-playwright@5.0.4'

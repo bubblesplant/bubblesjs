@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import type { ConversationItem, ConversationListFieldNames, DeleteConversationRequest, GroupedConversations, RenameConversationRequest } from './interface'
+import type {
+  ConversationItem,
+  ConversationListFieldNames,
+  DeleteConversationRequest,
+  GroupedConversations,
+  RenameConversationRequest,
+} from './interface'
 
 import { Delete, Edit } from '@element-plus/icons-vue'
 import { ElIcon, ElInput, ElPopover } from 'element-plus'
@@ -31,7 +37,11 @@ const {
 
 const editItem = ref<ConversationItem<any>>()
 
-async function handleRename(type: string, editRow: ConversationItem<any>, item: ConversationItem<any>) {
+async function handleRename(
+  type: string,
+  editRow: ConversationItem<any>,
+  item: ConversationItem<any>,
+) {
   if (disabled) {
     return
   }
@@ -59,14 +69,18 @@ async function handleHistoryConversation(row: ConversationItem<any>) {
 }
 
 const conversationDataComputed = computed(() => {
-  return Object.entries(conversationData || {}).filter(item => item[0] !== 'other')
+  return Object.entries(conversationData || {}).filter((item) => item[0] !== 'other')
 })
 </script>
 
 <template>
   <div class="conversation-list p-[0_10px]">
     <div class="display flex flex-col gap-10px">
-      <div v-for="[key, value] in conversationDataComputed" :key="key" class="flex flex-col gap-5px">
+      <div
+        v-for="[key, value] in conversationDataComputed"
+        :key="key"
+        class="flex flex-col gap-5px"
+      >
         <div className="mb-10px color-#555 text-13px font-bold text-[000000e6] text-12px">
           {{ GroupedConversationsKeyMap[key as keyof typeof GroupedConversationsKeyMap] }}
         </div>
@@ -75,12 +89,16 @@ const conversationDataComputed = computed(() => {
           v-for="item of value"
           :key="item?.[fieldNames.conversationId]"
           class="h-38px flex cursor-pointer select-none items-center justify-between gap-10px rounded-12px p-[0_10px] text-14px text-#00000099 hover:bg-[#0000000a]"
-          :class="{ 'session-list-content-item-active': item?.[fieldNames.conversationId] === selectedConversationId, 'cursor-not-allowed': disabled }"
+          :class="{
+            'session-list-content-item-active':
+              item?.[fieldNames.conversationId] === selectedConversationId,
+            'cursor-not-allowed': disabled,
+          }"
         >
-          <el-input
+          <ElInput
             v-if="editItem?.[fieldNames.conversationId] === item?.[fieldNames.conversationId]"
             :model-value="editItem.title"
-            @update:model-value="editItem.title = $event "
+            @update:model-value="editItem.title = $event"
             @blur="handleRename('blur', editItem, item)"
             @keydown="handleRename(($event as KeyboardEvent).key, editItem, item)"
           />
@@ -92,11 +110,7 @@ const conversationDataComputed = computed(() => {
             {{ item.title || '新会话' }}
           </div>
 
-          <el-popover
-            v-if="isDelete || isReName"
-            position="top"
-            trigger="click"
-          >
+          <ElPopover v-if="isDelete || isReName" position="top" trigger="click">
             <template #reference>
               <div
                 className="flex-center w-24px h-24px rounded-8px cursor-pointer select-none hover:bg-#fff"
@@ -110,7 +124,7 @@ const conversationDataComputed = computed(() => {
                 className="flex items-center gap-8px rounded-8px p-5px text-center cursor-pointer hover:bg-[#f0f0f0]"
                 @click="editItem = item"
               >
-                <el-icon><Edit /></el-icon> 重命名
+                <ElIcon><Edit /></ElIcon> 重命名
               </div>
               <!-- <el-popconfirm
                 v-if="isDelete"
@@ -124,12 +138,12 @@ const conversationDataComputed = computed(() => {
                 class="flex cursor-pointer items-center gap-8px rounded-8px p-5px text-center color-[#f00] hover:bg-[#f0f0f0]"
                 @click="handleDelete(item?.[fieldNames.conversationId])"
               >
-                <el-icon><Delete /></el-icon> 删除
+                <ElIcon><Delete /></ElIcon> 删除
               </div>
               <!-- </template>
               </el-popconfirm> -->
             </div>
-          </el-popover>
+          </ElPopover>
         </div>
       </div>
     </div>

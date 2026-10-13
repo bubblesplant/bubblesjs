@@ -1,13 +1,11 @@
 import antfu from '@antfu/eslint-config'
 
-export default antfu({
-  formatters: true,
-  unocss: true,
-  vue: true,
-}, {
-  ignores: [
-    '**/node_modules/**',
-    '**/dist/**',
-    '**/public/**',
-  ],
-})
+export default antfu(
+  {
+    formatters: true,
+    vue: true,
+  },
+  {
+    ignores: ['**/node_modules/**', '**/dist/**', '**/public/**'],
+  },
+)

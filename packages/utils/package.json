@@ -1,26 +1,30 @@
 {
   "name": "@bubblesjs/utils",
   "version": "0.0.11",
-  "type": "module",
   "private": false,
+  "bugs": {
+    "url": "git+https://github.com/435012357/bubblesjs/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/435012357/bubblesjs.git"
   },
-  "bugs": {
-    "url": "git+https://github.com/435012357/bubblesjs/issues"
-  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
   },
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "vp pack",
     "check": "biome check --write",
@@ -31,12 +35,8 @@
     "@changesets/cli": "^2.31.0",
     "@types/node": "^24.3.3",
     "prettier": "^3.8.3",
-    "typescript": "^6.0.3",
+    "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
   }
 }

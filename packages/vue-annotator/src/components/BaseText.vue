@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, getCurrentInstance, nextTick, watch } from 'vue'
-
 import type { TextLine } from '../utils/Line/LineText'
+
+import { computed, getCurrentInstance, nextTick, watch } from 'vue'
 
 interface Props {
   text: string
@@ -31,14 +31,8 @@ watch(
 </script>
 
 <template>
-  <text
-    v-if="snippet"
-    fill="currentColor"
-    class="whitespace-pre"
-  >
+  <text v-if="snippet" fill="currentColor" class="whitespace-pre">
     {{ snippet }}
   </text>
-  <text v-else class="text-xs" fill="currentColor">
-    ⮐
-  </text>
+  <text v-else class="text-xs" fill="currentColor"> ⮐ </text>
 </template>

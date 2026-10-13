@@ -35,12 +35,7 @@ const columns = [
   <div class="table-container">
     <!-- 固定表头 -->
     <div class="table-header">
-      <div
-        v-for="col in columns"
-        :key="col.key"
-        class="header-cell"
-        :style="{ width: col.width }"
-      >
+      <div v-for="col in columns" :key="col.key" class="header-cell" :style="{ width: col.width }">
         {{ col.label }}
       </div>
     </div>
@@ -49,11 +44,21 @@ const columns = [
     <div class="table-body">
       <InfiniteScoll :animation-time="20">
         <div v-for="row in tableData" :key="row.id" class="table-row">
-          <div class="cell" style="width: 60px">{{ row.id }}</div>
-          <div class="cell" style="width: 80px">{{ row.name }}</div>
-          <div class="cell" style="width: 60px">{{ row.age }}</div>
-          <div class="cell" style="width: 80px">{{ row.city }}</div>
-          <div class="cell" style="width: 160px">{{ row.email }}</div>
+          <div class="cell" style="width: 60px">
+            {{ row.id }}
+          </div>
+          <div class="cell" style="width: 80px">
+            {{ row.name }}
+          </div>
+          <div class="cell" style="width: 60px">
+            {{ row.age }}
+          </div>
+          <div class="cell" style="width: 80px">
+            {{ row.city }}
+          </div>
+          <div class="cell" style="width: 160px">
+            {{ row.email }}
+          </div>
         </div>
       </InfiniteScoll>
     </div>

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
-
 import type { Entity } from '../utils/Label/Entity'
+
 import type { LabelList } from '../utils/Label/Label'
 import type { RelationListItem } from '../utils/Label/Relation'
 import type { Font } from '../utils/Line/Font'
 import type { GeometricEntity } from '../utils/Line/LineEntity'
-import { EntityLine } from '../utils/Line/LineEntity'
 import type { LineRelation } from '../utils/Line/LineRelation'
-import { RelationLine } from '../utils/Line/LineRelation'
 import type { TextLine } from '../utils/Line/LineText'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { EntityLine } from '../utils/Line/LineEntity'
+import { RelationLine } from '../utils/Line/LineRelation'
 import BaseEntity from './BaseEntity.vue'
 import BaseRelation from './BaseRelation.vue'
 import BaseText from './BaseText.vue'
@@ -139,7 +139,7 @@ function isSelectedEntity(entity: Entity): boolean {
   if (props.selectedRelation) {
     return props.selectedRelation.consistOf(entity)
   } else {
-    return props.selectedEntities.filter((e) => e.id === entity.id).length > 0
+    return props.selectedEntities.some((e) => e.id === entity.id)
   }
 }
 
@@ -203,12 +203,7 @@ watch(
         @mouseleave="$emit('setSelectedRelation', null)"
       />
       <g :transform="translateEntity">
-        <BaseText
-          :id="basetextId"
-          :text-line="textLine"
-          :text="text"
-          :x="baseX"
-        />
+        <BaseText :id="basetextId" :text-line="textLine" :text="text" :x="baseX" />
         <BaseEntity
           v-for="gEntity in geometricEntities"
           :key="gEntity.entity.id"

@@ -1,5 +1,5 @@
-import vue from '@vitejs/plugin-vue'
 import type { PackUserConfig, TsdownPlugin } from 'vite-plus/pack'
+import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
 import { defineConfig, lazyPlugins } from 'vite-plus'
 

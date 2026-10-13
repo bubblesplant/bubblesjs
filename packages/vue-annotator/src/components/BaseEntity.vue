@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
-import config from '../utils/Config/Config'
 import type { Ranges } from '../utils/Line/LineEntity'
+
+import { computed } from 'vue'
+import config from '../utils/Config/Config'
 import BaseEntityLine from './BaseEntityLine.vue'
 import BaseEntityText from './BaseEntityText.vue'
 

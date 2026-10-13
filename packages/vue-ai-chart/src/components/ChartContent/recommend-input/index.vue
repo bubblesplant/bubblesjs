@@ -33,27 +33,37 @@ const isNavigation = computed(() => {
 
 <template>
   <div class="flex flex-col items-center gap-12px">
-    <div class="recommends-title text-14px text-[rgb(192,196,204)]">
-      试试这些
-    </div>
+    <div class="recommends-title text-14px text-[rgb(192,196,204)]">试试这些</div>
     <div v-if="(recommends || []).length > 0" class="w-full flex">
       <div v-if="isNavigation" ref="swiperButtonPrev" class="swiper-navigation">
-        <el-icon><ArrowLeft /></el-icon>
+        <ElIcon><ArrowLeft /></ElIcon>
       </div>
       <div class="min-w-0 flex-1">
         <Swiper
-          :slides-per-view="SLIDES_PER_VIEW" :space-between="10" :pagination="false" :navigation="isNavigation ? {
-            prevEl: swiperButtonPrev,
-            nextEl: swiperButtonNext,
-          } : false" :modules="[Navigation]"
+          :slides-per-view="SLIDES_PER_VIEW"
+          :space-between="10"
+          :pagination="false"
+          :navigation="
+            isNavigation
+              ? {
+                  prevEl: swiperButtonPrev,
+                  nextEl: swiperButtonNext,
+                }
+              : false
+          "
+          :modules="[Navigation]"
         >
           <SwiperSlide v-for="(item, index) in recommends" :key="index">
-            <RecommendItem :data="item" :field-name="fieldName" @click-recommend="handleClickRecommend" />
+            <RecommendItem
+              :data="item"
+              :field-name="fieldName"
+              @click-recommend="handleClickRecommend"
+            />
           </SwiperSlide>
         </Swiper>
       </div>
       <div v-if="isNavigation" ref="swiperButtonNext" class="swiper-navigation">
-        <el-icon><ArrowRight /></el-icon>
+        <ElIcon><ArrowRight /></ElIcon>
       </div>
     </div>
   </div>

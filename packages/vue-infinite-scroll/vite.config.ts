@@ -1,9 +1,9 @@
-import vue from '@vitejs/plugin-vue'
+import type { UserConfig } from 'vite-plus'
 /// <reference types="vitest/config" />
 import type { PackUserConfig } from 'vite-plus/pack'
-import { playwright } from 'vite-plus/test/browser-playwright'
-import type { UserConfig } from 'vite-plus'
+import vue from '@vitejs/plugin-vue'
 import { defineConfig, lazyPlugins } from 'vite-plus'
+import { playwright } from 'vite-plus/test/browser-playwright'
 
 const pack: PackUserConfig = {
   platform: 'neutral',
