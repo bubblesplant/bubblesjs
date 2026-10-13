@@ -1,30 +1,30 @@
 {
   "name": "@bubblesjs/vue-annotation",
-  "type": "module",
   "version": "0.0.3",
   "private": false,
   "description": "A starter for creating a Vue component library.",
-  "author": "Author Name <author.name@mail.com>",
-  "license": "MIT",
   "homepage": "https://github.com/author/library#readme",
+  "bugs": {
+    "url": "git+https://github.com/435012357/bubblesjs/issues"
+  },
+  "license": "MIT",
+  "author": "Author Name <author.name@mail.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/435012357/bubblesjs.git"
   },
-  "bugs": {
-    "url": "git+https://github.com/435012357/bubblesjs/issues"
-  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
     "./style.css": "./dist/style.css",
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -38,9 +38,6 @@
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm run build"
   },
-  "peerDependencies": {
-    "vue": "^3.5.0"
-  },
   "dependencies": {
     "@flatten-js/interval-tree": "^2.0.3",
     "grapheme-splitter": "^1.0.4",
@@ -48,7 +45,7 @@
     "radashi": "^12.7.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.7.1",
+    "@antfu/eslint-config": "^9.5.1",
     "@types/node": "^24.10.1",
     "@unocss/cli": "^66.5.10",
     "@unocss/eslint-plugin": "^66.5.10",
@@ -58,15 +55,18 @@
     "@vitejs/plugin-vue": "^6.0.2",
     "@vitest/browser-playwright": "catalog:",
     "bumpp": "^10.3.2",
-    "eslint": "^9.39.2",
-    "eslint-plugin-format": "^1.1.0",
+    "eslint": "^10.12.0",
+    "eslint-plugin-format": "^2.0.1",
     "playwright": "^1.57.0",
     "typescript": "^5.9.3",
     "unocss": "^66.5.10",
     "vite": "catalog:",
+    "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vitest-browser-vue": "^2.0.1",
-    "vue": "^3.5.25",
-    "vite-plus": "catalog:"
+    "vue": "^3.5.25"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
   }
 }

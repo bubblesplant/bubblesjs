@@ -14,4 +14,8 @@ bun.lock
 
 
 .pnpm-store
+.vite-hooks/_/
 packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/tsconfig.build.tsbuildinfo
+
+# agents
+.workbuddy/

@@ -1,29 +1,29 @@
 {
   "name": "@bubblesjs/vue-infinite-scroll",
-  "type": "module",
   "version": "0.0.6",
   "private": false,
   "description": "A scroll-infinite for  a Vue3 component.",
-  "author": "bubblesplant<435012357@qq.com>",
-  "license": "MIT",
   "homepage": "https://github.com/author/library#readme",
+  "bugs": {
+    "url": "https://github.com/author/library/issues"
+  },
+  "license": "MIT",
+  "author": "bubblesplant<435012357@qq.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/author/library.git"
   },
-  "bugs": {
-    "url": "https://github.com/author/library/issues"
-  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -37,9 +37,6 @@
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm run build"
   },
-  "peerDependencies": {
-    "vue": "^3.0.0"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^6.7.1",
     "@types/node": "^24.10.1",
@@ -52,10 +49,13 @@
     "playwright": "^1.57.0",
     "typescript": "^5.9.3",
     "vite": "catalog:",
+    "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vitest-browser-vue": "^2.0.1",
-    "vue": "catalog:",
-    "vue-tsc": "^3.1.6",
-    "vite-plus": "catalog:"
+    "vue": "^3.5.43",
+    "vue-tsc": "^3.1.6"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
   }
 }

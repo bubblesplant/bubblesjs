@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+set -eu
+
+unset FORCE_COLOR
+export NO_COLOR=1
+
+exec vp exec commitlint --edit "$1"

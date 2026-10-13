@@ -1,53 +1,23 @@
 packages:
   - 'packages/*'
-  - doc
   - docs
 
 allowBuilds:
   '@parcel/watcher': true
-  core-js: true
-  esbuild: true
-  lefthook: true
-  msw: true
-  vue-demi: true
-
-peerDependencyRules:
-  ignoreMissing:
-    - '@algolia/client-search'
-    - postcss
-    - search-insights
-  allowAny:
-    - vite
-    - vitest
-  allowedVersions:
-    vite: '*'
-    vitest: '*'
-
-packageExtensions:
-  sass-embedded:
-    peerDependencies:
-      source-map-js: '*'
-    peerDependenciesMeta:
-      source-map-js:
-        optional: true
 
 catalog:
-  vue: ^3.5.38
-  vite: npm:@voidzero-dev/vite-plus-core@0.2.4
-  vitest: 4.1.10
-  vite-plus: 0.2.4
-  '@vitest/browser-playwright': 4.1.10
+  typescript: ^6.0.3
+  vite: npm:@voidzero-dev/vite-plus-core@1.1.0
+  vite-plus: 1.1.0
+  vitest: ^5.0.4
+  '@vitest/browser-playwright': ^5.0.4
 
 minimumReleaseAgeExclude:
-  - '@vitest/expect@4.1.9'
-  - '@vitest/mocker@4.1.9'
-  - '@vitest/pretty-format@4.1.9'
-  - '@vitest/runner@4.1.9'
-  - '@vitest/snapshot@4.1.9'
-  - '@vitest/spy@4.1.9'
-  - '@vitest/utils@4.1.9'
-  - vitest@4.1.9
-overrides:
-  vite: 'catalog:'
-  'vitepress>vite': '^8.2.1'
-  vitest: 'catalog:'
+  - '@vitest/browser-playwright@5.0.4'
+  - '@vitest/browser@5.0.4'
+  - '@vitest/mocker@5.0.4'
+  - '@vitest/pretty-format@5.0.4'
+  - '@vitest/spy@5.0.4'
+  - '@vitest/ui@5.0.4'
+  - '@vitest/utils@5.0.4'
+  - vitest@5.0.4

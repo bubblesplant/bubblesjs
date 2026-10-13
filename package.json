@@ -35,6 +35,8 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "prepare": "vp config --hooks-dir .vite-hooks --no-agent",
+    "hooks:install": "vp config --hooks-dir .vite-hooks --no-agent",
     "format": "vp fmt --write .",
     "lint": "vp lint .",
     "check": "vp check",
@@ -54,13 +56,10 @@
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.0",
     "@changesets/cli": "^3.0.1",
+    "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.2",
-    "lefthook": "^2.1.10",
     "vite": "catalog:",
     "vite-plus": "catalog:"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm exec lint-staged --concurrent false"
   },
   "engines": {
     "node": "^18.0.0 || ^20.0.0 || >=22.0.0"
