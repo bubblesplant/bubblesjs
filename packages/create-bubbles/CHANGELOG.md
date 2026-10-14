@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.31
+
+### Patch Changes
+
+- [`e219e24`](https://github.com/bubblesplant/bubblesjs/commit/e219e248bae53c7b59faf6227149840bd0b46519) Thanks [@bubblesplant](https://github.com/bubblesplant)! - vp-vue 模板 更新
+
 ## 0.1.30
 
 ### Patch Changes
