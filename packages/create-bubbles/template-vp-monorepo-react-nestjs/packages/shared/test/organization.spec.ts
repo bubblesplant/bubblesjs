@@ -52,7 +52,23 @@ describe('组织共享写入契约', () => {
     ).toBe(false)
   })
 
-  it('排序只接受范围内单整数，岗位严格拒绝组织单元关联字段', () => {
+  it('独立企业拒绝所有已取消的层级字段，岗位拒绝组织单元关联字段', () => {
+    const company = {
+      name: '示例企业',
+      code: 'COMPANY_A',
+      administratorUserId: USER_ID,
+    }
+    expect(createCompanySchema.parse(company)).toEqual({ ...company, code: 'company_a' })
+    for (const field of [
+      { parentCompanyId: null },
+      { parentCompanyId: USER_ID },
+      { entityType: 'company' },
+      { entityType: 'group' },
+      { sort: 1 },
+      { nameKey: '示例企业' },
+    ]) {
+      expect(createCompanySchema.safeParse({ ...company, ...field }).success).toBe(false)
+    }
     expect(
       createCompanySchema.safeParse({
         name: '示例企业',

@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-10-14T08:03:22.412231+00:00",
+  "documents": 7,
+  "relativeLinksChecked": 130,
+  "missingLinks": [],
+  "tutorialSteps": 18,
+  "newRuntimeFiles": [
+    "packages/shared/src/types/upload.ts",
+    "packages/shared/src/types/test-examples/redis.ts",
+    "packages/shared/src/types/test-examples/db.ts",
+    "apps/server/test/schema/native-schema.spec.ts"
+  ],
+  "passed": true
+}

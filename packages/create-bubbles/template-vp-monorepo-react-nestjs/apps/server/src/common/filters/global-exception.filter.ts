@@ -8,9 +8,7 @@ import {
 } from '@nestjs/common'
 import { HttpAdapterHost } from '@nestjs/core'
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { ZodSerializationException, ZodValidationException } from 'nestjs-zod'
 import { ApiErrorDetail, ApiFailure } from 'shared/types'
-import { ZodError } from 'zod'
 import { COMMON_ERRORS } from '../error/common.error'
 import { AppException } from '../exceptions/app.exception'
 import { markPasswordFailure } from '../security/password-security-event'
@@ -224,30 +222,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   constructor(private readonly adapterHost: HttpAdapterHost) {}
 
   /**
-   * 从请求参数校验异常提取数量和长度受限的公开字段错误。
-   */
-  private getZodDetails(exception: ZodValidationException): ApiErrorDetail[] | undefined {
-    const zodError = exception.getZodError()
-
-    if (!(zodError instanceof ZodError)) {
-      return undefined
-    }
-
-    /** 将 Zod 路径转换成点分隔字段路径，并过滤不适合公开的控制字符。 */
-    const details = zodError.issues.slice(0, MAX_DETAIL_COUNT).map((issue) => {
-      const path = cleanPublicText(issue.path.map(String).join('.'), MAX_DETAIL_PATH_LENGTH)
-      const message = cleanPublicText(issue.message, MAX_PUBLIC_MESSAGE_LENGTH) || '请求内容无效'
-
-      return {
-        ...(path ? { path } : {}),
-        code: cleanDetailCode(issue.code),
-        message,
-      }
-    })
-    return details.length ? details : undefined
-  }
-
-  /**
    * 将 Nest HTTP 异常映射为固定公开文案，隐藏内部异常文本并标记 401 质询。
    */
   private normalizeLegacyHttpException(exception: HttpException): NormalizedFailure {
@@ -286,33 +260,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   }
 
   /**
-   * 统一转换业务异常、Zod 异常和未知异常，生成安全响应及仅供服务端日志使用的原因。
+   * 统一转换业务异常、Nest HTTP 异常和未知异常，生成安全响应及日志原因。
    */
   private normalize(exception: unknown): NormalizedFailure {
-    if (exception instanceof ZodSerializationException) {
-      return {
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        body: {
-          code: COMMON_ERRORS.INTERNAL_SERVER_ERROR.code,
-          message: COMMON_ERRORS.INTERNAL_SERVER_ERROR.publicMessage,
-        },
-        cause: exception.getZodError() ?? exception,
-      }
-    }
-
-    if (exception instanceof ZodValidationException) {
-      const details = this.getZodDetails(exception)
-
-      return {
-        status: COMMON_ERRORS.VALIDATION_FAILED.status,
-        body: {
-          code: COMMON_ERRORS.VALIDATION_FAILED.code,
-          message: COMMON_ERRORS.VALIDATION_FAILED.publicMessage,
-          ...(details?.length ? { details } : {}),
-        },
-      }
-    }
-
     if (exception instanceof AppException) {
       const status = normalizeStatus(exception.getStatus())
       const details = normalizeDetails(exception.details)

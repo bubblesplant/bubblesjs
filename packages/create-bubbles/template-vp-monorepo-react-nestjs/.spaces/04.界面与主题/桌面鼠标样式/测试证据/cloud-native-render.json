@@ -1,0 +1,249 @@
+{
+  "date": "2026-10-14",
+  "renders": 36,
+  "checked_static_composites": 24,
+  "configuration_changed": false,
+  "image": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.\u754c\u9762\u4e0e\u4e3b\u9898\\\u684c\u9762\u9f20\u6807\u6837\u5f0f\\ui\\cloud-windows-render.png",
+  "results": [
+    {
+      "file": "normal.cur",
+      "size": 32,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "normal.cur",
+      "size": 32,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "link.cur",
+      "size": 32,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "link.cur",
+      "size": 32,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "text.cur",
+      "size": 32,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "text.cur",
+      "size": 32,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "busy.ani",
+      "size": 32,
+      "background": [255, 255, 255],
+      "native_draw": true
+    },
+    {
+      "file": "busy.ani",
+      "size": 32,
+      "background": [51, 52, 76],
+      "native_draw": true
+    },
+    {
+      "file": "working.ani",
+      "size": 32,
+      "background": [255, 255, 255],
+      "native_draw": true
+    },
+    {
+      "file": "working.ani",
+      "size": 32,
+      "background": [51, 52, 76],
+      "native_draw": true
+    },
+    {
+      "file": "move.cur",
+      "size": 32,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "move.cur",
+      "size": 32,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "normal.cur",
+      "size": 48,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "normal.cur",
+      "size": 48,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "link.cur",
+      "size": 48,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "link.cur",
+      "size": 48,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "text.cur",
+      "size": 48,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "text.cur",
+      "size": 48,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "busy.ani",
+      "size": 48,
+      "background": [255, 255, 255],
+      "native_draw": true
+    },
+    {
+      "file": "busy.ani",
+      "size": 48,
+      "background": [51, 52, 76],
+      "native_draw": true
+    },
+    {
+      "file": "working.ani",
+      "size": 48,
+      "background": [255, 255, 255],
+      "native_draw": true
+    },
+    {
+      "file": "working.ani",
+      "size": 48,
+      "background": [51, 52, 76],
+      "native_draw": true
+    },
+    {
+      "file": "move.cur",
+      "size": 48,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "move.cur",
+      "size": 48,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "normal.cur",
+      "size": 64,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "normal.cur",
+      "size": 64,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "link.cur",
+      "size": 64,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "link.cur",
+      "size": 64,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "text.cur",
+      "size": 64,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "text.cur",
+      "size": 64,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "busy.ani",
+      "size": 64,
+      "background": [255, 255, 255],
+      "native_draw": true
+    },
+    {
+      "file": "busy.ani",
+      "size": 64,
+      "background": [51, 52, 76],
+      "native_draw": true
+    },
+    {
+      "file": "working.ani",
+      "size": 64,
+      "background": [255, 255, 255],
+      "native_draw": true
+    },
+    {
+      "file": "working.ani",
+      "size": 64,
+      "background": [51, 52, 76],
+      "native_draw": true
+    },
+    {
+      "file": "move.cur",
+      "size": 64,
+      "background": [255, 255, 255],
+      "native_draw": true,
+      "max_composite_error": 1
+    },
+    {
+      "file": "move.cur",
+      "size": 64,
+      "background": [51, 52, 76],
+      "native_draw": true,
+      "max_composite_error": 1
+    }
+  ]
+}

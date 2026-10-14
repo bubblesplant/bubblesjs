@@ -213,8 +213,8 @@ export default function WorkspacesPage() {
             <Empty
               description={
                 <>
-                  <strong>{tr('暂未加入企业，请联系管理员获取邀请链接')}</strong>
-                  <p>{tr('登录后确认加入企业；加入后，刷新此页即可进入。')}</p>
+                  <strong>{tr('暂未加入企业，请联系企业管理员')}</strong>
+                  <p>{tr('加入企业后，刷新此页即可进入。')}</p>
                 </>
               }
             />

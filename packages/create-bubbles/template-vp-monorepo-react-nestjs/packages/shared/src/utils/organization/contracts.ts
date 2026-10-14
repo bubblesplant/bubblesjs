@@ -63,16 +63,6 @@ const baseResourceFields = {
 export const createCompanySchema = z.strictObject({
   ...baseResourceFields,
   administratorUserId: idSchema,
-  parentCompanyId: idSchema.nullable().optional(),
-  entityType: z.enum(['group', 'company']).optional(),
-  sort: sortSchema.optional(),
-})
-
-export const updateCompanyHierarchySchema = z.strictObject({
-  expectedVersion: versionSchema,
-  parentCompanyId: idSchema.nullable(),
-  entityType: z.enum(['group', 'company']),
-  sort: sortSchema.optional(),
 })
 
 const blankInitializationSchema = z.strictObject({ mode: z.literal('blank') })

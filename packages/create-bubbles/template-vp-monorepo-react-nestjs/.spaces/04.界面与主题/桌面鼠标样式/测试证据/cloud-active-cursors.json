@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-14",
+  "active_system_cursors_verified": true,
+  "checked_roles": 5,
+  "checked_frames": 7,
+  "results": [
+    {
+      "role": "Arrow",
+      "size": [32, 32],
+      "hotspot": [5, 3],
+      "frame": 0,
+      "system_matches_installed_file": true,
+      "render_sha256": "426e9b38355015e8d910e763c5fd1e33dcd5e1f09594f587dafc056ba853dbcc"
+    },
+    {
+      "role": "Hand",
+      "size": [32, 32],
+      "hotspot": [13, 3],
+      "frame": 0,
+      "system_matches_installed_file": true,
+      "render_sha256": "0d1c318c7e4ff1ea2d4792d26c8757d0a4be02f8e00bee8177e7f1511a0b613f"
+    },
+    {
+      "role": "IBeam",
+      "size": [32, 32],
+      "hotspot": [16, 16],
+      "frame": 0,
+      "system_matches_installed_file": true,
+      "render_sha256": "e2f67899bf8d203ec714e2217f9a80551bdc589b4b83a547473c131df8c793fd"
+    },
+    {
+      "role": "Wait",
+      "size": [32, 32],
+      "hotspot": [16, 16],
+      "frame": 0,
+      "system_matches_installed_file": true,
+      "render_sha256": "95f6d29e3cf2eda1924483cdea7961569020eae03f1a4d3bb2a65d3ed5a87e6e"
+    },
+    {
+      "role": "Wait",
+      "size": [32, 32],
+      "hotspot": [16, 16],
+      "frame": 12,
+      "system_matches_installed_file": true,
+      "render_sha256": "ac229bb74e44d9da96f8e99bcd242b3e31107ca06bc48decdc2325c346e808f8"
+    },
+    {
+      "role": "AppStarting",
+      "size": [32, 32],
+      "hotspot": [4, 2],
+      "frame": 0,
+      "system_matches_installed_file": true,
+      "render_sha256": "0e2615d627249e3bd751a0ce5e7fea6dba347a38e3ad6ee901da7fc641e29557"
+    },
+    {
+      "role": "AppStarting",
+      "size": [32, 32],
+      "hotspot": [4, 2],
+      "frame": 12,
+      "system_matches_installed_file": true,
+      "render_sha256": "c3a7be751139864ad0c8c36e9b62eda107755a0080ca2fc5c6f3f9ab3642bf3f"
+    }
+  ]
+}

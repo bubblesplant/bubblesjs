@@ -1,8 +1,7 @@
 import type { AccessScope, AccountStatus, EntityStatus, PageQuery, VersionRequest } from '../access'
-import type { CompanyDetail, CompanyRecord, MemberRecord } from '../access-resources'
+import type { MemberRecord } from '../access-resources'
 
 export type OrganizationScope = Extract<AccessScope, { type: 'company' | 'project' }>
-export type CompanyEntityType = 'group' | 'company'
 export type OrganizationDuty = 'member' | 'leader' | 'deputy'
 export type ProjectOrganizationInitialization =
   | { mode: 'blank' }
@@ -13,30 +12,11 @@ export interface OrganizationRelationInput {
   duty: OrganizationDuty
 }
 
-export interface CompanyHierarchyFields {
-  parentCompanyId: string | null
-  entityType: CompanyEntityType
-  sort: number
-}
-
-export type CompanyHierarchyRecord = CompanyRecord & CompanyHierarchyFields
-export type CompanyHierarchyDetail = CompanyDetail & CompanyHierarchyFields
-export type CompanyHierarchyNode = CompanyHierarchyRecord & { children: CompanyHierarchyNode[] }
-
-export interface UpdateCompanyHierarchyRequest extends VersionRequest {
-  parentCompanyId: string | null
-  entityType: CompanyEntityType
-  sort?: number
-}
-
 export interface CreateCompanyRequest {
   name: string
   code: string
   description?: string
   administratorUserId: string
-  parentCompanyId?: string | null
-  entityType?: CompanyEntityType
-  sort?: number
 }
 
 export interface CreateProjectRequest {

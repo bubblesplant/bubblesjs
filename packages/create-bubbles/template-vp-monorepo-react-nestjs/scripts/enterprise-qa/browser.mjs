@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { randomBytes, randomUUID } from 'node:crypto'
 import {
   loadRuntime,
+  seedExistingCompanyMember,
   privateStatePath,
   readPrivateState,
   writePrivateState,
@@ -171,47 +172,6 @@ async function createEntity({ project = false, identity, base }) {
   })
 }
 
-/** 创建企业邀请链接，切换到目标账号接受，再恢复企业管理员会话。 */
-async function inviteCompanyMember({ administrator, member, base }) {
-  await page.getByRole('button', { name: '邀请成员', exact: true }).click()
-  const dialog = page.getByRole('dialog', { name: '邀请企业成员', exact: true })
-  await dialog.waitFor({ state: 'visible' })
-  const response = page.waitForResponse(
-    (item) =>
-      new URL(item.url()).pathname === `/api${base}/member-invitations` &&
-      item.request().method() === 'POST',
-  )
-  await dialog.getByRole('button', { name: '创建邀请链接', exact: true }).click()
-  const issued = await response
-  ensure(issued.status() === 201, `UI 创建企业邀请预期 201，实际 ${issued.status()}`)
-  const invitationUrl = await dialog.locator('textarea[readonly]').inputValue()
-  ensure(
-    invitationUrl.startsWith(`${baseUrl}/member-invitations/accept?token=`),
-    '企业邀请弹窗未显示有效的完整邀请链接',
-  )
-  await dialog.getByRole('button', { name: '关闭', exact: true }).click()
-  await dialog.waitFor({ state: 'hidden' })
-
-  await logout()
-  await login(member)
-  await page.goto(invitationUrl)
-  const acceptance = page.waitForResponse(
-    (item) =>
-      new URL(item.url()).pathname === '/api/company-member-invitations/accept' &&
-      item.request().method() === 'POST',
-  )
-  await page.getByRole('button', { name: '确认加入企业', exact: true }).click()
-  const accepted = await acceptance
-  ensure(accepted.status() === 200, `UI 接受企业邀请预期 200，实际 ${accepted.status()}`)
-  await page.waitForURL('**/workspaces')
-
-  await logout()
-  await login(administrator)
-  await enter(base)
-  await enter(`${base}/members`)
-  await visible(member.name)
-}
-
 /** 从所属企业成员中选择目标账号并添加为项目成员。 */
 async function addProjectMember({ identity, base }) {
   await page.getByRole('button', { name: '添加成员' }).click()
@@ -306,16 +266,18 @@ try {
     await login(state.identities.enterprise)
     await enter(base)
     await enter(`${base}/members`)
-    await inviteCompanyMember({
-      administrator: state.identities.enterprise,
-      member: state.identities.project,
-      base,
+    await seedExistingCompanyMember({
+      runtime,
+      companyId: state.fixtures.company.id,
+      userId: state.identities.project.id,
     })
-    await inviteCompanyMember({
-      administrator: state.identities.enterprise,
-      member: state.identities.member,
-      base,
+    await seedExistingCompanyMember({
+      runtime,
+      companyId: state.fixtures.company.id,
+      userId: state.identities.member.id,
     })
+    const invitation = page.getByRole('button', { name: '邀请成员（待确认）', exact: true })
+    ensure(await invitation.isDisabled(), '邀请入口应处于禁用状态')
     await enter(`${base}/projects`)
     state.fixtures.project = await createEntity({
       project: true,

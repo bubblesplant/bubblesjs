@@ -45,6 +45,42 @@ export function databaseConfig(runtime, database = runtime.database.database) {
   return { host, port, user, password, database }
 }
 
+/** 在受限隔离库构造已有企业成员及默认角色，只供权限回归夹具使用。 */
+export async function seedExistingCompanyMember({ runtime, companyId, userId }) {
+  ensure(
+    ['127.0.0.1', 'localhost'].includes(runtime.database?.host) &&
+      /^enterprise_(test|legacy)(_[a-z0-9]+)?$/.test(runtime.database?.database ?? '') &&
+      runtime.database?.port === 15432 &&
+      runtime.redisPort === 16379,
+    '成员夹具只能写入本机隔离测试库',
+  )
+  const { Client } = serverRequire('pg')
+  const client = new Client(databaseConfig(runtime))
+  await client.connect()
+  try {
+    await client.query('BEGIN')
+    const role = await client.query(
+      "SELECT id FROM roles WHERE scope_type = 'company' AND company_id = $1 AND builtin = 'member'",
+      [companyId],
+    )
+    ensure(role.rowCount === 1, '隔离企业缺少内置成员角色')
+    await client.query(
+      'INSERT INTO company_members (company_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+      [companyId, userId],
+    )
+    await client.query(
+      'INSERT INTO user_roles (user_id, role_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+      [userId, role.rows[0].id],
+    )
+    await client.query('COMMIT')
+  } catch (error) {
+    await client.query('ROLLBACK')
+    throw error
+  } finally {
+    await client.end()
+  }
+}
+
 export function randomIdentity(label) {
   const suffix = randomBytes(6).toString('hex')
   return {

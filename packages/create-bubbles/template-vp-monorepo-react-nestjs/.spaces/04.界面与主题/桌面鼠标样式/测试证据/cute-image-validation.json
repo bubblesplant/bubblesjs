@@ -1,0 +1,30 @@
+[
+  {
+    "file": "cute-cat.png",
+    "width": 1600,
+    "height": 1160,
+    "bytes": 226528,
+    "decoded": true
+  },
+  {
+    "file": "cute-bunny.png",
+    "width": 1600,
+    "height": 1160,
+    "bytes": 221463,
+    "decoded": true
+  },
+  {
+    "file": "cute-cloud.png",
+    "width": 1600,
+    "height": 1160,
+    "bytes": 213337,
+    "decoded": true
+  },
+  {
+    "file": "cute-comparison.png",
+    "width": 1600,
+    "height": 1180,
+    "bytes": 245601,
+    "decoded": true
+  }
+]

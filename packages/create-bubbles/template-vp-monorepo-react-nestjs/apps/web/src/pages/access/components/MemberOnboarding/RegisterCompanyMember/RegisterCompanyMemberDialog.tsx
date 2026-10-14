@@ -77,7 +77,7 @@ export default function RegisterCompanyMemberDialog({
       <ProFormText
         name="account"
         label={tr('账号')}
-        extra={tr('4–32 位字母、数字或下划线；账号已存在时请改用邀请流程。')}
+        extra={tr('4–32 位字母、数字或下划线；仅支持创建新账号。')}
         fieldProps={{
           maxLength: 32,
           autoComplete: 'username',

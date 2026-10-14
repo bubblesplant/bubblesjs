@@ -9,3 +9,9 @@ export interface ApiFailure {
   readonly message: string
   readonly details?: ApiErrorDetail[]
 }
+
+export interface SchemaValidationIssue {
+  readonly message: string
+  readonly path?: readonly (PropertyKey | { readonly key: PropertyKey })[]
+  readonly code?: string
+}

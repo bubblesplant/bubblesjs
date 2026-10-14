@@ -8,13 +8,7 @@ import type {
   AssignPlatformRolesRequest,
   AuditQuery,
   AuditRecord,
-  CompanyMemberInvitationIssueResult,
-  CompanyMemberInvitationQuery,
-  CompanyMemberInvitationRecord,
   CompanyDetail,
-  CompanyHierarchyDetail,
-  CompanyHierarchyNode,
-  CompanyHierarchyRecord,
   CompanyRecord,
   CreateCompanyRequest,
   CreateProjectRequest,
@@ -36,8 +30,6 @@ import type {
   RegisterCompanyMemberRequest,
   ResetAccountPasswordRequest,
   ResetAccountPasswordResult,
-  ResendCompanyMemberInvitationRequest,
-  RevokeCompanyMemberInvitationRequest,
   RoleRecord,
   ResolveGlobalAccountCandidatesRequest,
   ResolveOrganizationMemberCandidatesRequest,
@@ -47,7 +39,6 @@ import type {
   StatusRequest,
   UpdateProfileRequest,
   UpdateRoleRequest,
-  UpdateCompanyHierarchyRequest,
 } from 'shared/types'
 import { accessScopeBasePath, accessScopeKey } from 'shared/utils'
 import {
@@ -95,7 +86,7 @@ export function managementApi(scope: AccessScope) {
     projects: (params: PageQuery & { status?: EntityStatus }) =>
       get<PageResult<ProjectRecord>>(entities, params),
     /** 创建企业并返回包含管理员信息的企业详情。 */
-    createCompany: (data: CreateCompanyRequest) => post<CompanyHierarchyDetail>(entities, data),
+    createCompany: (data: CreateCompanyRequest) => post<CompanyDetail>(entities, data),
     /** 在当前企业下创建项目并返回项目详情。 */
     createProject: (data: CreateProjectRequest) => post<ProjectDetail>(entities, data),
     /** 读取企业详情及管理员信息。 */
@@ -140,11 +131,6 @@ export function managementApi(scope: AccessScope) {
     /** 查询企业可用的项目组织模板摘要。 */
     organizationTemplates: (params: OrganizationTemplateListQuery = {}) =>
       get<PageResult<OrganizationTemplateSummary>>(`${base}/organization/templates`, params),
-    /** 查询平台可见企业层级树。 */
-    companyTree: () => get<CompanyHierarchyNode[]>('/platform/companies/tree'),
-    /** 更新企业父级、实体类型和同级排序。 */
-    updateCompanyHierarchy: (id: string, data: UpdateCompanyHierarchyRequest) =>
-      patch<CompanyHierarchyRecord>(`/platform/companies/${id}/hierarchy`, data),
     /** 读取当前工作空间的企业或项目资料。 */
     profile: () => get<CompanyDetail | ProjectDetail>(base),
     /** 携带版本条件更新当前企业或项目资料。 */
@@ -155,30 +141,6 @@ export function managementApi(scope: AccessScope) {
     /** 直接注册新账号并加入当前企业。 */
     registerCompanyMember: (data: RegisterCompanyMemberRequest) =>
       post<MemberRecord>(`${base}/members`, data),
-    /** 分页读取当前企业的一次性成员邀请，不返回原始 token。 */
-    companyMemberInvitations: (params: CompanyMemberInvitationQuery) =>
-      get<PageResult<CompanyMemberInvitationRecord>>(`${base}/member-invitations`, params),
-    /** 创建不绑定账号的一次性企业邀请，原始 token 仅在本次响应返回。 */
-    createCompanyMemberInvitation: () =>
-      post<CompanyMemberInvitationIssueResult>(`${base}/member-invitations`, {}),
-    /** 携带当前版本撤销尚未接受的企业成员邀请。 */
-    revokeCompanyMemberInvitation: (
-      invitationId: string,
-      data: RevokeCompanyMemberInvitationRequest,
-    ) =>
-      post<CompanyMemberInvitationRecord>(
-        `${base}/member-invitations/${invitationId}/revoke`,
-        data,
-      ),
-    /** 使旧凭证失效并签发新的企业邀请 token，原始 token 仅在本次响应返回。 */
-    resendCompanyMemberInvitation: (
-      invitationId: string,
-      data: ResendCompanyMemberInvitationRequest,
-    ) =>
-      post<CompanyMemberInvitationIssueResult>(
-        `${base}/member-invitations/${invitationId}/resend`,
-        data,
-      ),
     /** 按稳定 userId 将所属企业的有效成员加入当前项目。 */
     addProjectMember: (data: AddProjectMemberRequest) =>
       post<MemberRecord>(`${base}/members`, data),

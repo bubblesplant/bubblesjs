@@ -1,0 +1,127 @@
+{
+  "date": "2026-10-14",
+  "scope": "组织与成员 P0 最后回归；当前业务数据库未迁移，未提交、推送或部署",
+  "webTests": {
+    "files": 22,
+    "passed": 130,
+    "failed": 0,
+    "afterFinalCopyChanges": true
+  },
+  "webTypeCheckAndBuild": {
+    "passed": true
+  },
+  "targetedFormatting": {
+    "passed": true,
+    "files": 39
+  },
+  "scriptSyntax": {
+    "passed": true,
+    "files": 6
+  },
+  "schemaContract": {
+    "passed": true,
+    "tables": 10,
+    "fields": 97,
+    "organizationPermissions": 21,
+    "routes": 45,
+    "historicalMigrationsUnchanged": true,
+    "retiredRuntimeConceptsAbsent": true,
+    "report": "p0-schema.json"
+  },
+  "targetedLint": {
+    "passed": false,
+    "diagnostics": 31,
+    "code": "TS2741",
+    "source": "packages/shared/src/utils/access-catalog.ts",
+    "reason": "既有操作定义缺少必填 icon",
+    "headDiagnostics": 32,
+    "allCurrentErrorsAlreadyPresentInHead": true,
+    "files": [
+      "apps/server/src/database/access.schema.ts",
+      "apps/server/src/modules/access/access.errors.ts",
+      "apps/server/src/modules/companies/companies.controller.ts",
+      "apps/server/src/modules/companies/companies.service.ts",
+      "apps/server/src/modules/members/members.module.ts",
+      "apps/server/src/modules/organization/organization.validation.ts",
+      "apps/server/test/access/access.integration.spec.ts",
+      "apps/server/test/access/member-onboarding.validation.spec.ts",
+      "apps/server/test/access/retired-company-routes.spec.ts",
+      "apps/server/test/database/independent-companies-migration.spec.ts",
+      "apps/web/src/pages/access/api.ts",
+      "apps/web/src/pages/access/components/EntityFormDialog.tsx",
+      "apps/web/src/pages/access/components/MemberOnboarding/MemberOnboardingActions.tsx",
+      "apps/web/src/pages/access/components/MemberOnboarding/RegisterCompanyMember/RegisterCompanyMemberDialog.tsx",
+      "apps/web/src/pages/access/entities.tsx",
+      "apps/web/src/pages/register/index.tsx",
+      "apps/web/src/pages/workspaces/index.tsx",
+      "apps/web/src/router/modules/auth.tsx",
+      "apps/web/test/member-onboarding/auth-navigation.spec.ts",
+      "apps/web/test/member-onboarding/member-onboarding-actions.spec.tsx",
+      "packages/shared/src/types/access-resources.ts",
+      "packages/shared/src/types/common.ts",
+      "packages/shared/src/types/index.ts",
+      "packages/shared/src/types/organization/models.ts",
+      "packages/shared/src/utils/access-catalog.ts",
+      "packages/shared/src/utils/index.ts",
+      "packages/shared/src/utils/organization/contracts.ts",
+      "packages/shared/test/access.spec.ts",
+      "packages/shared/test/organization.spec.ts",
+      "scripts/enterprise-qa/browser.mjs",
+      "scripts/enterprise-qa/http.mjs",
+      "scripts/enterprise-qa/runtime.mjs",
+      ".spaces/01.企业级项目级/组织架构/工具/p0-ui.mjs",
+      ".spaces/01.企业级项目级/组织架构/工具/p0-schema.cjs",
+      ".spaces/01.企业级项目级/组织架构/工具/p0-cli-smoke.mjs"
+    ]
+  },
+  "i18n": {
+    "passed": false,
+    "missingZhCN": 18,
+    "unusedZhCN": 4,
+    "unusedEnUS": 4,
+    "missingScope": "既有修改密码与重置密码文案",
+    "unusedKeys": ["全部", "搜索企业或项目", "账号：{account}", "退出"],
+    "p0CopySynchronized": true
+  },
+  "documentation": {
+    "passed": true,
+    "documents": [
+      ".spaces/01.企业级项目级/组织架构/需求文档.md",
+      ".spaces/01.企业级项目级/组织架构/设计方案.md",
+      ".spaces/01.企业级项目级/组织架构/技术契约.md",
+      ".spaces/01.企业级项目级/组织架构/测试报告.md",
+      ".spaces/01.企业级项目级/组织架构/联调记录.md",
+      ".spaces/01.企业级项目级/组织架构/决策记录.md",
+      ".spaces/01.企业级项目级/组织架构/交付记录.md",
+      ".spaces/01.企业级项目级/组织架构/实施偏差归档/说明.md",
+      ".spaces/01.企业级项目级/权限与菜单/需求文档.md",
+      ".spaces/01.企业级项目级/权限与菜单/PRD.md",
+      ".spaces/01.企业级项目级/权限与菜单/技术契约.md",
+      ".spaces/01.企业级项目级/权限与菜单/测试报告.md",
+      ".spaces/01.企业级项目级/权限与菜单/后端测试报告.md",
+      ".spaces/01.企业级项目级/权限与菜单/联调记录.md",
+      ".spaces/01.企业级项目级/权限与菜单/决策记录.md",
+      ".spaces/01.企业级项目级/权限与菜单/运行说明.md",
+      ".spaces/05.运行维护/数据库迁移/操作指南.md",
+      ".spaces/05.运行维护/平台操作手册.md",
+      ".spaces/README.md"
+    ],
+    "relativeLinksExist": true,
+    "tableColumnsConsistent": true,
+    "acceptance": {
+      "total": 36,
+      "passed": 26,
+      "partial": 10
+    }
+  },
+  "gitWhitespace": {
+    "workingTree": true,
+    "staged": true
+  },
+  "limits": [
+    "Web 浏览器检查使用模拟 API，不是完整真实业务 E2E",
+    "CLI smoke 未在生成项目安装依赖重新构建，不是发布包全量审计",
+    "全仓格式与 lint 基线问题仍存在",
+    "历史组织 backfill 的受保护 rollback 本轮未重跑"
+  ]
+}

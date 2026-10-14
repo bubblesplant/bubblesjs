@@ -8,12 +8,18 @@ import {
   storageConfig,
 } from '@/config'
 import { RedisModule } from '@nestjs-modules/ioredis'
-import { Module } from '@nestjs/common'
+import {
+  Module,
+  StandardSchemaSerializerInterceptor,
+  StandardSchemaValidationPipe,
+} from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
-import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod'
+import { toValidationDetails } from 'shared/utils'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { COMMON_ERRORS } from './common/error/common.error'
+import { AppException } from './common/exceptions/app.exception'
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 import { DatabaseModule } from './database/db.module'
 import { AuthModule } from './modules/auth/auth.module'
@@ -79,15 +85,24 @@ import { ENV_ARR } from './utils/env-arr'
   controllers: [AppController],
   providers: [
     AppService,
-    // ZOD 全局校验管道
+    // 原生请求 Schema 校验与转换，沿用统一业务错误契约。
     {
       provide: APP_PIPE,
-      useClass: ZodValidationPipe,
+      /** 创建原生校验器，使 trim、coerce、default 和字段剥离输出生效。 */
+      useFactory: () =>
+        new StandardSchemaValidationPipe({
+          transform: true,
+          /** 保留校验问题的字段路径和错误码，由全局过滤器清洗公开详情。 */
+          exceptionFactory: (issues) =>
+            new AppException(COMMON_ERRORS.VALIDATION_FAILED, {
+              details: toValidationDetails(issues),
+            }),
+        }),
     },
-    // 相应序列化拦截器（让相应也走Zod 防泄漏字段）
+    // 按各接口的 SerializeOptions 校验响应并筛选公开字段。
     {
       provide: APP_INTERCEPTOR,
-      useClass: ZodSerializerInterceptor,
+      useClass: StandardSchemaSerializerInterceptor,
     },
     {
       provide: APP_FILTER,

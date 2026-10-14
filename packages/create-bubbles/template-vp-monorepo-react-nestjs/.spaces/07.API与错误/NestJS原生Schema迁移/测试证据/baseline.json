@@ -1,0 +1,22 @@
+[
+  {
+    "name": "shared-build",
+    "exitCode": 0
+  },
+  {
+    "name": "server-typecheck",
+    "exitCode": 1
+  },
+  {
+    "name": "server-regression",
+    "exitCode": 1
+  },
+  {
+    "name": "server-build",
+    "exitCode": 0
+  },
+  {
+    "name": "peers",
+    "exitCode": 1
+  }
+]

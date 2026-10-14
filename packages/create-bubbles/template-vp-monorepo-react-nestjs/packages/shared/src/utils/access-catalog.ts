@@ -1,6 +1,6 @@
 import type { AccessPageDefinition, PermissionDefinition, ScopeType } from '../types'
 
-export const ACCESS_CATALOG_VERSION = '2026-09-19.1'
+export const ACCESS_CATALOG_VERSION = '2026-10-14.1'
 export const ACCESS_DEFAULT_PAGE_SIZE = 20
 export const ACCESS_MAX_PAGE_SIZE = 100
 export const ACCESS_CODE_PATTERN = /^[A-Za-z0-9_-]+$/
@@ -9,7 +9,7 @@ export const ACCESS_ICON_KEY_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(
 interface OperationSpec {
   suffix: string
   title: string
-  icon: string
+  icon?: string
   adminOnly?: boolean
 }
 
@@ -55,7 +55,6 @@ const pageSpecs: readonly PageSpec[] = [
       { suffix: 'create', title: '开通企业', adminOnly: true },
       { suffix: 'status', title: '启用或停用企业' },
       { suffix: 'administrator', title: '设置企业管理员', adminOnly: true },
-      { suffix: 'hierarchy', title: '调整企业层级' },
     ],
   },
   {

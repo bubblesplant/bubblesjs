@@ -59,6 +59,7 @@ describe('共享权限目录约束', () => {
     ).toEqual([
       'company.projects.administrator',
       'company.projects.create',
+      'platform.accounts.reset-password',
       'platform.companies.administrator',
       'platform.companies.create',
       'platform.menus.cleanup',
@@ -90,6 +91,13 @@ describe('共享权限目录约束', () => {
       expect(ACCESS_PROTECTED_ROUTE_KEYS).toContain(routeKey)
       expect(ACCESS_PAGE_CATALOG.some((page) => page.routeKey === routeKey)).toBe(true)
     }
+  })
+
+  it('企业管理目录不再发布企业间层级操作权限', () => {
+    expect(
+      ACCESS_PERMISSION_CATALOG.some((permission) => permission.key.includes('hierarchy')),
+    ).toBe(false)
+    expect(getAccessPermission('platform.companies.hierarchy')).toBeUndefined()
   })
 })
 

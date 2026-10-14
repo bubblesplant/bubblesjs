@@ -4,7 +4,6 @@ import { ConsoleLogger, Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { type NestFastifyApplication } from '@nestjs/platform-fastify'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { cleanupOpenApiDoc } from 'nestjs-zod'
 import { createFastifyAdapter } from './common/adapters/fastify.adapter'
 
 /**
@@ -40,7 +39,7 @@ async function bootstrap() {
     .build()
 
   // 生成openAPI 文档
-  const document = cleanupOpenApiDoc(SwaggerModule.createDocument(app, config))
+  const document = SwaggerModule.createDocument(app, config)
 
   // 将ui 挂载到/api-docs, json版本会自动在 /api-docs-json
   SwaggerModule.setup('api-docs', app, document)

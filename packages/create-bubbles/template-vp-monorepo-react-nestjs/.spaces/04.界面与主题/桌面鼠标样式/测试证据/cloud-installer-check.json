@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-14",
+  "action": "Check",
+  "exit_code": 0,
+  "output": "检查通过：17 个角色文件完整，SHA256 全部匹配；未修改鼠标设置。",
+  "cursor_registry_unchanged": true,
+  "install_directory_unchanged": true,
+  "installed": false
+}

@@ -1,0 +1,75 @@
+﻿{
+  "date": "2026-10-14",
+  "windows_powershell": "5.1.19041.6456",
+  "installer_sha256": "D2FEE309EA0D779299ED39B1FE5B581500C3566A2A7DA57BC374B01E71D027D7",
+  "checks": [
+    {
+      "name": "只读校验",
+      "passed": true,
+      "result": {
+        "action": "Check",
+        "exit_code": 0,
+        "output": "检查通过：17 个角色文件完整，SHA256 全部匹配；未修改鼠标设置。"
+      },
+      "registry_unchanged": true
+    },
+    {
+      "name": "从持久化目录实际恢复",
+      "passed": true,
+      "result": {
+        "action": "Restore",
+        "exit_code": 0,
+        "output": "已恢复安装前的鼠标样式。备份保留，可再次恢复。"
+      },
+      "values_types_presence_and_scheme_match_backup": true
+    },
+    {
+      "name": "模拟故障 Apply",
+      "passed": true,
+      "exit_code": 1,
+      "output": "操作未完成：安装失败，已恢复本次安装前的设置：Windows 未能刷新鼠标指针（错误 5）：Access is denied",
+      "registry_matches_backup": true,
+      "native_failure_is_simulated": true
+    },
+    {
+      "name": "模拟故障 Both",
+      "passed": true,
+      "exit_code": 1,
+      "output": "操作未完成：安装失败：Windows 未能刷新鼠标指针（错误 5）：Access is denied；注册表已还原，但原鼠标未能立即刷新：Windows 未能刷新鼠标指针（错误 87）：The parameter is incorrect",
+      "registry_matches_backup": true,
+      "native_failure_is_simulated": true
+    },
+    {
+      "name": "模拟故障 Unknown",
+      "passed": true,
+      "exit_code": 1,
+      "output": "操作未完成：安装失败，已恢复本次安装前的设置：Windows 未能刷新鼠标指针，系统未提供错误码。",
+      "registry_matches_backup": true,
+      "native_failure_is_simulated": true
+    },
+    {
+      "name": "实际安装 1",
+      "passed": true,
+      "result": {
+        "action": "Install",
+        "exit_code": 0,
+        "output": "棉花云朵已安装并应用。\n恢复入口：C:\\Users\\Administrator\\AppData\\Local\\CottonCloudCursors\\恢复原鼠标.cmd"
+      },
+      "roles_and_files_verified": 17,
+      "first_backup_unchanged": true
+    },
+    {
+      "name": "实际安装 2",
+      "passed": true,
+      "result": {
+        "action": "Install",
+        "exit_code": 0,
+        "output": "棉花云朵已安装并应用。\n恢复入口：C:\\Users\\Administrator\\AppData\\Local\\CottonCloudCursors\\恢复原鼠标.cmd"
+      },
+      "roles_and_files_verified": 17,
+      "first_backup_unchanged": true
+    }
+  ],
+  "final_theme": "棉花云朵",
+  "first_backup_unchanged": true
+}

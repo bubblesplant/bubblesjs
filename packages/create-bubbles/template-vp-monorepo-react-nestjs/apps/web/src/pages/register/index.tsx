@@ -64,9 +64,7 @@ export default function RegisterPage() {
         <div className="login-form-content">
           <p className="login-form-eyebrow">{tr('加入万物')}</p>
           <h2 id="register-title">{tr('创建账号')}</h2>
-          <p className="login-description">
-            {tr('注册后登录，即可接受邀请或进入已加入的工作空间。')}
-          </p>
+          <p className="login-description">{tr('注册后登录，可查看已获授权的工作空间。')}</p>
           <LoginForm<RegisterRequest>
             autoFocusFirstInput={false}
             requiredMark={false}

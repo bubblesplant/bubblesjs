@@ -1,5 +1,5 @@
 import { MailOutlined, PlusOutlined, UserAddOutlined } from '@ant-design/icons'
-import { Button, Space } from 'antd'
+import { Button, Space, Tooltip } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type {
   AddProjectMemberRequest,
@@ -12,9 +12,6 @@ import {
   createOrganizationMemberSearch,
 } from '../EntitySelectors/selector-requests'
 import AddProjectMemberDialog, { type AddProjectMemberDialogRef } from './AddProjectMemberDialog'
-import CompanyMemberInvitationDialog, {
-  type CompanyMemberInvitationDialogRef,
-} from './CompanyMemberInvitation/CompanyMemberInvitationDialog'
 import RegisterCompanyMemberDialog, {
   type RegisterCompanyMemberDialogRef,
 } from './RegisterCompanyMember/RegisterCompanyMemberDialog'
@@ -38,7 +35,6 @@ export default function MemberOnboardingActions({
   onAddProjectMember,
 }: MemberOnboardingActionsProps) {
   const registerRef = useRef<RegisterCompanyMemberDialogRef>(null)
-  const invitationRef = useRef<CompanyMemberInvitationDialogRef>(null)
   const projectRef = useRef<AddProjectMemberDialogRef>(null)
   const { tr } = useI18n()
 
@@ -68,12 +64,15 @@ export default function MemberOnboardingActions({
         >
           {tr('直接注册')}
         </Button>
-        <Button icon={<MailOutlined />} onClick={() => invitationRef.current?.show()}>
-          {tr('邀请成员')}
-        </Button>
+        <Tooltip title={tr('邀请流程尚待确认，暂不可用')}>
+          <span>
+            <Button disabled icon={<MailOutlined />}>
+              {tr('邀请成员（待确认）')}
+            </Button>
+          </span>
+        </Tooltip>
       </Space>
       <RegisterCompanyMemberDialog ref={registerRef} onSave={onRegisterCompanyMember} />
-      <CompanyMemberInvitationDialog ref={invitationRef} api={api} />
     </>
   )
 }

@@ -6,19 +6,15 @@ import { migrate } from 'drizzle-orm/node-postgres/migrator'
 import { and, eq, inArray } from 'drizzle-orm'
 import Redis from 'ioredis'
 import { ConfigService } from '@nestjs/config'
+import { randomBytes } from 'node:crypto'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { createHash, randomBytes } from 'node:crypto'
 import type { CompanyDetail, MemberRecord, PermissionDefinition, ProjectDetail } from 'shared/types'
 import * as schema from '@/database/schema'
 import { AccessService } from '@/modules/access/access.service'
 import { AccessSeedService } from '@/modules/access/seed/access-seed.service'
 import { MembersService } from '@/modules/members/members.service'
-import {
-  COMPANY_MEMBER_INVITATION_TTL_MS,
-  MemberInvitationsService,
-} from '@/modules/members/invitations/member-invitations.service'
 import { CompaniesService } from '@/modules/companies/companies.service'
 import { ProjectsService } from '@/modules/projects/projects.service'
 import { ProjectOrganizationInitializationService } from '@/modules/organization/initialization/project-organization-initialization.service'
@@ -88,7 +84,6 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
   let access: AccessService
   let seed: AccessSeedService
   let members: MembersService
-  let invitations: MemberInvitationsService
   let companies: CompaniesService
   let projects: ProjectsService
   let organizationTemplates: OrganizationTemplatesService
@@ -137,7 +132,6 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
     access = new AccessService(db)
     seed = new AccessSeedService(db)
     members = new MembersService(access, seed, new PasswordService())
-    invitations = new MemberInvitationsService(access, members)
     const administrators = new AdministratorsService(access, members, seed)
     companies = new CompaniesService(access, members, administrators)
     organizationTemplates = new OrganizationTemplatesService(access)
@@ -220,23 +214,21 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       )
       .toBeGreaterThan(0)
 
-  /** 通过生产邀请流程把已有全局账号加入企业，供后续集成场景复用。 */
-  const joinCompanyByInvitation = async (input: {
+  /** 为其他权限回归构造已存在的企业成员；仅测试夹具，不暴露账号加入接口。 */
+  const seedCompanyMember = async (input: {
     companyId: string
-    inviterUserId: string
-    inviteeUserId: string
+    administratorUserId: string
+    userId: string
   }) => {
-    const issued = await invitations.create({
-      actor: actor(input.inviterUserId),
-      scope: { type: 'company', companyId: input.companyId },
-      body: {},
+    await db.transaction(async (tx) => {
+      await members.ensureMember(tx, { type: 'company', companyId: input.companyId }, input.userId)
     })
-    return (
-      await invitations.accept({
-        actor: actor(input.inviteeUserId),
-        body: { token: issued.token },
-      })
-    ).member
+    const page = await members.list({
+      actor: actor(input.administratorUserId),
+      scope: { type: 'company', companyId: input.companyId },
+      query: { page: 1, pageSize: 100 },
+    })
+    return page.items.find((item) => item.userId === input.userId)!
   }
 
   it('幂等初始化不提权其他账号，公开新账号没有工作空间', async () => {
@@ -260,10 +252,10 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       body: { name: '集成企业', code: 'integration', administratorUserId: companyAdminId },
     })) as CompanyDetail
     companyScope = { type: 'company', companyId: company.id }
-    member = await joinCompanyByInvitation({
+    member = await seedCompanyMember({
       companyId: company.id,
-      inviterUserId: companyAdminId,
-      inviteeUserId: memberId,
+      administratorUserId: companyAdminId,
+      userId: memberId,
     })
     project = (await projects.create({
       actor: actor(companyAdminId),
@@ -325,158 +317,55 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       }),
     ).rejects.toMatchObject({ definition: { code: 'ACCESS.FORBIDDEN' } })
   })
-  it('企业邀请仅保存摘要，并覆盖并发幂等、轮换、撤销和过期边界', async () => {
-    const [idempotentUser, otherUser, expiredUser, revokedUser] = await db
-      .insert(schema.users)
-      .values(
-        [
-          ['invite_idempotent', '邀请幂等账号'],
-          ['invite_other', '邀请复用账号'],
-          ['invite_expired', '邀请过期账号'],
-          ['invite_revoked', '邀请撤销账号'],
-        ].map(([account, name]) => ({ account: account!, name: name!, passwordHash: 'test-only' })),
-      )
-      .returning()
-    const beforeIssue = Date.now()
-    const issued = await invitations.create({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      body: {},
+  it('同名企业可独立创建及改名，企业详情无层级字段且跨企业访问仍拒绝', async () => {
+    const first = await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: '同名独立企业',
+        code: 'independent_a',
+        administratorUserId: companyAdminId,
+      },
     })
-    const afterIssue = Date.now()
-    const expiresAt = new Date(issued.invitation.expiresAt).getTime()
-    expect(expiresAt).toBeGreaterThanOrEqual(beforeIssue + COMPANY_MEMBER_INVITATION_TTL_MS)
-    expect(expiresAt).toBeLessThanOrEqual(afterIssue + COMPANY_MEMBER_INVITATION_TTL_MS)
-    const [stored] = await db
-      .select()
-      .from(schema.companyMemberInvitations)
-      .where(eq(schema.companyMemberInvitations.id, issued.invitation.id))
-    expect(stored?.tokenDigest).toBe(
-      createHash('sha256').update(issued.token, 'utf8').digest('hex'),
-    )
-    expect(stored?.tokenDigest).not.toBe(issued.token)
-    const listed = await invitations.list({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      query: { pageSize: 100 },
+    const second = await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: first.name,
+        code: 'independent_b',
+        administratorUserId: replacementId,
+      },
     })
-    const listedInvitation = listed.items.find((item) => item.id === issued.invitation.id)
-    expect(listedInvitation).toBeDefined()
-    expect(listedInvitation).not.toHaveProperty('token')
-    expect(listedInvitation).not.toHaveProperty('tokenDigest')
-    expect(
-      await db
-        .select()
-        .from(schema.companyMembers)
-        .where(eq(schema.companyMembers.userId, idempotentUser!.id)),
-    ).toHaveLength(0)
-
-    const concurrentAccepted = await Promise.all([
-      invitations.accept({
-        actor: actor(idempotentUser!.id),
-        body: { token: issued.token },
-      }),
-      invitations.accept({
-        actor: actor(idempotentUser!.id),
-        body: { token: issued.token },
-      }),
-    ])
-    expect(concurrentAccepted[0].member.id).toBe(concurrentAccepted[1].member.id)
-    expect(concurrentAccepted[0].member.roleNames).toEqual(['内置普通成员'])
-    await expect(
-      invitations.accept({ actor: actor(idempotentUser!.id), body: { token: issued.token } }),
-    ).resolves.toMatchObject({ member: { id: concurrentAccepted[0].member.id } })
-    await expect(
-      invitations.accept({ actor: actor(otherUser!.id), body: { token: issued.token } }),
-    ).rejects.toMatchObject({
-      definition: { code: 'ACCESS.MEMBER_INVITATION_ALREADY_ACCEPTED' },
+    const third = await companies.create({
+      actor: actor(platformId),
+      body: {
+        name: '改名前企业',
+        code: 'independent_c',
+        administratorUserId: replacementId,
+      },
     })
-
-    const expired = await invitations.create({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      body: {},
+    expect(first.id).not.toBe(second.id)
+    const renamed = await companies.profile({
+      actor: actor(replacementId),
+      companyId: third.id,
+      body: { expectedVersion: third.version, name: first.name },
     })
-    await db
-      .update(schema.companyMemberInvitations)
-      .set({ expiresAt: new Date(Date.now() - 1000) })
-      .where(eq(schema.companyMemberInvitations.id, expired.invitation.id))
-    await expect(
-      invitations.accept({ actor: actor(expiredUser!.id), body: { token: expired.token } }),
-    ).rejects.toMatchObject({ definition: { code: 'ACCESS.MEMBER_INVITATION_EXPIRED' } })
-    const expiredList = await invitations.list({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      query: { status: 'expired', pageSize: 100 },
-    })
-    expect(expiredList.items.map(({ id }) => id)).toContain(expired.invitation.id)
-    const resent = await invitations.resend({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      invitationId: expired.invitation.id,
-      body: { expectedVersion: expired.invitation.version },
-    })
-    expect(resent.token).not.toBe(expired.token)
-    await expect(
-      invitations.accept({ actor: actor(expiredUser!.id), body: { token: expired.token } }),
-    ).rejects.toMatchObject({ definition: { code: 'ACCESS.MEMBER_INVITATION_NOT_FOUND' } })
-    await expect(
-      invitations.accept({ actor: actor(expiredUser!.id), body: { token: resent.token } }),
-    ).resolves.toMatchObject({ member: { userId: expiredUser!.id } })
-
-    const revoked = await invitations.create({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      body: {},
-    })
-    await invitations.revoke({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      invitationId: revoked.invitation.id,
-      body: { expectedVersion: revoked.invitation.version },
-    })
-    await expect(
-      invitations.accept({ actor: actor(revokedUser!.id), body: { token: revoked.token } }),
-    ).rejects.toMatchObject({ definition: { code: 'ACCESS.MEMBER_INVITATION_REVOKED' } })
-    const existingMemberInvitation = await invitations.create({
-      actor: actor(companyAdminId),
-      scope: companyScope,
-      body: {},
-    })
-    await expect(
-      invitations.accept({
-        actor: actor(memberId),
-        body: { token: existingMemberInvitation.token },
-      }),
-    ).rejects.toMatchObject({
-      definition: { code: 'ACCESS.MEMBER_INVITATION_MEMBER_EXISTS' },
-    })
-
-    const invitationAudits = await db
-      .select()
-      .from(schema.auditLogs)
-      .where(
-        inArray(schema.auditLogs.action, [
-          'member.invitation.create',
-          'member.invitation.accept',
-          'member.invitation.resend',
-          'member.invitation.revoke',
-        ]),
-      )
-    expect(invitationAudits.map(({ action }) => action)).toEqual(
-      expect.arrayContaining([
-        'member.invitation.create',
-        'member.invitation.accept',
-        'member.invitation.resend',
-        'member.invitation.revoke',
-      ]),
-    )
-    for (const audit of invitationAudits) {
-      expect(audit.summary).not.toHaveProperty('token')
-      expect(audit.summary).not.toHaveProperty('tokenDigest')
-      for (const token of [issued.token, expired.token, resent.token, revoked.token])
-        expect(JSON.stringify(audit.summary)).not.toContain(token)
+    expect(renamed.name).toBe(first.name)
+    for (const record of [first, second, renamed]) {
+      for (const key of ['parentCompanyId', 'entityType', 'sort', 'nameKey'])
+        expect(record).not.toHaveProperty(key)
     }
+    await expect(
+      companies.get({ actor: actor(companyAdminId), companyId: second.id }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.NOT_FOUND' } })
+    await expect(
+      companies.create({
+        actor: actor(platformId),
+        body: {
+          name: '重复编码',
+          code: first.code,
+          administratorUserId: replacementId,
+        },
+      }),
+    ).rejects.toMatchObject({ definition: { code: 'ACCESS.DUPLICATE_RESOURCE' } })
   })
   it('企业直接注册的审计调用和落库摘要均不携带明文密码', async () => {
     const password = 'Audit-only-password_123'
@@ -521,10 +410,10 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       ])
       .returning()
     for (const user of [eligibleUser!, disabledMemberUser!, lockedUser!])
-      await joinCompanyByInvitation({
+      await seedCompanyMember({
         companyId: company.id,
-        inviterUserId: companyAdminId,
-        inviteeUserId: user.id,
+        administratorUserId: companyAdminId,
+        userId: user.id,
       })
     await db
       .update(schema.companyMembers)
@@ -795,10 +684,10 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       ])
       .returning()
     for (const user of [oldLeader!, newLeader!]) {
-      await joinCompanyByInvitation({
+      await seedCompanyMember({
         companyId: company.id,
-        inviterUserId: companyAdminId,
-        inviteeUserId: user.id,
+        administratorUserId: companyAdminId,
+        userId: user.id,
       })
       await members.addProjectMember({
         actor: actor(companyAdminId),
@@ -1112,140 +1001,6 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
           ]),
         ),
     ).toHaveLength(0)
-  })
-  it('企业层级按同父规范名称、默认排序和循环规则维护，旧接口不泄漏层级字段', async () => {
-    const parent = await companies.create({
-      actor: actor(platformId),
-      body: {
-        name: '层级父企业',
-        code: 'hierarchy_parent',
-        administratorUserId: replacementId,
-        entityType: 'group',
-      },
-    })
-    const firstChild = await companies.create({
-      actor: actor(platformId),
-      body: {
-        name: 'ＡＢＣ 子企业',
-        code: 'hierarchy_child_1',
-        administratorUserId: replacementId,
-        parentCompanyId: parent.id,
-      },
-    })
-    const secondChild = await companies.create({
-      actor: actor(platformId),
-      body: {
-        name: '第二子企业',
-        code: 'hierarchy_child_2',
-        administratorUserId: replacementId,
-        parentCompanyId: parent.id,
-      },
-    })
-    expect(parent).toMatchObject({ parentCompanyId: null, entityType: 'group' })
-    expect(firstChild.sort).toBe(1)
-    expect(secondChild.sort).toBe(2)
-    await expect(
-      companies.create({
-        actor: actor(platformId),
-        body: {
-          name: 'ABC 子企业',
-          code: 'hierarchy_duplicate_name',
-          administratorUserId: replacementId,
-          parentCompanyId: parent.id,
-        },
-      }),
-    ).rejects.toMatchObject({ definition: { code: 'ACCESS.DUPLICATE_RESOURCE' } })
-    await expect(
-      companies.updateHierarchy({
-        actor: actor(platformId),
-        companyId: parent.id,
-        body: {
-          expectedVersion: parent.version,
-          parentCompanyId: firstChild.id,
-          entityType: parent.entityType,
-        },
-      }),
-    ).rejects.toMatchObject({ definition: { code: 'ACCESS.ORGANIZATION_CYCLE' } })
-    await companies.create({
-      actor: actor(platformId),
-      body: {
-        name: '排序上限子企业',
-        code: 'hierarchy_child_max',
-        administratorUserId: replacementId,
-        parentCompanyId: parent.id,
-        sort: 999_999_999,
-      },
-    })
-    await expect(
-      companies.create({
-        actor: actor(platformId),
-        body: {
-          name: '无法自动排序子企业',
-          code: 'hierarchy_sort_exhausted',
-          administratorUserId: replacementId,
-          parentCompanyId: parent.id,
-        },
-      }),
-    ).rejects.toMatchObject({ definition: { code: 'ACCESS.ORGANIZATION_SORT_EXHAUSTED' } })
-    const tree = await companies.hierarchyTree({ actor: actor(platformId) })
-    expect(
-      tree
-        .find((item) => item.id === parent.id)
-        ?.children.slice(0, 2)
-        .map((item) => item.id),
-    ).toEqual([firstChild.id, secondChild.id])
-    expect(
-      await db
-        .select()
-        .from(schema.organizationTrees)
-        .where(eq(schema.organizationTrees.companyId, parent.id)),
-    ).toHaveLength(1)
-    const oldListRecord = (
-      await companies.listCompanies({ actor: actor(platformId), query: { pageSize: 100 } })
-    ).items.find((item) => item.id === parent.id)!
-    const oldDetail = await companies.get({
-      actor: actor(platformId),
-      companyId: parent.id,
-      platform: true,
-    })
-    expect(Object.hasOwn(oldListRecord, 'parentCompanyId')).toBe(false)
-    expect(Object.hasOwn(oldDetail, 'parentCompanyId')).toBe(false)
-    const [hierarchyOperator] = await db
-      .insert(schema.users)
-      .values({
-        account: 'hierarchy_operator',
-        name: '企业层级维护员',
-        passwordHash: 'test-only-no-login',
-      })
-      .returning()
-    const hierarchyRole = await roles.create({
-      actor: actor(platformId),
-      scope: { type: 'platform' },
-      body: {
-        name: '企业层级维护角色',
-        permissionKeys: ['platform.companies.read', 'platform.companies.hierarchy'],
-      },
-    })
-    await accounts.accountChange({
-      actor: actor(platformId),
-      userId: hierarchyOperator!.id,
-      body: { roleIds: [hierarchyRole.id] },
-    })
-    await expect(
-      companies.updateHierarchy({
-        actor: actor(hierarchyOperator!.id),
-        companyId: secondChild.id,
-        body: {
-          expectedVersion: secondChild.version,
-          parentCompanyId: null,
-          entityType: 'group',
-        },
-      }),
-    ).resolves.toMatchObject({
-      id: secondChild.id,
-      parentCompanyId: null,
-      entityType: 'group',
-    })
   })
   it('项目创建审计失败时项目、角色和成员全部回滚', async () => {
     const before = {
@@ -1674,10 +1429,10 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
       removedOrganizationRelationCount: 2,
       removedPositionAssignmentCount: 2,
     })
-    member = await joinCompanyByInvitation({
+    member = await seedCompanyMember({
       companyId: company.id,
-      inviterUserId: companyAdminId,
-      inviteeUserId: memberId,
+      administratorUserId: companyAdminId,
+      userId: memberId,
     })
     expect(member.roleNames).toEqual(['内置普通成员'])
     project = { ...project, ...p }
@@ -2050,7 +1805,12 @@ describe.skipIf(!enabled)('企业权限真实 PostgreSQL / Redis 集成', () => 
         .from(schema.permissions)
         .where(eq(schema.permissions.key, 'company.fixture.read')),
     ).toHaveLength(1)
-    expect(await db.select().from(schema.cleanupTombstones)).toHaveLength(0)
+    expect(
+      await db
+        .select()
+        .from(schema.cleanupTombstones)
+        .where(inArray(schema.cleanupTombstones.permissionKey, body.permissionKeys)),
+    ).toHaveLength(0)
     const result = await cleanup.cleanup(actor(platformId), body)
     expect(result.removedPermissionKeys).toHaveLength(2)
     expect(

@@ -1,0 +1,94 @@
+[
+  {
+    "name": "shared-build",
+    "exitCode": 0
+  },
+  {
+    "name": "server-typecheck",
+    "exitCode": 0
+  },
+  {
+    "name": "native-regression",
+    "exitCode": 0
+  },
+  {
+    "name": "server-test",
+    "exitCode": 0
+  },
+  {
+    "name": "shared-test",
+    "exitCode": 0
+  },
+  {
+    "name": "server-build",
+    "exitCode": 0
+  },
+  {
+    "name": "peers",
+    "exitCode": 1
+  },
+  {
+    "name": "workspace-check",
+    "exitCode": 1
+  },
+  {
+    "name": "peers-after-fix",
+    "exitCode": 1,
+    "nestPeerConflictsResolved": true,
+    "remaining": "Vite alias peer checks"
+  },
+  {
+    "name": "migration-lint",
+    "exitCode": 0,
+    "errors": 0,
+    "warnings": 2
+  },
+  {
+    "name": "workspace-test",
+    "exitCode": 1,
+    "serverPassed": 52,
+    "serverSkipped": 33,
+    "sharedPassed": 15,
+    "i18nCliPassed": 71,
+    "webPassed": 75,
+    "webFileLoadFailures": 6,
+    "failure": "localStorage is not defined"
+  },
+  {
+    "name": "frozen-install",
+    "exitCode": 0,
+    "pnpm": "12.11.2",
+    "lockFile": "pnpm-lock.yaml",
+    "yamlDocuments": 2,
+    "ignoredByOriginalTemplateRules": true,
+    "sha256": "ac962ee56aeb708458b810cef988ae28d09f3a45b30fdfa823f039c901403ad0"
+  },
+  {
+    "name": "final-server-typecheck",
+    "exitCode": 0
+  },
+  {
+    "name": "final-server-build",
+    "exitCode": 0,
+    "compiledFiles": 130,
+    "entry": "apps/server/dist/main.js"
+  },
+  {
+    "name": "commonjs",
+    "exitCode": 0,
+    "initializationExecuted": false
+  },
+  {
+    "name": "http-swagger",
+    "exitCode": 0,
+    "httpPassed": 28,
+    "authSwaggerResponses": 5,
+    "projectOperations": 7,
+    "externalServicesConnected": false
+  },
+  {
+    "name": "legacy-references",
+    "exitCode": 0,
+    "matches": 0
+  }
+]

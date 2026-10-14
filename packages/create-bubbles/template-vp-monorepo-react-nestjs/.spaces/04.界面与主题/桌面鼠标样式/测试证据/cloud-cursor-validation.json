@@ -1,0 +1,611 @@
+{
+  "date": "2026-10-14",
+  "scheme": "棉花云朵",
+  "installed": false,
+  "system_configuration_changed": false,
+  "roles": [
+    {
+      "role": "Arrow",
+      "file": "normal.cur",
+      "bytes": 136606,
+      "sha256": "fdcf7fb69b4037715299965c0d95c33c7f6993a887c69506a7b9d450d97b1a7c",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [5, 3],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [8, 5],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [10, 6],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [15, 10],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [20, 13],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "Help",
+      "file": "help.cur",
+      "bytes": 136606,
+      "sha256": "56a921958094cc7337bf768b4ca27f06c8c40c8f6238bbb672593e0558679ca1",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [5, 3],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [8, 5],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [10, 6],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [15, 10],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [20, 13],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "AppStarting",
+      "file": "working.ani",
+      "bytes": 1623764,
+      "sha256": "c4bab3ec17a3a80cf51331b88661ace8291b5b7ee14dd9830c1105a3d1647ac8",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [4, 2],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [5, 3],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [7, 5],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [11, 7],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [14, 9],
+          "loaded": true
+        }
+      ],
+      "frames": 24,
+      "decoded": true
+    },
+    {
+      "role": "Wait",
+      "file": "busy.ani",
+      "bytes": 1623764,
+      "sha256": "0676e4278a9ffd8e678782a4739f583ae9fea79f1262519b544e82027dcc47db",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 16],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 24],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 32],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 48],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 64],
+          "loaded": true
+        }
+      ],
+      "frames": 24,
+      "decoded": true
+    },
+    {
+      "role": "Crosshair",
+      "file": "precision.cur",
+      "bytes": 136606,
+      "sha256": "6721cf7facc397bce438bba3bf42ca1bfd320aa1706bb87f9561c02286d8baae",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 16],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 24],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 32],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 48],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 64],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "IBeam",
+      "file": "text.cur",
+      "bytes": 136606,
+      "sha256": "28bc505f4cb1c20bd40520a358384bcf74dfb231f3aabf6708b94c6704742b8b",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 16],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 24],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 32],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 48],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 64],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "NWPen",
+      "file": "handwriting.cur",
+      "bytes": 136606,
+      "sha256": "48666e2216313e95d3e2cdf51a189bf02fb5a261e9bfe254ee69009c5ae6a676",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [7, 25],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [10, 38],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [14, 50],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [20, 76],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [27, 101],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "No",
+      "file": "unavailable.cur",
+      "bytes": 136606,
+      "sha256": "4e9909ac5ca3a45fcf923c701ddedf449e01375fb6e0406063a09319cf5fea71",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 16],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 24],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 32],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 48],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 64],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "SizeNS",
+      "file": "resize-ns.cur",
+      "bytes": 136606,
+      "sha256": "62d092c04687ef3bdd4e45d38d986f97b3a0114e54e586c0b529a363b6d3ca04",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 16],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 24],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 32],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 48],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 64],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "SizeWE",
+      "file": "resize-we.cur",
+      "bytes": 136606,
+      "sha256": "03b2a88566d9734a152f13ecc65768bd8e13e5f0ec1ae46a9b6548cca3dffc25",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 16],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 24],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 32],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 48],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 64],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "SizeNWSE",
+      "file": "resize-nwse.cur",
+      "bytes": 136606,
+      "sha256": "ae8685da8d30625b62f90435ef1782c0a61c2f58a8f337f9300028552e8c8306",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 16],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 24],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 32],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 48],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 64],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "SizeNESW",
+      "file": "resize-nesw.cur",
+      "bytes": 136606,
+      "sha256": "57ed19a29faf91fadf2746215d91d1d56cd8825f567b068ad413c78e6bababd6",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 16],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 24],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 32],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 48],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 64],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "SizeAll",
+      "file": "move.cur",
+      "bytes": 136606,
+      "sha256": "7b5820b1ea3440bdb592bff7d5fe0348ea12c302801e92ec7af67f014c58dd73",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 16],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 24],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 32],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 48],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 64],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "UpArrow",
+      "file": "alternate.cur",
+      "bytes": 136606,
+      "sha256": "47ee6050ce70624ac00fe78fa38b4351bc02c4275de82f90e94b60b62c48ac0e",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 4],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 6],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 8],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 11],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 15],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "Hand",
+      "file": "link.cur",
+      "bytes": 136606,
+      "sha256": "825219bc226d903e236531f0919781861108fb55d7fb237aa94d0a12c1c6a9b5",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [13, 3],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [19, 4],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [26, 6],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [38, 8],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [51, 11],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "Pin",
+      "file": "location.cur",
+      "bytes": 136606,
+      "sha256": "aab5e5896655fb75a395c415a99c61e414a8449aabf47e68142add3525413a4f",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [16, 27],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [24, 40],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [32, 54],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [48, 81],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [64, 108],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    },
+    {
+      "role": "Person",
+      "file": "person.cur",
+      "bytes": 136606,
+      "sha256": "a8fb4e1cc551b7e7ce091ac66c34d7c3a28f8ccea5d1bf3df8c0d2e79413553b",
+      "native": [
+        {
+          "size": 32,
+          "hotspot": [5, 3],
+          "loaded": true
+        },
+        {
+          "size": 48,
+          "hotspot": [8, 5],
+          "loaded": true
+        },
+        {
+          "size": 64,
+          "hotspot": [10, 6],
+          "loaded": true
+        },
+        {
+          "size": 96,
+          "hotspot": [15, 10],
+          "loaded": true
+        },
+        {
+          "size": 128,
+          "hotspot": [20, 13],
+          "loaded": true
+        }
+      ],
+      "frames": 1,
+      "decoded": true
+    }
+  ],
+  "role_count": 17,
+  "native_load_count": 85,
+  "animated_frames_validated": 48,
+  "animation_loop_ms": 1600,
+  "preview": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\桌面鼠标样式\\ui\\cloud-cursors-preview.png",
+  "motion": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\桌面鼠标样式\\ui\\cloud-cursors-motion.gif",
+  "zip": "C:\\malei\\stu\\bubbles\\packages\\create-bubbles\\template-vp-monorepo-react-nestjs\\.spaces\\04.界面与主题\\桌面鼠标样式\\指针包\\棉花云朵鼠标.zip",
+  "zip_integrity": true
+}

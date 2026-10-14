@@ -1,8 +1,7 @@
-import { createZodDto } from 'nestjs-zod'
 import type { ChangePasswordRequest } from 'shared/types'
 import z from 'zod'
 
-/** 本人改密的服务端校验，保持密码原值并检查确认密码一致。 */
+/** 本人改密校验；保持密码原值，确认密码错误定位到 confirmPassword。 */
 export const changePasswordSchema = z
   .object({
     oldPassword: z.string().min(1).max(128),
@@ -13,5 +12,3 @@ export const changePasswordSchema = z
     path: ['confirmPassword'],
     message: '两次密码不一致',
   }) satisfies z.ZodType<ChangePasswordRequest>
-
-export class ChangePasswordDto extends createZodDto(changePasswordSchema) {}

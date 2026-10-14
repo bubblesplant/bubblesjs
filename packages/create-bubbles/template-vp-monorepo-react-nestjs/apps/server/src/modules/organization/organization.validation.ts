@@ -16,7 +16,6 @@ export {
   resolveGlobalAccountCandidatesSchema,
   resolveOrganizationMemberCandidatesSchema,
   statusRequestSchema,
-  updateCompanyHierarchySchema,
   updateOrganizationTemplateStatusSchema,
   updateOrganizationUnitSchema,
   updatePositionSchema,

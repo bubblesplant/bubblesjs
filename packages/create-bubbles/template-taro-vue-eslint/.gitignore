@@ -1,45 +1,63 @@
-# Logs
-logs
+# ========== 依赖 ==========
+node_modules/
+
+# ========== 构建产物 ==========
+dist/
+*.tsbuildinfo
+.turbo/
+.output/
+
+# ========== 测试覆盖率 / 测试报告 ==========
+coverage/
+test-results/
+playwright-report/
+.nyc_output/
+
+# ========== 打包产物 ==========
+*.tgz
+*.tar.gz
+
+# ========== 日志 ==========
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# ========== 环境变量 ==========
+.env
+.env.*
+!.env.example
 
-# Editor directories and files
-!.vscode/extensions.json
-.idea
-.DS_Store
+# ========== 本地数据库（模板里的 drizzle/sqlite 本地数据）==========
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# ========== 密钥 / 证书 ==========
+*.pem
+*.key
+*.p12
+*.pfx
+
+# ========== 编辑器 / IDE / AI 工具 ==========
+.idea/
+.workbuddy/
+.codegraph/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-.vite/*
+# ========== 系统文件 ==========
+.DS_Store
+Thumbs.db
+Desktop.ini
 
-# lock file
-bun.lock
-yarn.lock
-package-lock.json
-
-# compressed file
-*.zip
-*.tar
-*.rar
-*.7z
-*.gzip
-*.gz
-
-# auto-d.ts
-src/types/components.d.ts
-src/types/auto-import.d.ts
-
-# .env
-*.local
+# ========== 缓存 ==========
+.cache/
+.vite/
+.eslintcache

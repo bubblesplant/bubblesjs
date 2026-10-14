@@ -4,7 +4,6 @@
   "oxc.enable": false,
   "prettier.enable": false,
   "editor.formatOnSave": false,
-  
 
   // Auto fix
   "editor.codeActionsOnSave": {

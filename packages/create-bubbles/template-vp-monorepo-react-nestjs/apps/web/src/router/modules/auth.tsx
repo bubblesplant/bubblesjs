@@ -9,8 +9,4 @@ export const authRoutes: RouteObject[] = [
     path: '/register',
     element: lazyLoad('register'),
   },
-  {
-    path: '/member-invitations/accept',
-    element: lazyLoad('member-invitations', 'accept'),
-  },
 ]

@@ -1,0 +1,20 @@
+/** 由企业管理员签发一次性邀请，并由目标账号接受以建立企业成员关系。 */
+async function inviteCompanyMember({ administrator, member, base }) {
+  const invitation = (
+    await request({
+      actor: administrator,
+      path: `${base}/member-invitations`,
+      method: 'POST',
+      expected: 201,
+      body: {},
+    })
+  ).body
+  ensure(invitation.token, '企业成员邀请未返回一次性 token')
+  await request({
+    actor: member,
+    path: '/company-member-invitations/accept',
+    method: 'POST',
+    expected: 200,
+    body: { token: invitation.token },
+  })
+}

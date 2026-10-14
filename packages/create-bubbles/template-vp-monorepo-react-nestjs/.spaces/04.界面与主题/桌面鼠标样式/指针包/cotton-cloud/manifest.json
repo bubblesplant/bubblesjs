@@ -1,0 +1,110 @@
+{
+  "name": "棉花云朵",
+  "scheme": "Cotton Cloud (Custom)",
+  "version": 1,
+  "sizes": [32, 48, 64, 96, 128],
+  "roles": [
+    {
+      "role": "Arrow",
+      "file": "normal.cur",
+      "label": "正常选择",
+      "sha256": "fdcf7fb69b4037715299965c0d95c33c7f6993a887c69506a7b9d450d97b1a7c"
+    },
+    {
+      "role": "Help",
+      "file": "help.cur",
+      "label": "帮助选择",
+      "sha256": "56a921958094cc7337bf768b4ca27f06c8c40c8f6238bbb672593e0558679ca1"
+    },
+    {
+      "role": "AppStarting",
+      "file": "working.ani",
+      "label": "后台运行",
+      "sha256": "c4bab3ec17a3a80cf51331b88661ace8291b5b7ee14dd9830c1105a3d1647ac8"
+    },
+    {
+      "role": "Wait",
+      "file": "busy.ani",
+      "label": "忙碌",
+      "sha256": "0676e4278a9ffd8e678782a4739f583ae9fea79f1262519b544e82027dcc47db"
+    },
+    {
+      "role": "Crosshair",
+      "file": "precision.cur",
+      "label": "精确选择",
+      "sha256": "6721cf7facc397bce438bba3bf42ca1bfd320aa1706bb87f9561c02286d8baae"
+    },
+    {
+      "role": "IBeam",
+      "file": "text.cur",
+      "label": "文本选择",
+      "sha256": "28bc505f4cb1c20bd40520a358384bcf74dfb231f3aabf6708b94c6704742b8b"
+    },
+    {
+      "role": "NWPen",
+      "file": "handwriting.cur",
+      "label": "手写",
+      "sha256": "48666e2216313e95d3e2cdf51a189bf02fb5a261e9bfe254ee69009c5ae6a676"
+    },
+    {
+      "role": "No",
+      "file": "unavailable.cur",
+      "label": "不可用",
+      "sha256": "4e9909ac5ca3a45fcf923c701ddedf449e01375fb6e0406063a09319cf5fea71"
+    },
+    {
+      "role": "SizeNS",
+      "file": "resize-ns.cur",
+      "label": "纵向缩放",
+      "sha256": "62d092c04687ef3bdd4e45d38d986f97b3a0114e54e586c0b529a363b6d3ca04"
+    },
+    {
+      "role": "SizeWE",
+      "file": "resize-we.cur",
+      "label": "横向缩放",
+      "sha256": "03b2a88566d9734a152f13ecc65768bd8e13e5f0ec1ae46a9b6548cca3dffc25"
+    },
+    {
+      "role": "SizeNWSE",
+      "file": "resize-nwse.cur",
+      "label": "斜向缩放 ↖↘",
+      "sha256": "ae8685da8d30625b62f90435ef1782c0a61c2f58a8f337f9300028552e8c8306"
+    },
+    {
+      "role": "SizeNESW",
+      "file": "resize-nesw.cur",
+      "label": "斜向缩放 ↗↙",
+      "sha256": "57ed19a29faf91fadf2746215d91d1d56cd8825f567b068ad413c78e6bababd6"
+    },
+    {
+      "role": "SizeAll",
+      "file": "move.cur",
+      "label": "移动",
+      "sha256": "7b5820b1ea3440bdb592bff7d5fe0348ea12c302801e92ec7af67f014c58dd73"
+    },
+    {
+      "role": "UpArrow",
+      "file": "alternate.cur",
+      "label": "候选选择",
+      "sha256": "47ee6050ce70624ac00fe78fa38b4351bc02c4275de82f90e94b60b62c48ac0e"
+    },
+    {
+      "role": "Hand",
+      "file": "link.cur",
+      "label": "链接选择",
+      "sha256": "825219bc226d903e236531f0919781861108fb55d7fb237aa94d0a12c1c6a9b5"
+    },
+    {
+      "role": "Pin",
+      "file": "location.cur",
+      "label": "位置选择",
+      "sha256": "aab5e5896655fb75a395c415a99c61e414a8449aabf47e68142add3525413a4f"
+    },
+    {
+      "role": "Person",
+      "file": "person.cur",
+      "label": "人员选择",
+      "sha256": "a8fb4e1cc551b7e7ce091ac66c34d7c3a28f8ccea5d1bf3df8c0d2e79413553b"
+    }
+  ]
+}

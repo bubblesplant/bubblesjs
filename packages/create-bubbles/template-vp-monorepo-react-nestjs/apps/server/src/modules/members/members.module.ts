@@ -7,25 +7,11 @@ import { AccountsController } from './accounts/accounts.controller'
 import { AccountsService } from './accounts/accounts.service'
 import { AccountPasswordResetService } from './accounts/password-reset/password-reset.service'
 import { AdministratorsService } from './administrators/administrators.service'
-import { CompanyMemberInvitationsController } from './invitations/company-member-invitations.controller'
-import { MemberInvitationAcceptanceController } from './invitations/member-invitation-acceptance.controller'
-import { MemberInvitationsService } from './invitations/member-invitations.service'
 
 @Module({
   imports: [AccessModule, AuthModule],
-  controllers: [
-    MembersController,
-    AccountsController,
-    CompanyMemberInvitationsController,
-    MemberInvitationAcceptanceController,
-  ],
-  providers: [
-    MembersService,
-    AccountsService,
-    AccountPasswordResetService,
-    AdministratorsService,
-    MemberInvitationsService,
-  ],
+  controllers: [MembersController, AccountsController],
+  providers: [MembersService, AccountsService, AccountPasswordResetService, AdministratorsService],
   exports: [MembersService, AdministratorsService],
 })
 export class MembersModule {}

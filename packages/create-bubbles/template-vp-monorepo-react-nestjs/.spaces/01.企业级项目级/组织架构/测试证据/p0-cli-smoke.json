@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "template": "vp-monorepo-react-nestjs",
+  "cleanStaging": true,
+  "excluded": [
+    "environment files",
+    "dependencies",
+    "build outputs",
+    "spaces archives",
+    "code index"
+  ],
+  "copiedFiles": 549,
+  "checks": [
+    "generated package name",
+    "migration journal",
+    "forward migration present",
+    "retired invitation absent",
+    "retired company hierarchy absent"
+  ],
+  "limitations": "干净 staging 的真实 CLI 复制验证；不代表发布包全量内容审计或新项目安装构建。"
+}

@@ -8,14 +8,9 @@ node_modules
 dist/
 
 # lock
-**/pnpm-lock.yaml
-**/package-lock.json
-bun.lock
-
 
 .pnpm-store
 .vite-hooks/_/
-packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/tsconfig.build.tsbuildinfo
 
 # agents
 .workbuddy/

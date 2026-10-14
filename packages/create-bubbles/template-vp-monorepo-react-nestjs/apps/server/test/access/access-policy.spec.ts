@@ -8,7 +8,10 @@ import { ACCESS_POLICY_KEY } from '@/common/decorators/access-policy.decorator'
 import { IS_PUBLIC_KEY } from '@/common/constants/auth'
 import { entityListSchema, parse } from '@/modules/access/access.validation'
 import { listSchema } from '@/modules/members/accounts/accounts.validation'
-import { UploadPartParamsDto, UploadSessionParamsDto } from '@/modules/upload/dto/upload-params.dto'
+import {
+  uploadPartParamsSchema,
+  uploadSessionParamsSchema,
+} from '@/modules/upload/dto/upload-params.dto'
 
 /** 创建独立请求、反射处理器和权限服务桩，供守卫测试设置路由元数据并检查鉴权调用。 */
 function fixture() {
@@ -88,8 +91,8 @@ describe('权限默认拒绝与路由校验边界', () => {
   })
   it('上传状态与完成接口只校验会话编号，分片接口额外校验分片编号', () => {
     const params = { uploadSessionId: crypto.randomUUID() }
-    expect(UploadSessionParamsDto.schema.safeParse(params).success).toBe(true)
-    expect(UploadPartParamsDto.schema.safeParse(params).success).toBe(false)
-    expect(UploadPartParamsDto.schema.safeParse({ ...params, partNumber: '1' }).success).toBe(true)
+    expect(uploadSessionParamsSchema.safeParse(params).success).toBe(true)
+    expect(uploadPartParamsSchema.safeParse(params).success).toBe(false)
+    expect(uploadPartParamsSchema.safeParse({ ...params, partNumber: '1' }).success).toBe(true)
   })
 })

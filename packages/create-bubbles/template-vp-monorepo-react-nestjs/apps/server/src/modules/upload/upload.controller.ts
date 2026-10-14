@@ -17,9 +17,14 @@ import {
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { type FastifyReply, FastifyRequest } from 'fastify'
 import type { Readable } from 'stream'
+import type {
+  InitiateMultipartUploadRequest,
+  UploadPartParams,
+  UploadSessionParams,
+} from 'shared/types'
 import { type CurrentAuthType } from '../auth/session/session.types'
-import { InitiateMultipartUploadDto } from './dto/initiate-mutipart-upload.dto'
-import { UploadPartParamsDto, UploadSessionParamsDto } from './dto/upload-params.dto'
+import { initiateMultipartUploadSchema } from './dto/initiate-mutipart-upload.dto'
+import { uploadPartParamsSchema, uploadSessionParamsSchema } from './dto/upload-params.dto'
 import { UploadService } from './upload.service'
 
 type OctetStreamRequest = FastifyRequest & {
@@ -38,7 +43,10 @@ export class UploadController {
    */
   @ApiOperation({ summary: '初始化大文件分片上传' })
   @Post()
-  initiate(@CurrentAuth() auth: CurrentAuthType, @Body() body: InitiateMultipartUploadDto) {
+  initiate(
+    @CurrentAuth() auth: CurrentAuthType,
+    @Body({ schema: initiateMultipartUploadSchema }) body: InitiateMultipartUploadRequest,
+  ) {
     return this.uploadService.initiate(auth.userId, body)
   }
 
@@ -47,7 +55,10 @@ export class UploadController {
    */
   @ApiOperation({ summary: '查询上传状态和已上传分片' })
   @Get(':uploadSessionId')
-  getStatus(@CurrentAuth() auth: CurrentAuthType, @Param() params: UploadSessionParamsDto) {
+  getStatus(
+    @CurrentAuth() auth: CurrentAuthType,
+    @Param({ schema: uploadSessionParamsSchema }) params: UploadSessionParams,
+  ) {
     return this.uploadService.getStatus(auth.userId, params.uploadSessionId)
   }
 
@@ -67,7 +78,7 @@ export class UploadController {
   @Put(':uploadSessionId/parts/:partNumber')
   uploadPart(
     @CurrentAuth() auth: CurrentAuthType,
-    @Param() params: UploadPartParamsDto,
+    @Param({ schema: uploadPartParamsSchema }) params: UploadPartParams,
     @Headers('content-length') contentLength: string | undefined,
     @Headers('content-encoding') contentEncoding: string | undefined,
     @Req() request: OctetStreamRequest,
@@ -90,27 +101,29 @@ export class UploadController {
     request.raw.once('aborted', onAborted)
     reply.raw.once('close', onReplyClose)
 
-    return this.uploadService
-      .uploadPart({
-        ownerId: auth.userId,
-        uploadSessionId: params.uploadSessionId,
-        partNumber: params.partNumber,
-        contentLength,
-        contentEncoding,
-        body: request.body,
-        abortSignal: abortController.signal,
-      })
-      /** 无论前置校验还是存储操作成功与否，均排空请求流并释放连接监听器。 */
-      .finally(() => {
-        // 前置校验失败时 Service 可能尚未 pipe 请求体。
-        // 统一排空剩余字节，避免连接一直占用到代理超时；这里不会聚合 Buffer。
-        if (!request.body.readableEnded && !request.body.destroyed) {
-          request.body.resume()
-        }
+    return (
+      this.uploadService
+        .uploadPart({
+          ownerId: auth.userId,
+          uploadSessionId: params.uploadSessionId,
+          partNumber: params.partNumber,
+          contentLength,
+          contentEncoding,
+          body: request.body,
+          abortSignal: abortController.signal,
+        })
+        /** 无论前置校验还是存储操作成功与否，均排空请求流并释放连接监听器。 */
+        .finally(() => {
+          // 前置校验失败时 Service 可能尚未 pipe 请求体。
+          // 统一排空剩余字节，避免连接一直占用到代理超时；这里不会聚合 Buffer。
+          if (!request.body.readableEnded && !request.body.destroyed) {
+            request.body.resume()
+          }
 
-        request.raw.off('aborted', onAborted)
-        reply.raw.off('close', onReplyClose)
-      })
+          request.raw.off('aborted', onAborted)
+          reply.raw.off('close', onReplyClose)
+        })
+    )
   }
 
   /**
@@ -119,7 +132,10 @@ export class UploadController {
   @ApiOperation({ summary: '校验并完成分片上传' })
   @HttpCode(HttpStatus.OK)
   @Post(':uploadSessionId/complete')
-  complete(@CurrentAuth() auth: CurrentAuthType, @Param() params: UploadSessionParamsDto) {
+  complete(
+    @CurrentAuth() auth: CurrentAuthType,
+    @Param({ schema: uploadSessionParamsSchema }) params: UploadSessionParams,
+  ) {
     return this.uploadService.complete(auth.userId, params.uploadSessionId)
   }
 
@@ -128,7 +144,10 @@ export class UploadController {
    */
   @ApiOperation({ summary: '取消分片上传' })
   @Delete(':uploadSessionId')
-  abort(@CurrentAuth() auth: CurrentAuthType, @Param() params: UploadSessionParamsDto) {
+  abort(
+    @CurrentAuth() auth: CurrentAuthType,
+    @Param({ schema: uploadSessionParamsSchema }) params: UploadSessionParams,
+  ) {
     return this.uploadService.abort(auth.userId, params.uploadSessionId)
   }
 }

@@ -1,0 +1,40 @@
+{
+  "baseUrl": "http://127.0.0.1:5187",
+  "simulatedApi": true,
+  "checks": [
+    {
+      "name": "independent-company-form",
+      "passed": true
+    },
+    {
+      "name": "invitation-disabled",
+      "passed": true
+    },
+    {
+      "name": "direct-registration",
+      "passed": true
+    },
+    {
+      "name": "project-member-entry",
+      "passed": true
+    },
+    {
+      "name": "retired-acceptance-route",
+      "passed": true
+    }
+  ],
+  "requests": [
+    "/api/platform/access",
+    "/api/workspaces",
+    "/api/platform/companies",
+    "/api/companies/qa-company/access",
+    "/api/workspaces",
+    "/api/companies/qa-company/members",
+    "/api/companies/qa-company/projects/qa-project/access",
+    "/api/workspaces",
+    "/api/companies/qa-company/projects/qa-project/members"
+  ],
+  "pageErrors": [],
+  "unexpectedRequests": [],
+  "failures": []
+}

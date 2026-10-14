@@ -13,9 +13,6 @@ import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTab
 import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { managementApi } from './api'
 import AdministratorDialog, { type AdministratorDialogRef } from './components/AdministratorDialog'
-import CompanyHierarchyDialog, {
-  type CompanyHierarchyDialogRef,
-} from './components/CompanyHierarchyDialog'
 import EntityFormDialog, { type EntityFormDialogRef } from './components/EntityFormDialog'
 import {
   createGlobalAccountResolver,
@@ -25,7 +22,7 @@ import {
 } from './components/EntitySelectors'
 import { useAccess, useManagementAction } from './use-access'
 
-/** 按当前作用域管理下级企业或项目，并提供状态及管理员维护入口。 */
+/** 按当前作用域管理独立企业或所属项目，并提供状态及管理员维护入口。 */
 export default function EntitiesPage() {
   const access = useAccess()
   const project = access.scope.type === 'company'
@@ -34,7 +31,6 @@ export default function EntitiesPage() {
   const actionRef = useRef<ActionType>(null)
   const formRef = useRef<EntityFormDialogRef>(null)
   const administratorRef = useRef<AdministratorDialogRef>(null)
-  const hierarchyRef = useRef<CompanyHierarchyDialogRef>(null)
   const administratorRequest = useLatestDialogRequest(accessScopeKey(access.scope))
   const { message } = App.useApp()
   const execute = useManagementAction()
@@ -196,15 +192,8 @@ export default function EntitiesPage() {
         onRequestError={(error) => {
           if (error.name !== 'AbortError') void message.error(error.message)
         }}
-        toolBarRender={() => [
-          ...(!project && allowed('hierarchy')
-            ? [
-                <Button key="hierarchy" onClick={() => hierarchyRef.current?.show()}>
-                  {tr('企业层级')}
-                </Button>,
-              ]
-            : []),
-          ...(canCreate
+        toolBarRender={() =>
+          canCreate
             ? [
                 <Button
                   key="create"
@@ -215,8 +204,8 @@ export default function EntitiesPage() {
                   {project ? tr('创建项目') : tr('开通企业')}
                 </Button>,
               ]
-            : []),
-        ]}
+            : []
+        }
       />
       <EntityFormDialog
         ref={formRef}
@@ -226,7 +215,6 @@ export default function EntitiesPage() {
         resolveGlobalAccounts={createGlobalAccountResolver(api, 'createCompanyAdministrator')}
         memberRequest={createOrganizationMemberSearch(api, 'createProjectAdministrator')}
         resolveMembers={createOrganizationMemberResolver(api, 'createProjectAdministrator')}
-        loadCompanyTree={!project ? api.companyTree : undefined}
         loadTemplates={
           project && access.permissionKeys.includes('company.organization.templates.read')
             ? async () =>
@@ -254,15 +242,6 @@ export default function EntitiesPage() {
         resolveMembers={createOrganizationMemberResolver(api, 'setProjectAdministrator')}
         onSave={(record, input) => execute(() => api.setAdministrator(record.id, input), refresh)}
       />
-      {!project && (
-        <CompanyHierarchyDialog
-          ref={hierarchyRef}
-          loadTree={api.companyTree}
-          onSave={(record, values) =>
-            execute(() => api.updateCompanyHierarchy(record.id, values), refresh)
-          }
-        />
-      )}
     </>
   )
 }

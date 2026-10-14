@@ -3,7 +3,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { randomUUID } from 'crypto'
 import { Readable } from 'stream'
-import { InitiateMultipartUploadDto } from './dto/initiate-mutipart-upload.dto'
+import type { InitiateMultipartUploadRequest } from 'shared/types'
 import { ExactSizeTransform, findExactSizeError } from './storage/exact-size.transform'
 import {
   MultipartIdentity,
@@ -82,7 +82,7 @@ export class UploadService {
    * @param input 文件元数据及客户端生成的上传标识。
    * @returns 上传会话状态及已有分片信息。
    */
-  async initiate(ownerId: string, input: InitiateMultipartUploadDto) {
+  async initiate(ownerId: string, input: InitiateMultipartUploadRequest) {
     this.validateNewFile(input.fileSize)
 
     const existing = await this.uploadRepository.findByClientUploadId(ownerId, input.clientUploadId)
@@ -172,7 +172,10 @@ export class UploadService {
   /**
    * 检查同一客户端上传标识对应的名称、大小及内容类型一致，防止误复用其他文件会话。
    */
-  private assertSameClientFile(session: UploadSession, input: InitiateMultipartUploadDto): void {
+  private assertSameClientFile(
+    session: UploadSession,
+    input: InitiateMultipartUploadRequest,
+  ): void {
     if (
       session.originalName !== input.fileName.trim() ||
       session.fileSize !== input.fileSize ||
@@ -384,7 +387,10 @@ export class UploadService {
    * 按客户端上传标识幂等创建分片会话，写库失败或并发冲突时补偿取消新建存储上传。
    * @returns 可恢复上传的会话状态及已有分片信息。
    */
-  async initate(ownerId: string, input: InitiateMultipartUploadDto): Promise<UploadStatusResponse> {
+  async initate(
+    ownerId: string,
+    input: InitiateMultipartUploadRequest,
+  ): Promise<UploadStatusResponse> {
     this.validateNewFile(input.fileSize)
 
     const existing = await this.uploadRepository.findByClientUploadId(ownerId, input.clientUploadId)

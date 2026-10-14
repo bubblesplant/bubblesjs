@@ -8,7 +8,6 @@ import {
   profileSchema,
 } from '@/modules/access/workspaces/workspaces.validation'
 import { administratorSchema } from '@/modules/members/administrators/administrators.validation'
-import { updateCompanyHierarchySchema } from 'shared/utils'
 import { CompaniesService } from './companies.service'
 
 @Controller()
@@ -23,12 +22,6 @@ export class CompaniesController {
       query: parse(entityListSchema, query),
     })
   }
-  /** 返回平台当前可见企业的完整父子层级树，并按同级排序稳定组装。 */
-  @Get('platform/companies/tree')
-  @AccessPolicy({ scope: 'platform', permission: 'platform.companies.read' })
-  companyTree(@Req() req: FastifyRequest) {
-    return this.companiesService.hierarchyTree({ actor: actor(req) })
-  }
   /** 校验公司标识，从平台入口读取公司资料及管理员详情。 */
   @Get('platform/companies/:companyId')
   @AccessPolicy({ scope: 'platform', permission: 'platform.companies.read' })
@@ -39,7 +32,7 @@ export class CompaniesController {
       platform: true,
     })
   }
-  /** 校验公司资料、层级字段和初始管理员 userId，提交平台管理员创建公司操作。 */
+  /** 校验公司资料和初始管理员 userId，提交平台管理员创建公司操作。 */
   @Post('platform/companies')
   @AccessPolicy({ scope: 'platform', permission: 'platform.companies.create', adminOnly: true })
   createCompany(@Req() req: FastifyRequest, @Body() body: unknown) {
@@ -56,19 +49,6 @@ export class CompaniesController {
       actor: actor(req),
       companyId: ids(req).companyId!,
       body: parse(statusSchema, body),
-    })
-  }
-  /** 校验目标父企业、循环、同级名称和版本后调整企业层级资料。 */
-  @Patch('platform/companies/:companyId/hierarchy')
-  @AccessPolicy({
-    scope: 'platform',
-    permission: 'platform.companies.hierarchy',
-  })
-  companyHierarchy(@Req() req: FastifyRequest, @Body() body: unknown) {
-    return this.companiesService.updateHierarchy({
-      actor: actor(req),
-      companyId: ids(req).companyId!,
-      body: parse(updateCompanyHierarchySchema, body),
     })
   }
   /** 校验公司标识及管理员 userId，提交平台管理员追加或替换公司管理员操作。 */

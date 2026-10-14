@@ -3,6 +3,7 @@ import { randomBytes, randomUUID } from 'node:crypto'
 import { setTimeout as delay } from 'node:timers/promises'
 import {
   loadRuntime,
+  seedExistingCompanyMember,
   databaseConfig,
   randomIdentity,
   ensure,
@@ -51,27 +52,6 @@ async function setStatus({ actor, path, current, status, expected = 200 }) {
       expected,
     })
   ).body
-}
-
-/** 由企业管理员签发一次性邀请，并由目标账号接受以建立企业成员关系。 */
-async function inviteCompanyMember({ administrator, member, base }) {
-  const invitation = (
-    await request({
-      actor: administrator,
-      path: `${base}/member-invitations`,
-      method: 'POST',
-      expected: 201,
-      body: {},
-    })
-  ).body
-  ensure(invitation.token, '企业成员邀请未返回一次性 token')
-  await request({
-    actor: member,
-    path: '/company-member-invitations/accept',
-    method: 'POST',
-    expected: 200,
-    body: { token: invitation.token },
-  })
 }
 
 async function menuTree(scopeType) {
@@ -188,12 +168,12 @@ try {
   const base = `/companies/${company.id}`
   const otherBase = `/companies/${otherCompany.id}`
   for (const user of [accounts.project, accounts.member]) {
-    await inviteCompanyMember({ administrator: accounts.enterprise, member: user, base })
+    await seedExistingCompanyMember({ runtime, companyId: company.id, userId: user.id })
   }
-  await inviteCompanyMember({
-    administrator: accounts.other,
-    member: accounts.enterprise,
-    base: otherBase,
+  await seedExistingCompanyMember({
+    runtime,
+    companyId: otherCompany.id,
+    userId: accounts.enterprise.id,
   })
   const project = (
     await request({
@@ -1045,10 +1025,10 @@ try {
       )
       ensure(child.rows[0].count === 0, '移除企业成员未清理项目关系')
       await request({ actor: accounts.member, path: `${projectBase}/access`, expected: 404 })
-      await inviteCompanyMember({
-        administrator: accounts.enterprise,
-        member: accounts.member,
-        base,
+      await seedExistingCompanyMember({
+        runtime,
+        companyId: company.id,
+        userId: accounts.member.id,
       })
       const restored = await findMember({
         request,

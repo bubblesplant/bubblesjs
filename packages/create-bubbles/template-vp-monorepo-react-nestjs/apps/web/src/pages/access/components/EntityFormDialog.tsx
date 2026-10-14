@@ -1,17 +1,14 @@
 import {
   ModalForm,
   ProFormDependency,
-  ProFormDigit,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Alert, App, Form, Spin } from 'antd'
+import { Alert, App, Form } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type {
-  CompanyEntityType,
-  CompanyHierarchyNode,
   CreateCompanyRequest,
   CreateProjectRequest,
   OrganizationMemberCandidate,
@@ -36,9 +33,6 @@ interface EntityFormValues {
   code: string
   description?: string
   administratorUserId: string
-  parentCompanyId?: string
-  entityType?: CompanyEntityType
-  sort?: number
   organizationInitializationMode?: 'blank' | 'template'
   templateId?: string
 }
@@ -46,17 +40,6 @@ interface EntityFormValues {
 export interface EntityFormDialogRef {
   show: () => void
   hide: () => void
-}
-
-/** 将企业层级树压平成父企业选择项，同时保留层级缩进。 */
-function companyOptions(
-  nodes: CompanyHierarchyNode[],
-  depth = 0,
-): Array<{ value: string; label: string }> {
-  return nodes.flatMap((node) => [
-    { value: node.id, label: `${'　'.repeat(depth)}${node.name}` },
-    ...companyOptions(node.children, depth + 1),
-  ])
 }
 
 /** 收集企业或项目资料、稳定管理员 userId 及显式组织初始化方式。 */
@@ -69,7 +52,6 @@ export default function EntityFormDialog({
   resolveGlobalAccounts,
   memberRequest,
   resolveMembers,
-  loadCompanyTree,
   loadTemplates,
 }: {
   ref: Ref<EntityFormDialogRef>
@@ -81,30 +63,27 @@ export default function EntityFormDialog({
   resolveGlobalAccounts: GlobalAccountResolver
   memberRequest: (input: OrganizationMemberSearchRequest) => Promise<OrganizationMemberSearchResult>
   resolveMembers: (userIds: string[]) => Promise<OrganizationMemberCandidate[]>
-  loadCompanyTree?: () => Promise<CompanyHierarchyNode[]>
   loadTemplates?: () => Promise<OrganizationTemplateSummary[]>
 }) {
   const [open, setOpen] = useState(false)
   const [loadingOptions, setLoadingOptions] = useState(false)
-  const [companies, setCompanies] = useState<CompanyHierarchyNode[]>([])
   const [templates, setTemplates] = useState<OrganizationTemplateSummary[]>([])
   const { message } = App.useApp()
   const { tr } = useI18n()
   const hide = () => setOpen(false)
 
-  /** 打开弹窗并按实体类型预加载企业树或可用模板。 */
+  /** 打开创建弹窗；创建项目时预加载当前企业可用模板。 */
   const show = () => {
     setOpen(true)
+    if (!project) return
     setLoadingOptions(true)
-    const loader = project ? loadTemplates?.() : loadCompanyTree?.()
+    const loader = loadTemplates?.()
     void Promise.resolve(loader)
       .then((items) => {
-        if (project) setTemplates((items as OrganizationTemplateSummary[] | undefined) ?? [])
-        else setCompanies((items as CompanyHierarchyNode[] | undefined) ?? [])
+        setTemplates(items ?? [])
       })
       .catch((error) => {
-        if (project) setTemplates([])
-        else setCompanies([])
+        setTemplates([])
         void message.error(error instanceof Error ? error.message : tr('无法加载可选项'))
       })
       .finally(() => setLoadingOptions(false))
@@ -117,9 +96,7 @@ export default function EntityFormDialog({
       title={project ? tr('创建项目') : tr('开通企业')}
       open={open}
       width={680}
-      initialValues={
-        project ? { organizationInitializationMode: 'blank' } : { entityType: 'company', sort: 1 }
-      }
+      initialValues={project ? { organizationInitializationMode: 'blank' } : undefined}
       modalProps={{ destroyOnHidden: true, onCancel: hide }}
       submitter={{ searchConfig: { submitText: project ? tr('创建项目') : tr('开通企业') } }}
       onOpenChange={(visible) => {
@@ -145,12 +122,7 @@ export default function EntityFormDialog({
                   : { mode: 'blank' },
             }
           } else {
-            request = {
-              ...common,
-              parentCompanyId: values.parentCompanyId ?? null,
-              entityType: values.entityType ?? 'company',
-              sort: values.sort,
-            }
+            request = common
           }
           const ok = await onSave(request)
           if (ok) hide()
@@ -208,7 +180,7 @@ export default function EntityFormDialog({
         </Form.Item>
       )}
 
-      {project ? (
+      {project && (
         <>
           <Alert
             type="info"
@@ -247,32 +219,6 @@ export default function EntityFormDialog({
             }
           </ProFormDependency>
         </>
-      ) : (
-        <Spin spinning={loadingOptions}>
-          <ProFormSelect
-            name="parentCompanyId"
-            label={tr('上级企业 / 集团')}
-            allowClear
-            placeholder={tr('不选择表示根级企业')}
-            options={companyOptions(companies)}
-            fieldProps={{ showSearch: true, optionFilterProp: 'label' }}
-          />
-          <ProFormRadio.Group
-            name="entityType"
-            label={tr('实体类型')}
-            options={[
-              { value: 'company', label: tr('企业') },
-              { value: 'group', label: tr('集团') },
-            ]}
-          />
-          <ProFormDigit
-            name="sort"
-            label={tr('同级排序')}
-            min={0}
-            max={999999999}
-            fieldProps={{ precision: 0 }}
-          />
-        </Spin>
       )}
 
       <ProFormTextArea

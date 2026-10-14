@@ -1,0 +1,113 @@
+[
+  {
+    "case": "multi-dim32",
+    "loads": [
+      {
+        "size": 32,
+        "loaded": false
+      },
+      {
+        "size": 48,
+        "loaded": false
+      },
+      {
+        "size": 128,
+        "loaded": false
+      }
+    ]
+  },
+  {
+    "case": "multi-zero",
+    "loads": [
+      {
+        "size": 32,
+        "loaded": false
+      },
+      {
+        "size": 48,
+        "loaded": false
+      },
+      {
+        "size": 128,
+        "loaded": false
+      }
+    ]
+  },
+  {
+    "case": "multi-seq",
+    "loads": [
+      {
+        "size": 32,
+        "loaded": false
+      },
+      {
+        "size": 48,
+        "loaded": false
+      },
+      {
+        "size": 128,
+        "loaded": false
+      }
+    ]
+  },
+  {
+    "case": "single-dim32",
+    "loads": [
+      {
+        "size": 32,
+        "loaded": true,
+        "hotspot": [4, 2]
+      },
+      {
+        "size": 48,
+        "loaded": true,
+        "hotspot": [6, 3]
+      },
+      {
+        "size": 128,
+        "loaded": true,
+        "hotspot": [16, 8]
+      }
+    ]
+  },
+  {
+    "case": "single-zero",
+    "loads": [
+      {
+        "size": 32,
+        "loaded": true,
+        "hotspot": [4, 2]
+      },
+      {
+        "size": 48,
+        "loaded": true,
+        "hotspot": [6, 3]
+      },
+      {
+        "size": 128,
+        "loaded": true,
+        "hotspot": [16, 8]
+      }
+    ]
+  },
+  {
+    "case": "single-seq",
+    "loads": [
+      {
+        "size": 32,
+        "loaded": true,
+        "hotspot": [4, 2]
+      },
+      {
+        "size": 48,
+        "loaded": true,
+        "hotspot": [6, 3]
+      },
+      {
+        "size": 128,
+        "loaded": true,
+        "hotspot": [16, 8]
+      }
+    ]
+  }
+]

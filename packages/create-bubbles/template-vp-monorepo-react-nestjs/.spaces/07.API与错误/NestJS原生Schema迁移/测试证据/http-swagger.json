@@ -1,0 +1,192 @@
+{
+  "checkedAt": "2026-10-14T08:01:51.027Z",
+  "node": "v24.21.0",
+  "versions": {
+    "@nestjs/common": "12.1.3",
+    "@nestjs/core": "12.1.3",
+    "@nestjs/swagger": "12.0.2"
+  },
+  "mode": "compiled controllers, actual global providers and guards, in-memory business/session/access substitutes",
+  "externalServicesConnected": false,
+  "checks": [
+    {
+      "name": "注册 trim 与白名单",
+      "status": 201,
+      "requestIdPresent": true
+    },
+    {
+      "name": "登录 trim 与响应白名单",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "登录校验错误与 Zod code",
+      "status": 400,
+      "requestIdPresent": true
+    },
+    {
+      "name": "当前用户响应白名单",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "认证守卫与 Bearer 质询",
+      "status": 401,
+      "requestIdPresent": true
+    },
+    {
+      "name": "幂等退出响应白名单",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "改密跨字段错误",
+      "status": 400,
+      "requestIdPresent": true
+    },
+    {
+      "name": "改密成功响应白名单",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "响应 Schema 失败安全 500",
+      "status": 500,
+      "requestIdPresent": true
+    },
+    {
+      "name": "上传初始化 Body Schema",
+      "status": 201,
+      "requestIdPresent": true
+    },
+    {
+      "name": "上传严格对象",
+      "status": 400,
+      "requestIdPresent": true
+    },
+    {
+      "name": "上传状态 Param",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "上传无效 UUID",
+      "status": 400,
+      "requestIdPresent": true
+    },
+    {
+      "name": "上传二进制流与 partNumber 转换",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "上传完成路由",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "上传取消路由",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目分页默认值",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目分页 coerce 和 trim",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目未知 query 拒绝",
+      "status": 400,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目非法分页拒绝",
+      "status": 400,
+      "requestIdPresent": true
+    },
+    {
+      "name": "权限守卫提前校验 ID",
+      "status": 400,
+      "requestIdPresent": true
+    },
+    {
+      "name": "权限拒绝先于参数 Pipe",
+      "status": 403,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目创建 Body Schema",
+      "status": 201,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目资料 Body Schema",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目详情路由",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目状态 Body Schema",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目管理员 Body Schema",
+      "status": 200,
+      "requestIdPresent": true
+    },
+    {
+      "name": "项目管理员列表路由",
+      "status": 200,
+      "requestIdPresent": true
+    }
+  ],
+  "swagger": [
+    {
+      "path": "/auth/register",
+      "method": "post",
+      "responseFields": ["account", "id", "name"],
+      "requestSchemaPresent": true
+    },
+    {
+      "path": "/auth/login",
+      "method": "post",
+      "responseFields": ["absoluteExpiresAt", "accessToken", "idleExpiresIn", "tokenType"],
+      "requestSchemaPresent": true
+    },
+    {
+      "path": "/auth/me",
+      "method": "get",
+      "responseFields": ["account", "id", "name", "terminal"],
+      "requestSchemaPresent": false
+    },
+    {
+      "path": "/auth/logout",
+      "method": "post",
+      "responseFields": ["loggedOut"],
+      "requestSchemaPresent": false
+    },
+    {
+      "path": "/auth/change-password",
+      "method": "post",
+      "responseFields": ["passwordChanged"],
+      "requestSchemaPresent": true
+    }
+  ],
+  "uploadBinarySchema": {
+    "type": "string",
+    "format": "binary"
+  },
+  "projectQueryParameters": ["page", "pageSize", "query", "status"],
+  "projectOperations": 7,
+  "passed": true
+}

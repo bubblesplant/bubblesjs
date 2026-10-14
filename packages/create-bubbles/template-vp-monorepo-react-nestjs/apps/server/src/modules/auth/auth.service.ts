@@ -2,14 +2,20 @@ import { detectSessionTerminal } from '@/common/constants/session.constants'
 import { AppException } from '@/common/exceptions/app.exception'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { AuthUser, ChangePasswordResult, LogoutResult, RegisterResult } from 'shared/types'
+import type {
+  AuthUser,
+  ChangePasswordRequest,
+  ChangePasswordResult,
+  LoginRequest,
+  LoginResult,
+  LogoutResult,
+  RegisterRequest,
+  RegisterResult,
+} from 'shared/types'
 import { normalizeAccount } from 'shared/utils'
 import { AUTH_ERRORS } from './auth.errors'
 import { AuthRepository } from './auth.repository'
-import { LoginDto } from './dto/login.dto'
-import { RegisterDto } from './dto/register.dto'
 import { PasswordService } from './password.service'
-import { ChangePasswordDto } from './password/change-password.dto'
 import { SessionStoreService } from './session/session-store.service'
 import { SessionTokenService } from './session/session-token.service'
 
@@ -43,7 +49,7 @@ export class AuthService {
    * @param input 用户提交的账号、名称和明文密码。
    * @throws 账号重复时抛出账号已存在错误，认证依赖失败时返回服务不可用错误。
    */
-  async register(input: RegisterDto): Promise<RegisterResult> {
+  async register(input: RegisterRequest): Promise<RegisterResult> {
     const account = normalizeAccount(input.account)
     const passwordHash = await this.useAuthInfrastrutrue(() =>
       this.passwordService.hash(input.password),
@@ -72,7 +78,7 @@ export class AuthService {
    * @returns 仅本次返回的明文 Bearer 令牌及会话过期信息。
    * @throws 账号不可用或密码不匹配时抛出凭据无效错误；认证依赖失败时返回服务不可用。
    */
-  async login(input: LoginDto, metadata: LoginMetadata) {
+  async login(input: LoginRequest, metadata: LoginMetadata): Promise<LoginResult> {
     const account = normalizeAccount(input.account)
     const user = await this.useAuthInfrastrutrue(() => this.authRepository.findByAccount(account))
     const passwordHash = user?.status === 'active' ? user.passwordHash : LOGIN_DUMMY_PASSWORD_HASH
@@ -147,7 +153,10 @@ export class AuthService {
    * 在本人用户行排他锁内核验旧密码、写入新摘要并撤销全部终端会话。
    * Redis 撤销失败时事务回滚，旧密码保持有效；成功后当前会话也失效。
    */
-  async changePassword(userId: string, input: ChangePasswordDto): Promise<ChangePasswordResult> {
+  async changePassword(
+    userId: string,
+    input: ChangePasswordRequest,
+  ): Promise<ChangePasswordResult> {
     const result = await this.useAuthInfrastrutrue(() =>
       this.authRepository.withPasswordWriteLock(userId, async (context) => {
         const oldPasswordMatches = await this.passwordService.verify(

@@ -1,6 +1,7 @@
-import { createZodDto } from 'nestjs-zod'
+import type { InitiateMultipartUploadRequest } from 'shared/types'
 import z from 'zod'
 
+/** 校验文件元数据，保留严格对象、安全名称和 MIME 类型约束。 */
 export const initiateMultipartUploadSchema = z
   .object({
     clientUploadId: z.uuid(),
@@ -21,6 +22,4 @@ export const initiateMultipartUploadSchema = z
         'contentType 必须是安全的 MIME media type，例如 image/png',
       ),
   })
-  .strict()
-
-export class InitiateMultipartUploadDto extends createZodDto(initiateMultipartUploadSchema) {}
+  .strict() satisfies z.ZodType<InitiateMultipartUploadRequest>
