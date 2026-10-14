@@ -1,6 +1,6 @@
 {
   "name": "@bubblesjs/vue-infinite-scroll",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": false,
   "description": "A scroll-infinite for  a Vue3 component.",
   "homepage": "https://github.com/author/library#readme",
