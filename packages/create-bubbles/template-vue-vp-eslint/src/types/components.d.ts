@@ -12,6 +12,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AButton: typeof import('antdv-next')['Button']
+    ALayout: typeof import('antdv-next')['Layout']
+    ALayoutContent: typeof import('antdv-next')['LayoutContent']
+    ALayoutHeader: typeof import('antdv-next')['LayoutHeader']
+    ALayoutSider: typeof import('antdv-next')['LayoutSider']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./../components/Icon/svg-icon.vue')['default']

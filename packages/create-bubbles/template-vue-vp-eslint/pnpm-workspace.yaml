@@ -1,28 +1,6 @@
 minimumReleaseAgeExcludePrune: true
 trustPolicy: no-downgrade
-
-peerDependencyRules:
-  allowedVersions:
-    # Vite+ core 使用自己的版本号，但提供兼容 Vite 的接口。
-    vite: 0.3.0
-
 shellEmulator: true
 
-overrides:
-  vite: npm:@voidzero-dev/vite-plus-core@0.3.0
-  vitest: 4.1.11
-
-packageExtensions:
-  '@unocss/inspector@66.10.0':
-    dependencies:
-      # 与 inspector 使用的 @devframes/vite 对齐，避免解析到旧版 hub。
-      '@devframes/hub': 0.9.12
-
-  vite-plugin-svg-icons@2.0.1:
-    dependencies:
-      # 插件使用了 fast-glob，但发布包未声明此依赖。
-      fast-glob: ^3.3.3
-
 allowBuilds:
-  '@parcel/watcher': true
-  lefthook: true
+  '@parcel/watcher': false

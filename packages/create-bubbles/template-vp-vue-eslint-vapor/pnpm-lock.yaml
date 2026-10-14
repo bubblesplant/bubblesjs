@@ -14,6 +14,9 @@ importers:
       '@antdv-next/icons':
         specifier: ^1.1.2
         version: 1.1.2(vue@3.6.0-rc.10(typescript@6.0.3))
+      '@bubblesjs/antv-next-pro':
+        specifier: ^0.1.4
+        version: 0.1.4(antdv-next@1.6.0(vue@3.6.0-rc.10(typescript@6.0.3)))(vue@3.6.0-rc.10(typescript@6.0.3))
       '@vueuse/core':
         specifier: ^14.1.0
         version: 14.4.0(vue@3.6.0-rc.10(typescript@6.0.3))
@@ -23,9 +26,6 @@ importers:
       antdv-next:
         specifier: ^1.6.0
         version: 1.6.0(vue@3.6.0-rc.10(typescript@6.0.3))
-      antdv-next-pro:
-        specifier: ^0.1.3
-        version: 0.1.3(antdv-next@1.6.0(vue@3.6.0-rc.10(typescript@6.0.3)))(vue@3.6.0-rc.10(typescript@6.0.3))
       axios:
         specifier: ^1.20.0
         version: 1.20.0(debug@4.4.3(supports-color@3.2.3))(supports-color@3.2.3)
@@ -294,6 +294,13 @@ packages:
 
   '@blazediff/core@1.10.0':
     resolution: {integrity: sha512-AOQff0zgR7cGsZL+4E7hVkmujoPUpm0J9xzWGWZj5wCjd3gmxESXAPfKyuzs93VdpQNFhHlBhfOjrcZ+XTERtQ==}
+
+  '@bubblesjs/antv-next-pro@0.1.4':
+    resolution: {integrity: sha512-41L3u7sEwf7rm3aBdf8KasYdXW0dwwsVNEug86l1+ukUOgjkrJMiEFL7/30EmZY6Zze8g773sk0g/X7B+u75bQ==}
+    engines: {node: '>=24 <25'}
+    peerDependencies:
+      antdv-next: ^1.5.2
+      vue: ^3.5.0
 
   '@cacheable/memory@2.2.0':
     resolution: {integrity: sha512-CTLKqLItRCEixEAewD3/j9DB3/o96gpTPD4eJ1v+DGOlxZRZncRQkGYqqnAGCscYd6RNeXfGeiuCphsPtqyIfQ==}
@@ -2170,13 +2177,6 @@ packages:
   ansis@4.4.0:
     resolution: {integrity: sha512-9k3v7xcHwgdO/DruxGIg4HtjvlAZlcnsX/mzqUb1t3NkYnl9kK2UJ+Gq0io+vQf7iT//BD/HB/NBkUR1LWxoeA==}
     engines: {node: '>=14'}
-
-  antdv-next-pro@0.1.3:
-    resolution: {integrity: sha512-ODq+OMiGomxEV6YNSzcJMNlIV0eBwx91rhPdSIVTrb1JufTQFeuaq/oGd8HY92AzbUsofFWIf4d92PRbjMDM0g==}
-    engines: {node: '>=24 <25'}
-    peerDependencies:
-      antdv-next: ^1.5.2
-      vue: ^3.5.0
 
   antdv-next@1.6.0:
     resolution: {integrity: sha512-kMlH6cgnpxrJTd2oS6aVhzveAY8WNs+YmRXwzX18+vrpB/J/kz35JQl2F0evQ4CCkwY83gsnnSdZ2lgQldXQgw==}
@@ -5241,6 +5241,12 @@ snapshots:
 
   '@blazediff/core@1.10.0': {}
 
+  '@bubblesjs/antv-next-pro@0.1.4(antdv-next@1.6.0(vue@3.6.0-rc.10(typescript@6.0.3)))(vue@3.6.0-rc.10(typescript@6.0.3))':
+    dependencies:
+      '@antdv-next/icons': 1.1.2(vue@3.6.0-rc.10(typescript@6.0.3))
+      antdv-next: 1.6.0(vue@3.6.0-rc.10(typescript@6.0.3))
+      vue: 3.6.0-rc.10(typescript@6.0.3)
+
   '@cacheable/memory@2.2.0':
     dependencies:
       '@cacheable/utils': 2.5.0
@@ -6950,12 +6956,6 @@ snapshots:
   ansi-styles@6.2.3: {}
 
   ansis@4.4.0: {}
-
-  antdv-next-pro@0.1.3(antdv-next@1.6.0(vue@3.6.0-rc.10(typescript@6.0.3)))(vue@3.6.0-rc.10(typescript@6.0.3)):
-    dependencies:
-      '@antdv-next/icons': 1.1.2(vue@3.6.0-rc.10(typescript@6.0.3))
-      antdv-next: 1.6.0(vue@3.6.0-rc.10(typescript@6.0.3))
-      vue: 3.6.0-rc.10(typescript@6.0.3)
 
   antdv-next@1.6.0(vue@3.6.0-rc.10(typescript@6.0.3)):
     dependencies:

@@ -1,6 +1,5 @@
 import path from 'node:path'
 import process from 'node:process'
-
 import { AntdvNextResolver } from '@antdv-next/auto-import-resolver'
 import Vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
@@ -31,12 +30,16 @@ export default defineConfig(({ mode }) => {
           target: VITE_API_URL,
           changeOrigin: true,
           // secure: false, // Disable SSL certificate verification
-          rewrite: path => path.replace(new RegExp(`^/${VITE_API_AFFIX}`), ''),
+          rewrite: (path) => path.replace(new RegExp(`^/${VITE_API_AFFIX}`), ''),
         },
       },
     },
+    staged: {
+      '*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,vue}': 'vp check --fix',
+      '*.{json,jsonc}': 'vp fmt',
+    },
     plugins: lazyPlugins(() => [
-      Vue(),
+      Vue({}),
       AutoImport({
         imports: ['vue', 'vue-router'],
         dts: './src/types/auto-import.d.ts',

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { Avatar, Dropdown } from 'antdv-next'
+import { defineComponent, h } from 'vue'
+
 import { useUserStoreWithOut } from '@/store/modules/user'
 
 const userStore = useUserStoreWithOut()
@@ -11,20 +14,44 @@ function handleMenuClick({ key }: { key: string }) {
   }
 }
 
-const dropdownItems = [
-  { key: 'logout', label: '退出登录' },
-]
+const dropdownItems = [{ key: 'logout', label: '退出登录' }]
+
+const VdomUserDropdown = defineComponent({
+  name: 'VdomUserDropdown',
+  setup() {
+    return () =>
+      h(
+        Dropdown,
+        {
+          trigger: ['click'],
+          menu: {
+            items: dropdownItems,
+          },
+          onMenuClick: handleMenuClick,
+        },
+        {
+          default: () =>
+            h('div', { class: 'flex-center gap-2 cursor-pointer' }, [
+              h(
+                Avatar,
+                {
+                  size: 32,
+                  src: userStore.avatar,
+                },
+                {
+                  default: () => userStore.name?.charAt(0).toUpperCase(),
+                },
+              ),
+              h('span', { class: 'text-sm' }, userStore.name),
+            ]),
+        },
+      )
+  },
+})
 </script>
 
 <template>
   <div class="flex gap-3 items-center">
-    <ADropdown :menu="{ items: dropdownItems, onClick: handleMenuClick }">
-      <div class="flex-center gap-2 cursor-pointer">
-        <AAvatar :size="32" :src="userStore.avatar">
-          {{ userStore.name?.charAt(0).toUpperCase() }}
-        </AAvatar>
-        <span class="text-sm">{{ userStore.name }}</span>
-      </div>
-    </ADropdown>
+    <VdomUserDropdown />
   </div>
 </template>

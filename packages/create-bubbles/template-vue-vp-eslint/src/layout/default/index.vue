@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import type { MenuItemType } from 'antdv-next'
+import { Menu as AntMenu } from 'antdv-next'
+import type { MenuProps } from 'antdv-next'
+
 import type { MenuRouteRecordRawType } from '@/router/interface'
 
 import SvgIcon from '@/components/Icon/svg-icon.vue'
@@ -13,15 +15,22 @@ const router = useRouter()
 
 const collapsed = ref(false)
 
+const VaporCompatibleMenu = defineComponent({
+  inheritAttrs: false,
+  setup(_, { attrs }) {
+    return () => h(AntMenu, attrs)
+  },
+})
+
 const selectedKeys = computed(() => {
-  const matched = route.matched.map(item => item.name)
+  const matched = route.matched.map((item) => item.name)
   return matched.filter(Boolean) as string[]
 })
 
 const openKeys = ref<string[]>([])
 
 watchEffect(() => {
-  const matched = route.matched.map(item => item.name).filter(Boolean) as string[]
+  const matched = route.matched.map((item) => item.name).filter(Boolean) as string[]
   if (matched.length > 1) {
     openKeys.value = [matched[0]]
   }
@@ -32,8 +41,7 @@ function handleMenuClick({ key }: { key: string }) {
 }
 
 function renderIcon(icon?: string) {
-  if (!icon)
-    return null
+  if (!icon) return null
   const isSvgIcon = icon.startsWith('svg-')
   if (isSvgIcon) {
     return h(SvgIcon, {
@@ -44,9 +52,9 @@ function renderIcon(icon?: string) {
   return null
 }
 
-function getMenuItems(routes: MenuRouteRecordRawType[]): MenuItemType[] {
+function getMenuItems(routes: MenuRouteRecordRawType[]): NonNullable<MenuProps['items']> {
   return routes
-    .filter(item => !item.meta?.hideInMenu)
+    .filter((item) => !item.meta?.hideInMenu)
     .map((item) => {
       const hasChildren = item.children && item.children.length > 0
       if (hasChildren) {
@@ -79,13 +87,11 @@ const menuItems = computed(() => getMenuItems(menuRoutes))
     >
       <div class="logo flex-center gap-2 h-[var(--header-height)]">
         <SvgIcon icon="logo" class="text-2xl" />
-        <span v-show="!collapsed" class="text-lg text-white font-bold">
-          Vue Template
-        </span>
+        <span v-show="!collapsed" class="text-lg text-white font-bold"> Vue Template </span>
       </div>
-      <AMenu
-        v-model:selected-keys="selectedKeys"
+      <VaporCompatibleMenu
         v-model:open-keys="openKeys"
+        :selected-keys="selectedKeys"
         :items="menuItems"
         theme="dark"
         mode="inline"
@@ -96,15 +102,8 @@ const menuItems = computed(() => getMenuItems(menuRoutes))
     <ALayout>
       <ALayoutHeader class="layout-header px-4 flex items-center justify-between">
         <div class="flex gap-3 items-center">
-          <AButton
-            type="text"
-            class="flex-center"
-            @click="collapsed = !collapsed"
-          >
-            <SvgIcon
-              :icon="collapsed ? 'menu-unfold' : 'menu-fold'"
-              style="font-size: 18px"
-            />
+          <AButton type="text" class="flex-center" @click="collapsed = !collapsed">
+            <SvgIcon :icon="collapsed ? 'menu-unfold' : 'menu-fold'" style="font-size: 18px" />
           </AButton>
         </div>
         <Header />
