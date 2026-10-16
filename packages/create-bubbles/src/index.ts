@@ -160,11 +160,6 @@ const FRAMEWORKS: Framework[] = [
         display: 'vp-monorepo-react-nestjs',
         color: colorMap.react,
       },
-      {
-        name: 'vp-monorepo-react-hono',
-        display: 'vp-monorepo-react-hono',
-        color: colorMap.react,
-      },
     ],
   },
   {
@@ -439,12 +434,13 @@ const init = async () => {
   /** 提取绝对路径最后的path 与 targetDir 不同 因为 targetDir 可以输入 xxx/xxx */
   let packageName = path.basename(path.resolve(targetDir))
   if (!isValidPackageName(packageName)) {
+    const defaultPackageName = toValidPackageName(packageName)
     const packageNameResult = await prompts.text({
       message: 'Package name is invalid. please input again:',
-      defaultValue: toValidPackageName(packageName),
-      placeholder: toValidPackageName(packageName),
+      defaultValue: defaultPackageName,
+      placeholder: defaultPackageName,
       validate(dir) {
-        if (!isValidPackageName(dir)) {
+        if (!isValidPackageName(dir || defaultPackageName)) {
           return 'Invalid package.json name'
         }
       },

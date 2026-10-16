@@ -40,9 +40,9 @@
   },
   "dependencies": {
     "@flatten-js/interval-tree": "^2.0.3",
+    "es-toolkit": "^1.52.0",
     "grapheme-splitter": "^1.0.4",
-    "nanoid": "^5.1.6",
-    "radashi": "^12.7.1"
+    "nanoid": "^5.1.6"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",

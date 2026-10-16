@@ -37,7 +37,7 @@ tsc && vp build
 - 接接口时参照 `src/utils/request/readme.md`，业务接口统一放在 `src/api` 并用 `alovaRequest` 封装。
 - 环境变量统一使用 `src/utils/env/index.tsx` 导出的 `envVariables`，不允许在业务代码中直接使用 `import.meta.env`。
 - 日期处理统一使用 `dayjs`。
-- 需要工具函数时优先查看 `radashi` 是否已提供；没有合适方法时，再在 `src/utils` 下新增全局工具类。
+- 需要工具函数时优先查看 `es-toolkit` 是否已提供；没有合适方法时，再在 `src/utils` 下新增全局工具类。
 - 需要全局状态管理时使用 `zustand`，在 `src/store` 下按业务拆分模块。
 
 ## 验证

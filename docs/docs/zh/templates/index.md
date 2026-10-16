@@ -32,12 +32,6 @@ pnpm create bubbles@latest my-desktop --template create-eletron-vite
 
 参见 [Electron 创建说明](/templates/create-eletron-vite)。
 
-## 仓库预览模板
-
-[vp-monorepo-react-hono](/templates/vp-monorepo-react-hono) 包含 React 前端、Hono 后端、Drizzle / PostgreSQL、Redis 和 BullMQ，提供 Node.js 与 Bun 服务入口。
-
-当前模板目录已存在，但尚未注册到 CLI，不能通过 `--template vp-monorepo-react-hono` 创建。复制方式、环境变量与启动步骤见模板详情。
-
 ## 如何选择
 
 - **Vue 应用**：使用 `vue-vp-eslint`；评估 Vapor 模式时选择 `vp-vue-eslint-vapor`。

@@ -68,6 +68,7 @@ catalog:
   drizzle-orm: ^0.45.4
   drizzle-zod: ^0.8.3
   echarts: ^6.1.0
+  es-toolkit: ^1.52.0
   eslint: 10.12.0
   eslint-plugin-format: ^2.0.1
   eslint-plugin-oxlint: ^1.87.0
@@ -75,13 +76,13 @@ catalog:
   fastify: ^5.12.5
   globals: ^17.13.0
   happy-dom: ^21.0.1
+  hash-wasm: ^4.12.0
   ioredis: ^6.0.0
   nprogress: ^0.2.0
   oxlint: ^1.87.0
   pg: ^8.23.1
   pinia: ^4.0.3
   pinia-plugin-persistedstate: ^4.7.1
-  radashi: ^12.9.6
   react: ^19.3.0
   react-dom: ^19.3.0
   react-router: ^8.4.0
@@ -98,11 +99,11 @@ catalog:
   unocss: 66.11.0
   unplugin-auto-import: ^21.1.0
   unplugin-vue-components: ^32.1.0
-  vite: npm:@voidzero-dev/vite-plus-core@1.1.0
+  vite: npm:@voidzero-dev/vite-plus-core@1.2.0
   vite-plugin-inspect: ^12.1.0
   vite-plugin-svg-icons: ^2.0.1
   vite-plugin-svgr: ^5.2.0
-  vite-plus: 1.1.0
+  vite-plus: 1.2.0
   vue: ^3.5.43
   vue-router: ^5.4.0
   vue-tsc: ^3.3.13

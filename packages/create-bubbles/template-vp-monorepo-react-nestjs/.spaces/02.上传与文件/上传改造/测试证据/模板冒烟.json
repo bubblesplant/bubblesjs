@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "template": "vp-monorepo-react-nestjs",
+  "sourceView": "Git 当前源码文件；忽略本地依赖、缓存与环境文件；真实已构建 CLI",
+  "copiedSourceFiles": 873,
+  "generatedName": "generated-app",
+  "cleanup": {
+    "status": "blocked_by_tool_policy",
+    "retainedPath": "C:\\Users\\Administrator\\Documents\\Codex\\scratch-tests\\file-hash-template-6833c717-ffc5-4be5-bc2e-d40f92f5c13d",
+    "reason": "此前临时验证目录的递归清理命令被工具策略拒绝，未尝试其他删除方式。"
+  }
+}

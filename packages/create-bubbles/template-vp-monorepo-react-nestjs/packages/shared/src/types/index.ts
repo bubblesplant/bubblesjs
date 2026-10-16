@@ -17,6 +17,7 @@ export type {
   SessionTerminalType,
 } from './auth'
 export type { ApiErrorDetail, ApiFailure, SchemaValidationIssue } from './common'
+export type * from './file-hash'
 export type * from './organization/models'
 export type { DbCreateUserRequest } from './test-examples/db'
 export type { RedisGetQuery, RedisSetRequest } from './test-examples/redis'

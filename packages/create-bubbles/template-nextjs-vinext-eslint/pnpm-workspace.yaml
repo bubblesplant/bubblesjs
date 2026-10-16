@@ -1,7 +1,4 @@
 minimumReleaseAgeExcludePrune: true
-minimumReleaseAgeExclude:
-  - '@types/node@26.5.0'
-
 trustPolicy: no-downgrade
 
 # Babel 7 requires this legacy release; its npm integrity matches the existing lockfile.

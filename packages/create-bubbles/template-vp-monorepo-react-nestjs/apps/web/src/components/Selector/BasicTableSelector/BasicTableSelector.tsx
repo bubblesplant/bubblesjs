@@ -114,7 +114,7 @@ export default function BasicTableSelector<
       cancelButtonProps={{ disabled: confirming }}
       closable={!confirming}
       keyboard={!confirming}
-      maskClosable={!confirming}
+      mask={{ closable: !confirming }}
     >
       {session && (
         <Flex align="stretch" gap={16} wrap="wrap">

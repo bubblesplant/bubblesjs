@@ -1,0 +1,94 @@
+{
+  "status": "verification-record",
+  "observedAt": "2026-10-15",
+  "environment": {
+    "os": "Windows",
+    "node": "24.22.0",
+    "pnpm": "12.11.2",
+    "toolchain": "Vite+"
+  },
+  "dependencyInstall": {
+    "command": "vp install --frozen-lockfile",
+    "status": "passed",
+    "dependencyChanges": false
+  },
+  "serverValidation": {
+    "cwd": "apps/server",
+    "commands": ["vp test", "vp exec tsc -p tsconfig.json --noEmit", "vp run build"],
+    "status": "passed",
+    "testFiles": {
+      "passed": 13,
+      "skipped": 4
+    },
+    "tests": {
+      "passed": 84,
+      "skipped": 33
+    },
+    "output": "note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.\n\n RUN  v5.0.3 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server\n\n\n Test Files  13 passed | 4 skipped (17)\n      Tests  84 passed | 33 skipped (117)\n   Start at  17:26:39\n   Duration  3.48s (import 81%, transform 15%, tests 4%)\n\n~/apps/server$ nest build\n>  SWC  Running...\nSuccessfully compiled: 131 files with swc (163.7ms)\n\n---\nvp run: server#build not cached because it modified its input. (Run `vp run --last-details` for full details)\n"
+  },
+  "targetedCheck": {
+    "status": "passed",
+    "paths": [
+      ".spaces/README.md",
+      ".spaces/02.上传与文件/上传改造/需求文档.md",
+      ".spaces/02.上传与文件/上传改造/设计方案.md",
+      ".spaces/02.上传与文件/上传改造/技术契约.md",
+      ".spaces/02.上传与文件/上传改造/测试报告.md",
+      ".spaces/02.上传与文件/上传改造/交付记录.md",
+      ".spaces/02.上传与文件/上传改造/工具/verify-built-hash.cjs",
+      ".spaces/02.上传与文件/上传改造/测试证据/生产构建流式摘要.json",
+      ".spaces/02.上传与文件/上传改造/测试证据/后端验证.json",
+      "apps/server/drizzle/0007_upload_object_sha256.sql",
+      "apps/server/drizzle/meta/0007_snapshot.json",
+      "apps/server/drizzle/meta/_journal.json",
+      "apps/server/nest-cli.json",
+      "apps/server/src/database/schema.ts",
+      "apps/server/src/modules/upload/hash/content-hash.service.ts",
+      "apps/server/src/modules/upload/hash/sha256.worker.cjs",
+      "apps/server/src/modules/upload/storage/storage.port.ts",
+      "apps/server/src/modules/upload/storage/minio-storage.adapter.ts",
+      "apps/server/src/modules/upload/upload.service.ts",
+      "apps/server/src/modules/upload/upload.reponsitory.ts",
+      "apps/server/src/modules/upload/upload.errors.ts",
+      "apps/server/src/modules/upload/upload.module.ts",
+      "apps/server/src/modules/upload/upload.controller.ts",
+      "apps/server/test/upload/content-hash.spec.ts",
+      "apps/server/test/upload/upload-completion.spec.ts",
+      "apps/server/test/upload/minio-object-read.spec.ts",
+      "apps/server/test/error-catalog.spec.ts"
+    ],
+    "formattedFiles": 26,
+    "lintAndTypeFiles": 15,
+    "output": "pass: All 26 files are correctly formatted\npass: Found no warnings, lint errors, or type errors in 15 files"
+  },
+  "repositoryCheck": {
+    "status": "blocked",
+    "formattingIssues": 206,
+    "taskFilesInFailures": [],
+    "output": "error: Formatting issues found\n.spaces/01.企业级项目级/权限与菜单/前端交接.md (1ms)\n.spaces/01.企业级项目级/权限与菜单/测试证据/route-transition-speed-chrome.json (0ms)\n.spaces/02.上传与文件/分片上传/实施教程.md (24ms)\n.spaces/04.界面与主题/万物梦幻/ui/language-switch-options.html (888ms)\n.spaces/04.界面与主题/万物梦幻/ui/workspace-switch-navigation.html (885ms)\n.spaces/04.界面与主题/万物梦幻/ui/workspace-switch-options.html (874ms)\n.spaces/04.界面与主题/万物梦幻/工具/fixtures.mjs (0ms)\n.spaces/04.界面与主题/万物梦幻/工具/visual-check.mjs (1ms)\n.spaces/04.界面与主题/万物梦幻/工具/workspace-switch-preview/index.mjs (0ms)\n.spaces/04.界面与主题/万物梦幻/工具/workspace-switch-preview/navigation.mjs (0ms)\n.spaces/04.界面与主题/万物梦幻/测试证据/workspace-css-regression-after.json (8ms)\n.spaces/04.界面与主题/万物梦幻/测试证据/workspace-css-regression-before.json (3ms)\n.spaces/04.界面与主题/万物梦幻/测试证据/workspace-css-regression-built.json (3ms)\n.spaces/04.界面与主题/万物梦幻/测试证据/workspace-switch.json (0ms)\n.spaces/04.界面与主题/万物梦幻/设计方案.md (1ms)\n.spaces/04.界面与主题/万物梦幻/需求文档.md (1ms)\n.spaces/04.界面与主题/万物梦幻/验证说明.md (1ms)\n.spaces/04.界面与主题/国际化/交付记录.md (0ms)\n.spaces/04.界面与主题/国际化/发布评估.md (0ms)\n.spaces/04.界面与主题/国际化/测试报告.md (0ms)\n.spaces/04.界面与主题/国际化/测试证据/cli-扫描边界/empty-scan/report.json (0ms)\n.spaces/04.界面与主题/国际化/测试证据/cli-扫描边界/当前复验.json (0ms)\n.spaces/04.界面与主题/国际化/测试证据/运行时发布检查.json (0ms)\n.spaces/04.界面与主题/国际化/设计方案.md (1ms)\n.spaces/04.界面与主题/国际化/需求文档.md (1ms)\n.spaces/04.界面与主题/桌面鼠标样式/测试报告.md (0ms)\n.spaces/05.运行维护/数据库迁移/需求文档.md (0ms)\n.spaces/06.认证与会话/会话管理/技术契约.md (0ms)\n.spaces/06.认证与会话/会话管理/需求文档.md (0ms)\n.spaces/06.认证与会话/修改密码/PRD.md (0ms)\n.spaces/06.认证与会话/修改密码/技术契约.md (0ms)\n.spaces/06.认证与会话/修改密码/测试报告.md (0ms)\n.spaces/06.认证与会话/修改密码/联调记录.md (0ms)\n.spaces/06.认证与会话/修改密码/设计方案.md (0ms)\n.spaces/06.认证与会话/修改密码/需求文档.md (0ms)\n.spaces/08.工作流/流程与业务解耦/设计方案.md (3ms)\n.spaces/08.工作流/流程与业务解耦/需求文档.md (0ms)\n.spaces/文档规范.md (0ms)\n.vscode/launch.json (0ms)\n.vscode/settings.json (0ms)\napps/server/.swcrc (0ms)\napps/server/drizzle.config.ts (0ms)\napps/server/drizzle/meta/0000_snapshot.json (0ms)\napps/server/drizzle/meta/0001_snapshot.json (1ms)\napps/server/drizzle/meta/0002_snapshot.json (1ms)\napps/server/src/app.controller.ts (0ms)\napps/server/src/common/constants/auth.ts (0ms)\napps/server/src/common/constants/response.ts (0ms)\napps/server/src/common/constants/session.constants.ts (0ms)\napps/server/src/common/decorators/current-auth.decorator.ts (0ms)\napps/server/src/common/decorators/public.decorator.ts (0ms)\napps/server/src/common/dto/api-failure.dto.ts (0ms)\napps/server/src/common/openapi/response-headers.ts (0ms)\napps/server/src/config/app.config.ts (0ms)\napps/server/src/config/database.config.ts (0ms)\napps/server/src/config/index.ts (0ms)\napps/server/src/config/llm.config.ts (0ms)\napps/server/src/config/queue.config.ts (0ms)\napps/server/src/config/redis.config.ts (0ms)\napps/server/src/config/session.config.ts (0ms)\napps/server/src/config/storage.config.ts (0ms)\napps/server/src/database/db.module.ts (0ms)\napps/server/src/modules/access/seed/access-seed.service.ts (0ms)\napps/server/src/modules/auth/password.service.ts (0ms)\napps/server/src/modules/auth/session/session-token.service.ts (0ms)\napps/server/src/modules/auth/session/session.types.ts (0ms)\napps/server/src/modules/menus/menus.controller.ts (0ms)\napps/server/src/modules/menus/menus.service.ts (0ms)\napps/server/src/modules/menus/menus.validation.ts (0ms)\napps/server/src/modules/task-queue/queue-worker.bootstrap.ts (0ms)\napps/server/src/modules/task-queue/task-queue.constants.ts (0ms)\napps/server/src/modules/task-queue/task-queue.contracts.ts (0ms)\napps/server/src/modules/task-queue/task-queue.processor.ts (0ms)\napps/server/src/modules/task-queue/task-queue.service.ts (0ms)\napps/server/src/modules/test/db/db.module.ts (0ms)\napps/server/src/modules/test/db/db.service.ts (0ms)\napps/server/src/modules/test/error-catelog.spec.ts (0ms)\napps/server/src/modules/test/redis/redis.service.ts (0ms)\napps/server/src/modules/upload/storage/exact-size.transform.ts (0ms)\napps/server/src/modules/upload/upload.constants.ts (0ms)\napps/server/src/modules/upload/utils/object-key.ts (0ms)\napps/server/src/utils/server-address.ts (0ms)\napps/server/test/menus.validation.spec.ts (8ms)\napps/server/test/task-queue.integration.spec.ts (0ms)\napps/server/test/task-queue.processor.spec.ts (0ms)\napps/server/test/task-queue.service.spec.ts (0ms)\napps/server/tsconfig.build.json (0ms)\napps/server/tsconfig.json (0ms)\napps/server/vite.config.ts (0ms)\napps/web-vue/.vscode/extensions.json (0ms)\napps/web-vue/AGENTS.md (0ms)\napps/web-vue/commitlint.config.js (0ms)\napps/web-vue/eslint.config.js (0ms)\napps/web-vue/index.html (791ms)\napps/web-vue/lefthook.yml (9ms)\napps/web-vue/package.json (0ms)\napps/web-vue/src/App.vue (798ms)\napps/web-vue/src/api/index.ts (0ms)\napps/web-vue/src/components/Icon/svg-icon.vue (825ms)\napps/web-vue/src/hooks/chart/lib.ts (0ms)\napps/web-vue/src/hooks/chart/useEcharts.ts (0ms)\napps/web-vue/src/i18n/instance.ts (0ms)\napps/web-vue/src/layout/default/header/index.vue (805ms)\napps/web-vue/src/layout/default/index.vue (847ms)\napps/web-vue/src/locales/en_US.json (0ms)\napps/web-vue/src/locales/zh_CN.json (0ms)\napps/web-vue/src/main.ts (0ms)\napps/web-vue/src/router/guard/index.ts (0ms)\napps/web-vue/src/router/guard/permissionGuard.ts (0ms)\napps/web-vue/src/router/index.ts (0ms)\napps/web-vue/src/router/interface.ts (0ms)\napps/web-vue/src/router/modules/index.ts (0ms)\napps/web-vue/src/store/index.ts (0ms)\napps/web-vue/src/store/modules/user.ts (0ms)\napps/web-vue/src/styles/index.scss (0ms)\napps/web-vue/src/styles/variables.scss (0ms)\napps/web-vue/src/types/antdv-next.d.ts (0ms)\napps/web-vue/src/types/auto-import.d.ts (0ms)\napps/web-vue/src/types/vite-env.d.ts (0ms)\napps/web-vue/src/utils/env.ts (0ms)\napps/web-vue/src/utils/request/core/index.ts (1ms)\napps/web-vue/src/utils/request/core/utils.ts (0ms)\napps/web-vue/src/utils/request/index.ts (0ms)\napps/web-vue/src/views/example/echart/config.ts (1ms)\napps/web-vue/src/views/example/echart/index.vue (779ms)\napps/web-vue/src/views/example/tree-chart.vue (786ms)\napps/web-vue/src/views/home/index.vue (819ms)\napps/web-vue/src/views/login/index.vue (792ms)\napps/web-vue/tsconfig.json (0ms)\napps/web-vue/uno.config.ts (0ms)\napps/web-vue/vite.config.ts (0ms)\napps/web/.agents/rules/表单回填.md (0ms)\napps/web/package.json (0ms)\napps/web/src/App.tsx (0ms)\napps/web/src/components/Icon/SvgAsset/IconSelector.tsx (0ms)\napps/web/src/components/Icon/SvgAsset/SvgAssetIcon.tsx (0ms)\napps/web/src/components/Icon/SvgAsset/SvgAssetRegistry.ts (0ms)\napps/web/src/components/Icon/SvgAsset/index.ts (0ms)\napps/web/src/i18n/index.ts (0ms)\napps/web/src/i18n/instance.ts (0ms)\napps/web/src/i18n/ui-locale.ts (1ms)\napps/web/src/pages/access/components/MenuFormDialog.tsx (1ms)\napps/web/src/pages/access/menus/api.ts (0ms)\napps/web/src/pages/access/menus/index.tsx (1ms)\napps/web/src/pages/login/login-form.css (0ms)\napps/web/src/router/middleware/README.md (0ms)\napps/web/src/router/page-registry.tsx (0ms)\napps/web/src/types/auto-imports.d.ts (0ms)\napps/web/test/i18n-locale.spec.ts (3ms)\napps/web/test/icon-selector.spec.tsx (0ms)\napps/web/test/workspace-navigation.spec.ts (1ms)\napps/web/vite.config.ts (0ms)\ncommitlint.config.js (0ms)\ndocker-compose.yml (1ms)\ni18n.config.ts (0ms)\nmise.toml (17ms)\npackage.json (10ms)\npackages/i18n/cli/README.md (0ms)\npackages/i18n/cli/docs/excel-sync-plan.md (1ms)\npackages/i18n/cli/package.json (0ms)\npackages/i18n/cli/src/cli.ts (0ms)\npackages/i18n/cli/src/command.ts (1ms)\npackages/i18n/cli/src/config.ts (0ms)\npackages/i18n/cli/src/files.ts (0ms)\npackages/i18n/cli/src/index.ts (0ms)\npackages/i18n/cli/src/load-config.ts (0ms)\npackages/i18n/cli/src/report.ts (0ms)\npackages/i18n/cli/src/scanner.test.ts (0ms)\npackages/i18n/cli/src/scanner.ts (1ms)\npackages/i18n/cli/src/sync.ts (0ms)\npackages/i18n/cli/test/command.test.ts (1ms)\npackages/i18n/cli/test/config.test.ts (0ms)\npackages/i18n/cli/test/load-config.test.ts (0ms)\npackages/i18n/cli/test/report.test.ts (0ms)\npackages/i18n/cli/test/sync.test.ts (0ms)\npackages/i18n/cli/test/temporary-directory.ts (0ms)\npackages/i18n/cli/tsconfig.json (0ms)\npackages/i18n/cli/vite.config.ts (0ms)\npackages/i18n/core/package.json (0ms)\npackages/i18n/core/src/format.ts (0ms)\npackages/i18n/core/src/i18n.ts (0ms)\npackages/i18n/core/src/index.ts (0ms)\npackages/i18n/core/src/storage.ts (0ms)\npackages/i18n/core/src/store.ts (0ms)\npackages/i18n/core/src/types.ts (1ms)\npackages/i18n/core/tsconfig.json (0ms)\npackages/i18n/core/vite.config.ts (0ms)\npackages/i18n/react/package.json (0ms)\npackages/i18n/react/src/index.tsx (0ms)\npackages/i18n/react/src/use-store.ts (0ms)\npackages/i18n/react/tsconfig.json (10ms)\npackages/i18n/react/vite.config.ts (0ms)\npackages/i18n/vue/package.json (0ms)\npackages/i18n/vue/src/index.ts (0ms)\npackages/i18n/vue/src/use-store.ts (1ms)\npackages/i18n/vue/tsconfig.json (0ms)\npackages/i18n/vue/vite.config.ts (0ms)\npackages/shared/src/types/access-menus.ts (0ms)\npackages/shared/vite.config.ts (3ms)\npnpm-workspace.yaml (1ms)\nscripts/clean.mjs (17ms)\ntsconfig.base.json (0ms)\ntsconfig.bundler.json (0ms)\ntsconfig.json (0ms)\ntsconfig.lib.json (0ms)\nvite.config.ts (0ms)\n\nFound formatting issues in 206 files (1065ms, 24 threads). Run `vp check --fix` to fix them.\n",
+    "note": "All remaining reported formatting issues are outside this task's changed paths. Repository lint/type checks did not complete because formatting failed."
+  },
+  "productionWorkerProbe": {
+    "status": "passed",
+    "command": "vp exec node .spaces/02.上传与文件/上传改造/工具/verify-built-hash.cjs --stream",
+    "evidence": "生产构建流式摘要.json"
+  },
+  "limitations": [
+    "No live PostgreSQL, Redis or MinIO integration",
+    "No database migration execution",
+    "No real 90 GiB or production concurrency benchmark",
+    "No full content deduplication or business file reference model"
+  ],
+  "documentLinks": {
+    "status": "passed",
+    "checkedLocalLinks": 139,
+    "failures": []
+  },
+  "migrationSnapshot": {
+    "status": "passed",
+    "snapshotChainCorrect": true,
+    "onlyExpectedColumnChanged": true,
+    "column": "upload_sessions.object_sha256 varchar(64) nullable",
+    "executedOnDatabase": false
+  }
+}

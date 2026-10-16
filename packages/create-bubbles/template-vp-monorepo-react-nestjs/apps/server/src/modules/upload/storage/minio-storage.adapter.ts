@@ -2,6 +2,7 @@ import {
   AbortMultipartUploadCommand,
   CompleteMultipartUploadCommand,
   CreateMultipartUploadCommand,
+  GetObjectCommand,
   HeadBucketCommand,
   HeadObjectCommand,
   ListPartsCommand,
@@ -10,11 +11,15 @@ import {
 } from '@aws-sdk/client-s3'
 import { Injectable, OnModuleDestroy } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { Readable } from 'node:stream'
 import {
   CreateMultipartInput,
   MultipartIdentity,
+  ReadObjectInput,
+  StorageObjectChangedError,
   StorageMultipartNotFoundError,
   StorageObject,
+  StorageObjectStream,
   StoragePart,
   StoragePort,
   UploadPartInput,
@@ -46,6 +51,34 @@ function throwMappedMultipartError(cause: unknown): never {
 export class MinioStorageAdapter implements StoragePort, OnModuleDestroy {
   private readonly client: S3Client
   private readonly bucket: string
+
+  /** 以条件 GET 打开完整对象流，固定探测的 ETag，避免校验时读取被覆盖的内容。 */
+  async getObject(input: ReadObjectInput): Promise<StorageObjectStream> {
+    try {
+      const response = await this.client.send(
+        new GetObjectCommand({
+          Bucket: input.bucket,
+          Key: input.objectKey,
+          IfMatch: input.ifMatch,
+        }),
+        { abortSignal: input.abortSignal },
+      )
+      if (!(response.Body instanceof Readable)) {
+        throw new TypeError('Object storage did not return a Node readable stream')
+      }
+      return {
+        body: response.Body,
+        etag: response.ETag ?? null,
+        contentLength: response.ContentLength ?? null,
+        metadata: response.Metadata ?? {},
+      }
+    } catch (cause: unknown) {
+      if (hasErrorName(cause, 'PreconditionFailed')) {
+        throw new StorageObjectChangedError(cause)
+      }
+      throw cause
+    }
+  }
 
   /**
    * 根据存储配置创建 S3 客户端，并禁用不可回放上传流的自动重试。

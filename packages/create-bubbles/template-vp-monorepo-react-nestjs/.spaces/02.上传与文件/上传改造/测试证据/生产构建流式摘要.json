@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "source": "production-build",
+  "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+  "stream": {
+    "bytes": 1073741824,
+    "sha256": "c4d3e5935f50de4f0ad36ae131a72fb84a53595f81f92678b42b91fc78992d84",
+    "elapsedMs": 1014,
+    "baselineRssMiB": 77.9921875,
+    "sampledPeakRssMiB": 154.171875,
+    "eventLoopMaxDelayMs": 22.478847,
+    "samples": [
+      {
+        "processedMiB": 0,
+        "rssMiB": 78.53125
+      },
+      {
+        "processedMiB": 64,
+        "rssMiB": 130.90234375
+      },
+      {
+        "processedMiB": 128,
+        "rssMiB": 131.15234375
+      },
+      {
+        "processedMiB": 192,
+        "rssMiB": 128.21875
+      },
+      {
+        "processedMiB": 256,
+        "rssMiB": 124.203125
+      },
+      {
+        "processedMiB": 320,
+        "rssMiB": 119.84765625
+      },
+      {
+        "processedMiB": 384,
+        "rssMiB": 116.12890625
+      },
+      {
+        "processedMiB": 448,
+        "rssMiB": 112.40234375
+      },
+      {
+        "processedMiB": 512,
+        "rssMiB": 108.8125
+      },
+      {
+        "processedMiB": 576,
+        "rssMiB": 105.4296875
+      },
+      {
+        "processedMiB": 640,
+        "rssMiB": 101.9921875
+      },
+      {
+        "processedMiB": 704,
+        "rssMiB": 98.328125
+      },
+      {
+        "processedMiB": 768,
+        "rssMiB": 93.88671875
+      },
+      {
+        "processedMiB": 832,
+        "rssMiB": 111.1796875
+      },
+      {
+        "processedMiB": 896,
+        "rssMiB": 154.171875
+      },
+      {
+        "processedMiB": 960,
+        "rssMiB": 150.93359375
+      }
+    ]
+  },
+  "observedAt": "2026-10-15",
+  "scope": "Synthetic in-memory generated stream using production build; no MinIO/network/database/Redis, no real 90 GiB benchmark; RSS is sampled, not an exact peak."
+}

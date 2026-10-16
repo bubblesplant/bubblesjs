@@ -1,12 +1,14 @@
 import { COMMON_ERRORS } from '@/common/error/common.error'
 import { AUTH_ERRORS } from '@/modules/auth/auth.errors'
 import { ACCESS_ERRORS } from '@/modules/access/access.errors'
+import { UPLOAD_ERRORS } from '@/modules/upload/upload.errors'
 import { describe, expect, it } from 'vite-plus/test'
 
 const definitions = [
   ...Object.values(COMMON_ERRORS),
   ...Object.values(AUTH_ERRORS),
   ...Object.values(ACCESS_ERRORS),
+  ...Object.values(UPLOAD_ERRORS),
 ]
 
 describe('error catalog', () => {

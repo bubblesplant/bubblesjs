@@ -25,6 +25,7 @@ export {
   normalizeAccessCode,
 } from './access-scope'
 export { ACCOUNT_PATTERN, normalizeAccount } from './account'
+export { calculateBlobSha256 } from './file-hash/calculate'
 export {
   candidateArraySchema,
   codeSchema,

@@ -20,10 +20,10 @@
     "axios": "catalog:",
     "dayjs": "catalog:",
     "echarts": "catalog:",
+    "es-toolkit": "catalog:",
     "nprogress": "catalog:",
     "pinia": "catalog:",
     "pinia-plugin-persistedstate": "catalog:",
-    "radashi": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"
   },

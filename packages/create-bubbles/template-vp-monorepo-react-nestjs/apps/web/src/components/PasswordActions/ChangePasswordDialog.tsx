@@ -62,7 +62,7 @@ export default function ChangePasswordDialog({ ref }: { ref: Ref<ChangePasswordD
       open={open}
       form={form}
       width={460}
-      modalProps={{ destroyOnHidden: true, maskClosable: false, onCancel: hide }}
+      modalProps={{ destroyOnHidden: true, mask: { closable: false }, onCancel: hide }}
       onOpenChange={(visible) => {
         if (!visible) hide()
       }}

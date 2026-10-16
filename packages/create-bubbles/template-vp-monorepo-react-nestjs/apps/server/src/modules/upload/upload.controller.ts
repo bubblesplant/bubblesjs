@@ -14,7 +14,14 @@ import {
   Req,
   Res,
 } from '@nestjs/common'
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger'
 import { type FastifyReply, FastifyRequest } from 'fastify'
 import type { Readable } from 'stream'
 import type {
@@ -54,6 +61,12 @@ export class UploadController {
    * 查询当前用户上传会话的状态及已上传分片。
    */
   @ApiOperation({ summary: '查询上传状态和已上传分片' })
+  @ApiResponse({
+    status: 409,
+    description: 'UPLOAD.OBJECT_VERIFICATION_FAILED，对象身份或大小不符',
+  })
+  @ApiResponse({ status: 503, description: '文件恢复校验繁忙或存储不可用，可稍后重试' })
+  @ApiResponse({ status: 504, description: 'UPLOAD.VERIFICATION_TIMEOUT，恢复校验超时' })
   @Get(':uploadSessionId')
   getStatus(
     @CurrentAuth() auth: CurrentAuthType,
@@ -130,6 +143,12 @@ export class UploadController {
    * 以当前用户身份请求校验并完成指定分片上传。
    */
   @ApiOperation({ summary: '校验并完成分片上传' })
+  @ApiResponse({ status: 409, description: '上传状态、分片或完整对象校验不通过' })
+  @ApiResponse({
+    status: 503,
+    description: 'UPLOAD.VERIFICATION_BUSY 或 UPLOAD.STORAGE_UNAVAILABLE，可重试',
+  })
+  @ApiResponse({ status: 504, description: 'UPLOAD.VERIFICATION_TIMEOUT，重试完成请求可恢复' })
   @HttpCode(HttpStatus.OK)
   @Post(':uploadSessionId/complete')
   complete(

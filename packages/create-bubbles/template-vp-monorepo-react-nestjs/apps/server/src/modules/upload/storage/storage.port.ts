@@ -2,6 +2,33 @@ import { Readable } from 'stream'
 
 export const STORAGE_PORT = Symbol('STORAGE_PORT')
 
+export class StorageObjectChangedError extends Error {
+  /** 对象在探测与读取间发生变化，不能复用该次验证身份。 */
+  constructor(cause: unknown) {
+    super('Object changed before verification', { cause })
+    this.name = StorageObjectChangedError.name
+  }
+}
+
+export class StorageObjectReadError extends Error {
+  /** 保留完整对象读取失败的原因，避免将线程或数据库错误误报为存储不可用。 */
+  constructor(cause: unknown) {
+    super('Failed to read object stream', { cause })
+    this.name = StorageObjectReadError.name
+  }
+}
+
+export interface ReadObjectInput {
+  bucket: string
+  objectKey: string
+  ifMatch: string
+  abortSignal: AbortSignal
+}
+
+export interface StorageObjectStream extends StorageObject {
+  body: Readable
+}
+
 export class StorageMultipartNotFoundError extends Error {
   /**
    * 封装存储分片上传不存在的错误，并保留原始原因供上层映射和排查。
@@ -79,4 +106,7 @@ export interface StoragePort {
    * 读取对象的长度、ETag 和元数据；对象不存在时返回 null。
    */
   headObject(input: { bucket: string; objectKey: string }): Promise<StorageObject | null>
+
+  /** 以 ETag 条件读取完整二进制流；调用方负责消费或销毁，不聚合整个对象。 */
+  getObject(input: ReadObjectInput): Promise<StorageObjectStream>
 }

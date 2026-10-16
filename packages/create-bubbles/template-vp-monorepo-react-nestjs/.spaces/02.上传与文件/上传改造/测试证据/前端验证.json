@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-15",
+  "runs": [
+    {
+      "label": "共享测试",
+      "cwd": "packages/shared",
+      "command": "vp test",
+      "exitCode": 0,
+      "output": "note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.\n\n RUN  v5.0.4 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/shared\n\n\n Test Files  3 passed (3)\n      Tests  30 passed (30)\n   Start at  17:58:39\n   Duration  815ms (tests 41%, import 38%, transform 19%, worker 2%)\n\n"
+    },
+    {
+      "label": "前端摘要测试",
+      "cwd": "apps/web",
+      "command": "vp test test/file-hash/worker.spec.ts",
+      "exitCode": 0,
+      "output": "note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.\n    \n\n RUN  v5.0.4 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web\n\n\n Test Files  1 passed (1)\n      Tests  10 passed (10)\n   Start at  17:58:40\n   Duration  1.39s (tests 96%, transform 3%, import 1%)\n\n"
+    },
+    {
+      "label": "前端源码类型",
+      "cwd": "apps/web",
+      "command": "vp exec tsc --noEmit",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "label": "前端测试类型",
+      "cwd": "apps/web",
+      "command": "vp exec tsc --noEmit -p test/tsconfig.json",
+      "exitCode": 1,
+      "output": "test/i18n-locale.spec.ts(1,38): error TS2307: Cannot find module 'vitest' or its corresponding type declarations.\r\n"
+    },
+    {
+      "label": "共享测试类型",
+      "cwd": "packages/shared",
+      "command": "vp exec tsc --noEmit -p test/tsconfig.json",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "label": "Web构建",
+      "cwd": "apps/web",
+      "command": "vp run build",
+      "exitCode": 0,
+      "output": "后续 write_stdin 确认退出 0；4644 模块，构建成功。"
+    },
+    {
+      "label": "依赖锁文件",
+      "cwd": ".",
+      "command": "vp install --frozen-lockfile",
+      "exitCode": 0,
+      "output": "Scope: all 9 workspace projects\n✓ Lockfile passes supply-chain policies (verified 7m ago)\nLockfile is up to date, resolution step is skipped\nDone in 673ms using pnpm v12.11.2\n"
+    }
+  ],
+  "additional": {
+    "sharedBuild": "通过，新增 shared/utils/file-hash 独立导出",
+    "targetedCheck": "通过，源码、类型、测试与正式工具",
+    "browser": "Edge 155.0.4283.45，真实生产 Worker；结果见前端浏览器摘要.json",
+    "scaffold": "CLI build 和源码视图模板冒烟通过，结果见模板冒烟.json",
+    "backendRegression": {
+      "filesPassed": 13,
+      "filesSkipped": 4,
+      "testsPassed": 84,
+      "testsSkipped": 33
+    },
+    "fullWebTests": {
+      "exitCode": 1,
+      "filesPassed": 17,
+      "filesFailed": 6,
+      "testsPassed": 85,
+      "failure": "i18n 初始化缺少 localStorage",
+      "files": [
+        "test/draft-projects.spec.ts",
+        "test/request.spec.ts",
+        "test/router/access.spec.ts",
+        "test/router/entry.spec.ts",
+        "test/router/workspace-data.spec.ts",
+        "test/workspace-navigation.spec.ts"
+      ]
+    }
+  },
+  "boundaries": [
+    "没有上传页面接入或秒传接口",
+    "未验证真实磁盘90 GiB、MinIO或上传全流程",
+    "全仓格式问题保留后端轮次记录，未在本轮重跑",
+    "自动清理被工具策略拒绝；模板临时源码快照保留，路径见模板冒烟.json"
+  ]
+}

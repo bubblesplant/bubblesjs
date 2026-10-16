@@ -32,12 +32,6 @@ pnpm create bubbles@latest my-desktop --template create-eletron-vite
 
 See the [Electron setup guide](/en/templates/create-eletron-vite).
 
-## Repository Preview
-
-[vp-monorepo-react-hono](/en/templates/vp-monorepo-react-hono) includes a React frontend, a Hono backend, Drizzle / PostgreSQL, Redis, and BullMQ, with Node.js and Bun server entry points.
-
-The directory exists in the repository but is not registered in the CLI, so `--template vp-monorepo-react-hono` cannot create it yet. See its page for copying instructions, environment variables, and startup commands.
-
 ## Choosing a Template
 
 - **Vue apps**: use `vue-vp-eslint`, or choose `vp-vue-eslint-vapor` to evaluate Vapor mode.

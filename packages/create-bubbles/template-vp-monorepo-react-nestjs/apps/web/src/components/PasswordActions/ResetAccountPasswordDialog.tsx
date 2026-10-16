@@ -71,7 +71,7 @@ export default function ResetAccountPasswordDialog({
       open={open}
       form={form}
       width={460}
-      modalProps={{ destroyOnHidden: true, maskClosable: false, onCancel: hide }}
+      modalProps={{ destroyOnHidden: true, mask: { closable: false }, onCancel: hide }}
       onOpenChange={(visible) => {
         if (!visible) hide()
       }}

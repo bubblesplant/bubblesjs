@@ -6,6 +6,7 @@ export default defineConfig({
       index: './src/index.ts',
       types: './src/types/index.ts',
       utils: './src/utils/index.ts',
+      'file-hash': './src/utils/file-hash/index.ts',
     },
     format: ['esm'],
     platform: 'neutral',

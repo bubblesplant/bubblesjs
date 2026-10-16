@@ -2,7 +2,7 @@ import type { EChartsOption } from 'echarts'
 
 import type { ShallowRef } from 'vue'
 
-import { debounce } from 'radashi'
+import { debounce } from 'es-toolkit'
 
 import echarts from './lib'
 
@@ -22,23 +22,15 @@ export function useECharts(
   const resize = () => {
     chartInstance?.resize()
   }
+  const debouncedResize = debounce(resize, 100)
 
   /** 容器就绪后创建图表，并以防抖监听容器尺寸变化。 */
   const initCharts = () => {
-    if (!elRef)
-      return
+    if (!elRef) return
     const el = unref(elRef)
-    if (!el)
-      return
+    if (!el) return
 
-    resizeObserver = new ResizeObserver(
-      debounce(
-        {
-          delay: 100,
-        },
-        resize,
-      ),
-    )
+    resizeObserver = new ResizeObserver(debouncedResize)
     resizeObserver.observe(el)
 
     chartInstance = echarts.init(el)
@@ -52,26 +44,26 @@ export function useECharts(
   const setOptions: setOptionsType = (options, clear = true) => {
     if (!chartInstance) {
       initCharts()
-      if (!chartInstance)
-        return
+      if (!chartInstance) return
     }
-    if (clear)
-      chartInstance.clear()
+    if (clear) chartInstance.clear()
     chartInstance?.setOption(options)
   }
 
   /** 按需初始化并返回图表实例；容器未就绪时返回 `null`。 */
   const getInstance: () => echarts.ECharts | null = () => {
-    if (!chartInstance)
-      initCharts()
+    if (!chartInstance) initCharts()
     return chartInstance
   }
 
-  onUnmounted(/** 释放图表和尺寸观察器，防止卸载后继续监听。 */ () => {
-    chartInstance?.dispose()
-    resizeObserver?.disconnect()
-    resizeObserver = undefined
-  })
+  onUnmounted(
+    /** 释放尺寸观察器、待执行的防抖回调和图表。 */ () => {
+      resizeObserver?.disconnect()
+      resizeObserver = undefined
+      debouncedResize.cancel()
+      chartInstance?.dispose()
+    },
+  )
 
   return {
     setOptions,

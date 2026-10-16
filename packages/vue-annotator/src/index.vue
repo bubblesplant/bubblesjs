@@ -4,19 +4,14 @@ import type { Label } from './utils/Label/Label'
 import type { Relation, RelationListItem } from './utils/Label/Relation'
 import type { TextLine } from './utils/Line/LineText'
 
+import { debounce } from 'es-toolkit'
 import { nanoid } from 'nanoid'
-
-import { debounce } from 'radashi'
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 
 import VLine from './components/VLine.vue'
 import { TextSelector } from './utils/EventHandler/TextSelectionHandler'
 import { Entities } from './utils/Label/Entity'
-import {
-  EntityLabelListItem,
-  LabelList,
-  RelationLabelListItem,
-} from './utils/Label/Label'
+import { EntityLabelListItem, LabelList, RelationLabelListItem } from './utils/Label/Label'
 import { RelationList } from './utils/Label/Relation'
 import { Text } from './utils/Label/Text'
 import { Font } from './utils/Line/Font'
@@ -82,34 +77,23 @@ const _text = computed(() => {
 
 const entityLabelList = computed((): LabelList | null => {
   if (textElement.value) {
-    const widths = props.entityLabels.map(label =>
-      widthOf(label.text, textElement.value!),
-    )
-    return LabelList.valueOf(
-      props.maxLabelLength,
-      props.entityLabels,
-      widths,
-      EntityLabelListItem,
-    )
-  }
-  else {
+    const widths = props.entityLabels.map((label) => widthOf(label.text, textElement.value!))
+    return LabelList.valueOf(props.maxLabelLength, props.entityLabels, widths, EntityLabelListItem)
+  } else {
     return null
   }
 })
 
 const relationLabelList = computed((): LabelList | null => {
   if (textElement.value) {
-    const widths = props.relationLabels.map(label =>
-      widthOf(label.text, textElement.value!),
-    )
+    const widths = props.relationLabels.map((label) => widthOf(label.text, textElement.value!))
     return LabelList.valueOf(
       props.maxLabelLength,
       props.relationLabels,
       widths,
       RelationLabelListItem,
     )
-  }
-  else {
+  } else {
     return null
   }
 })
@@ -117,8 +101,7 @@ const relationLabelList = computed((): LabelList | null => {
 const textLines = computed((): TextLine[] => {
   if (!font.value || !entityLabelList.value || maxWidth.value === -1) {
     return []
-  }
-  else {
+  } else {
     const maxLabelWidth = entityLabelList.value.maxLabelWidth
     const calculator = new LineWidthManager(maxWidth.value, maxLabelWidth)
     const splitter = new TextLineSplitter(calculator, font.value)
@@ -146,8 +129,7 @@ const entityList = computed(() => {
   resetSelection()
   if (props.graphemeMode) {
     return Entities.valueOf(props.entities, _text.value)
-  }
-  else {
+  } else {
     return Entities.valueOf(props.entities)
   }
 })
@@ -160,8 +142,7 @@ const relationList = computed(() => {
 const highlightedEntities = computed((): Entity[] => {
   if (selectedEntity.value) {
     return props.selectedEntities.concat(selectedEntity.value)
-  }
-  else {
+  } else {
     return props.selectedEntities
   }
 })
@@ -176,18 +157,14 @@ function onRelationClicked(event: Event, relation: RelationListItem) {
 
 function setMaxWidth() {
   nextTick(
-    debounce({
-      delay: 500,
-    }, () => {
-      const containerElement = document.getElementById(
-        `container-${uuid}`,
-      )!
+    debounce(() => {
+      const containerElement = document.getElementById(`container-${uuid}`)!
       maxWidth.value = containerElement.clientWidth
       const rect = containerElement.getBoundingClientRect()
       left.value = rect.left
       right.value = rect.right // - rect.left
       baseX.value = !props.rtl ? 0 : right.value
-    }),
+    }, 500),
   )
 }
 
@@ -202,18 +179,11 @@ function resetSelection() {
 
 function open(event: MouseEvent | TouchEvent): void {
   try {
-    const selector = new TextSelector(
-      props.allowOverlapping,
-      props.graphemeMode,
-    )
+    const selector = new TextSelector(props.allowOverlapping, props.graphemeMode)
 
-    const [startOffset, endOffset] = selector.getOffsets(
-      entityList.value,
-      _text.value,
-    )
+    const [startOffset, endOffset] = selector.getOffsets(entityList.value, _text.value)
     emit('addEntity', event, startOffset, endOffset)
-  }
-  catch (_e: any) {
+  } catch (_e: any) {
     // Handle error silently 处理选择项没有字的时候
     console.warn('💦', _e)
   }
@@ -222,7 +192,7 @@ function open(event: MouseEvent | TouchEvent): void {
 watch(
   () => props.text,
   () => {
-    Object.keys(heights).forEach(key => delete heights[key])
+    Object.keys(heights).forEach((key) => delete heights[key])
     nextTick(() => {
       font.value = Font.create(props.text, textElement.value!)
     })
@@ -238,9 +208,7 @@ watch(
 )
 
 onMounted(() => {
-  textElement.value = document.getElementById(
-    `text-${uuid}`,
-  ) as unknown as SVGTextElement
+  textElement.value = document.getElementById(`text-${uuid}`) as unknown as SVGTextElement
   window.addEventListener('resize', setMaxWidth)
   setMaxWidth()
 })
@@ -251,7 +219,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div :id="`container-${uuid}`" class="h-full w-full overflow-x-visible overflow-y-auto" @click="open" @touchend="open">
+  <div
+    :id="`container-${uuid}`"
+    class="h-full w-full overflow-x-visible overflow-y-auto"
+    @click="open"
+    @touchend="open"
+  >
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="0" height="0">
       <defs>
         <marker
@@ -273,19 +246,9 @@ onBeforeUnmount(() => {
         :key="`${index}:${rtl}`"
         :annotator-uuid="uuid"
         :dark="dark"
-        :entities="
-          entityList.filterByRange(
-            item.textLine.startOffset,
-            item.textLine.endOffset,
-          )
-        "
+        :entities="entityList.filterByRange(item.textLine.startOffset, item.textLine.endOffset)"
         :entity-labels="entityLabelList"
-        :relations="
-          relationList.filterByRange(
-            item.textLine.startOffset,
-            item.textLine.endOffset,
-          )
-        "
+        :relations="relationList.filterByRange(item.textLine.startOffset, item.textLine.endOffset)"
         :max-label-length="maxLabelLength"
         :relation-labels="relationLabelList"
         :font="font"

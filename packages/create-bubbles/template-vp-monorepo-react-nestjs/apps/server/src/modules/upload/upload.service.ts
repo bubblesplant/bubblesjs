@@ -4,11 +4,14 @@ import { ConfigService } from '@nestjs/config'
 import { randomUUID } from 'crypto'
 import { Readable } from 'stream'
 import type { InitiateMultipartUploadRequest } from 'shared/types'
+import { ContentHashService } from './hash/content-hash.service'
 import { ExactSizeTransform, findExactSizeError } from './storage/exact-size.transform'
 import {
   MultipartIdentity,
   STORAGE_PORT,
   StorageMultipartNotFoundError,
+  StorageObjectChangedError,
+  StorageObjectReadError,
   StoragePart,
   type StoragePort,
 } from './storage/storage.port'
@@ -63,6 +66,9 @@ export class UploadService {
   private readonly logger = new Logger(UploadService.name)
   private readonly bucket: string
   private readonly sessionTtlMs: number
+  private readonly completionRecovery = new Map<string, Promise<UploadSession | null>>()
+  @Inject(ContentHashService)
+  private readonly contentHash!: ContentHashService
 
   /**
    * 读取上传目标桶及会话有效期，并注入上传记录与对象存储依赖。
@@ -284,6 +290,10 @@ export class UploadService {
         throw new AppException(UPLOAD_ERRORS.STORAGE_UPLOAD_MISSING)
       }
 
+      if (cause instanceof StorageObjectChangedError) {
+        throw new AppException(UPLOAD_ERRORS.OBJECT_VERIFICATION_FAILED)
+      }
+
       if (this.isAbortError(cause)) {
         throw new AppException(UPLOAD_ERRORS.PART_UPLOAD_ABORTED)
       }
@@ -293,10 +303,21 @@ export class UploadService {
   }
 
   /**
-   * 探测已合并对象并核对会话元数据与大小，恢复未成功落库的完成状态。
+   * 同一进程中共享会话的对象校验，避免完成重试和状态查询重复读取大文件。
    * @returns 恢复或已完成的上传记录，无法确认对象完成时返回 null。
    */
-  private async recoverCompletedObject(session: UploadSession): Promise<UploadSession | null> {
+  private recoverCompletedObject(session: UploadSession): Promise<UploadSession | null> {
+    const existing = this.completionRecovery.get(session.id)
+    if (existing) return existing
+    const recovery = this.verifyCompletedObject(session).finally(() => {
+      this.completionRecovery.delete(session.id)
+    })
+    this.completionRecovery.set(session.id, recovery)
+    return recovery
+  }
+
+  /** 固定候选对象身份，读取完整内容并校验实际字节数，成功后才原子保存摘要与完成状态。 */
+  private async verifyCompletedObject(session: UploadSession): Promise<UploadSession | null> {
     const object = await this.callStorage(() =>
       this.storage.headObject({
         bucket: session.bucket,
@@ -304,19 +325,54 @@ export class UploadService {
       }),
     )
 
+    if (!object) return null
     if (
-      !object ||
+      !object.etag ||
       object.metadata['upload-session-id'] !== session.id ||
+      object.metadata['owner-id'] !== session.ownerId ||
       object.contentLength !== session.fileSize
     ) {
-      return null
+      throw new AppException(UPLOAD_ERRORS.OBJECT_VERIFICATION_FAILED)
     }
 
-    const updated = await this.uploadRepository.markCompleted(
-      session.ownerId,
-      session.id,
-      object.etag,
-    )
+    const etag = object.etag
+    let objectSha256: string
+    try {
+      objectSha256 = await this.contentHash.calculate({
+        expectedSize: session.fileSize,
+        openStream: async (abortSignal) => {
+          const result = await this.callStorage(() =>
+            this.storage.getObject({
+              bucket: session.bucket,
+              objectKey: session.objectKey,
+              ifMatch: etag,
+              abortSignal,
+            }),
+          )
+          if (
+            result.etag !== etag ||
+            result.contentLength !== session.fileSize ||
+            result.metadata['upload-session-id'] !== session.id ||
+            result.metadata['owner-id'] !== session.ownerId
+          ) {
+            result.body.destroy()
+            throw new AppException(UPLOAD_ERRORS.OBJECT_VERIFICATION_FAILED)
+          }
+          return result.body
+        },
+      })
+    } catch (cause: unknown) {
+      if (cause instanceof StorageObjectReadError) {
+        throw new AppException(UPLOAD_ERRORS.STORAGE_UNAVAILABLE, { cause })
+      }
+      throw cause
+    }
+    const updated = await this.uploadRepository.markCompleted({
+      ownerId: session.ownerId,
+      uploadSessionId: session.id,
+      objectEtag: etag,
+      objectSha256,
+    })
 
     if (updated) {
       return updated
@@ -352,7 +408,7 @@ export class UploadService {
   }
 
   /**
-   * 读取上传状态和已上传分片，同时处理过期会话并尝试恢复正在完成的上传。
+   * 读取上传状态，处理过期并尝试可信恢复；completing 不再查询可能已消失的分片上传。
    */
   async getStatus(ownerId: string, uploadSessionId: string): Promise<UploadStatusResponse> {
     let session = await this.requireSession(ownerId, uploadSessionId)
@@ -373,7 +429,7 @@ export class UploadService {
       }
     }
 
-    if (session.status !== 'uploading' && session.status !== 'completing') {
+    if (session.status !== 'uploading') {
       return this.toStatusResponse(session, [])
     }
 
@@ -608,7 +664,7 @@ export class UploadService {
   }
 
   /**
-   * 抢占完成状态后校验并合并分片，再持久化对象信息；重复调用可复用完成结果。
+   * 抢占完成状态后合并分片，完整校验对象并持久化 SHA-256；重复调用复用完成结果。
    * @remarks 合并尚未发出时可回退上传状态；发出后无法确认结果时保留 completing 并尝试对象探测恢复。
    */
   async complete(ownerId: string, uploadSessionId: string): Promise<CompletedUploadResponse> {
@@ -648,6 +704,7 @@ export class UploadService {
     }
 
     let completeWasAttempted = false
+    let verificationStarted = false
 
     try {
       const parts = await this.callStorage(() =>
@@ -657,31 +714,20 @@ export class UploadService {
       this.assertCompleteParts(claimed, parts)
 
       completeWasAttempted = true
-      const completed = await this.callStorage(() =>
+      await this.callStorage(() =>
         this.storage.completeMultipartUpload({
           ...this.toMultipartIdentity(claimed),
           parts,
         }),
       )
 
-      const updated = await this.uploadRepository.markCompleted(
-        ownerId,
-        uploadSessionId,
-        completed.etag,
-      )
-
-      if (!updated) {
-        const recovered = await this.recoverCompletedObject(claimed)
-
-        if (recovered) {
-          return this.toCompletedResponse(recovered)
-        }
-
-        throw new Error('Completed object could not be persisted')
-      }
-
-      return this.toCompletedResponse(updated)
+      verificationStarted = true
+      const verified = await this.recoverCompletedObject(claimed)
+      if (!verified) throw new Error('Completed object could not be verified or persisted')
+      return this.toCompletedResponse(verified)
     } catch (cause: unknown) {
+      // 摘要或写库失败留给下一次请求恢复，避免本次请求重复全量读取。
+      if (verificationStarted) throw cause
       if (!completeWasAttempted) {
         if (
           cause instanceof AppException &&
@@ -689,14 +735,10 @@ export class UploadService {
         ) {
           // UploadId 已经不存在，不能确定是外部清理还是曾经完成过。
           // 先尝试 HeadObject；仍无法恢复时不重新开放上传，交给后台清理流程判定。
-          try {
-            const recovered = await this.recoverCompletedObject(claimed)
+          const recovered = await this.recoverCompletedObject(claimed)
 
-            if (recovered) {
-              return this.toCompletedResponse(recovered)
-            }
-          } catch {
-            // 保留原始 STORAGE_UPLOAD_MISSING 错误，并继续保持 completing。
+          if (recovered) {
+            return this.toCompletedResponse(recovered)
           }
 
           throw cause
@@ -708,16 +750,10 @@ export class UploadService {
         throw cause
       }
 
-      try {
-        const recovered = await this.recoverCompletedObject(claimed)
+      const recovered = await this.recoverCompletedObject(claimed)
 
-        if (recovered) {
-          return this.toCompletedResponse(recovered)
-        }
-      } catch {
-        // 无法确认 MinIO 是否已完成时保持 completing，
-        // 避免错误地重新开放分片上传。
-        throw cause
+      if (recovered) {
+        return this.toCompletedResponse(recovered)
       }
 
       // Complete 已经发出后，即使 HeadObject 暂时还看不到对象，也不能证明

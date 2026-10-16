@@ -43,6 +43,13 @@
       "when": 1791936000000,
       "tag": "0006_independent_companies",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792051927600,
+      "tag": "0007_upload_object_sha256",
+      "breakpoints": true
     }
   ]
 }

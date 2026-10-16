@@ -78,26 +78,28 @@ export class UploadRepository {
   }
 
   /**
-   * 仅将 completing 会话标记为 completed，并保存对象 ETag 和完成时间。
+   * 仅将 completing 会话标记为 completed，原子保存可信完整摘要、ETag 和完成时间。
    */
-  async markCompleted(
-    ownerId: string,
-    uploadSessionId: string,
-    objectEtag: string | null,
-  ): Promise<UploadSession | null> {
+  async markCompleted(input: {
+    ownerId: string
+    uploadSessionId: string
+    objectEtag: string
+    objectSha256: string
+  }): Promise<UploadSession | null> {
     const now = new Date()
     const [session] = await this.db
       .update(uploadSessions)
       .set({
         status: 'completed',
-        objectEtag,
+        objectEtag: input.objectEtag,
+        objectSha256: input.objectSha256,
         completedAt: now,
         updatedAt: now,
       })
       .where(
         and(
-          eq(uploadSessions.id, uploadSessionId),
-          eq(uploadSessions.ownerId, ownerId),
+          eq(uploadSessions.id, input.uploadSessionId),
+          eq(uploadSessions.ownerId, input.ownerId),
           eq(uploadSessions.status, 'completing'),
         ),
       )

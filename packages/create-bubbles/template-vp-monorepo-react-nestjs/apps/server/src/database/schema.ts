@@ -54,6 +54,7 @@ export const uploadSessions = pgTable(
     status: uploadStatusEnum('status').default('uploading').notNull(),
     expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
     objectEtag: text('object_etag'),
+    objectSha256: varchar('object_sha256', { length: 64 }),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
     completedAt: timestamp('completed_at', { withTimezone: true }),

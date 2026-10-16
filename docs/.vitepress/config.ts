@@ -77,10 +77,6 @@ function sidebar(english = false): DefaultTheme.Sidebar {
               text: name === 'vue-vite-eslint' ? 'vue-vp-eslint' : name,
               link: `${prefix}templates/${name}`,
             })),
-            {
-              text: english ? 'vp-monorepo-react-hono (Preview)' : 'vp-monorepo-react-hono（预览）',
-              link: `${prefix}templates/vp-monorepo-react-hono`,
-            },
           ],
         },
       ]

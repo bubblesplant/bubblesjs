@@ -2,6 +2,21 @@ import type { AppErrorDefinition } from '@/common/exceptions/app.exception'
 import { HttpStatus } from '@nestjs/common'
 
 export const UPLOAD_ERRORS = {
+  OBJECT_VERIFICATION_FAILED: {
+    code: 'UPLOAD.OBJECT_VERIFICATION_FAILED',
+    publicMessage: '文件对象或实际大小与上传会话不一致，无法完成校验',
+    status: HttpStatus.CONFLICT,
+  },
+  VERIFICATION_BUSY: {
+    code: 'UPLOAD.VERIFICATION_BUSY',
+    publicMessage: '文件校验繁忙，请稍后重试',
+    status: HttpStatus.SERVICE_UNAVAILABLE,
+  },
+  VERIFICATION_TIMEOUT: {
+    code: 'UPLOAD.VERIFICATION_TIMEOUT',
+    publicMessage: '文件校验超时，请重试完成请求',
+    status: HttpStatus.GATEWAY_TIMEOUT,
+  },
   FILE_EMPTY: {
     code: 'UPLOAD.FILE_EMPTY',
     publicMessage: '空文件不能使用分片上传',
