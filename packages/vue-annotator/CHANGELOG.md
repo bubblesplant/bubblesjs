@@ -1,5 +1,11 @@
 # @bubblesjs/vue-annotation
 
+## 0.0.5
+
+### Patch Changes
+
+- [`d4139bf`](https://github.com/bubblesplant/bubblesjs/commit/d4139bf9f80db7547e3c92f8947e642752c05c34) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 增加 es-toolkit 作为工具包 升级依赖
+
 ## 0.0.4
 
 ### Patch Changes
