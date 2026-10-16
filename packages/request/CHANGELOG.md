@@ -1,5 +1,13 @@
 # @bubblesjs/request
 
+## 0.0.11
+
+### Patch Changes
+
+- [`d4139bf`](https://github.com/bubblesplant/bubblesjs/commit/d4139bf9f80db7547e3c92f8947e642752c05c34) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 增加 es-toolkit 作为工具包 升级依赖
+- Updated dependencies [[`d4139bf`](https://github.com/bubblesplant/bubblesjs/commit/d4139bf9f80db7547e3c92f8947e642752c05c34)]:
+  - @bubblesjs/utils@0.0.13
+
 ## 0.0.10
 
 ### Patch Changes
