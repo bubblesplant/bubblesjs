@@ -28,7 +28,18 @@
     "!template-pnpm-vp-monorepo/**/.vitepress/cache/**",
     "!template-pnpm-vp-monorepo/.vite-hooks/_/**",
     "!template-pnpm-vp-monorepo/**/*.tsbuildinfo",
-    "!template-pnpm-vp-monorepo/**/*.tgz"
+    "!template-pnpm-vp-monorepo/**/*.tgz",
+    "!template-nestjs/**/node_modules/**",
+    "!template-nestjs/**/dist/**",
+    "!template-nestjs/**/coverage/**",
+    "!template-nestjs/**/.cache/**",
+    "!template-nestjs/**/.codegraph/**",
+    "!template-nestjs/**/.pnpm-store/**",
+    "!template-nestjs/**/.vite/**",
+    "!template-nestjs/**/.swc/**",
+    "!template-nestjs/**/*.tsbuildinfo",
+    "!template-nestjs/**/*.tgz",
+    "!template-nestjs/project-name/**"
   ],
   "type": "module",
   "publishConfig": {

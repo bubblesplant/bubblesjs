@@ -15,6 +15,7 @@ import type { Framework } from './interface'
 const colorMap = {
   vue: gradient(['#42B883', '#42B883']),
   react: gradient(['#087EA4', '#087EA4']),
+  nestjs: gradient(['#E0234E', '#E0234E']),
   monorepo: gradient(['#F59E0B', '#FBBF24']),
   taro: gradient(['#0000C2', '#fff']),
   nextjs: gradient(['#000', '#fff']),
@@ -163,6 +164,18 @@ const FRAMEWORKS: Framework[] = [
     ],
   },
   {
+    name: 'nestjs',
+    display: 'NestJS',
+    color: colorMap.nestjs,
+    variants: [
+      {
+        name: 'nestjs',
+        display: 'NestJS + Fastify',
+        color: colorMap.nestjs,
+      },
+    ],
+  },
+  {
     name: 'monorepo',
     display: 'Monorepo',
     color: colorMap.monorepo,
@@ -291,17 +304,41 @@ const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
 }
 
+/** 排除模板开发时产生的依赖、缓存及构建目录。 */
+const ignoredTemplateEntries = new Set([
+  '.git',
+  'node_modules',
+  '.pnpm-store',
+  '.codegraph',
+  '.cache',
+  'dist',
+  'coverage',
+  '.vite',
+  '.swc',
+])
+
+/** 判断模板条目是否可复制，避免读取依赖链接及临时打包产物。 */
+const isTemplateEntry = (directory: string, name: string) =>
+  !ignoredTemplateEntries.has(name) &&
+  !/\.(?:tsbuildinfo|tgz)$/.test(name) &&
+  !fs.lstatSync(path.join(directory, name)).isSymbolicLink()
+
+/** 复制模板目录中的有效项目文件，跳过只包含开发残留的空目录。 */
 const copyDir = (srcDir: string, destDir: string) => {
+  const files = fs.readdirSync(srcDir).filter((file) => isTemplateEntry(srcDir, file))
+  if (files.length === 0) return
   fs.mkdirSync(destDir, { recursive: true })
-  for (const file of fs.readdirSync(srcDir)) {
+  for (const file of files) {
     const srcFile = path.resolve(srcDir, file)
     const destFile = path.resolve(destDir, renameFiles[file] ?? file)
     copy(srcFile, destFile)
   }
 }
 
+/** 复制项目文件或目录，不跟随模板中的符号链接。 */
 const copy = (src: string, dest: string) => {
-  const stat = fs.statSync(src)
+  const stat = fs.lstatSync(src)
+  if (stat.isSymbolicLink()) return
   if (stat.isDirectory()) {
     copyDir(src, dest)
   } else {
@@ -540,7 +577,7 @@ const init = async () => {
     }
   }
 
-  const files = fs.readdirSync(templateDir)
+  const files = fs.readdirSync(templateDir).filter((file) => isTemplateEntry(templateDir, file))
   for (const file of files) {
     if (file !== 'package.json') {
       write(file)
@@ -571,7 +608,8 @@ const init = async () => {
   if (root !== cwd) {
     doneMessage += `\n cd ${cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName} `
   }
-  const projectPkgManager = template === 'pnpm-vp-monorepo' ? 'pnpm' : pkgManager
+  const projectPkgManager =
+    template === 'pnpm-vp-monorepo' || template === 'nestjs' ? 'pnpm' : pkgManager
   switch (projectPkgManager) {
     case 'yarn':
       doneMessage += `\n yarn`
@@ -579,6 +617,13 @@ const init = async () => {
       break
     default:
       doneMessage += gradient(['pink', 'white'])(`\n  ${projectPkgManager} install`)
+      if (template === 'nestjs') {
+        doneMessage +=
+          '\n  # Copy .env.example to .env and set SESSION_TOKEN_PEPPER (32+ characters)'
+        doneMessage += '\n  # Setup details: .spaces/01.模板使用/NestJS模板/运行说明.md'
+        doneMessage += '\n  docker compose up -d'
+        doneMessage += '\n  pnpm run db:migrate'
+      }
       doneMessage += gradient(['pink', 'white'])(`\n  ${projectPkgManager} run dev`)
       break
   }
