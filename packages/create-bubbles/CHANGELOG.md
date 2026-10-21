@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.33
+
+### Patch Changes
+
+- [`539bfa9`](https://github.com/bubblesplant/bubblesjs/commit/539bfa9f26935e97852aee7c19b15c449fdf62fd) Thanks [@bubblesplant](https://github.com/bubblesplant)! - cicd 升级 发版测试
+
 ## 0.1.32
 
 ### Patch Changes
