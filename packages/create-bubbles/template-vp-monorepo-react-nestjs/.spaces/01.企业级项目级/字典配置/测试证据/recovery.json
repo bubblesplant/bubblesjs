@@ -1,0 +1,51 @@
+{
+  "verifiedAt": "2026-10-21T04:50:26.3991180Z",
+  "sourceSnapshot": "f0aa96da0dc8c7eaf18f4ad1537f6c9238a1c1c8",
+  "sourceName": "2026-10-20 lint-staged automatic backup",
+  "scope": "字典源码、文档、迁移与必要用户状态依赖；未整体应用 stash",
+  "requirementsChanged": false,
+  "originalBackupRetained": true,
+  "currentDevelopmentDatabaseMigrated": false,
+  "web": {
+    "reports": ["recovery-web.json", "recovery-dictionary.json", "recovery-node-regression.json"],
+    "passed": 188,
+    "suites": 28,
+    "failed": 0,
+    "limitation": "默认 Node 测试环境下三套既有用例因国际化访问 localStorage 无法加载，使用既有回归配置 mock 国际化后通过；原失败报告保留。"
+  },
+  "server": {
+    "skipped": 43,
+    "passed": 91,
+    "failed": 0
+  },
+  "shared": {
+    "failed": 0,
+    "passed": 30
+  },
+  "e2e": {
+    "failures": 0,
+    "checks": 11,
+    "mockHttp": false,
+    "cleanup": {
+      "frontendStopped": true,
+      "backendStopped": true,
+      "sessionKeysRemoved": true,
+      "queueKeysRemoved": true,
+      "databasePoolClosed": true,
+      "databaseRemoved": true,
+      "adminPoolClosed": true
+    }
+  },
+  "sourceChecks": {
+    "files": 50,
+    "lintAndTypes": true,
+    "formatted": true
+  },
+  "builds": {
+    "web": true,
+    "shared": true,
+    "serverTypeScript": true,
+    "server": true
+  },
+  "currentServerDictionaryPaths": 7
+}

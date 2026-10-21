@@ -62,6 +62,8 @@ describe('共享权限目录约束', () => {
       'platform.accounts.reset-password',
       'platform.companies.administrator',
       'platform.companies.create',
+      'platform.dictionaries.create',
+      'platform.dictionaries.update',
       'platform.menus.cleanup',
     ])
     for (const scopeType of ['platform', 'company', 'project'] satisfies ScopeType[]) {

@@ -25,6 +25,7 @@ export const cookie = {
 
   /** 同名 Cookie 在相同 path、domain 下写入即为更新。 */
   set(key: string, value: string, options: CookieOptions = {}): void {
+    const previous = key === 'token' ? cookie.get(key) : null
     const { path = '/', domain, expires, maxAge, sameSite = 'Lax' } = options
     const secure = options.secure ?? window.location.protocol === 'https:'
     const attributes = [
@@ -39,6 +40,8 @@ export const cookie = {
     if (secure) attributes.push('Secure')
 
     document.cookie = attributes.join('; ')
+    if (key === 'token' && previous !== cookie.get(key))
+      window.dispatchEvent?.(new Event('auth-session-change'))
   },
 
   /** 删除时的 path、domain 必须与写入时一致。 */

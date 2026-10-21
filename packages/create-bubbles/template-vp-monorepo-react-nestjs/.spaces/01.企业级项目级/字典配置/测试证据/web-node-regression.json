@@ -1,0 +1,236 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 17,
+  "numPassedTests": 17,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792400728064,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 读取未包装的数据，并携带 Bearer 令牌",
+          "status": "passed",
+          "title": "读取未包装的数据，并携带 Bearer 令牌",
+          "duration": 18.16300000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 Axios 的 422 走统一错误解析，保留错误码和公开文案",
+          "status": "passed",
+          "title": "Axios 的 422 走统一错误解析，保留错误码和公开文案",
+          "duration": 4.285600000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 201 按 Axios 的 2xx 规则返回成功",
+          "status": "passed",
+          "title": "HTTP 201 按 Axios 的 2xx 规则返回成功",
+          "duration": 2.1907999999999674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 202 按 Axios 的 2xx 规则返回成功",
+          "status": "passed",
+          "title": "HTTP 202 按 Axios 的 2xx 规则返回成功",
+          "duration": 1.5715000000000146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 204 按 Axios 的 2xx 规则返回成功",
+          "status": "passed",
+          "title": "HTTP 204 按 Axios 的 2xx 规则返回成功",
+          "duration": 1.2653999999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 206 按 Axios 的 2xx 规则返回成功",
+          "status": "passed",
+          "title": "HTTP 206 按 Axios 的 2xx 规则返回成功",
+          "duration": 1.1870000000000118,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 默认适配器的 HTTP 401 也走统一错误处理",
+          "status": "passed",
+          "title": "默认适配器的 HTTP 401 也走统一错误处理",
+          "duration": 2.3471999999999866,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 200 下的业务错误 401 仍会拒绝且只提示一次",
+          "status": "passed",
+          "title": "HTTP 200 下的业务错误 401 仍会拒绝且只提示一次",
+          "duration": 1.8965000000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 200 下的业务错误 422 仍会拒绝且只提示一次",
+          "status": "passed",
+          "title": "HTTP 200 下的业务错误 422 仍会拒绝且只提示一次",
+          "duration": 3.160000000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 页面关闭全局提示后，401 仍触发会话失效回调",
+          "status": "passed",
+          "title": "页面关闭全局提示后，401 仍触发会话失效回调",
+          "duration": 1.3635000000000446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 服务暂不可用时保留会话，不当成 401 注销用户",
+          "status": "passed",
+          "title": "服务暂不可用时保留会话，不当成 401 注销用户",
+          "duration": 1.028599999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400728435,
+      "endTime": 1792400728473.0286,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 未知页面及其按钮和空目录不会进入菜单，来源数据不被修改",
+          "status": "passed",
+          "title": "未知页面及其按钮和空目录不会进入菜单，来源数据不被修改",
+          "duration": 1.6078999999999724,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 隐藏或停用菜单不显示；隐藏页面已注册路径仍能被 loader 单独鉴权",
+          "status": "passed",
+          "title": "隐藏或停用菜单不显示；隐藏页面已注册路径仍能被 loader 单独鉴权",
+          "duration": 0.16309999999975844,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 不为未知或跨作用域页面生成路径",
+          "status": "passed",
+          "title": "不为未知或跨作用域页面生成路径",
+          "duration": 0.10840000000007421,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 菜单目录图标均能解析为本地 SVG 资源",
+          "status": "passed",
+          "title": "菜单目录图标均能解析为本地 SVG 资源",
+          "duration": 0.676600000000235,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 进入空间优先落在已授权的可见菜单，排除未知及跨作用域页面",
+          "status": "passed",
+          "title": "进入空间优先落在已授权的可见菜单，排除未知及跨作用域页面",
+          "duration": 0.22650000000021464,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 没有已授权静态页面时不生成工作空间落点",
+          "status": "passed",
+          "title": "没有已授权静态页面时不生成工作空间落点",
+          "duration": 0.08859999999958745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400730211,
+      "endTime": 1792400730214.2266,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/workspace-navigation.spec.ts"
+    }
+  ]
+}

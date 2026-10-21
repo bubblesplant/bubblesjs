@@ -17,6 +17,7 @@ export const projectRoutes: RouteObject[] = [
     ),
     children: [
       page('project.home', 'access', 'home'),
+      page('project.dictionaries', 'dictionaries'),
       page('project.profile', 'access', 'profile'),
       page('project.members', 'access', 'members'),
       page('project.roles', 'access', 'roles'),

@@ -15,7 +15,7 @@ import type { ScopeType } from 'shared/types'
 import { accessScopeBasePath, accessScopeKey } from 'shared/utils'
 import { useI18n } from '@bubblesjs/i18n-react'
 import WorkspaceCard from './components/WorkspaceCard'
-import { getWorkspaceState } from './state'
+import { useUserStore } from '@/store/user'
 
 const PAGE_SIZE = 6
 const SPACE_TYPES = [
@@ -27,7 +27,9 @@ const SPACE_TYPES = [
 
 /** 按真实授权清单筛选并分页展示空间，保留全局账号操作与权限刷新。 */
 export default function WorkspacesPage() {
-  const data = getWorkspaceState().workspaces
+  const workspaceState = useUserStore()
+  const { invalidateWorkspaces } = workspaceState
+  const data = workspaceState.workspaces
   const [query, setQuery] = useState('')
   const [type, setType] = useState<ScopeType | 'all'>('all')
   const [company, setCompany] = useState('')
@@ -92,12 +94,18 @@ export default function WorkspacesPage() {
     /** 注册窗口焦点刷新，在组件卸载时取消监听。 */ () => {
       /** 窗口重新获得焦点时，在路由空闲状态下刷新授权清单。 */
       const refresh = () => {
-        if (revalidator.state === 'idle') void revalidator.revalidate()
+        if (document.visibilityState === 'hidden' || revalidator.state !== 'idle') return
+        invalidateWorkspaces()
+        void revalidator.revalidate()
       }
       window.addEventListener('focus', refresh)
-      return () => window.removeEventListener('focus', refresh)
+      window.addEventListener('workspace-access-refresh', refresh)
+      return () => {
+        window.removeEventListener('focus', refresh)
+        window.removeEventListener('workspace-access-refresh', refresh)
+      }
     },
-    [revalidator],
+    [revalidator, invalidateWorkspaces],
   )
 
   /** 结束当前登录会话，清理本地令牌并返回登录页。 */
@@ -120,6 +128,7 @@ export default function WorkspacesPage() {
     setPage(1)
   }
 
+  if (workspaceState.error) throw workspaceState.error
   if (!data) return <PageLoading />
 
   return (
@@ -186,8 +195,11 @@ export default function WorkspacesPage() {
           <Button
             className="workspace-refresh"
             icon={<ReloadOutlined />}
-            loading={revalidator.state === 'loading'}
-            onClick={() => void revalidator.revalidate()}
+            loading={workspaceState.loading || revalidator.state === 'loading'}
+            onClick={() => {
+              invalidateWorkspaces()
+              void revalidator.revalidate()
+            }}
           >
             {tr('刷新工作空间')}
           </Button>

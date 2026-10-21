@@ -17,6 +17,7 @@ export const companyRoutes: RouteObject[] = [
     ),
     children: [
       page('company.home', 'access', 'home'),
+      page('company.dictionaries', 'dictionaries'),
       page('company.profile', 'access', 'profile'),
       page('company.members', 'access', 'members'),
       page('company.roles', 'access', 'roles'),

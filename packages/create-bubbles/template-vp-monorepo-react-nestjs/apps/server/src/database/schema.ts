@@ -13,6 +13,7 @@ import {
 
 export * from './access.schema'
 export * from './organization.schema'
+export * from './dictionary.schema'
 
 export const userStatusEnum = pgEnum('user_status', ['active', 'locked', 'disabled'])
 

@@ -11,6 +11,7 @@ import {
   setWorkspaces,
   workspace,
 } from './config'
+import { useUserStore } from '../../src/store/user'
 
 let fixture: Awaited<ReturnType<typeof makeRouter>>
 beforeEach(async () => {
@@ -40,10 +41,7 @@ describe('工作空间数据交接', () => {
       workspaceKey: nextWorkspaceKey,
       signal: expect.any(AbortSignal),
     })
-    expect(api.getWorkspaces).toHaveBeenCalledWith({
-      workspaceKey: nextWorkspaceKey,
-      signal: expect.any(AbortSignal),
-    })
+    expect(api.getWorkspaces).not.toHaveBeenCalled()
     expect(fixture.access(projectScope)?.scope).toEqual(projectScope)
     expect(fixture.access(nextScope)).toBeUndefined()
     resolve(access(nextScope))
@@ -82,6 +80,7 @@ describe('工作空间数据交接', () => {
     await fixture.router.navigate('/workspaces')
     await fixture.router.navigate(projectPath)
     session.token = 'another-account'
+    useUserStore.getState().syncSession()
     expect(fixture.workspaces()).toBeUndefined()
     expect(fixture.access(projectScope)).toBeUndefined()
     await fixture.router.revalidate()
@@ -102,6 +101,7 @@ describe('工作空间数据交接', () => {
     await fixture.router.navigate('/workspaces')
     expect(fixture.workspaces()?.workspaces).toHaveLength(1)
     api.getWorkspaces.mockRejectedValueOnce(new Error('列表获取失败'))
+    useUserStore.getState().invalidateWorkspaces()
     await fixture.router.revalidate()
     expect(fixture.workspaces()).toBeUndefined()
     setWorkspaces([])

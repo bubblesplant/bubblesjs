@@ -6,12 +6,14 @@ import { tr } from '@/i18n'
 /** 此表随 Web 发布；服务端下发的 routeKey 不能动态 import 任意组件。 */
 export const pageRegistry = {
   'platform.home': { path: '', title: () => tr('平台工作台') },
+  'platform.dictionaries': { path: 'dictionaries', title: () => tr('数据字典') },
   'platform.companies': { path: 'companies', title: () => tr('企业管理') },
   'platform.accounts': { path: 'accounts', title: () => tr('全局账号') },
   'platform.roles': { path: 'roles', title: () => tr('平台角色') },
   'platform.menus': { path: 'menus', title: () => tr('菜单管理') },
   'platform.audit': { path: 'audit', title: () => tr('平台操作日志') },
   'company.home': { path: '', title: () => tr('企业工作台') },
+  'company.dictionaries': { path: 'dictionaries', title: () => tr('数据字典') },
   'company.profile': { path: 'profile', title: () => tr('企业资料') },
   'company.members': { path: 'members', title: () => tr('企业成员') },
   'company.roles': { path: 'roles', title: () => tr('企业角色') },
@@ -24,6 +26,7 @@ export const pageRegistry = {
   'company.projects': { path: 'projects', title: () => tr('项目管理') },
   'company.audit': { path: 'audit', title: () => tr('企业操作日志') },
   'project.home': { path: '', title: () => tr('项目工作台') },
+  'project.dictionaries': { path: 'dictionaries', title: () => tr('数据字典') },
   'project.profile': { path: 'profile', title: () => tr('项目资料') },
   'project.members': { path: 'members', title: () => tr('项目成员') },
   'project.roles': { path: 'roles', title: () => tr('项目角色') },

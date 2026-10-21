@@ -38,6 +38,34 @@ export function refreshAccess() {
 
 export const freshRequest = { cacheFor: 0, shareRequest: false } as const
 
+/** 会话级列表与身份请求跨空间共享，仅在自身被取消或账号变化时丢弃结果。 */
+export async function runSessionRequest<T>(options: {
+  method: { send: (force?: boolean) => Promise<T>; abort: () => void }
+  signal?: AbortSignal
+}): Promise<T> {
+  const { method, signal } = options
+  const token = cookie.get('token')
+  const stale = () => signal?.aborted || token !== cookie.get('token')
+  const abort = () => method.abort()
+  if (stale()) throw new DOMException('请求已取消', 'AbortError')
+  signal?.addEventListener('abort', abort, { once: true })
+  try {
+    const data = await method.send(true)
+    if (stale()) throw new DOMException('登录会话已变化', 'AbortError')
+    return data
+  } catch (error) {
+    if (stale()) throw new DOMException('登录会话已变化', 'AbortError')
+    if ((error as { status?: number }).status === 401) {
+      clearWorkspaceRequests()
+      cookie.remove('token')
+      window.location.assign('/login')
+    }
+    throw error
+  } finally {
+    signal?.removeEventListener('abort', abort)
+  }
+}
+
 /**
  * 在指定工作空间代次内发送请求，丢弃跨账号、跨空间或已取消的结果。
  * `workspaceKey` 必须由 API 创建时绑定，不能在实际发送时读取当前空间后补写。

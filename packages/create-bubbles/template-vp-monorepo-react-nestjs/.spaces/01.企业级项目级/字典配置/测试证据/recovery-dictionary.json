@@ -1,0 +1,377 @@
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 29,
+  "numPassedTests": 29,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792558037076,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 同键并发只发一次，关键词各自过滤完整结果",
+          "status": "passed",
+          "title": "同键并发只发一次，关键词各自过滤完整结果",
+          "duration": 3.5625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 命中后返回副本，调用者修改不污染缓存",
+          "status": "passed",
+          "title": "命中后返回副本，调用者修改不污染缓存",
+          "duration": 0.5198000000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 空数组是有效结果",
+          "status": "passed",
+          "title": "空数组是有效结果",
+          "duration": 0.3935999999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 TTL 到期才重取，不返回过期结果",
+          "status": "passed",
+          "title": "TTL 到期才重取，不返回过期结果",
+          "duration": 0.6133999999999844,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 失败不写成功缓存，下次允许重试",
+          "status": "passed",
+          "title": "失败不写成功缓存，下次允许重试",
+          "duration": 1.3406999999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 平台、企业和不同项目同编码互相隔离",
+          "status": "passed",
+          "title": "平台、企业和不同项目同编码互相隔离",
+          "duration": 0.7079999999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 先核对服务端身份才恢复匹配快照",
+          "status": "passed",
+          "title": "先核对服务端身份才恢复匹配快照",
+          "duration": 0.4621999999999957,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 恢复时丢弃无访问资格的私有条目，仍交后端实时授权",
+          "status": "passed",
+          "title": "恢复时丢弃无访问资格的私有条目，仍交后端实时授权",
+          "duration": 0.2954000000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 当前客户端保存后主动失效，其他键仍可复用",
+          "status": "passed",
+          "title": "当前客户端保存后主动失效，其他键仍可复用",
+          "duration": 0.5103000000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 首次恢复前主动失效也移除旧快照",
+          "status": "passed",
+          "title": "首次恢复前主动失效也移除旧快照",
+          "duration": 0.323599999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 失效前迟到结果不能回填，也不能覆盖新请求",
+          "status": "passed",
+          "title": "失效前迟到结果不能回填，也不能覆盖新请求",
+          "duration": 60.97379999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 请求开始前换号不发送旧请求",
+          "status": "passed",
+          "title": "请求开始前换号不发送旧请求",
+          "duration": 0.42730000000000246,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 退出清理专属持久化并阻止迟到回填",
+          "status": "passed",
+          "title": "退出清理专属持久化并阻止迟到回填",
+          "duration": 60.5634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 全失效保护权限撤销后的迟到响应",
+          "status": "passed",
+          "title": "全失效保护权限撤销后的迟到响应",
+          "duration": 60.248099999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 超过容量淘汰早期记录",
+          "status": "passed",
+          "title": "超过容量淘汰早期记录",
+          "duration": 22.390000000000043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792558037398,
+      "endTime": 1792558037611.39,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/dictionary/core.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 刷新后恢复匹配账号快照",
+          "status": "passed",
+          "title": "刷新后恢复匹配账号快照",
+          "duration": 4.4384000000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 换号丢弃快照，并只删除专属键",
+          "status": "passed",
+          "title": "换号丢弃快照，并只删除专属键",
+          "duration": 0.5020999999999276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 损坏或不兼容快照降级：{bad json",
+          "status": "passed",
+          "title": "损坏或不兼容快照降级：{bad json",
+          "duration": 0.1554999999999609,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 损坏或不兼容快照降级：{\"schemaVersion\":2}",
+          "status": "passed",
+          "title": "损坏或不兼容快照降级：{\"schemaVersion\":2}",
+          "duration": 0.48469999999997526,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 损坏或不兼容快照降级：null",
+          "status": "passed",
+          "title": "损坏或不兼容快照降级：null",
+          "duration": 0.13760000000002037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 移除过期、未来时间与键伪造记录",
+          "status": "passed",
+          "title": "移除过期、未来时间与键伪造记录",
+          "duration": 0.20209999999997308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 存储被禁用时读写删除均不抛错",
+          "status": "passed",
+          "title": "存储被禁用时读写删除均不抛错",
+          "duration": 1.12600000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 写入配额失败时删除旧快照，防止失效记录在刷新后恢复",
+          "status": "passed",
+          "title": "写入配额失败时删除旧快照，防止失效记录在刷新后恢复",
+          "duration": 0.27890000000002146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792558037686,
+      "endTime": 1792558037693.2788,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/dictionary/persistence.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 两个字段只取一次，打开下拉继续复用缓存",
+          "status": "passed",
+          "title": "两个字段只取一次，打开下拉继续复用缓存",
+          "duration": 190.92350000000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 TTL 到期后重新打开能取到新选项",
+          "status": "passed",
+          "title": "TTL 到期后重新打开能取到新选项",
+          "duration": 156.15759999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 保存后单键失效让已挂载字段重取",
+          "status": "passed",
+          "title": "保存后单键失效让已挂载字段重取",
+          "duration": 172.16269999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 加载失败显示错误，再次打开允许重试",
+          "status": "passed",
+          "title": "加载失败显示错误，再次打开允许重试",
+          "duration": 166.77989999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 搜索过滤完整缓存，不为关键词重复发送 HTTP",
+          "status": "passed",
+          "title": "搜索过滤完整缓存，不为关键词重复发送 HTTP",
+          "duration": 117.43130000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 切换字典不展示上一字典的选项，空结果有效缓存",
+          "status": "passed",
+          "title": "切换字典不展示上一字典的选项，空结果有效缓存",
+          "duration": 179.9430999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792558041183,
+      "endTime": 1792558042166.943,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/dictionary/select.spec.tsx"
+    }
+  ]
+}

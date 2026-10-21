@@ -1,4 +1,5 @@
 export type * from './access'
+export type * from './dictionary'
 export type * from './access-maintenance'
 export type * from './access-menus'
 export type * from './access-resources'

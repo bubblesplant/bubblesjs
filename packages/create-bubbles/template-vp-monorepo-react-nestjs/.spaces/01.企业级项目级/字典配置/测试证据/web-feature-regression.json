@@ -1,0 +1,1188 @@
+{
+  "numTotalTestSuites": 21,
+  "numPassedTestSuites": 21,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 97,
+  "numPassedTests": 97,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792400448544,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["工作空间等待交互边界"],
+          "fullName": "工作空间等待交互边界 权限重校验保留页面和弹窗状态，同时隐藏并禁用页面与 portal 宿主",
+          "status": "passed",
+          "title": "权限重校验保留页面和弹窗状态，同时隐藏并禁用页面与 portal 宿主",
+          "duration": 29.80099999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间等待交互边界"],
+          "fullName": "工作空间等待交互边界 跨路由导航保留旧页面快照并隔离交互，提交新路由后创建全新页面状态",
+          "status": "passed",
+          "title": "跨路由导航保留旧页面快照并隔离交互，提交新路由后创建全新页面状态",
+          "duration": 6.066400000000158,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400451260,
+      "endTime": 1792400451296.0664,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/workspace-navigation-boundary.spec.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["会话级空间列表请求"],
+          "fullName": "会话级空间列表请求 切换空间不取消共享列表请求",
+          "status": "passed",
+          "title": "切换空间不取消共享列表请求",
+          "duration": 1.922099999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["会话级空间列表请求"],
+          "fullName": "会话级空间列表请求 换号后旧列表的迟到 401 不清理新会话",
+          "status": "passed",
+          "title": "换号后旧列表的迟到 401 不清理新会话",
+          "duration": 0.9013999999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["会话级空间列表请求"],
+          "fullName": "会话级空间列表请求 当前会话的 401 清理令牌并跳转登录",
+          "status": "passed",
+          "title": "当前会话的 401 清理令牌并跳转登录",
+          "duration": 0.3399000000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["会话级空间列表请求"],
+          "fullName": "会话级空间列表请求 会话取消信号中止请求并拒绝迟到数据",
+          "status": "passed",
+          "title": "会话取消信号中止请求并拒绝迟到数据",
+          "duration": 0.44950000000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间请求隔离"],
+          "fullName": "工作空间请求隔离 切换空间取消旧请求，即使服务端迟到成功也不返回旧数据",
+          "status": "passed",
+          "title": "切换空间取消旧请求，即使服务端迟到成功也不返回旧数据",
+          "duration": 0.3667999999999836,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间请求隔离"],
+          "fullName": "工作空间请求隔离 重复进入同一空间不会中止该空间的在途请求",
+          "status": "passed",
+          "title": "重复进入同一空间不会中止该空间的在途请求",
+          "duration": 0.19489999999998986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间请求隔离"],
+          "fullName": "工作空间请求隔离 连续切换 A、B、C 时前两个空间失效，当前空间仍可正常完成",
+          "status": "passed",
+          "title": "连续切换 A、B、C 时前两个空间失效，当前空间仍可正常完成",
+          "duration": 0.42080000000001405,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间请求隔离"],
+          "fullName": "工作空间请求隔离 旧账号迟到的 401 不能删除新账号 Cookie 或触发跳转",
+          "status": "passed",
+          "title": "旧账号迟到的 401 不能删除新账号 Cookie 或触发跳转",
+          "duration": 0.24849999999997863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间请求隔离"],
+          "fullName": "工作空间请求隔离 旧作用域迟到的 403 不刷新新空间权限",
+          "status": "passed",
+          "title": "旧作用域迟到的 403 不刷新新空间权限",
+          "duration": 0.2108000000000061,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间请求隔离"],
+          "fullName": "工作空间请求隔离 当前业务请求 403 触发权限刷新，access 请求失败不递归刷新",
+          "status": "passed",
+          "title": "当前业务请求 403 触发权限刷新，access 请求失败不递归刷新",
+          "duration": 0.3190999999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间请求隔离"],
+          "fullName": "工作空间请求隔离 当前空间的 401 会清理登录令牌并跳转登录页",
+          "status": "passed",
+          "title": "当前空间的 401 会清理登录令牌并跳转登录页",
+          "duration": 0.18090000000000828,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间请求隔离"],
+          "fullName": "工作空间请求隔离 Router AbortSignal 取消后拒绝迟到结果",
+          "status": "passed",
+          "title": "Router AbortSignal 取消后拒绝迟到结果",
+          "duration": 0.19490000000001828,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间请求隔离"],
+          "fullName": "工作空间请求隔离 绑定旧空间的请求不能在新空间代次中借用 generation 发出",
+          "status": "passed",
+          "title": "绑定旧空间的请求不能在新空间代次中借用 generation 发出",
+          "duration": 0.22019999999997708,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400448980,
+      "endTime": 1792400448986.2202,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/workspace-requests.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 同键并发只发一次，关键词各自过滤完整结果",
+          "status": "passed",
+          "title": "同键并发只发一次，关键词各自过滤完整结果",
+          "duration": 4.2303,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 命中后返回副本，调用者修改不污染缓存",
+          "status": "passed",
+          "title": "命中后返回副本，调用者修改不污染缓存",
+          "duration": 0.6560999999999808,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 空数组是有效结果",
+          "status": "passed",
+          "title": "空数组是有效结果",
+          "duration": 0.44580000000001974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 TTL 到期才重取，不返回过期结果",
+          "status": "passed",
+          "title": "TTL 到期才重取，不返回过期结果",
+          "duration": 0.6488999999999692,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 失败不写成功缓存，下次允许重试",
+          "status": "passed",
+          "title": "失败不写成功缓存，下次允许重试",
+          "duration": 1.7189000000000192,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 平台、企业和不同项目同编码互相隔离",
+          "status": "passed",
+          "title": "平台、企业和不同项目同编码互相隔离",
+          "duration": 0.836400000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 先核对服务端身份才恢复匹配快照",
+          "status": "passed",
+          "title": "先核对服务端身份才恢复匹配快照",
+          "duration": 0.5543999999999869,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 恢复时丢弃无访问资格的私有条目，仍交后端实时授权",
+          "status": "passed",
+          "title": "恢复时丢弃无访问资格的私有条目，仍交后端实时授权",
+          "duration": 0.31229999999999336,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 当前客户端保存后主动失效，其他键仍可复用",
+          "status": "passed",
+          "title": "当前客户端保存后主动失效，其他键仍可复用",
+          "duration": 0.5698000000000434,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 首次恢复前主动失效也移除旧快照",
+          "status": "passed",
+          "title": "首次恢复前主动失效也移除旧快照",
+          "duration": 0.37669999999997117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 失效前迟到结果不能回填，也不能覆盖新请求",
+          "status": "passed",
+          "title": "失效前迟到结果不能回填，也不能覆盖新请求",
+          "duration": 59.36930000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 请求开始前换号不发送旧请求",
+          "status": "passed",
+          "title": "请求开始前换号不发送旧请求",
+          "duration": 0.5708999999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 退出清理专属持久化并阻止迟到回填",
+          "status": "passed",
+          "title": "退出清理专属持久化并阻止迟到回填",
+          "duration": 61.360600000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 全失效保护权限撤销后的迟到响应",
+          "status": "passed",
+          "title": "全失效保护权限撤销后的迟到响应",
+          "duration": 63.00810000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典统一缓存"],
+          "fullName": "字典统一缓存 超过容量淘汰早期记录",
+          "status": "passed",
+          "title": "超过容量淘汰早期记录",
+          "duration": 24.889999999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400449015,
+      "endTime": 1792400449233.89,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/dictionary/core.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 刷新后恢复匹配账号快照",
+          "status": "passed",
+          "title": "刷新后恢复匹配账号快照",
+          "duration": 5.31860000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 换号丢弃快照，并只删除专属键",
+          "status": "passed",
+          "title": "换号丢弃快照，并只删除专属键",
+          "duration": 0.5953000000000657,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 损坏或不兼容快照降级：{bad json",
+          "status": "passed",
+          "title": "损坏或不兼容快照降级：{bad json",
+          "duration": 0.17600000000004457,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 损坏或不兼容快照降级：{\"schemaVersion\":2}",
+          "status": "passed",
+          "title": "损坏或不兼容快照降级：{\"schemaVersion\":2}",
+          "duration": 0.5307999999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 损坏或不兼容快照降级：null",
+          "status": "passed",
+          "title": "损坏或不兼容快照降级：null",
+          "duration": 0.16270000000008622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 移除过期、未来时间与键伪造记录",
+          "status": "passed",
+          "title": "移除过期、未来时间与键伪造记录",
+          "duration": 0.24320000000000164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 存储被禁用时读写删除均不抛错",
+          "status": "passed",
+          "title": "存储被禁用时读写删除均不抛错",
+          "duration": 1.3205000000000382,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典 sessionStorage"],
+          "fullName": "字典 sessionStorage 写入配额失败时删除旧快照，防止失效记录在刷新后恢复",
+          "status": "passed",
+          "title": "写入配额失败时删除旧快照，防止失效记录在刷新后恢复",
+          "duration": 0.3242999999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400449610,
+      "endTime": 1792400449618.3242,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/dictionary/persistence.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 两个字段只取一次，打开下拉继续复用缓存",
+          "status": "passed",
+          "title": "两个字段只取一次，打开下拉继续复用缓存",
+          "duration": 191.8182999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 TTL 到期后重新打开能取到新选项",
+          "status": "passed",
+          "title": "TTL 到期后重新打开能取到新选项",
+          "duration": 172.4468999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 保存后单键失效让已挂载字段重取",
+          "status": "passed",
+          "title": "保存后单键失效让已挂载字段重取",
+          "duration": 189.72280000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 加载失败显示错误，再次打开允许重试",
+          "status": "passed",
+          "title": "加载失败显示错误，再次打开允许重试",
+          "duration": 162.28110000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 搜索过滤完整缓存，不为关键词重复发送 HTTP",
+          "status": "passed",
+          "title": "搜索过滤完整缓存，不为关键词重复发送 HTTP",
+          "duration": 116.94549999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["DictionarySelect 真实 ProFormSelect 接入"],
+          "fullName": "DictionarySelect 真实 ProFormSelect 接入 切换字典不展示上一字典的选项，空结果有效缓存",
+          "status": "passed",
+          "title": "切换字典不展示上一字典的选项，空结果有效缓存",
+          "duration": 177.5691999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400453262,
+      "endTime": 1792400454272.569,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/dictionary/select.spec.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["工作空间本地展示快照"],
+          "fullName": "工作空间本地展示快照 只保存版本、账号 ID、时间和空间展示字段，权限、令牌、账号资料不落盘",
+          "status": "passed",
+          "title": "只保存版本、账号 ID、时间和空间展示字段，权限、令牌、账号资料不落盘",
+          "duration": 30.34520000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间本地展示快照"],
+          "fullName": "工作空间本地展示快照 核对账号后先恢复展示，多个消费者共享一次后台校验且默认分流等待最新数据",
+          "status": "passed",
+          "title": "核对账号后先恢复展示，多个消费者共享一次后台校验且默认分流等待最新数据",
+          "duration": 3.0475000000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间本地展示快照"],
+          "fullName": "工作空间本地展示快照 账号不同的本地快照不会作为恢复态发布",
+          "status": "passed",
+          "title": "账号不同的本地快照不会作为恢复态发布",
+          "duration": 1.7002999999999702,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间本地展示快照"],
+          "fullName": "工作空间本地展示快照 缓存损坏或版本不兼容时正常联网：{invalid",
+          "status": "passed",
+          "title": "缓存损坏或版本不兼容时正常联网：{invalid",
+          "duration": 1.1096000000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间本地展示快照"],
+          "fullName": "工作空间本地展示快照 缓存损坏或版本不兼容时正常联网：{\"version\":99,\"userId\":\"user-one\",\"savedAt\":1792400449394,\"workspaces\":[]}",
+          "status": "passed",
+          "title": "缓存损坏或版本不兼容时正常联网：{\"version\":99,\"userId\":\"user-one\",\"savedAt\":1792400449394,\"workspaces\":[]}",
+          "duration": 0.8515999999999622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间本地展示快照"],
+          "fullName": "工作空间本地展示快照 缓存损坏或版本不兼容时正常联网：{\"version\":1,\"userId\":\"user-one\",\"savedAt\":1792400449394,\"workspaces\":[null]}",
+          "status": "passed",
+          "title": "缓存损坏或版本不兼容时正常联网：{\"version\":1,\"userId\":\"user-one\",\"savedAt\":1792400449394,\"workspaces\":[null]}",
+          "duration": 0.9067000000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间本地展示快照"],
+          "fullName": "工作空间本地展示快照 禁止读取或写入 localStorage 时继续使用内存和网络",
+          "status": "passed",
+          "title": "禁止读取或写入 localStorage 时继续使用内存和网络",
+          "duration": 0.9736999999998943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间本地展示快照"],
+          "fullName": "工作空间本地展示快照 后台校验失败清除旧展示并保存错误，重试可恢复",
+          "status": "passed",
+          "title": "后台校验失败清除旧展示并保存错误，重试可恢复",
+          "duration": 1.0434000000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400449407,
+      "endTime": 1792400449447.0435,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/workspaces/persistence.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store Zustand 权限动作通知订阅者，并保持原 Map 快照不变",
+          "status": "passed",
+          "title": "Zustand 权限动作通知订阅者，并保持原 Map 快照不变",
+          "duration": 40.76679999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 请求微任务开始前换号，只发送新会话请求",
+          "status": "passed",
+          "title": "请求微任务开始前换号，只发送新会话请求",
+          "duration": 3.838999999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 并发首次读取合并，空列表也作为成功结果复用",
+          "status": "passed",
+          "title": "并发首次读取合并，空列表也作为成功结果复用",
+          "duration": 61.436500000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 多个明确刷新共享请求，刷新结果通知所有订阅者",
+          "status": "passed",
+          "title": "多个明确刷新共享请求，刷新结果通知所有订阅者",
+          "duration": 60.75020000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 请求开始后的业务变更使旧结果失效，补取一次最新列表",
+          "status": "passed",
+          "title": "请求开始后的业务变更使旧结果失效，补取一次最新列表",
+          "duration": 61.90769999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 某个路由取消立即结束该等待，不中断另一个消费者的共享请求",
+          "status": "passed",
+          "title": "某个路由取消立即结束该等待，不中断另一个消费者的共享请求",
+          "duration": 61.51670000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 取消后的等待不发新请求，也不清除有效结果",
+          "status": "passed",
+          "title": "取消后的等待不发新请求，也不清除有效结果",
+          "duration": 2.9606999999998607,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 换号立即中止旧操作并清除快照，迟到响应不能回写",
+          "status": "passed",
+          "title": "换号立即中止旧操作并清除快照，迟到响应不能回写",
+          "duration": 58.35110000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 退出清除内存、权限和本地快照",
+          "status": "passed",
+          "title": "退出清除内存、权限和本地快照",
+          "duration": 1.5399999999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 其他标签页清理缓存会清除本页状态并通知路由刷新",
+          "status": "passed",
+          "title": "其他标签页清理缓存会清除本页状态并通知路由刷新",
+          "duration": 1.4403999999999542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间全局 store"],
+          "fullName": "工作空间全局 store 从具体空间返回选择页刷新，默认入口内部跳转复用列表",
+          "status": "passed",
+          "title": "从具体空间返回选择页刷新，默认入口内部跳转复用列表",
+          "duration": 0.8433999999999742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400449397,
+      "endTime": 1792400449752.8435,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/workspaces/store.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["工作空间与页面权限 middleware"],
+          "fullName": "工作空间与页面权限 middleware 叶子页面 403 保留已验证的父级空间，并允许继续进入有权页面",
+          "status": "passed",
+          "title": "叶子页面 403 保留已验证的父级空间，并允许继续进入有权页面",
+          "duration": 27.259199999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间与页面权限 middleware"],
+          "fullName": "工作空间与页面权限 middleware 首页撤权时跳到其他已授权静态页面",
+          "status": "passed",
+          "title": "首页撤权时跳到其他已授权静态页面",
+          "duration": 2.3353000000001884,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间与页面权限 middleware"],
+          "fullName": "工作空间与页面权限 middleware 没有已授权页面时显示 403 且不会循环跳转",
+          "status": "passed",
+          "title": "没有已授权页面时显示 403 且不会循环跳转",
+          "duration": 0.8795000000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间与页面权限 middleware"],
+          "fullName": "工作空间与页面权限 middleware 整个作用域失效时清除当前权限上下文",
+          "status": "passed",
+          "title": "整个作用域失效时清除当前权限上下文",
+          "duration": 1.1543000000001484,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间与页面权限 middleware"],
+          "fullName": "工作空间与页面权限 middleware 父级与叶子共享一次权限请求，每次导航重新校验",
+          "status": "passed",
+          "title": "父级与叶子共享一次权限请求，每次导航重新校验",
+          "duration": 0.8034999999999854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间与页面权限 middleware"],
+          "fullName": "工作空间与页面权限 middleware 重新校验读取最新权限，叶子被撤权后仍保留有效父级空间",
+          "status": "passed",
+          "title": "重新校验读取最新权限，叶子被撤权后仍保留有效父级空间",
+          "duration": 0.974999999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间与页面权限 middleware"],
+          "fullName": "工作空间与页面权限 middleware 重新校验发现身份撤销时丢弃旧权限",
+          "status": "passed",
+          "title": "重新校验发现身份撤销时丢弃旧权限",
+          "duration": 0.8342999999999847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400450732,
+      "endTime": 1792400450766.8342,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/router/access.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 只有一个项目时从 / 直接进入项目",
+          "status": "passed",
+          "title": "只有一个项目时从 / 直接进入项目",
+          "duration": 25.869500000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 只有一个项目时从 /home 直接进入项目",
+          "status": "passed",
+          "title": "只有一个项目时从 /home 直接进入项目",
+          "duration": 1.193899999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 普通企业成员的默认权限不会阻止唯一项目直达",
+          "status": "passed",
+          "title": "普通企业成员的默认权限不会阻止唯一项目直达",
+          "duration": 1.3187000000000353,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 平台身份 进入工作空间选择",
+          "status": "passed",
+          "title": "平台身份 进入工作空间选择",
+          "duration": 1.0416000000000167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 企业管理员 进入工作空间选择",
+          "status": "passed",
+          "title": "企业管理员 进入工作空间选择",
+          "duration": 0.9103999999999814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 多个项目 进入工作空间选择",
+          "status": "passed",
+          "title": "多个项目 进入工作空间选择",
+          "duration": 0.713399999999865,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 没有项目 进入工作空间选择",
+          "status": "passed",
+          "title": "没有项目 进入工作空间选择",
+          "duration": 0.6766000000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 没有空间 进入工作空间选择",
+          "status": "passed",
+          "title": "没有空间 进入工作空间选择",
+          "duration": 0.6924999999998818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 自定义企业管理权限 保留工作空间选择",
+          "status": "passed",
+          "title": "自定义企业管理权限 保留工作空间选择",
+          "duration": 0.7918999999999414,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 权限响应标记企业管理员 保留工作空间选择",
+          "status": "passed",
+          "title": "权限响应标记企业管理员 保留工作空间选择",
+          "duration": 0.7792999999999211,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 唯一项目首页不可见时直接进入另一个已授权页面",
+          "status": "passed",
+          "title": "唯一项目首页不可见时直接进入另一个已授权页面",
+          "duration": 0.6761999999998807,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 唯一项目无任何可访问页面时回到选择页",
+          "status": "passed",
+          "title": "唯一项目无任何可访问页面时回到选择页",
+          "duration": 0.5450000000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 自动选择期间身份失效 403 时重新获取选择页列表",
+          "status": "passed",
+          "title": "自动选择期间身份失效 403 时重新获取选择页列表",
+          "duration": 0.680599999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 自动选择期间身份失效 404 时重新获取选择页列表",
+          "status": "passed",
+          "title": "自动选择期间身份失效 404 时重新获取选择页列表",
+          "duration": 0.47289999999998145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 显式进入 /workspaces 不触发默认分流",
+          "status": "passed",
+          "title": "显式进入 /workspaces 不触发默认分流",
+          "duration": 0.4025000000001455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 显式进入 /companies/company-a 不触发默认分流",
+          "status": "passed",
+          "title": "显式进入 /companies/company-a 不触发默认分流",
+          "duration": 0.4998000000000502,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 显式进入 /companies/company-a/projects/project-a/members 不触发默认分流",
+          "status": "passed",
+          "title": "显式进入 /companies/company-a/projects/project-a/members 不触发默认分流",
+          "duration": 0.3607999999999265,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 未登录访问 / 时不请求工作空间数据",
+          "status": "passed",
+          "title": "未登录访问 / 时不请求工作空间数据",
+          "duration": 0.6561000000001513,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 未登录访问 /home 时不请求工作空间数据",
+          "status": "passed",
+          "title": "未登录访问 /home 时不请求工作空间数据",
+          "duration": 0.42800000000011096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 未登录访问 /workspaces 时不请求工作空间数据",
+          "status": "passed",
+          "title": "未登录访问 /workspaces 时不请求工作空间数据",
+          "duration": 0.4072000000001026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["默认入口 middleware 分流"],
+          "fullName": "默认入口 middleware 分流 未登录访问 /companies/company-a/projects/project-a 时不请求工作空间数据",
+          "status": "passed",
+          "title": "未登录访问 /companies/company-a/projects/project-a 时不请求工作空间数据",
+          "duration": 0.40949999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400450737,
+      "endTime": 1792400450776.4094,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/router/entry.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["工作空间数据交接"],
+          "fullName": "工作空间数据交接 切换项目等待期间保留原项目权限，完成后按新项目读取且无需 loader",
+          "status": "passed",
+          "title": "切换项目等待期间保留原项目权限，完成后按新项目读取且无需 loader",
+          "duration": 87.74810000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间数据交接"],
+          "fullName": "工作空间数据交接 同位置撤销空间身份后清除权限，重新校验成功可以恢复",
+          "status": "passed",
+          "title": "同位置撤销空间身份后清除权限，重新校验成功可以恢复",
+          "duration": 2.125500000000102,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间数据交接"],
+          "fullName": "工作空间数据交接 取消刷新不会清掉已经验证的空间权限",
+          "status": "passed",
+          "title": "取消刷新不会清掉已经验证的空间权限",
+          "duration": 0.8901000000000749,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间数据交接"],
+          "fullName": "工作空间数据交接 更换账号后不再读取原账号的列表与空间权限",
+          "status": "passed",
+          "title": "更换账号后不再读取原账号的列表与空间权限",
+          "duration": 1.2860999999998057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间数据交接"],
+          "fullName": "工作空间数据交接 Hash 导航仍可读取当前空间，查询参数变化重新取权限",
+          "status": "passed",
+          "title": "Hash 导航仍可读取当前空间，查询参数变化重新取权限",
+          "duration": 1.0054999999997563,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["工作空间数据交接"],
+          "fullName": "工作空间数据交接 列表刷新失败不保留旧列表，重试后可显示最新空列表",
+          "status": "passed",
+          "title": "列表刷新失败不保留旧列表，重试后可显示最新空列表",
+          "duration": 1.2996000000002823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400450733,
+      "endTime": 1792400450827.2996,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/router/workspace-data.spec.ts"
+    }
+  ]
+}

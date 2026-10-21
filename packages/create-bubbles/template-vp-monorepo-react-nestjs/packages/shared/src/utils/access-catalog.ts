@@ -1,6 +1,6 @@
 import type { AccessPageDefinition, PermissionDefinition, ScopeType } from '../types'
 
-export const ACCESS_CATALOG_VERSION = '2026-10-14.1'
+export const ACCESS_CATALOG_VERSION = '2026-10-19.1'
 export const ACCESS_DEFAULT_PAGE_SIZE = 20
 export const ACCESS_MAX_PAGE_SIZE = 100
 export const ACCESS_CODE_PATTERN = /^[A-Za-z0-9_-]+$/
@@ -251,6 +251,22 @@ const pageSpecs: readonly PageSpec[] = [
     icon: 'audit-log',
     operations: [],
   },
+  ...(['platform', 'company', 'project'] as const).map((scopeType): PageSpec => ({
+    scopeType,
+    routeKey: `${scopeType}.dictionaries`,
+    path:
+      scopeType === 'platform'
+        ? '/platform/dictionaries'
+        : scopeType === 'company'
+          ? '/companies/:companyId/dictionaries'
+          : '/companies/:companyId/projects/:projectId/dictionaries',
+    title: '数据字典',
+    icon: 'menus',
+    operations: [
+      { suffix: 'create', title: '新增字典', adminOnly: scopeType === 'platform' },
+      { suffix: 'update', title: '编辑字典', adminOnly: scopeType === 'platform' },
+    ],
+  })),
 ]
 
 export const ACCESS_PAGE_CATALOG: readonly AccessPageDefinition[] = pageSpecs.map((page) => ({

@@ -1,5 +1,6 @@
 import { getBuiltinPermissionKeys } from 'shared/utils'
 import { getAccessContext } from '@/pages/workspaces/api'
+import { useUserStore } from '@/store/user'
 import { firstAccessiblePagePath } from '@/router/page-registry'
 import { workspacesContext } from './data'
 
@@ -47,6 +48,7 @@ export const entryMiddleware: MiddlewareFunction = async ({ request, context }) 
   } catch (error) {
     // 列表获取后若身份恰好被撤销，回选择页重新取最新列表，避免自动进入失效项目。
     if (![403, 404].includes((error as { status?: number }).status ?? 0)) throw error
+    useUserStore.getState().invalidateWorkspaces()
   }
   throw redirect(destination ?? '/workspaces')
 }

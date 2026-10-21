@@ -1,0 +1,22 @@
+{
+  "executedAt": "2026-10-19T09:05:27.225Z",
+  "mockHttp": true,
+  "checks": [
+    "platform: 菜单、路由、字典列表",
+    "company: 菜单、路由、字典列表",
+    "project: 菜单、路由、字典列表",
+    "平台新增字典与选项提交成功",
+    "真实选择框读取选项，刷新恢复 sessionStorage 且不重复请求选项",
+    "编辑保护编码和值，提交版本号，保存后缓存失效并显示新选项",
+    "company: 编辑选项名称与排序、新增空字典、重复打开表单状态重置、同编码独立提交",
+    "project: 编辑选项名称与排序、新增空字典、重复打开表单状态重置、同编码独立提交"
+  ],
+  "failures": [],
+  "images": [
+    "ui/platform-create.png",
+    "ui/platform-edit.png",
+    "ui/company-list.png",
+    "ui/project-list.png"
+  ],
+  "browserVersion": "155.0.4283.62"
+}

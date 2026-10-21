@@ -1,0 +1,258 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 17,
+  "numPassedTests": 6,
+  "numFailedTests": 11,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792400251949,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 读取未包装的数据，并携带 Bearer 令牌",
+          "status": "failed",
+          "title": "读取未包装的数据，并携带 Bearer 令牌",
+          "duration": 19.48660000000018,
+          "failureMessages": [
+            "Error: Unable to connect to the service. Check your network and try again.\n    at onError (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/src/utils/request/core/index.ts:408:21)\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/alova@3.5.5/node_modules/alova/dist/alova.esm.js:490:59\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:69:12\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:20"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 Axios 的 422 走统一错误解析，保留错误码和公开文案",
+          "status": "failed",
+          "title": "Axios 的 422 走统一错误解析，保留错误码和公开文案",
+          "duration": 7.443299999999908,
+          "failureMessages": [
+            "Error: expected Error: Unable to connect to the service. … to match object { status: 422, …(2) }\n    at _Assertion.__VITEST_REJECTS__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2480:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:80:54\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3333:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 201 按 Axios 的 2xx 规则返回成功",
+          "status": "failed",
+          "title": "HTTP 201 按 Axios 的 2xx 规则返回成功",
+          "duration": 2.975999999999658,
+          "failureMessages": [
+            "Error: promise rejected \"Error: Unable to connect to the service. …\" instead of resolving\n    at _Assertion.__VITEST_RESOLVES__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2451:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:91:63\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2886:64\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 202 按 Axios 的 2xx 规则返回成功",
+          "status": "failed",
+          "title": "HTTP 202 按 Axios 的 2xx 规则返回成功",
+          "duration": 2.1934000000001106,
+          "failureMessages": [
+            "Error: promise rejected \"Error: Unable to connect to the service. …\" instead of resolving\n    at _Assertion.__VITEST_RESOLVES__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2451:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:91:63\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2886:64\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 204 按 Axios 的 2xx 规则返回成功",
+          "status": "failed",
+          "title": "HTTP 204 按 Axios 的 2xx 规则返回成功",
+          "duration": 2.4755000000004657,
+          "failureMessages": [
+            "Error: promise rejected \"Error: Unable to connect to the service. …\" instead of resolving\n    at _Assertion.__VITEST_RESOLVES__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2451:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:91:63\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2886:64\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 206 按 Axios 的 2xx 规则返回成功",
+          "status": "failed",
+          "title": "HTTP 206 按 Axios 的 2xx 规则返回成功",
+          "duration": 2.0325000000002547,
+          "failureMessages": [
+            "Error: promise rejected \"Error: Unable to connect to the service. …\" instead of resolving\n    at _Assertion.__VITEST_RESOLVES__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2451:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:91:63\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2886:64\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 默认适配器的 HTTP 401 也走统一错误处理",
+          "status": "failed",
+          "title": "默认适配器的 HTTP 401 也走统一错误处理",
+          "duration": 2.128099999999904,
+          "failureMessages": [
+            "Error: expected Error: Unable to connect to the service. … to match object { status: 401, …(2) }\n    at _Assertion.__VITEST_REJECTS__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2480:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:108:49\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3333:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 200 下的业务错误 401 仍会拒绝且只提示一次",
+          "status": "failed",
+          "title": "HTTP 200 下的业务错误 401 仍会拒绝且只提示一次",
+          "duration": 2.1958000000004176,
+          "failureMessages": [
+            "Error: expected Error: Unable to connect to the service. … to match object { status: 200, code: 401, …(1) }\n    at _Assertion.__VITEST_REJECTS__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2480:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:121:6\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2886:64\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 HTTP 200 下的业务错误 422 仍会拒绝且只提示一次",
+          "status": "failed",
+          "title": "HTTP 200 下的业务错误 422 仍会拒绝且只提示一次",
+          "duration": 2.16820000000007,
+          "failureMessages": [
+            "Error: expected Error: Unable to connect to the service. … to match object { status: 200, code: 422, …(1) }\n    at _Assertion.__VITEST_REJECTS__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2480:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:121:6\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2886:64\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 页面关闭全局提示后，401 仍触发会话失效回调",
+          "status": "failed",
+          "title": "页面关闭全局提示后，401 仍触发会话失效回调",
+          "duration": 2.49369999999999,
+          "failureMessages": [
+            "Error: expected Error: Unable to connect to the service. … to match object { status: 401 }\n    at _Assertion.__VITEST_REJECTS__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2480:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:130:6\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3333:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["NestJS 响应适配"],
+          "fullName": "NestJS 响应适配 服务暂不可用时保留会话，不当成 401 注销用户",
+          "status": "failed",
+          "title": "服务暂不可用时保留会话，不当成 401 注销用户",
+          "duration": 1.9650000000001455,
+          "failureMessages": [
+            "Error: expected Error: Unable to connect to the service. … to match object { status: 503, …(1) }\n    at _Assertion.__VITEST_REJECTS__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/index.aTZaPVhf.js:2480:33)\n    at _Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts:140:53\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.0.5_@types+node@26_cf9484d253b38b15ff1b361b43de677f/node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3333:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400256213,
+      "endTime": 1792400256260.965,
+      "status": "failed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/request.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 未知页面及其按钮和空目录不会进入菜单，来源数据不被修改",
+          "status": "passed",
+          "title": "未知页面及其按钮和空目录不会进入菜单，来源数据不被修改",
+          "duration": 1.8323999999993248,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 隐藏或停用菜单不显示；隐藏页面已注册路径仍能被 loader 单独鉴权",
+          "status": "passed",
+          "title": "隐藏或停用菜单不显示；隐藏页面已注册路径仍能被 loader 单独鉴权",
+          "duration": 0.19549999999981083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 不为未知或跨作用域页面生成路径",
+          "status": "passed",
+          "title": "不为未知或跨作用域页面生成路径",
+          "duration": 0.1172999999998865,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 菜单目录图标均能解析为本地 SVG 资源",
+          "status": "passed",
+          "title": "菜单目录图标均能解析为本地 SVG 资源",
+          "duration": 1.0802000000003318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 进入空间优先落在已授权的可见菜单，排除未知及跨作用域页面",
+          "status": "passed",
+          "title": "进入空间优先落在已授权的可见菜单，排除未知及跨作用域页面",
+          "duration": 0.28259999999954744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["前端静态页面注册与菜单"],
+          "fullName": "前端静态页面注册与菜单 没有已授权静态页面时不生成工作空间落点",
+          "status": "passed",
+          "title": "没有已授权静态页面时不生成工作空间落点",
+          "duration": 0.1370999999999185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400256625,
+      "endTime": 1792400256629.1372,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web/test/workspace-navigation.spec.ts"
+    }
+  ]
+}

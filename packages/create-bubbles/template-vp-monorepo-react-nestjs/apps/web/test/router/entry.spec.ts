@@ -24,6 +24,7 @@ describe('默认入口 middleware 分流', () => {
       await fixture.router.navigate(entry)
       expect(fixture.router.state.location.pathname).toBe(projectPath)
       expect(fixture.router.state.errors).toBeNull()
+      expect(api.getWorkspaces).toHaveBeenCalledTimes(1)
       expect(fixture.access(projectScope)?.scope).toEqual(projectScope)
     } finally {
       fixture.dispose()
@@ -78,6 +79,7 @@ describe('默认入口 middleware 分流', () => {
       expect(fixture.router.state.location.pathname).toBe('/workspaces')
       expect(fixture.workspaces()?.workspaces).toEqual(entries)
       expect(api.getAccessContext).not.toHaveBeenCalled()
+      expect(api.getWorkspaces).toHaveBeenCalledTimes(1)
     } finally {
       fixture.dispose()
     }

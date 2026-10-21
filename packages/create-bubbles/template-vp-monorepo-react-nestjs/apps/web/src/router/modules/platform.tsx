@@ -17,6 +17,7 @@ export const platformRoutes: RouteObject[] = [
     ),
     children: [
       page('platform.home', 'access', 'home'),
+      page('platform.dictionaries', 'dictionaries'),
       page('platform.companies', 'access', 'entities'),
       page('platform.accounts', 'access', 'members'),
       page('platform.roles', 'access', 'roles'),

@@ -88,7 +88,7 @@ describe('工作空间与页面权限 middleware', () => {
       expect(api.getWorkspaces).toHaveBeenCalledTimes(1)
       await fixture.router.navigate('/platform/accounts')
       expect(api.getAccessContext).toHaveBeenCalledTimes(2)
-      expect(api.getWorkspaces).toHaveBeenCalledTimes(2)
+      expect(api.getWorkspaces).toHaveBeenCalledTimes(1)
     } finally {
       fixture.dispose()
     }
@@ -106,7 +106,7 @@ describe('工作空间与页面权限 middleware', () => {
       ])
       await fixture.router.revalidate()
       expect(api.getAccessContext).toHaveBeenCalledTimes(2)
-      expect(api.getWorkspaces).toHaveBeenCalledTimes(2)
+      expect(api.getWorkspaces).toHaveBeenCalledTimes(1)
       expect(fixture.router.state.errors?.['platform.menus']).toMatchObject({ status: 403 })
       expect(fixture.access({ type: 'platform' })).toMatchObject({
         permissionKeys: ['platform.accounts.read'],

@@ -2,8 +2,9 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
-vi.mock('../../src/pages/workspaces/state', () => ({
-  getWorkspaceState: () => ({
+vi.mock('../../src/store/user', () => ({
+  useUserStore: () => ({
+    invalidateWorkspaces: vi.fn(),
     workspaces: {
       user: {
         id: 'user-without-workspace',

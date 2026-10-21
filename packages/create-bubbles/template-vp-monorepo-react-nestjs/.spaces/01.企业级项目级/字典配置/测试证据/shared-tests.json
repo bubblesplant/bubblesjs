@@ -1,0 +1,388 @@
+{
+  "numTotalTestSuites": 9,
+  "numPassedTestSuites": 9,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 30,
+  "numPassedTests": 30,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792400251266,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["共享权限目录约束"],
+          "fullName": "共享权限目录约束 每个页面和操作都有唯一且同作用域的有效绑定",
+          "status": "passed",
+          "title": "每个页面和操作都有唯一且同作用域的有效绑定",
+          "duration": 4.3735999999999535,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["共享权限目录约束"],
+          "fullName": "共享权限目录约束 管理员专属操作准确隔离，默认成员不获得管理操作",
+          "status": "passed",
+          "title": "管理员专属操作准确隔离，默认成员不获得管理操作",
+          "duration": 0.45249999999998636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["共享权限目录约束"],
+          "fullName": "共享权限目录约束 恢复管理涉及的四个页面均受到保护",
+          "status": "passed",
+          "title": "恢复管理涉及的四个页面均受到保护",
+          "duration": 0.5883999999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["共享权限目录约束"],
+          "fullName": "共享权限目录约束 企业管理目录不再发布企业间层级操作权限",
+          "status": "passed",
+          "title": "企业管理目录不再发布企业间层级操作权限",
+          "duration": 0.12160000000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["作用域路径"],
+          "fullName": "作用域路径 不同企业下相同项目 ID 不会共享作用域标识",
+          "status": "passed",
+          "title": "不同企业下相同项目 ID 不会共享作用域标识",
+          "duration": 0.27300000000002456,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["作用域路径"],
+          "fullName": "作用域路径 拒绝不匹配或未知 routeKey，并转义路径参数",
+          "status": "passed",
+          "title": "拒绝不匹配或未知 routeKey，并转义路径参数",
+          "duration": 0.16999999999995907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["旧前端菜单过滤"],
+          "fullName": "旧前端菜单过滤 过滤未知页面及其按钮、移除空目录，并保留已知页面及源数据",
+          "status": "passed",
+          "title": "过滤未知页面及其按钮、移除空目录，并保留已知页面及源数据",
+          "duration": 0.8112999999999602,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["旧前端菜单过滤"],
+          "fullName": "旧前端菜单过滤 已知页面没有操作按钮也不会被当成空目录移除",
+          "status": "passed",
+          "title": "已知页面没有操作按钮也不会被当成空目录移除",
+          "duration": 0.14769999999998618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400251581,
+      "endTime": 1792400251588.8113,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/shared/test/access.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["组织共享写入契约"],
+          "fullName": "组织共享写入契约 项目必须显式选择空白或精确模板版本，并拒绝两种模式字段混用",
+          "status": "passed",
+          "title": "项目必须显式选择空白或精确模板版本，并拒绝两种模式字段混用",
+          "duration": 5.595799999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["组织共享写入契约"],
+          "fullName": "组织共享写入契约 独立企业拒绝所有已取消的层级字段，岗位拒绝组织单元关联字段",
+          "status": "passed",
+          "title": "独立企业拒绝所有已取消的层级字段，岗位拒绝组织单元关联字段",
+          "duration": 1.574200000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["组织共享写入契约"],
+          "fullName": "组织共享写入契约 组织关系允许完整清空但拒绝同一组织单元重复出现",
+          "status": "passed",
+          "title": "组织关系允许完整清空但拒绝同一组织单元重复出现",
+          "duration": 0.75,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["组织共享写入契约"],
+          "fullName": "组织共享写入契约 模板岗位保持平面结构，strict DTO 拒绝模板组织关联字段",
+          "status": "passed",
+          "title": "模板岗位保持平面结构，strict DTO 拒绝模板组织关联字段",
+          "duration": 0.8795000000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["组织规范化与候选边界"],
+          "fullName": "组织规范化与候选边界 NFKC 展开后的名称键不截断，展示名称仍按原始 100 字符上限校验",
+          "status": "passed",
+          "title": "NFKC 展开后的名称键不截断，展示名称仍按原始 100 字符上限校验",
+          "duration": 0.7422000000000253,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["组织规范化与候选边界"],
+          "fullName": "组织规范化与候选边界 候选筛选接受字符串布尔值并限制每类 ID 最多一百个且不能重复",
+          "status": "passed",
+          "title": "候选筛选接受字符串布尔值并限制每类 ID 最多一百个且不能重复",
+          "duration": 1.1310000000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["组织规范化与候选边界"],
+          "fullName": "组织规范化与候选边界 全局候选回显正文保持严格 JSON 数组，并拒绝重复或超过一百个账号 ID",
+          "status": "passed",
+          "title": "全局候选回显正文保持严格 JSON 数组，并拒绝重复或超过一百个账号 ID",
+          "duration": 0.4609000000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400251608,
+      "endTime": 1792400251619.461,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/shared/test/organization.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 匹配标准向量（0）",
+          "status": "passed",
+          "title": "匹配标准向量（0）",
+          "duration": 3.675200000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 匹配标准向量（1）",
+          "status": "passed",
+          "title": "匹配标准向量（1）",
+          "duration": 0.5914999999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 匹配标准向量（2）",
+          "status": "passed",
+          "title": "匹配标准向量（2）",
+          "duration": 9.723399999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 二进制跨读取边界、不同文件名均与 Node crypto 一致",
+          "status": "passed",
+          "title": "二进制跨读取边界、不同文件名均与 Node crypto 一致",
+          "duration": 297.0692,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 只读取有界切片，报告单调的起止进度",
+          "status": "passed",
+          "title": "只读取有界切片，报告单调的起止进度",
+          "duration": 2.7828999999999837,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 拒绝非法读取块大小 0",
+          "status": "passed",
+          "title": "拒绝非法读取块大小 0",
+          "duration": 0.5994000000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 拒绝非法读取块大小 -1",
+          "status": "passed",
+          "title": "拒绝非法读取块大小 -1",
+          "duration": 0.12930000000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 拒绝非法读取块大小 1.5",
+          "status": "passed",
+          "title": "拒绝非法读取块大小 1.5",
+          "duration": 0.08740000000000236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 拒绝非法读取块大小 NaN",
+          "status": "passed",
+          "title": "拒绝非法读取块大小 NaN",
+          "duration": 0.10710000000000264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 拒绝非法读取块大小 16777217",
+          "status": "passed",
+          "title": "拒绝非法读取块大小 16777217",
+          "duration": 0.11489999999997735,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 中间进度节流，同时保留开始与最终进度",
+          "status": "passed",
+          "title": "中间进度节流，同时保留开始与最终进度",
+          "duration": 0.5233000000000061,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 预先取消不读取文件，保留取消原因",
+          "status": "passed",
+          "title": "预先取消不读取文件，保留取消原因",
+          "duration": 0.5974999999999682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 读取过程中取消，不返回摘要或读取下一块",
+          "status": "passed",
+          "title": "读取过程中取消，不返回摘要或读取下一块",
+          "duration": 0.7835000000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 短读和读取失败不能产生部分结果",
+          "status": "passed",
+          "title": "短读和读取失败不能产生部分结果",
+          "duration": 1.102199999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["完整 Blob SHA-256"],
+          "fullName": "完整 Blob SHA-256 进度回调失败按原错误拒绝",
+          "status": "passed",
+          "title": "进度回调失败按原错误拒绝",
+          "duration": 0.28630000000003974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400251495,
+      "endTime": 1792400251813.2864,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/shared/test/file-hash/calculate.spec.ts"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "executedAt": "2026-10-19T13:41:21.836Z",
+  "mockHttp": false,
+  "checks": [
+    "完整 AppModule 启动、公开注册、官方平台初始化、真实 Redis 登录、真实企业及项目创建",
+    "真实页面登录平台管理员，Redis 存在对应会话",
+    "真实 ProFormSelect 请求成功，刷新恢复缓存且不重复请求，快照不含令牌",
+    "平台真实新增／编辑落库，编码和值只读，保存失效后重新请求",
+    "退出撤销 Redis 会话，旧令牌返回 401，仅清理字典专属 sessionStorage",
+    "换号后旧字典缓存不继承，企业账号正常登录",
+    "无平台角色的企业用户经真实统一方法读取平台共享字典，平台管理接口仍拒绝访问",
+    "company 真实菜单／新增／编辑／预览、同编码隔离、版本冲突和历史值保护、外部用户拒绝访问",
+    "project 真实菜单／新增／编辑／预览、同编码隔离、版本冲突和历史值保护、外部用户拒绝访问",
+    "三范围真实写入均有数据库审计记录",
+    "企业账号退出后缓存及 Redis 会话清理，整个浏览器流程无页面异常或 HTTP 5xx"
+  ],
+  "failures": [],
+  "images": ["ui/e2e-platform.png", "ui/e2e-company.png", "ui/e2e-project.png"],
+  "cleanup": {
+    "frontendStopped": true,
+    "backendStopped": true,
+    "sessionKeysRemoved": true,
+    "queueKeysRemoved": true,
+    "databasePoolClosed": true,
+    "databaseRemoved": true,
+    "adminPoolClosed": true
+  },
+  "directHttpRequests": 19,
+  "environment": {
+    "database": "随机隔离 PostgreSQL",
+    "redis": "真实本机 Redis，精确清理本次键",
+    "mockHttp": false,
+    "fullApp": true
+  },
+  "browserVersion": "155.0.4283.62",
+  "browserOptionRequests": 7,
+  "completedAt": "2026-10-19T13:41:48.140Z"
+}

@@ -50,6 +50,13 @@
       "when": 1792051927600,
       "tag": "0007_upload_object_sha256",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792399070088,
+      "tag": "0008_dictionaries",
+      "breakpoints": true
     }
   ]
 }

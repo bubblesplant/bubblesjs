@@ -46,8 +46,7 @@
     "@nestjs/schematics": "catalog:",
     "@nestjs/swagger": "catalog:",
     "@nestjs/testing": "catalog:",
-    "@swc/cli": "catalog:",
-    "@swc/core": "catalog:",
+    "@rspack/core": "catalog:",
     "@types/express": "catalog:",
     "@types/node": "catalog:",
     "@types/pg": "catalog:",
@@ -58,10 +57,11 @@
     "globals": "catalog:",
     "shared": "workspace:*",
     "source-map-support": "catalog:",
-    "ts-loader": "catalog:",
     "ts-node": "catalog:",
     "tsconfig-paths": "catalog:",
+    "tsconfig-paths-webpack-plugin": "catalog:",
     "typescript": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-plus": "catalog:",
+    "webpack-node-externals": "catalog:"
   }
 }

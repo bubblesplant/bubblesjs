@@ -1,0 +1,428 @@
+{
+  "numTotalTestSuites": 10,
+  "numPassedTestSuites": 10,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 32,
+  "numPassedTests": 32,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792400110572,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["error catalog"],
+          "fullName": "error catalog uses valid and globally unique error codes",
+          "status": "passed",
+          "title": "uses valid and globally unique error codes",
+          "duration": 2.8029999999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["error catalog"],
+          "fullName": "error catalog keeps bearerChallenge and HTTP 401 in sync",
+          "status": "passed",
+          "title": "keeps bearerChallenge and HTTP 401 in sync",
+          "duration": 0.30939999999998236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400111105,
+      "endTime": 1792400111108.3093,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/test/error-catalog.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["权限默认拒绝与路由校验边界"],
+          "fullName": "权限默认拒绝与路由校验边界 未明确标注公开或权限策略的端点默认拒绝",
+          "status": "passed",
+          "title": "未明确标注公开或权限策略的端点默认拒绝",
+          "duration": 4.9551000000001295,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["权限默认拒绝与路由校验边界"],
+          "fullName": "权限默认拒绝与路由校验边界 明确公开和只需登录的端点允许通过权限层",
+          "status": "passed",
+          "title": "明确公开和只需登录的端点允许通过权限层",
+          "duration": 1.0300999999999476,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["权限默认拒绝与路由校验边界"],
+          "fullName": "权限默认拒绝与路由校验边界 项目管理端点使用声明的企业范围，路由策略解析项目范围",
+          "status": "passed",
+          "title": "项目管理端点使用声明的企业范围，路由策略解析项目范围",
+          "duration": 1.9090000000001055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["权限默认拒绝与路由校验边界"],
+          "fullName": "权限默认拒绝与路由校验边界 locked 仅属于账号状态，不传入企业项目或成员的数据库枚举",
+          "status": "passed",
+          "title": "locked 仅属于账号状态，不传入企业项目或成员的数据库枚举",
+          "duration": 4.016200000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["权限默认拒绝与路由校验边界"],
+          "fullName": "权限默认拒绝与路由校验边界 上传状态与完成接口只校验会话编号，分片接口额外校验分片编号",
+          "status": "passed",
+          "title": "上传状态与完成接口只校验会话编号，分片接口额外校验分片编号",
+          "duration": 1.0570000000000164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400111816,
+      "endTime": 1792400111829.057,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/test/access/access-policy.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["字典原生 Schema 与稳定值"],
+          "fullName": "字典原生 Schema 与稳定值 原生 Pipe 转换默认值、trim 与分页数字",
+          "status": "passed",
+          "title": "原生 Pipe 转换默认值、trim 与分页数字",
+          "duration": 3.9920000000000186,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典原生 Schema 与稳定值"],
+          "fullName": "字典原生 Schema 与稳定值 重复业务值包含 trim 后重复也拒绝",
+          "status": "passed",
+          "title": "重复业务值包含 trim 后重复也拒绝",
+          "duration": 0.36419999999998254,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典原生 Schema 与稳定值"],
+          "fullName": "字典原生 Schema 与稳定值 拒绝非法编码、超长数组和非整数排序",
+          "status": "passed",
+          "title": "拒绝非法编码、超长数组和非整数排序",
+          "duration": 0.37489999999996826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典原生 Schema 与稳定值"],
+          "fullName": "字典原生 Schema 与稳定值 更新不能夹带 code，也必须提供有效版本",
+          "status": "passed",
+          "title": "更新不能夹带 code，也必须提供有效版本",
+          "duration": 0.5282000000000266,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典原生 Schema 与稳定值"],
+          "fullName": "字典原生 Schema 与稳定值 读取作用域严格匹配归属，不允许平台携带企业参数或项目缺归属",
+          "status": "passed",
+          "title": "读取作用域严格匹配归属，不允许平台携带企业参数或项目缺归属",
+          "duration": 1.0493000000000166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典原生 Schema 与稳定值"],
+          "fullName": "字典原生 Schema 与稳定值 启用项按排序和值稳定排序，全部停用合法返回空数组",
+          "status": "passed",
+          "title": "启用项按排序和值稳定排序，全部停用合法返回空数组",
+          "duration": 0.19029999999997926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典原生 Schema 与稳定值"],
+          "fullName": "字典原生 Schema 与稳定值 历史值允许停用与新增，不允许删除或改值",
+          "status": "passed",
+          "title": "历史值允许停用与新增，不允许删除或改值",
+          "duration": 0.15089999999997872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400111155,
+      "endTime": 1792400111162.151,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/test/dictionaries/contracts.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 完整迁移可重复执行，数据库拒绝相同归属编码和不匹配项目归属",
+          "status": "passed",
+          "title": "完整迁移可重复执行，数据库拒绝相同归属编码和不匹配项目归属",
+          "duration": 39.29260000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 普通企业成员无需平台角色或配置页权限读取平台选项",
+          "status": "passed",
+          "title": "普通企业成员无需平台角色或配置页权限读取平台选项",
+          "duration": 121.8744999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 配置页保持管理权限，不允许普通成员读取或写入平台配置",
+          "status": "passed",
+          "title": "配置页保持管理权限，不允许普通成员读取或写入平台配置",
+          "duration": 10.374099999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 管理 HTTP 完成创建、搜索和版本更新，并返回公开记录",
+          "status": "passed",
+          "title": "管理 HTTP 完成创建、搜索和版本更新，并返回公开记录",
+          "duration": 49.803100000000086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 三范围同编码独立，企业与项目成员按真实归属读取",
+          "status": "passed",
+          "title": "三范围同编码独立，企业与项目成员按真实归属读取",
+          "duration": 52.74929999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 跨范围修改返回未找到，不能通过已知 UUID 修改他人字典",
+          "status": "passed",
+          "title": "跨范围修改返回未找到，不能通过已知 UUID 修改他人字典",
+          "duration": 5.926899999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 并发版本校验只允许一个保存，并与审计同事务",
+          "status": "passed",
+          "title": "并发版本校验只允许一个保存，并与审计同事务",
+          "duration": 71.3148000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 历史项禁删，停用选项返回空数组，停用字典返回 404",
+          "status": "passed",
+          "title": "历史项禁删，停用选项返回空数组，停用字典返回 404",
+          "duration": 25.797700000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 HTTP 请求应用原生校验，错误保留统一错误格式",
+          "status": "passed",
+          "title": "HTTP 请求应用原生校验，错误保留统一错误格式",
+          "duration": 5.141500000000178,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["字典本机隔离 PostgreSQL 与真实 HTTP 链路"],
+          "fullName": "字典本机隔离 PostgreSQL 与真实 HTTP 链路 Swagger 注册三类管理路由和独立业务选项接口",
+          "status": "passed",
+          "title": "Swagger 注册三类管理路由和独立业务选项接口",
+          "duration": 9.992099999999937,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400114132,
+      "endTime": 1792400114524.9922,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/test/dictionaries/integration.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Nest 原生 Schema 迁移"],
+          "fullName": "Nest 原生 Schema 迁移 登录参数应用 trim，密码保持原值",
+          "status": "passed",
+          "title": "登录参数应用 trim，密码保持原值",
+          "duration": 4.811900000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["Nest 原生 Schema 迁移"],
+          "fullName": "Nest 原生 Schema 迁移 请求错误保留业务错误码和 Zod 字段 code",
+          "status": "passed",
+          "title": "请求错误保留业务错误码和 Zod 字段 code",
+          "duration": 1.8251999999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["Nest 原生 Schema 迁移"],
+          "fullName": "Nest 原生 Schema 迁移 分页默认值、数字转换与严格对象约束保持有效",
+          "status": "passed",
+          "title": "分页默认值、数字转换与严格对象约束保持有效",
+          "duration": 1.4846000000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["Nest 原生 Schema 迁移"],
+          "fullName": "Nest 原生 Schema 迁移 确认密码不一致仍定位到 confirmPassword",
+          "status": "passed",
+          "title": "确认密码不一致仍定位到 confirmPassword",
+          "duration": 0.6968000000000529,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["Nest 原生 Schema 迁移"],
+          "fullName": "Nest 原生 Schema 迁移 兼容 Standard Schema key 路径与不提供 code 的校验器",
+          "status": "passed",
+          "title": "兼容 Standard Schema key 路径与不提供 code 的校验器",
+          "duration": 0.13779999999997017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["Nest 原生 Schema 迁移"],
+          "fullName": "Nest 原生 Schema 迁移 守卫和旧控制器的手动 parse 保留转换结果与统一异常",
+          "status": "passed",
+          "title": "守卫和旧控制器的手动 parse 保留转换结果与统一异常",
+          "duration": 0.5060999999999467,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["Nest 原生 Schema 迁移"],
+          "fullName": "Nest 原生 Schema 迁移 响应剥离内部字段，顶层数组按单项 Schema 处理",
+          "status": "passed",
+          "title": "响应剥离内部字段，顶层数组按单项 Schema 处理",
+          "duration": 0.9270000000000209,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["Nest 原生 Schema 迁移"],
+          "fullName": "Nest 原生 Schema 迁移 缺失响应字段导致服务端校验失败",
+          "status": "passed",
+          "title": "缺失响应字段导致服务端校验失败",
+          "duration": 0.5639999999999645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1792400111308,
+      "endTime": 1792400111318.564,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/test/schema/native-schema.spec.ts"
+    }
+  ]
+}

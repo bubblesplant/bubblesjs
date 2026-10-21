@@ -25,6 +25,7 @@ import { DatabaseModule } from './database/db.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { TaskQueueModule } from './modules/task-queue/task-queue.module'
 import { AccessModule } from './modules/access/access.module'
+import { DictionariesModule } from './modules/dictionaries/dictionaries.module'
 import { CompaniesModule } from './modules/companies/companies.module'
 import { ProjectsModule } from './modules/projects/projects.module'
 import { OrganizationModule } from './modules/organization/organization.module'
@@ -74,6 +75,7 @@ import { ENV_ARR } from './utils/env-arr'
     TaskQueueModule,
     AuthModule,
     AccessModule,
+    DictionariesModule,
     CompaniesModule,
     OrganizationModule,
     ProjectsModule,

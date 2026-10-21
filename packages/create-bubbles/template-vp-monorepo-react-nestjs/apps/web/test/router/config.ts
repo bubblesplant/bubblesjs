@@ -10,20 +10,21 @@ const api = vi.hoisted(() => ({
         options: { workspaceKey: string; signal?: AbortSignal },
       ) => Promise<AccessContext>
     >(),
-  getWorkspaces:
-    vi.fn<(options: { workspaceKey: string; signal?: AbortSignal }) => Promise<WorkspacesResult>>(),
+  getWorkspaces: vi.fn<(options: { signal?: AbortSignal }) => Promise<WorkspacesResult>>(),
+  getWorkspaceUser: vi.fn(),
 }))
 const session = vi.hoisted(() => ({ token: 'session' as string | null }))
 export { api, session }
 vi.mock('@/pages/workspaces/api', () => api)
 vi.mock('@/utils/request/workspace', () => ({ enterWorkspace: vi.fn() }))
 vi.mock('@/utils/storage/cookie', () => ({ cookie: { get: () => session.token } }))
+vi.mock('@/i18n', () => ({ tr: (value: string) => value }))
 
 import { authMiddleware } from '../../src/router/middleware/auth'
 import { accessMiddleware } from '../../src/router/middleware/workspace/access'
 import { scopeMiddleware, workspacesMiddleware } from '../../src/router/middleware/workspace/data'
 import { entryMiddleware } from '../../src/router/middleware/workspace/entry'
-import { getWorkspaceState } from '../../src/pages/workspaces/state'
+import { useUserStore } from '../../src/store/user'
 import type { RegisteredPage } from '../../src/router/page-registry'
 
 export const companyScope = { type: 'company', companyId: 'company-a' } as const
@@ -60,11 +61,12 @@ export function workspace(
 /** 重置会话及接口，默认允许所有测试作用域的首页。 */
 export function resetPolicyData() {
   vi.clearAllMocks()
+  session.token = null
+  useUserStore.getState().syncSession()
   session.token = 'session'
-  const state = getWorkspaceState()
-  state.workspaces = undefined
-  state.accessByScope.clear()
+  useUserStore.getState().syncSession()
   api.getAccessContext.mockReset().mockImplementation(async (scope) => access(scope))
+  api.getWorkspaceUser.mockReset().mockResolvedValue(user)
   setWorkspaces([])
 }
 
@@ -131,8 +133,9 @@ export async function makeRouter() {
   })
   return {
     router,
-    access: (scope: AccessScope) => getWorkspaceState().accessByScope.get(accessScopeKey(scope)),
-    workspaces: () => getWorkspaceState().workspaces,
+    access: (scope: AccessScope) =>
+      useUserStore.getState().accessByScope.get(accessScopeKey(scope)),
+    workspaces: () => useUserStore.getState().workspaces,
     dispose() {
       router.dispose()
     },

@@ -8,7 +8,7 @@ import ChangePasswordDialog, {
 import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
 import RouteTransition from '@/components/RouteTransition/RouteTransition'
 import { workspaceLayoutToken } from '@/config/theme'
-import { getWorkspaceState } from '@/pages/workspaces/state'
+import { useUserStore } from '@/store/user'
 import { navigationTree } from '@/router/page-registry'
 import { clearWorkspaceRequests } from '@/utils/request/workspace'
 import { cookie } from '@/utils/storage/cookie'
@@ -29,7 +29,8 @@ export default function WorkspaceLayout() {
     : companyId
       ? { type: 'company', companyId }
       : { type: 'platform' }
-  const access = getWorkspaceState().accessByScope.get(accessScopeKey(scope))
+  const access = useUserStore((state) => state.accessByScope.get(accessScopeKey(scope)))
+  const invalidateWorkspaces = useUserStore((state) => state.invalidateWorkspaces)
   const location = useLocation()
   const navigation = useNavigation()
   const navigate = useNavigate()
@@ -48,6 +49,7 @@ export default function WorkspaceLayout() {
         if (document.visibilityState === 'hidden' || requested || revalidator.state !== 'idle')
           return
         requested = true
+        invalidateWorkspaces()
         void revalidator.revalidate().finally(() => {
           requested = false
         })
@@ -59,7 +61,7 @@ export default function WorkspaceLayout() {
         window.removeEventListener('workspace-access-refresh', refresh)
       }
     },
-    [revalidator],
+    [revalidator, invalidateWorkspaces],
   )
 
   /** 结束当前登录会话，清理本地令牌并返回登录页。 */
