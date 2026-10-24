@@ -1,7 +1,7 @@
 import { getBuiltinPermissionKeys } from 'shared/utils'
 import { getAccessContext } from '@/pages/workspaces/api'
 import { useUserStore } from '@/store/user'
-import { firstAccessiblePagePath } from '@/router/page-registry'
+import { firstAccessiblePagePath } from '@/router/access-pages/registry'
 import { workspacesContext } from './data'
 
 const companyMemberPermissions = new Set(

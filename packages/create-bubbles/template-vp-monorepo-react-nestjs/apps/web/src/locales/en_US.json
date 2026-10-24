@@ -4,6 +4,7 @@
   "没有匹配的语言": "No matching languages",
   "语言切换失败，请重试": "Unable to switch languages. Please try again.",
   "账户菜单": "Account menu",
+  "数据字典": "Data Dictionaries",
   "保存": "Save",
   "ProTable 示例": "ProTable Examples",
   "一个账号，访问你加入的企业和项目。": "Use one account to access the companies and projects you have joined.",
@@ -598,5 +599,9 @@
   "邀请流程尚待确认，暂不可用": "The invitation flow is pending confirmation and is currently unavailable.",
   "暂未加入企业，请联系企业管理员": "You have not joined a company. Contact a company administrator.",
   "注册后登录，可查看已获授权的工作空间。": "Sign in after registering to view your authorized workspaces.",
-  "4–32 位字母、数字或下划线；仅支持创建新账号。": "Use 4–32 letters, numbers, or underscores. Only new accounts can be created."
+  "4–32 位字母、数字或下划线；仅支持创建新账号。": "Use 4–32 letters, numbers, or underscores. Only new accounts can be created.",
+  "当前管理员": "Current administrators",
+  "暂无管理员": "No administrators",
+  "将撤销 {name}（{account}）的管理员身份": "Administrator access will be removed from {name} ({account})",
+  "未选择被替换者，将保留全部现有管理员。": "No replacement selected. All current administrators will be retained."
 }

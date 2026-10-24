@@ -4,7 +4,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import type { RedisGetQuery, RedisSetRequest } from 'shared/types'
 import { GetQuerySchema, SetQuerySchema } from './dto/redis-quary.dto'
 
-@ApiTags('Redis 测试')
+@ApiTags('缓存测试')
 @Controller('redis')
 export class RedisController {
   constructor(private readonly redisService: RedisService) {}
@@ -12,7 +12,7 @@ export class RedisController {
   /**
    * 调用 Redis 连通性探测并将结果包装为 HTTP 响应。
    */
-  @ApiOperation({ summary: '测试 Redis 连接' })
+  @ApiOperation({ summary: '测试缓存连接' })
   @Get('ping')
   async ping() {
     return { pong: await this.redisService.ping() }

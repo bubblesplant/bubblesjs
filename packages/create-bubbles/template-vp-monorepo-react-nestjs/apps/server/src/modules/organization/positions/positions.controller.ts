@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Patch, Post, Put, Query, Req } from '@nestjs/common'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import type { FastifyRequest } from 'fastify'
 import { AccessPolicy } from '@/common/decorators/access-policy.decorator'
 import { actor, ids, scopeFor } from '@/modules/access/access-http'
@@ -14,12 +15,14 @@ import {
 } from '../organization.validation'
 import { PositionsService } from './positions.service'
 
+@ApiTags('岗位管理')
 @Controller()
 export class PositionsController {
   constructor(private readonly positions: PositionsService) {}
 
   /** 分页读取企业岗位。 */
   @Get('companies/:companyId/positions')
+  @ApiOperation({ summary: '分页查询企业岗位' })
   @AccessPolicy({ scope: 'company', permission: 'company.positions.read' })
   companyPositions(@Req() req: FastifyRequest, @Query() query: unknown) {
     return this.positions.list({
@@ -31,6 +34,7 @@ export class PositionsController {
 
   /** 分页读取项目岗位。 */
   @Get('companies/:companyId/projects/:projectId/positions')
+  @ApiOperation({ summary: '分页查询项目岗位' })
   @AccessPolicy({ scope: 'project', permission: 'project.positions.read' })
   projectPositions(@Req() req: FastifyRequest, @Query() query: unknown) {
     return this.positions.list({
@@ -42,6 +46,7 @@ export class PositionsController {
 
   /** 创建企业岗位。 */
   @Post('companies/:companyId/positions')
+  @ApiOperation({ summary: '创建企业岗位' })
   @AccessPolicy({ scope: 'company', permission: 'company.positions.create' })
   createCompanyPosition(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.create({
@@ -53,6 +58,7 @@ export class PositionsController {
 
   /** 创建项目岗位。 */
   @Post('companies/:companyId/projects/:projectId/positions')
+  @ApiOperation({ summary: '创建项目岗位' })
   @AccessPolicy({ scope: 'project', permission: 'project.positions.create' })
   createProjectPosition(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.create({
@@ -64,6 +70,7 @@ export class PositionsController {
 
   /** 更新企业岗位资料。 */
   @Patch('companies/:companyId/positions/:positionId')
+  @ApiOperation({ summary: '修改企业岗位资料' })
   @AccessPolicy({ scope: 'company', permission: 'company.positions.update' })
   updateCompanyPosition(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.update({
@@ -76,6 +83,7 @@ export class PositionsController {
 
   /** 更新项目岗位资料。 */
   @Patch('companies/:companyId/projects/:projectId/positions/:positionId')
+  @ApiOperation({ summary: '修改项目岗位资料' })
   @AccessPolicy({ scope: 'project', permission: 'project.positions.update' })
   updateProjectPosition(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.update({
@@ -88,6 +96,7 @@ export class PositionsController {
 
   /** 启停企业岗位并保留现有任职。 */
   @Patch('companies/:companyId/positions/:positionId/status')
+  @ApiOperation({ summary: '启用或停用企业岗位' })
   @AccessPolicy({ scope: 'company', permission: 'company.positions.update' })
   companyPositionStatus(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.status({
@@ -100,6 +109,7 @@ export class PositionsController {
 
   /** 启停项目岗位并保留现有任职。 */
   @Patch('companies/:companyId/projects/:projectId/positions/:positionId/status')
+  @ApiOperation({ summary: '启用或停用项目岗位' })
   @AccessPolicy({ scope: 'project', permission: 'project.positions.update' })
   projectPositionStatus(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.status({
@@ -112,6 +122,7 @@ export class PositionsController {
 
   /** 按企业成员全量替换岗位任职。 */
   @Put('companies/:companyId/organization/members/:userId/positions')
+  @ApiOperation({ summary: '全量替换企业成员的岗位任职' })
   @AccessPolicy({ scope: 'company', permission: 'company.positions.assign' })
   replaceCompanyMemberPositions(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.replaceMemberPositions({
@@ -124,6 +135,7 @@ export class PositionsController {
 
   /** 按项目成员全量替换岗位任职。 */
   @Put('companies/:companyId/projects/:projectId/organization/members/:userId/positions')
+  @ApiOperation({ summary: '全量替换项目成员的岗位任职' })
   @AccessPolicy({ scope: 'project', permission: 'project.positions.assign' })
   replaceProjectMemberPositions(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.replaceMemberPositions({
@@ -136,6 +148,7 @@ export class PositionsController {
 
   /** 按企业岗位全量替换成员集合。 */
   @Put('companies/:companyId/positions/:positionId/members')
+  @ApiOperation({ summary: '全量替换企业岗位的成员' })
   @AccessPolicy({ scope: 'company', permission: 'company.positions.assign' })
   replaceCompanyPositionMembers(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.replacePositionMembers({
@@ -148,6 +161,7 @@ export class PositionsController {
 
   /** 按项目岗位全量替换成员集合。 */
   @Put('companies/:companyId/projects/:projectId/positions/:positionId/members')
+  @ApiOperation({ summary: '全量替换项目岗位的成员' })
   @AccessPolicy({ scope: 'project', permission: 'project.positions.assign' })
   replaceProjectPositionMembers(@Req() req: FastifyRequest, @Body() body: unknown) {
     return this.positions.replacePositionMembers({

@@ -2,7 +2,7 @@ import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-component
 import { Alert, Button, Card, Descriptions, Space, Spin, Tag } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type { CompanyDetail, ProjectDetail, UpdateProfileRequest } from 'shared/types'
-import { accessScopeKey } from 'shared/utils'
+import { getRequestErrorMessage, accessScopeKey } from 'shared/utils'
 import { managementApi } from './api'
 import { useAccess, useManagementAction } from './use-access'
 
@@ -31,7 +31,7 @@ export default function ProfilePage() {
         })
         .catch((cause: unknown) => {
           if (active && (cause as Error).name !== 'AbortError')
-            setError(cause instanceof Error ? cause.message : tr('无法加载资料'))
+            setError(getRequestErrorMessage(cause, tr('无法加载资料')))
         })
         .finally(() => {
           if (active) setLoading(false)

@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "scope": "4 new keys and matching placeholders in both locales",
+  "result": [
+    {
+      "locale": "zh_CN",
+      "entries": [
+        {
+          "key": "当前管理员",
+          "value": "当前管理员"
+        },
+        {
+          "key": "暂无管理员",
+          "value": "暂无管理员"
+        },
+        {
+          "key": "将撤销 {name}（{account}）的管理员身份",
+          "value": "将撤销 {name}（{account}）的管理员身份"
+        },
+        {
+          "key": "未选择被替换者，将保留全部现有管理员。",
+          "value": "未选择被替换者，将保留全部现有管理员。"
+        }
+      ]
+    },
+    {
+      "locale": "en_US",
+      "entries": [
+        {
+          "key": "当前管理员",
+          "value": "Current administrators"
+        },
+        {
+          "key": "暂无管理员",
+          "value": "No administrators"
+        },
+        {
+          "key": "将撤销 {name}（{account}）的管理员身份",
+          "value": "Administrator access will be removed from {name} ({account})"
+        },
+        {
+          "key": "未选择被替换者，将保留全部现有管理员。",
+          "value": "No replacement selected. All current administrators will be retained."
+        }
+      ]
+    }
+  ]
+}

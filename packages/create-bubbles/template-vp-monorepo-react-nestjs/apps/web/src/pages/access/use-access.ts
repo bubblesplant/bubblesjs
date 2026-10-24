@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import { App } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type { AccessContext } from 'shared/types'
@@ -26,9 +27,7 @@ export function useManagementAction() {
       if ((error as Error).name === 'AbortError') return false
       const suffix =
         (error as { status?: number }).status === 409 ? tr(' 请刷新数据后检查最新内容再保存。') : ''
-      void message.error(
-        `${error instanceof Error ? error.message : tr('操作失败，请重试')}${suffix}`,
-      )
+      void message.error(`${getRequestErrorMessage(error, tr('操作失败，请重试'))}${suffix}`)
       return false
     }
   }

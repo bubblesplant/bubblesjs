@@ -60,7 +60,7 @@ export class AuthController {
 
   /** 从请求提取登录来源，创建或替换当前终端会话。 */
   @Public()
-  @ApiOperation({ summary: '登录并创建 Redis Session' })
+  @ApiOperation({ summary: '登录并创建登录会话' })
   @ApiOkResponse({ standardSchema: loginResultSchema })
   @SerializeOptions({ schema: loginResultSchema })
   @HttpCode(HttpStatus.OK)
@@ -77,7 +77,7 @@ export class AuthController {
 
   /** 撤销请求头令牌对应的当前终端会话；保持退出接口幂等。 */
   @ApiBearerAuth('session')
-  @ApiOperation({ summary: '退出当前端' })
+  @ApiOperation({ summary: '退出当前终端登录' })
   @ApiOkResponse({ standardSchema: logoutResultSchema })
   @SerializeOptions({ schema: logoutResultSchema })
   @Public()
@@ -89,7 +89,7 @@ export class AuthController {
 
   /** 结合认证上下文与最新公开资料，返回当前用户及登录终端。 */
   @ApiBearerAuth('session')
-  @ApiOperation({ summary: '使用 Session Token 获取当前用户资料' })
+  @ApiOperation({ summary: '获取当前登录用户资料' })
   @ApiOkResponse({ standardSchema: currentUserSchema })
   @SerializeOptions({ schema: currentUserSchema })
   @Get('me')

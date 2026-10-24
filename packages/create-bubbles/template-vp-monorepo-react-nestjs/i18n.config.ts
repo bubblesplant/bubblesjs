@@ -1,10 +1,10 @@
 import { defineConfig } from '@bubblesjs/i18n-cli'
 
 export default defineConfig({
-  callNames: ['tr'],
+  callNames: ['tr', 'defineAccessTitle'],
   projects: {
     web: {
-      include: ['apps/web/src/**/*.{js,jsx,ts,tsx}'],
+      include: ['apps/web/src/**/*.{js,jsx,ts,tsx}', 'packages/shared/src/utils/access-catalog.ts'],
       catalogs: {
         zh_CN: 'apps/web/src/locales/zh_CN.json',
         en_US: 'apps/web/src/locales/en_US.json',

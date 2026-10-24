@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-23",
+  "method": "在 apps/web 使用现有 vite-plus createServer({ server: { middlewareMode: true }, appType: 'custom', mode: 'dev' }) 与 HappyDOM Window（URL 为 /login）安装 DOM globals，再 ssrLoadModule 目标模块。每个入口在独立 Node ESM 进程运行，无 router/request mock；finally 关闭 server、Window 及已创建的 router。",
+  "beforeFix": {
+    "module": "/src/utils/request/index.ts",
+    "result": "TypeError: Cannot read properties of undefined (reading 'options')",
+    "source": "workspace.ts 顶层读取尚未初始化的 alovaRequest.options"
+  },
+  "afterFix": [
+    {
+      "module": "/src/utils/request/index.ts",
+      "exitCode": 0,
+      "output": "DIRECT_REQUEST_IMPORT_OK true"
+    },
+    {
+      "module": "/src/router/index.tsx",
+      "exitCode": 0,
+      "output": "ROUTER_IMPORT_OK true"
+    }
+  ],
+  "limitation": "此为 Vite SSR 模块加载与 HappyDOM 验证，未操作真实浏览器或后端。"
+}

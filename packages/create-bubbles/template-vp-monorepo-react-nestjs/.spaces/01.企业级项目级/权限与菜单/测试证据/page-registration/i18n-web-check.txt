@@ -1,0 +1,8 @@
+bubbles-i18n check
+Config: i18n.config.ts
+Project web: 156 source files, 614 keys.
+  zh_CN apps/web/src/locales/zh_CN.json: added 35, unused 4, deleted 0, unchanged 579.
+  en_US apps/web/src/locales/en_US.json: added 17, unused 4, deleted 0, unchanged 597.
+Total: added 52, unused 8, deleted 0, unchanged 1176.
+Report: .bubbles-i18n/report.json
+Check failed: 52 missing catalog entries, 8 unused entries.

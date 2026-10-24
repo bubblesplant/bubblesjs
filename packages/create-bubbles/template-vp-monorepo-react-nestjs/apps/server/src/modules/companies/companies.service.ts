@@ -19,6 +19,7 @@ import type {
   CompanyRecord,
   CreateCompanyRequest,
   EntityPageQuery,
+  PageResult,
   SetAdministratorRequest,
   SetAdministratorResult,
   StatusRequest,
@@ -88,8 +89,11 @@ export class CompaniesService {
     if (duplicate) throw new AppException(ACCESS_ERRORS.DUPLICATE_RESOURCE)
   }
 
-  /** 在平台公司读取权限下，按状态、公司名称或编码分页查询公司。 */
-  listCompanies(input: { actor: AccessActor; query: EntityPageQuery }) {
+  /** 在平台公司读取权限下分页查询公司，并批量补齐当前页直接分配的管理员状态。 */
+  listCompanies(input: {
+    actor: AccessActor
+    query: EntityPageQuery
+  }): Promise<PageResult<CompanyDetail>> {
     return this.access.read(
       { actor: input.actor, scope: { type: 'platform' }, permission: 'platform.companies.read' },
       /** 使用相同筛选条件查询公司总数和当前页，避免分页信息来自不同快照。 */
@@ -107,8 +111,15 @@ export class CompaniesService {
           .orderBy(desc(companies.createdAt), desc(companies.id))
           .limit(pageSize)
           .offset(offset)
+        const administrators = await this.administrators.companyAdministrators(
+          tx,
+          rows.map((row) => row.id),
+        )
         return {
-          items: rows.map((row) => this.companyRecord(row)),
+          items: rows.map((row) => ({
+            ...this.companyRecord(row),
+            administrators: administrators.get(row.id) ?? [],
+          })),
           total: total!.value,
           page,
           pageSize,

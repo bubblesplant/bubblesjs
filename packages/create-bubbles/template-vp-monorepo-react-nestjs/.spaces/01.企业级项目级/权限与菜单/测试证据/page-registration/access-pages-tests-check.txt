@@ -1,0 +1,2 @@
+pass: Formatting completed for checked files (1.4s)
+pass: Found no warnings, lint errors, or type errors in 4 files (818ms, 24 threads)

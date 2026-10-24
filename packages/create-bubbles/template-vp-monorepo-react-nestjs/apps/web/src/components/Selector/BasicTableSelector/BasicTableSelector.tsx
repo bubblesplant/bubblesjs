@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import { ProTable, type ParamsType } from '@ant-design/pro-components'
 import { useI18n } from '@bubblesjs/i18n-react'
 import { Alert, Button, Flex, Modal, Tag, Typography } from 'antd'
@@ -89,7 +90,7 @@ export default function BasicTableSelector<
       if (sessionId.current === id) hide()
     } catch (cause) {
       if (sessionId.current === id) {
-        setError(tr(cause instanceof Error ? cause.message : '确认选择失败，请重试'))
+        setError(tr(getRequestErrorMessage(cause, '确认选择失败，请重试')))
       }
     } finally {
       if (sessionId.current === id) {
@@ -193,7 +194,7 @@ export default function BasicTableSelector<
               onRequestError={
                 /** 仅向当前选择会话展示加载错误，并转发请求失败通知。 */ (cause) => {
                   if (session.id !== sessionId.current) return
-                  setError(cause.message || tr('加载选择数据失败，请刷新重试'))
+                  setError(getRequestErrorMessage(cause, tr('加载选择数据失败，请刷新重试')))
                   onRequestError?.(cause)
                 }
               }

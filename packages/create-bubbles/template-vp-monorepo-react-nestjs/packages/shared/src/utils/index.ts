@@ -66,5 +66,6 @@ export {
   updateProfileSchema,
 } from './organization/contracts'
 export { toTimestampRecord } from './record'
+export { getRequestErrorMessage } from './request-error'
 export { toValidationDetails } from './schema-validation'
 export { isSessionTerminal, SESSION_TERMINALS } from './session-terminal'

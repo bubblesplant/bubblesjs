@@ -23,7 +23,7 @@ export const cookie = {
     }
   },
 
-  /** 同名 Cookie 在相同 path、domain 下写入即为更新。 */
+  /** 写入同名 Cookie；令牌变化或显式删除时同步通知本地会话清理。 */
   set(key: string, value: string, options: CookieOptions = {}): void {
     const previous = key === 'token' ? cookie.get(key) : null
     const { path = '/', domain, expires, maxAge, sameSite = 'Lax' } = options
@@ -40,11 +40,11 @@ export const cookie = {
     if (secure) attributes.push('Secure')
 
     document.cookie = attributes.join('; ')
-    if (key === 'token' && previous !== cookie.get(key))
+    if (key === 'token' && (previous !== cookie.get(key) || maxAge === 0))
       window.dispatchEvent?.(new Event('auth-session-change'))
   },
 
-  /** 删除时的 path、domain 必须与写入时一致。 */
+  /** 删除时 path、domain 须与写入一致；令牌已过期时仍通知各模块清理本地会话。 */
   remove(
     key: string,
     options: Pick<CookieOptions, 'path' | 'domain' | 'secure' | 'sameSite'> = {},

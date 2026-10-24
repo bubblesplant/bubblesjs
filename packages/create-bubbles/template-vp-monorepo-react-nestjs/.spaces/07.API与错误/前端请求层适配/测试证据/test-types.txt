@@ -1,0 +1,1 @@
+test/i18n-locale.spec.ts(1,38): error TS2307: Cannot find module 'vitest' or its corresponding type declarations.

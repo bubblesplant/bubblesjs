@@ -1,0 +1,45 @@
+前端请求层适配：会话清理与登录去重验证
+日期：2026-10-23
+工作目录：apps/web
+
+命令：
+vp test test/request.spec.ts test/workspace-requests.spec.ts test/request/workspace.integration.spec.ts test/request/public-auth.spec.ts test/request/unauthorized.spec.ts test/request/session-cleanup.spec.ts test/request/login-session.spec.tsx
+
+运行结果：
+RUN v5.0.5
+Test Files 7 passed (7)
+Tests 44 passed (44)
+Start at 17:05:14
+Duration 1.01s
+
+覆盖：
+- 原生 AxiosResponse / AxiosError、鉴权、状态码分流、transform 与提示控制。
+- 真实 HTTP 链路中的公开登录／注册 401 与空间／会话 401。
+- 旧账号、旧空间及 A→B→A 的迟到结果，不触发当前会话的清理／导航。
+- 统一失效入口删除 token、用户空间快照和字典快照，保留语言、主题和草稿。
+- 真实 auth-session-change 事件同步清用户、权限、字典内存。
+- 空间、用户与字典在途请求取消；迟到成功不能返回或恢复旧状态／快照。
+- 自然过期后 store 已记录空 token，删除事件仍强制清理残留数据。
+- 相同 token 写入无事件；有 token 删除和无 token 删除各通知一次。
+- 连续 401 只提示与导航一次；请求工具加载时不初始化路由。
+- 重新登录成功保存 token 后导航，并恢复下一轮 401 处理；登录失败不恢复。
+
+环境说明：
+happy-dom 的 Max-Age=0 Cookie 在同一毫秒内短暂可读为空字符串。
+已用独立 Window 脚本确认该模拟器差异；测试采用单调递增 Date.now，
+保留严格 null 与同步事件断言，没有更改产品代码以适配模拟器。
+
+命令：
+vp check test/request.spec.ts test/workspace-requests.spec.ts test/request/fixtures.ts test/request/workspace.integration.spec.ts test/request/public-auth.spec.ts test/request/unauthorized.spec.ts test/request/session-cleanup.spec.ts test/request/login-session.spec.tsx
+
+结果：
+pass: All 8 files are correctly formatted
+pass: Found no warnings, lint errors, or type errors in 8 files
+
+命令：
+vp exec tsc --noEmit -p test/tsconfig.json
+
+结果：
+退出码 1，仅存既有无关错误：
+test/i18n-locale.spec.ts(1,38): error TS2307: Cannot find module 'vitest' or its corresponding type declarations.
+本次相关测试未出现新增 TypeScript 错误；未修改该无关测试。

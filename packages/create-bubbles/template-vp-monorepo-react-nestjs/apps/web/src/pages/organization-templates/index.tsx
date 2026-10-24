@@ -8,7 +8,7 @@ import type {
   OrganizationTemplateRecord,
   OrganizationTemplateSummary,
 } from 'shared/types'
-import { accessScopeKey } from 'shared/utils'
+import { getRequestErrorMessage, accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
 import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { useAccess, useManagementAction } from '@/pages/access/use-access'
@@ -41,7 +41,7 @@ export default function OrganizationTemplatesPage() {
       onSuccess: (detail) => dialogRef.current?.show(detail),
       onError: (error) => {
         if ((error as Error).name !== 'AbortError')
-          void message.error(error instanceof Error ? error.message : tr('无法加载模板详情'))
+          void message.error(getRequestErrorMessage(error, tr('无法加载模板详情')))
       },
     })
   }
@@ -163,7 +163,8 @@ export default function OrganizationTemplatesPage() {
           }
         }
         onRequestError={(error) => {
-          if (error.name !== 'AbortError') void message.error(error.message)
+          if (error.name !== 'AbortError')
+            void message.error(getRequestErrorMessage(error, error.message))
         }}
         toolBarRender={() =>
           allowed('create')

@@ -3,7 +3,7 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { App, Button, Popconfirm, Space, Tag } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type { RoleRecord } from 'shared/types'
-import { accessScopeKey } from 'shared/utils'
+import { getRequestErrorMessage, accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
 import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { managementApi } from './api'
@@ -45,7 +45,7 @@ export default function RolesPage() {
       },
       onError: (error) => {
         if ((error as Error).name !== 'AbortError')
-          void message.error(error instanceof Error ? error.message : tr('无法加载权限'))
+          void message.error(getRequestErrorMessage(error, tr('无法加载权限')))
       },
     })
   }
@@ -129,7 +129,8 @@ export default function RolesPage() {
           }
         }
         onRequestError={(error) => {
-          if (error.name !== 'AbortError') void message.error(error.message)
+          if (error.name !== 'AbortError')
+            void message.error(getRequestErrorMessage(error, error.message))
         }}
         toolBarRender={() =>
           allowed('create')

@@ -36,6 +36,11 @@ export function requestDictionaryOptions(input: DictionaryOptionsRequest) {
 function syncSession() {
   dictionaryStore.getState().syncSession()
 }
+/** 退出时强制清除残留选项及在途操作，覆盖令牌已自然过期的情况。 */
+function sessionChanged() {
+  syncSession()
+  if (!cookie.get('token')) invalidate()
+}
 /** 权限重验或管理变更后丢弃本地授权范围内的旧选项。 */
 function invalidate() {
   dictionaryStore.getState().invalidate()
@@ -47,13 +52,13 @@ function storageChanged(event: StorageEvent) {
     invalidate()
 }
 if (typeof window !== 'undefined') {
-  window.addEventListener('auth-session-change', syncSession)
+  window.addEventListener('auth-session-change', sessionChanged)
   window.addEventListener('focus', syncSession)
   window.addEventListener('storage', storageChanged)
   window.addEventListener('workspace-access-refresh', invalidate)
   import.meta.hot?.dispose(() => {
     invalidate()
-    window.removeEventListener('auth-session-change', syncSession)
+    window.removeEventListener('auth-session-change', sessionChanged)
     window.removeEventListener('focus', syncSession)
     window.removeEventListener('storage', storageChanged)
     window.removeEventListener('workspace-access-refresh', invalidate)

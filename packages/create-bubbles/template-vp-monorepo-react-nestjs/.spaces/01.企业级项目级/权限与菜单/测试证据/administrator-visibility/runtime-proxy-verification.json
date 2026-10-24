@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-23T15:44:09.0369157+08:00",
+  "frontend": "http://localhost:10000",
+  "backend": "http://localhost:13001",
+  "companyListHasResponseSchema": true,
+  "companyListFields": [
+    "id",
+    "name",
+    "code",
+    "description",
+    "status",
+    "version",
+    "createdAt",
+    "updatedAt",
+    "administrators"
+  ],
+  "administratorsRequired": true,
+  "unrelatedBackendStillListening": true
+}

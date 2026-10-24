@@ -25,8 +25,8 @@ async function bootstrap() {
   })
 
   const config = new DocumentBuilder()
-    .setTitle('前后端模板 API')
-    .setDescription('接口文档')
+    .setTitle('前后端模板接口文档')
+    .setDescription('前后端一体化模板的 HTTP 接口文档，涵盖认证、平台、企业、项目与示例接口。')
     .setVersion('1.0')
     .addBearerAuth(
       {

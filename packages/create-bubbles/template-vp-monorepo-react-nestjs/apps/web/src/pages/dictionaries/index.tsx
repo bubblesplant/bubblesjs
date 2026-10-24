@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import { PlusOutlined } from '@ant-design/icons'
 import { ProForm, type ActionType, type ProColumns } from '@ant-design/pro-components'
 import { App, Button, Modal, Space, Tag } from 'antd'
@@ -38,7 +39,7 @@ export default function DictionariesPage() {
       return true
     } catch (error) {
       if ((error as Error).name !== 'AbortError')
-        void message.error(error instanceof Error ? error.message : tr('保存失败，请重试'))
+        void message.error(getRequestErrorMessage(error, tr('保存失败，请重试')))
       return false
     }
   }
@@ -120,7 +121,8 @@ export default function DictionariesPage() {
           }
         }
         onRequestError={(error) => {
-          if (error.name !== 'AbortError') void message.error(error.message)
+          if (error.name !== 'AbortError')
+            void message.error(getRequestErrorMessage(error, error.message))
         }}
         toolBarRender={() =>
           allowed('create')

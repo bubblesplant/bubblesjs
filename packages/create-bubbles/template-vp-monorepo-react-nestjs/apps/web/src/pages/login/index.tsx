@@ -3,11 +3,12 @@ import { LoginForm, ProFormText } from '@ant-design/pro-components'
 import { useRequest } from 'alova/client'
 import { Alert } from 'antd'
 import type { LoginRequest } from 'shared/types'
-import { ACCOUNT_PATTERN, normalizeAccount } from 'shared/utils'
+import { getRequestErrorMessage, ACCOUNT_PATTERN, normalizeAccount } from 'shared/utils'
 import { useI18n } from '@bubblesjs/i18n-react'
 import Brand from '@/components/Brand/Brand'
 import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
 import { cookie } from '@/utils/storage/cookie'
+import { resetUnauthorizedHandled } from '@/utils/request/utils'
 import { buildAuthPath, safeNextPath } from '@/utils/safe-next'
 import { login } from './api'
 import './login.css'
@@ -22,7 +23,7 @@ export default function LoginPage() {
   const { tr } = useI18n()
   const next = safeNextPath(searchParams.get('next'))
 
-  /** 规范化账号并提交登录，将令牌按服务端绝对过期时间保存。 */
+  /** 提交规范化账号，按绝对过期时间保存令牌，并开启新会话的失效处理。 */
   async function handleLogin(values: LoginRequest) {
     if (loading) return false
     setError(null)
@@ -34,10 +35,11 @@ export default function LoginPage() {
       cookie.set('token', result.accessToken, {
         expires: new Date(result.absoluteExpiresAt),
       })
+      resetUnauthorizedHandled()
       void navigate(next, { replace: true })
       return true
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : tr('登录失败，请稍后重试'))
+      setError(getRequestErrorMessage(cause, tr('登录失败，请稍后重试')))
       return false
     }
   }

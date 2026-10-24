@@ -25,7 +25,7 @@ import { accessMiddleware } from '../../src/router/middleware/workspace/access'
 import { scopeMiddleware, workspacesMiddleware } from '../../src/router/middleware/workspace/data'
 import { entryMiddleware } from '../../src/router/middleware/workspace/entry'
 import { useUserStore } from '../../src/store/user'
-import type { RegisteredPage } from '../../src/router/page-registry'
+import type { RegisteredPage } from '../../src/router/access-pages/registry'
 
 export const companyScope = { type: 'company', companyId: 'company-a' } as const
 export const projectScope = {

@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import { Button, Result, Space } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 
@@ -20,9 +21,7 @@ export default function RouteError() {
       subTitle={
         status === 404
           ? tr('请检查地址，或返回工作空间重新选择。')
-          : error instanceof Error
-            ? error.message
-            : tr('请重试；如果问题持续，请联系管理员。')
+          : getRequestErrorMessage(error, tr('请重试；如果问题持续，请联系管理员。'))
       }
       extra={
         <Space>

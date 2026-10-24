@@ -1,0 +1,14 @@
+
+    mode: dev
+    VITE_PORT: 10000
+    VITE_API_AFFIX: /api
+    VITE_API_URL: http://localhost:13001
+    
+{"module":"/src/utils/request/index.ts","loaded":true}
+
+    mode: dev
+    VITE_PORT: 10000
+    VITE_API_AFFIX: /api
+    VITE_API_URL: http://localhost:13001
+    
+{"module":"/src/router/index.tsx","loaded":true}

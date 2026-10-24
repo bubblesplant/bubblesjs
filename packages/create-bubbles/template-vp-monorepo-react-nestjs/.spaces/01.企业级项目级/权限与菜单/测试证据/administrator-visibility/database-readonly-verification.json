@@ -1,0 +1,21 @@
+{
+  "verifiedAt": "2026-10-23T07:44:49.535Z",
+  "status": "PASS",
+  "scope": "current-server-configured-database",
+  "transactionReadOnly": true,
+  "transactionIsolation": "repeatable read",
+  "companyCount": 1,
+  "companyCountWithAdministrators": 1,
+  "companyCountWithoutAdministrators": 0,
+  "administratorAssignmentCount": 1,
+  "effectiveAdministratorAssignmentCount": 1,
+  "uniqueAdministratorCount": 1,
+  "uniqueEffectiveAdministratorCount": 1,
+  "comparedCompanyCount": 1,
+  "inconsistentCompanyCount": 0,
+  "batchAndDetailConsistent": true,
+  "nestInitialized": false,
+  "seedExecuted": false,
+  "businessWriteOperations": 0,
+  "personalDataSaved": false
+}

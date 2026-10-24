@@ -10,6 +10,7 @@ import {
   Query,
   Req,
 } from '@nestjs/common'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import type { FastifyRequest } from 'fastify'
 import { AccessPolicy } from '@/common/decorators/access-policy.decorator'
 import { actor, ids } from '@/modules/access/access-http'
@@ -20,6 +21,7 @@ import { AccountPasswordResetService } from './password-reset/password-reset.ser
 import { resetAccountPasswordSchema } from './password-reset/reset-password.validation'
 import { markPasswordTargetResolved } from '@/common/security/password-security-event'
 
+@ApiTags('平台账号管理')
 @Controller()
 export class AccountsController {
   constructor(
@@ -27,12 +29,14 @@ export class AccountsController {
     private readonly passwordReset: AccountPasswordResetService,
   ) {}
   /** 校验分页及状态筛选参数，读取平台账号列表。 */
+  @ApiOperation({ summary: '获取平台账号列表' })
   @Get('platform/accounts')
   @AccessPolicy({ scope: 'platform', permission: 'platform.accounts.read' })
   accounts(@Req() req: FastifyRequest, @Query() query: unknown) {
     return this.accountsService.accounts({ actor: actor(req), query: parse(listSchema, query) })
   }
   /** 校验账号标识与目标状态，提交平台账号启停操作。 */
+  @ApiOperation({ summary: '启用或停用平台账号' })
   @Patch('platform/accounts/:userId/status')
   @AccessPolicy({ scope: 'platform', permission: 'platform.accounts.status' })
   accountStatus(@Req() req: FastifyRequest, @Body() body: unknown) {
@@ -43,6 +47,7 @@ export class AccountsController {
     })
   }
   /** 校验账号标识与角色集合，替换账号的平台角色。 */
+  @ApiOperation({ summary: '设置账号的平台角色' })
   @Put('platform/accounts/:userId/roles')
   @AccessPolicy({ scope: 'platform', permission: 'platform.accounts.roles' })
   accountRoles(@Req() req: FastifyRequest, @Body() body: unknown) {
@@ -54,6 +59,7 @@ export class AccountsController {
   }
 
   /** 校验平台管理员身份与目标账号，提交重置密码操作。 */
+  @ApiOperation({ summary: '重置平台账号密码' })
   @Post('platform/accounts/:userId/reset-password')
   @HttpCode(HttpStatus.OK)
   @AccessPolicy({

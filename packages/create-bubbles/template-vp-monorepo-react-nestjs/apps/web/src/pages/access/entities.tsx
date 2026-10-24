@@ -3,16 +3,18 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { App, Button, Empty, Popconfirm, Space } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type {
+  CompanyDetail,
   CompanyRecord,
   CreateCompanyRequest,
   CreateProjectRequest,
   EntityStatus,
 } from 'shared/types'
-import { accessScopeKey } from 'shared/utils'
+import { getRequestErrorMessage, accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
 import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { managementApi } from './api'
 import AdministratorDialog, { type AdministratorDialogRef } from './components/AdministratorDialog'
+import AdministratorList from './components/AdministratorDialog/AdministratorList'
 import EntityFormDialog, { type EntityFormDialogRef } from './components/EntityFormDialog'
 import {
   createGlobalAccountResolver,
@@ -54,12 +56,12 @@ export default function EntitiesPage() {
       onSuccess: (administrators) => administratorRef.current?.show(record, administrators),
       onError: (error) => {
         if ((error as Error).name !== 'AbortError')
-          void message.error(error instanceof Error ? error.message : tr('无法加载管理员，请重试'))
+          void message.error(getRequestErrorMessage(error, tr('无法加载管理员，请重试')))
       },
     })
   }
 
-  const columns: ProColumns<CompanyRecord>[] = [
+  const columns: ProColumns<CompanyRecord | CompanyDetail>[] = [
     {
       title: tr('搜索'),
       dataIndex: 'query',
@@ -76,6 +78,18 @@ export default function EntitiesPage() {
       width: 220,
     },
     { title: tr('编码'), dataIndex: 'code', search: false, width: 150 },
+    {
+      title: tr('当前管理员'),
+      dataIndex: 'administrators',
+      search: false,
+      hideInTable: project,
+      width: 280,
+      render: (_, record) => (
+        <AdministratorList
+          administrators={'administrators' in record ? record.administrators : []}
+        />
+      ),
+    },
     {
       title: tr('状态'),
       dataIndex: 'status',
@@ -149,7 +163,7 @@ export default function EntitiesPage() {
 
   return (
     <>
-      <FullHeightProTable<CompanyRecord>
+      <FullHeightProTable<CompanyRecord | CompanyDetail>
         actionRef={actionRef}
         rowKey="id"
         columns={columns}
@@ -190,7 +204,8 @@ export default function EntitiesPage() {
           }
         }
         onRequestError={(error) => {
-          if (error.name !== 'AbortError') void message.error(error.message)
+          if (error.name !== 'AbortError')
+            void message.error(getRequestErrorMessage(error, error.message))
         }}
         toolBarRender={() =>
           canCreate

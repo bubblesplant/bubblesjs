@@ -1,7 +1,7 @@
 import { ProFormSelect, type ProFormSelectProps } from '@ant-design/pro-components'
 import { Typography } from 'antd'
 import type { DictionaryOption, DictionaryReference } from 'shared/types'
-import { dictionaryKey } from 'shared/utils'
+import { getRequestErrorMessage, dictionaryKey } from 'shared/utils'
 import { requestDictionaryOptions, useDictionaryStore } from '@/store/dictionary'
 
 export type DictionarySelectProps = Omit<
@@ -42,7 +42,7 @@ export default function DictionarySelect({
             return items
           } catch (reason) {
             if (latest.current === identity && (reason as Error).name !== 'AbortError')
-              setError(reason instanceof Error ? reason.message : '字典加载失败，请重新打开重试')
+              setError(getRequestErrorMessage(reason, '字典加载失败，请重新打开重试'))
             throw reason
           }
         }

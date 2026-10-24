@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import { logout } from '@/api/auth'
 import Brand, { BrandMark } from '@/components/Brand/Brand'
 import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
@@ -53,7 +54,7 @@ export default function BasicLayout() {
       cookie.remove('token')
       void navigate('/login', { replace: true })
     } catch (error) {
-      void message.error(error instanceof Error ? error.message : tr('退出失败，请重试'))
+      void message.error(getRequestErrorMessage(error, tr('退出失败，请重试')))
     }
   }
 

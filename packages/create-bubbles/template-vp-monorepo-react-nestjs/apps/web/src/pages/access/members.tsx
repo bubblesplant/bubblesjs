@@ -8,7 +8,7 @@ import type {
   OrganizationMemberCandidate,
   OrganizationScope,
 } from 'shared/types'
-import { accessScopeKey } from 'shared/utils'
+import { getRequestErrorMessage, accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
 import ResetAccountPasswordDialog, {
   type ResetAccountPasswordDialogRef,
@@ -84,7 +84,7 @@ export default function MembersPage() {
       onSuccess: (roles) => rolesRef.current?.show(record, roles),
       onError: (error) => {
         if ((error as Error).name !== 'AbortError')
-          void message.error(error instanceof Error ? error.message : tr('无法加载角色'))
+          void message.error(getRequestErrorMessage(error, tr('无法加载角色')))
       },
     })
   }
@@ -128,7 +128,7 @@ export default function MembersPage() {
       },
       onError: (error) => {
         if ((error as Error).name !== 'AbortError')
-          void message.error(error instanceof Error ? error.message : tr('无法加载组织归属'))
+          void message.error(getRequestErrorMessage(error, tr('无法加载组织归属')))
       },
     })
   }
@@ -147,7 +147,7 @@ export default function MembersPage() {
       },
       onError: (error) => {
         if ((error as Error).name !== 'AbortError')
-          void message.error(error instanceof Error ? error.message : tr('无法加载岗位任职'))
+          void message.error(getRequestErrorMessage(error, tr('无法加载岗位任职')))
       },
     })
   }
@@ -232,7 +232,8 @@ export default function MembersPage() {
           }
         }
         onRequestError={(error) => {
-          if (error.name !== 'AbortError') void message.error(error.message)
+          if (error.name !== 'AbortError')
+            void message.error(getRequestErrorMessage(error, error.message))
         }}
         toolBarRender={() =>
           !platform && scope && allowed('add')

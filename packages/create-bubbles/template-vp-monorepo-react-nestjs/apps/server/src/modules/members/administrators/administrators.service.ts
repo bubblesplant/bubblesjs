@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { and, eq, inArray, sql } from 'drizzle-orm'
-import { roles, userRoles, users } from '@/database/schema'
+import { and, asc, eq, inArray, isNull, sql } from 'drizzle-orm'
+import { companyMembers, roles, userRoles, users } from '@/database/schema'
 import { AppException } from '@/common/exceptions/app.exception'
 import { AccessService } from '@/modules/access/access.service'
 import { AccessSeedService } from '@/modules/access/seed/access-seed.service'
@@ -21,6 +21,51 @@ export class AdministratorsService {
     private readonly members: MembersService,
     private readonly seed: AccessSeedService,
   ) {}
+
+  /**
+   * 批量读取当前页企业直接分配的管理员，保留失效身份并忽略没有企业成员关系的分配。
+   *
+   * 企业自身停用不改变管理员身份有效性；空企业集合不访问数据库。
+   */
+  async companyAdministrators(db: AccessDb, companyIds: string[]) {
+    const result = new Map<string, AdministratorSummary[]>()
+    if (!companyIds.length) return result
+    const assignments = await db
+      .select({
+        companyId: companyMembers.companyId,
+        id: users.id,
+        name: users.name,
+        account: users.account,
+        accountStatus: users.status,
+        memberStatus: companyMembers.status,
+      })
+      .from(roles)
+      .innerJoin(userRoles, eq(userRoles.roleId, roles.id))
+      .innerJoin(users, eq(users.id, userRoles.userId))
+      .innerJoin(
+        companyMembers,
+        and(eq(companyMembers.companyId, roles.companyId), eq(companyMembers.userId, users.id)),
+      )
+      .where(
+        and(
+          eq(roles.scopeType, 'company'),
+          isNull(roles.projectId),
+          eq(roles.builtin, 'administrator'),
+          inArray(roles.companyId, companyIds),
+        ),
+      )
+      .orderBy(asc(users.account), asc(users.id))
+    for (const { companyId, ...administrator } of assignments) {
+      const administrators = result.get(companyId) ?? []
+      administrators.push({
+        ...administrator,
+        effective:
+          administrator.accountStatus === 'active' && administrator.memberStatus === 'active',
+      })
+      result.set(companyId, administrators)
+    }
+    return result
+  }
 
   /**
    * 列出公司或项目直接分配的管理员，附带账号状态、成员状态和当前身份是否有效。

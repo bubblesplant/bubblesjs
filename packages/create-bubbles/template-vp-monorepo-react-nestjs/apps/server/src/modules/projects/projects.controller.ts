@@ -1,4 +1,5 @@
 import { Body, Controller, Get, HttpCode, Patch, Post, Query, Req } from '@nestjs/common'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import type { FastifyRequest } from 'fastify'
 import type {
   CreateProjectRequest,
@@ -17,10 +18,12 @@ import {
 import { administratorSchema } from '@/modules/members/administrators/administrators.validation'
 import { ProjectsService } from './projects.service'
 
+@ApiTags('项目管理')
 @Controller()
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
   /** 校验公司、项目标识和资料字段，提交项目资料更新及预期版本。 */
+  @ApiOperation({ summary: '更新项目资料' })
   @Patch('companies/:companyId/projects/:projectId')
   @AccessPolicy({ scope: 'route', permission: '{scope}.profile.update' })
   updateProfile(
@@ -35,6 +38,7 @@ export class ProjectsController {
     })
   }
   /** 校验公司标识与分页筛选参数，读取当前用户可查询的公司项目列表。 */
+  @ApiOperation({ summary: '获取企业项目列表' })
   @Get('companies/:companyId/projects')
   @AccessPolicy({ scope: 'company', permission: 'company.projects.read' })
   projects(
@@ -48,6 +52,7 @@ export class ProjectsController {
     })
   }
   /** 校验公司标识、项目资料和初始管理员 userId，提交公司管理员创建项目操作。 */
+  @ApiOperation({ summary: '创建项目' })
   @Post('companies/:companyId/projects')
   @AccessPolicy({ scope: 'company', permission: 'company.projects.create', adminOnly: true })
   createProject(
@@ -61,6 +66,7 @@ export class ProjectsController {
     })
   }
   /** 校验公司和项目标识，读取项目资料及管理员详情。 */
+  @ApiOperation({ summary: '获取项目详情' })
   @Get('companies/:companyId/projects/:projectId')
   @AccessPolicy({ scope: 'project', permission: 'project.profile.read' })
   projectDetail(@Req() req: FastifyRequest) {
@@ -72,6 +78,7 @@ export class ProjectsController {
     })
   }
   /** 校验公司、项目标识及预期版本，提交公司权限下的项目启停操作。 */
+  @ApiOperation({ summary: '启用或停用项目' })
   @Patch('companies/:companyId/projects/:projectId/status')
   @AccessPolicy({ scope: 'company', permission: 'company.projects.status' })
   projectStatus(@Req() req: FastifyRequest, @Body({ schema: statusSchema }) body: StatusRequest) {
@@ -84,6 +91,7 @@ export class ProjectsController {
     })
   }
   /** 校验公司、项目标识及管理员 userId，提交追加或替换项目管理员操作。 */
+  @ApiOperation({ summary: '设置项目管理员' })
   @Post('companies/:companyId/projects/:projectId/administrator')
   @HttpCode(200)
   @AccessPolicy({ scope: 'company', permission: 'company.projects.administrator', adminOnly: true })
@@ -100,6 +108,7 @@ export class ProjectsController {
     })
   }
   /** 校验公司和项目标识，返回公司管理员可管理的项目管理员列表。 */
+  @ApiOperation({ summary: '获取项目管理员列表' })
   @Get('companies/:companyId/projects/:projectId/administrators')
   @AccessPolicy({ scope: 'company', permission: 'company.projects.administrator', adminOnly: true })
   projectAdministrators(@Req() req: FastifyRequest) {

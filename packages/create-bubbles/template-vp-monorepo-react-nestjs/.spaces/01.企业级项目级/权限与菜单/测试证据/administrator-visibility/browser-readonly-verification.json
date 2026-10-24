@@ -1,0 +1,39 @@
+{
+  "verifiedAt": "2026-10-23T08:07:19.298Z",
+  "status": "PASS",
+  "scope": "authenticated_readonly_administrator_display",
+  "page": "http://localhost:10000/platform/companies",
+  "authenticated": true,
+  "companyRows": 1,
+  "administratorCount": 1,
+  "listNameAndAccountVisible": true,
+  "listEffectiveStateVisible": true,
+  "dialogAdministratorCount": 1,
+  "dialogNameAndAccountVisible": true,
+  "dialogEffectiveStateVisible": true,
+  "listAndDialogAdministratorsConsistent": true,
+  "newAdministratorSelectionInitiallyEmpty": true,
+  "replacementSelectionInitiallyEmpty": true,
+  "supplementHintVisible": true,
+  "retainExistingAdministratorsHintVisible": true,
+  "administratorChangesSubmitted": 0,
+  "writeAndRefreshWorkflowVerified": false,
+  "dialogClosedWithoutSaving": true,
+  "screenshotsRedacted": true,
+  "personalDataSaved": false,
+  "credentialsSaved": false,
+  "screenshots": [
+    {
+      "path": "../../ui/administrator-visibility/list.jpg",
+      "width": 1280,
+      "height": 720,
+      "decodedAndVisuallyChecked": true
+    },
+    {
+      "path": "../../ui/administrator-visibility/dialog.jpg",
+      "width": 1280,
+      "height": 720,
+      "decodedAndVisuallyChecked": true
+    }
+  ]
+}

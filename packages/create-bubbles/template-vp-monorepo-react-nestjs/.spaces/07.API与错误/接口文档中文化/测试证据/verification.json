@@ -1,0 +1,17 @@
+{
+  "verifiedAt": "2026-10-22T09:31:42.416Z",
+  "sourceControllerCount": 20,
+  "productionControllerCount": 18,
+  "sourceHandlerCount": 98,
+  "productionHandlerCount": 92,
+  "allOperationCount": 127,
+  "productionOperationCount": 121,
+  "controllerInventoryUnchanged": true,
+  "runtimeSourcesUnchanged": true,
+  "openApiContractUnchanged": true,
+  "allTagsAndSummariesChinese": true,
+  "operationIdsUnique": true,
+  "baselineSha256": "5cdf5aac532119a0b23b32c7b7b2cf0f41ff096a43a1aed186223705e68ece82",
+  "infrastructure": "仅真实 Controller + 构造器服务替身；未初始化应用、监听端口或连接数据库/Redis/对象存储",
+  "excludedProductionControllers": ["DbController", "RedisController"]
+}

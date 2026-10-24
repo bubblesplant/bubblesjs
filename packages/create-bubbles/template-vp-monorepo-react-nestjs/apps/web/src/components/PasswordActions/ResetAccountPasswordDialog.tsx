@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import { ModalForm } from '@ant-design/pro-components'
 import { useI18n } from '@bubblesjs/i18n-react'
 import { Alert, App, Form } from 'antd'
@@ -57,7 +58,7 @@ export default function ResetAccountPasswordDialog({
       void message.success(tr('密码已重置，请通过现有线下渠道告知用户。'))
       return true
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : tr('重置密码失败，请重试'))
+      setError(getRequestErrorMessage(cause, tr('重置密码失败，请重试')))
       return false
     } finally {
       pending.current = false

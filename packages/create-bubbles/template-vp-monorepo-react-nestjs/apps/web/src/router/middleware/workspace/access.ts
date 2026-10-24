@@ -1,5 +1,5 @@
 import { tr } from '@/i18n'
-import { firstAccessiblePagePath, type RegisteredPage } from '@/router/page-registry'
+import { firstAccessiblePagePath, type RegisteredPage } from '@/router/access-pages/registry'
 import { scopeAccessContext } from './data'
 
 /** 校验当前页面；首页失效时转向可用页面，叶子拒绝访问时保留父级导航。 */

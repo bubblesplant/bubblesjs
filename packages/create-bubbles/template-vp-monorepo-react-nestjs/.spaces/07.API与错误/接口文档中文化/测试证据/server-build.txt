@@ -1,0 +1,11 @@
+命令：pnpm --filter server exec vp run build
+退出码：0
+~/apps/server$ nest build
+(node:36288) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/rspack.config.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to \\?\C:\malei\stu\bubbles\packages\create-bubbles\template-vp-monorepo-react-nestjs\apps\server\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Rspack 2.2.9 compiled successfully in 611 ms
+
+---
+vp run: server#build not cached because it modified its inputs. (Run `vp run --last-details` for full details)

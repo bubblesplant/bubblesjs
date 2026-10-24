@@ -1,0 +1,149 @@
+~/packages/shared$ vp test ◉ cache hit, replaying
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/shared
+
+ ✓ test/organization.spec.ts (7 tests) 9ms
+ ✓ test/access.spec.ts (8 tests) 9ms
+ ✓ test/file-hash/calculate.spec.ts (15 tests) 240ms
+
+ Test Files  3 passed (3)
+      Tests  30 passed (30)
+   Start at  11:26:57
+   Duration  419ms (tests 46%, import 31%, transform 22%, worker 2%)
+
+
+~/packages/i18n/cli$ vp test run ○ cache miss: args changed, executing
+~/apps/server$ vp test ○ cache miss: args changed, executing
+~/apps/web$ vp test
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/i18n/cli
+
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server
+
+
+    mode: test
+    VITE_PORT: 9999
+    VITE_API_AFFIX: /api
+    VITE_API_URL: undefined
+    
+ ✓ src/scanner.test.ts (25 tests) 5ms
+ ✓ test/report.test.ts (2 tests) 25ms
+ ✓ test/config.test.ts (1 test) 2ms
+ ✓ test/sync.test.ts (8 tests) 96ms
+ ✓ test/load-config.test.ts (25 tests) 201ms
+ ✓ test/command.test.ts (10 tests) 265ms
+
+ Test Files  6 passed (6)
+      Tests  71 passed (71)
+   Start at  11:30:28
+   Duration  717ms (tests 53%, transform 25%, import 19%, worker 3%)
+
+
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web
+
+ ✓ test/error-catalog.spec.ts (2 tests) 12ms
+ ✓ test/access/member-onboarding.validation.spec.ts (2 tests) 11ms
+ ✓ test/dictionaries/contracts.spec.ts (7 tests) 16ms
+ ↓ test/database/independent-companies-migration.spec.ts (6 tests | 6 skipped)
+ ✓ test/menus.validation.spec.ts (2 tests) 8ms
+ ✓ test/upload/minio-object-read.spec.ts (3 tests) 21ms
+ ✓ test/selector/selector-selection.spec.ts (7 tests) 9ms
+ ✓ test/storage.spec.ts (14 tests) 12ms
+ ✓ test/upload/content-hash.spec.ts (10 tests) 639ms
+ ✓ test/workspace-requests.spec.ts (9 tests) 11ms
+ ✓ test/selector/organization-member-selector.spec.ts (6 tests) 11ms
+ ✓ test/schema/native-schema.spec.ts (8 tests) 15ms
+ ✓ test/selector/global-account-select.spec.ts (6 tests) 14ms
+ ✓ test/password/password-actions.spec.ts (2 tests) 5ms
+ ❯ test/draft-projects.spec.ts (0 test)
+ ❯ test/request.spec.ts (0 test)
+ ✓ test/latest-dialog-request.spec.ts (3 tests) 5ms
+ ✓ test/member-onboarding/auth-navigation.spec.ts (3 tests) 5ms
+ ✓ test/organization/organization-domain.spec.ts (8 tests) 14ms
+ ✓ test/dictionary/core.spec.ts (15 tests) 286ms
+ ✓ test/task-queue.processor.spec.ts (4 tests) 10ms
+ ✓ test/organization-assignment.spec.ts (4 tests) 4ms
+ ✓ test/task-queue.service.spec.ts (7 tests) 11ms
+ ✓ test/file-hash/worker.spec.ts (10 tests) 1011ms
+ ↓ test/task-queue.integration.spec.ts (1 test | 1 skipped)
+ ✓ test/access/access-policy.spec.ts (5 tests) 14ms
+ ✓ test/workspaces/persistence.spec.ts (8 tests) 125ms
+ ✓ test/dictionary/persistence.spec.ts (8 tests) 15ms
+ ✓ test/workspaces/store.spec.ts (11 tests) 444ms
+ ↓ test/auth/password/password.integration.spec.ts (5 tests | 5 skipped)
+ ✓ test/upload/upload-completion.spec.ts (19 tests) 596ms
+ ↓ test/access/access.integration.spec.ts (21 tests | 21 skipped)
+ ✓ test/auth/password/password-operations.spec.ts (12 tests) 302ms
+ ↓ test/dictionaries/integration.spec.ts (10 tests | 10 skipped)
+ ✓ test/access/retired-company-routes.spec.ts (2 tests) 170ms
+
+ Test Files  14 passed | 5 skipped (19)
+      Tests  91 passed | 43 skipped (134)
+   Start at  11:30:28
+   Duration  5.37s (import 86%, transform 10%, tests 4%)
+
+
+ ✓ test/password/password-reset-action.spec.ts (2 tests) 4ms
+ ✓ test/icon-selector.spec.tsx (1 test) 3ms
+ ✓ test/workspace-navigation.spec.ts (6 tests) 6ms
+ ✓ test/router/access-pages.spec.tsx (10 tests) 28ms
+ ✓ test/router/access.spec.ts (7 tests) 35ms
+ ✓ test/router/entry.spec.ts (21 tests) 48ms
+ ✓ test/router/workspace-data.spec.ts (6 tests) 84ms
+ ✓ test/workspace-navigation-boundary.spec.tsx (2 tests) 42ms
+ ✓ test/member-onboarding/member-onboarding-actions.spec.tsx (2 tests) 61ms
+ ✓ test/i18n-locale.spec.ts (2 tests) 2ms
+ ✓ test/password/workspaces-password-entry.spec.tsx (1 test) 151ms
+ ✓ test/router/access-page-titles.spec.ts (1 test) 6ms
+ ✓ test/locale/locale-switch.spec.tsx (11 tests) 1497ms
+ ✓ test/dictionary/select.spec.tsx (6 tests) 987ms
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/draft-projects.spec.ts [ test/draft-projects.spec.ts ]
+ReferenceError: localStorage is not defined
+ ❯ src/i18n/instance.ts:11:35
+      9| } from './config'
+     10|
+     11| const storage = createJsonStorage(localStorage)
+       |                                   ^
+     12| const persistedLocale = storage.getItem<string>(I18N_STORAGE_KEY)
+     13|
+ ❯ VitestModuleRunner.directRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1277:59
+ ❯ VitestModuleRunner.cachedRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1184:73
+ ❯ src/i18n/index.ts:9:1
+ ❯ VitestModuleRunner.directRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1277:59
+ ❯ VitestModuleRunner.cachedRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1184:73
+ ❯ src/pages/examples/pro-table/config/index.ts:1:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/request.spec.ts [ test/request.spec.ts ]
+ReferenceError: localStorage is not defined
+ ❯ src/i18n/instance.ts:11:35
+      9| } from './config'
+     10|
+     11| const storage = createJsonStorage(localStorage)
+       |                                   ^
+     12| const persistedLocale = storage.getItem<string>(I18N_STORAGE_KEY)
+     13|
+ ❯ VitestModuleRunner.directRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1277:59
+ ❯ VitestModuleRunner.cachedRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1184:73
+ ❯ src/i18n/index.ts:9:1
+ ❯ VitestModuleRunner.directRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1277:59
+ ❯ VitestModuleRunner.cachedRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1184:73
+ ❯ src/utils/request/core/index.ts:12:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 28 passed (30)
+      Tests  184 passed (184)
+   Start at  11:30:29
+   Duration  8.98s (import 65%, environment 16%, transform 12%, tests 6%)
+
+
+---
+vp run: 1/4 cache hit (25%), 3/4 successful, 765ms saved. (Run `vp run --last-details` for full details)

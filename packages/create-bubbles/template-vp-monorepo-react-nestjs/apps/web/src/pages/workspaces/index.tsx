@@ -12,7 +12,7 @@ import { cookie } from '@/utils/storage/cookie'
 import { ArrowLeftOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons'
 import { App, Button, Card, Empty, Input, Pagination, Select } from 'antd'
 import type { ScopeType } from 'shared/types'
-import { accessScopeBasePath, accessScopeKey } from 'shared/utils'
+import { getRequestErrorMessage, accessScopeBasePath, accessScopeKey } from 'shared/utils'
 import { useI18n } from '@bubblesjs/i18n-react'
 import WorkspaceCard from './components/WorkspaceCard'
 import { useUserStore } from '@/store/user'
@@ -116,7 +116,7 @@ export default function WorkspacesPage() {
       cookie.remove('token')
       void navigate('/login', { replace: true })
     } catch (error) {
-      void message.error(error instanceof Error ? error.message : tr('退出失败，请重试'))
+      void message.error(getRequestErrorMessage(error, tr('退出失败，请重试')))
     }
   }
 

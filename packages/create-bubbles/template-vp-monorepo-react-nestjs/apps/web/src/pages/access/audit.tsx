@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import type { ProColumns } from '@ant-design/pro-components'
 import type { I18nState } from '@bubblesjs/i18n-core'
 import { useI18n } from '@bubblesjs/i18n-react'
@@ -162,7 +163,8 @@ export default function AuditPage() {
         }
       }
       onRequestError={(error) => {
-        if (error.name !== 'AbortError') void message.error(error.message)
+        if (error.name !== 'AbortError')
+          void message.error(getRequestErrorMessage(error, error.message))
       }}
     />
   )

@@ -1,4 +1,5 @@
-import { ModalForm, ProFormSelect } from '@ant-design/pro-components'
+import { ModalForm, ProFormDependency, ProFormSelect } from '@ant-design/pro-components'
+import type { ProFormInstance } from '@ant-design/pro-components'
 import { Alert, Form } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type {
@@ -18,6 +19,7 @@ import type {
   OrganizationMemberSearchRequest,
   OrganizationMemberSearchResult,
 } from '@/components/Selector/OrganizationMemberSelector'
+import AdministratorList from './AdministratorList'
 
 const PROJECT_ADMINISTRATOR_SOURCE_SCOPE = { type: 'company' } as const
 
@@ -50,11 +52,13 @@ export default function AdministratorDialog({
   const [record, setRecord] = useState<CompanyRecord>()
   const [administrators, setAdministrators] = useState<AdministratorSummary[]>([])
   const [open, setOpen] = useState(false)
+  const formRef = useRef<ProFormInstance<SetAdministratorRequest>>(undefined)
   const { tr } = useI18n()
   const hide = () => setOpen(false)
   useImperativeHandle(ref, () => ({
-    /** 载入待维护实体及现有管理员，打开管理员设置弹窗。 */
+    /** 每次载入实体时清空旧选择，避免替换对象跨企业或跨次打开残留。 */
     show: (item, admins) => {
+      formRef.current?.resetFields()
       setRecord(item)
       setAdministrators(admins)
       setOpen(true)
@@ -63,6 +67,7 @@ export default function AdministratorDialog({
   }))
   return (
     <ModalForm<SetAdministratorRequest>
+      formRef={formRef}
       title={tr('设置{type}管理员 · {name}', {
         type: project ? tr('项目') : tr('企业'),
         name: record?.name ?? '',
@@ -95,6 +100,9 @@ export default function AdministratorDialog({
         )}
         style={{ marginBottom: 20 }}
       />
+      <Form.Item label={tr('当前管理员')}>
+        <AdministratorList administrators={administrators} />
+      </Form.Item>
       <Form.Item
         name="administratorUserId"
         label={tr('新管理员')}
@@ -118,11 +126,31 @@ export default function AdministratorDialog({
         label={tr('被替换的管理员（可选）')}
         placeholder={tr('不选择，补充管理员')}
         allowClear
+        fieldProps={{ optionFilterProp: 'label', showSearch: true }}
         options={administrators.map((admin) => ({
           value: admin.id,
           label: `${admin.name} (${admin.account})${admin.effective ? '' : tr(' · 当前无效')}`,
         }))}
       />
+      <ProFormDependency name={['replaceUserId']}>
+        {({ replaceUserId }) => {
+          const replaced = administrators.find((admin) => admin.id === replaceUserId)
+          return (
+            <Alert
+              type={replaced ? 'warning' : 'info'}
+              showIcon
+              title={
+                replaced
+                  ? tr('将撤销 {name}（{account}）的管理员身份', {
+                      name: replaced.name,
+                      account: replaced.account,
+                    })
+                  : tr('未选择被替换者，将保留全部现有管理员。')
+              }
+            />
+          )
+        }}
+      </ProFormDependency>
     </ModalForm>
   )
 }

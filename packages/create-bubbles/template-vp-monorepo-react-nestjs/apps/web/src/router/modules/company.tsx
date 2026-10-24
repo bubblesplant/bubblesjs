@@ -2,12 +2,12 @@ import RouteTransition from '@/components/RouteTransition/RouteTransition'
 import WorkspaceLayout from '@/layouts/WorkspaceLayout'
 import RouteError from '@/pages/error/error'
 import { authMiddleware, scopeMiddleware } from '@/router/middleware'
-import { page } from './access/page'
+import { accessScopeRoutePath, createAccessRoutes } from '@/router/access-pages/routes'
 
 export const companyRoutes: RouteObject[] = [
   {
     id: 'company',
-    path: '/companies/:companyId',
+    path: accessScopeRoutePath('company'),
     element: <WorkspaceLayout />,
     middleware: [authMiddleware, scopeMiddleware('company')],
     errorElement: (
@@ -15,17 +15,6 @@ export const companyRoutes: RouteObject[] = [
         <RouteError />
       </RouteTransition>
     ),
-    children: [
-      page('company.home', 'access', 'home'),
-      page('company.dictionaries', 'dictionaries'),
-      page('company.profile', 'access', 'profile'),
-      page('company.members', 'access', 'members'),
-      page('company.roles', 'access', 'roles'),
-      page('company.organization', 'organization'),
-      page('company.positions', 'positions'),
-      page('company.organization.templates', 'organization-templates'),
-      page('company.projects', 'access', 'entities'),
-      page('company.audit', 'access', 'audit'),
-    ],
+    children: createAccessRoutes('company'),
   },
 ]

@@ -145,10 +145,11 @@ export const useUserStore = create<UserStore>((set, get) => {
     }
   }
 
-  /** 会话写入或删除时立即清理，避免首次读取前的换号继承展示快照。 */
+  /** 会话写入或删除时立即清理；无令牌时也清除残留内存与快照。 */
   function sessionChanged() {
-    if (session === undefined) {
-      session = cookie.get('token')
+    const token = cookie.get('token')
+    if (session === undefined || !token) {
+      session = token
       resetSession(true)
     } else syncSession()
   }

@@ -1,0 +1,8 @@
+命令：pnpm exec vp check（本轮非组织模块后端文件）
+文件数：14
+退出码：1
+apps/server/src/app.controller.ts (0ms)
+apps/server/src/modules/menus/menus.controller.ts (0ms)
+
+Found formatting issues in 2 files (133ms, 24 threads). Run `vp check --fix` to fix them.
+error: Formatting issues found

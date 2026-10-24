@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import { ClearOutlined, PlusOutlined, ReloadOutlined } from '@ant-design/icons'
 import type { ProColumns } from '@ant-design/pro-components'
 import { Alert, App, Button, Popconfirm, Space, Tabs, Tag, Typography } from 'antd'
@@ -66,7 +67,7 @@ export default function MenusPage() {
         )
         .catch((cause: unknown) => {
           if (current && (cause as Error).name !== 'AbortError')
-            setError(cause instanceof Error ? cause.message : tr('无法加载菜单'))
+            setError(getRequestErrorMessage(cause, tr('无法加载菜单')))
         })
         .finally(() => {
           if (current) setLoading(false)
@@ -114,7 +115,7 @@ export default function MenusPage() {
       cleanupRef.current?.show(await menuApi.cleanupPreview())
     } catch (cause) {
       if ((cause as Error).name !== 'AbortError')
-        void message.error(cause instanceof Error ? cause.message : tr('无法加载预览'))
+        void message.error(getRequestErrorMessage(cause, tr('无法加载预览')))
     } finally {
       setPreviewing(false)
     }

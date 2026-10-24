@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import {
   ModalForm,
   ProFormDependency,
@@ -84,7 +85,7 @@ export default function EntityFormDialog({
       })
       .catch((error) => {
         setTemplates([])
-        void message.error(error instanceof Error ? error.message : tr('无法加载可选项'))
+        void message.error(getRequestErrorMessage(error, tr('无法加载可选项')))
       })
       .finally(() => setLoadingOptions(false))
   }

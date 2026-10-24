@@ -1,0 +1,12 @@
+命令：pnpm --filter server exec vp test run test/access/retired-company-routes.spec.ts test/schema/native-schema.spec.ts test/access/access-policy.spec.ts test/dictionaries/contracts.spec.ts
+退出码：0
+note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server
+
+
+ Test Files  4 passed (4)
+      Tests  22 passed (22)
+   Start at  17:31:39
+   Duration  2.71s (import 91%, transform 7%, tests 2%)
+

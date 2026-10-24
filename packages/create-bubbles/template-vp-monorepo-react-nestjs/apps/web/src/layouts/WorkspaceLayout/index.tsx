@@ -9,7 +9,7 @@ import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
 import RouteTransition from '@/components/RouteTransition/RouteTransition'
 import { workspaceLayoutToken } from '@/config/theme'
 import { useUserStore } from '@/store/user'
-import { navigationTree } from '@/router/page-registry'
+import { navigationTree } from '@/router/access-pages/registry'
 import { clearWorkspaceRequests } from '@/utils/request/workspace'
 import { cookie } from '@/utils/storage/cookie'
 import { SwapOutlined } from '@ant-design/icons'
@@ -17,7 +17,7 @@ import { ProLayout } from '@ant-design/pro-components'
 import { useI18n } from '@bubblesjs/i18n-react'
 import { App } from 'antd'
 import type { AccessScope } from 'shared/types'
-import { accessScopeKey } from 'shared/utils'
+import { getRequestErrorMessage, accessScopeKey } from 'shared/utils'
 import WorkspaceNavigationBoundary from './components/WorkspaceNavigationBoundary'
 import './workspace.css'
 
@@ -70,7 +70,7 @@ export default function WorkspaceLayout() {
     try {
       await logout().send(true)
     } catch (error) {
-      void message.error(error instanceof Error ? error.message : tr('退出失败，请重试'))
+      void message.error(getRequestErrorMessage(error, tr('退出失败，请重试')))
       return
     }
     cookie.remove('token')

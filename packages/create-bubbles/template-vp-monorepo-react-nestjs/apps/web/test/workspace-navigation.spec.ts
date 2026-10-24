@@ -1,12 +1,15 @@
-import { describe, expect, it } from 'vite-plus/test'
+import { describe, expect, it, vi } from 'vite-plus/test'
 import type { AccessContext, MenuNode } from 'shared/types'
 import { ACCESS_PAGE_CATALOG } from 'shared/utils'
 import { resolveSvgAsset, svgAssets } from '../src/components/Icon/SvgAsset'
+
+vi.mock('@/i18n', () => ({ tr: (value: string) => value }))
+
 import {
   firstAccessiblePagePath,
   navigationTree,
   pagePath,
-} from '../src/router/page-registry'
+} from '../src/router/access-pages/registry'
 
 /** 构造可覆盖字段的菜单节点，供导航和权限筛选用例复用。 */
 function node(input: Partial<MenuNode>): MenuNode {

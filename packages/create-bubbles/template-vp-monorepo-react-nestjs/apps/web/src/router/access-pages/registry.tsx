@@ -1,42 +1,48 @@
-import type { AccessContext, AccessScope, MenuNode } from 'shared/types'
-import { accessRoutePath, filterSupportedAccessMenus } from 'shared/utils'
+import type { AccessContext, AccessPageDefinition, AccessScope, MenuNode } from 'shared/types'
+import { accessRoutePath, filterSupportedAccessMenus, getAccessPage } from 'shared/utils'
 import { SvgAssetIcon } from '@/components/Icon/SvgAsset'
 import { tr } from '@/i18n'
+import { pageComponents, type AccessPageComponent } from './bindings'
 
-/** 此表随 Web 发布；服务端下发的 routeKey 不能动态 import 任意组件。 */
-export const pageRegistry = {
-  'platform.home': { path: '', title: () => tr('平台工作台') },
-  'platform.dictionaries': { path: 'dictionaries', title: () => tr('数据字典') },
-  'platform.companies': { path: 'companies', title: () => tr('企业管理') },
-  'platform.accounts': { path: 'accounts', title: () => tr('全局账号') },
-  'platform.roles': { path: 'roles', title: () => tr('平台角色') },
-  'platform.menus': { path: 'menus', title: () => tr('菜单管理') },
-  'platform.audit': { path: 'audit', title: () => tr('平台操作日志') },
-  'company.home': { path: '', title: () => tr('企业工作台') },
-  'company.dictionaries': { path: 'dictionaries', title: () => tr('数据字典') },
-  'company.profile': { path: 'profile', title: () => tr('企业资料') },
-  'company.members': { path: 'members', title: () => tr('企业成员') },
-  'company.roles': { path: 'roles', title: () => tr('企业角色') },
-  'company.organization': { path: 'organization', title: () => tr('企业组织架构') },
-  'company.positions': { path: 'positions', title: () => tr('企业岗位') },
-  'company.organization.templates': {
-    path: 'organization/templates',
-    title: () => tr('项目组织模板'),
-  },
-  'company.projects': { path: 'projects', title: () => tr('项目管理') },
-  'company.audit': { path: 'audit', title: () => tr('企业操作日志') },
-  'project.home': { path: '', title: () => tr('项目工作台') },
-  'project.dictionaries': { path: 'dictionaries', title: () => tr('数据字典') },
-  'project.profile': { path: 'profile', title: () => tr('项目资料') },
-  'project.members': { path: 'members', title: () => tr('项目成员') },
-  'project.roles': { path: 'roles', title: () => tr('项目角色') },
-  'project.organization': { path: 'organization', title: () => tr('项目组织架构') },
-  'project.positions': { path: 'positions', title: () => tr('项目岗位') },
-  'project.audit': { path: 'audit', title: () => tr('项目操作日志') },
-} as const
+export type RegisteredPage = keyof typeof pageComponents
 
-export type RegisteredPage = keyof typeof pageRegistry
-export const registeredRouteKeys = Object.keys(pageRegistry)
+interface RegisteredPageDefinition extends Omit<AccessPageDefinition, 'title'> {
+  fullPath: string
+  title: () => string
+  component: AccessPageComponent
+}
+
+// 按本地组件绑定顺序兜底选页，避免共享目录排序改变已有默认落点。
+export const registeredRouteKeys = Object.keys(pageComponents) as RegisteredPage[]
+
+/** 从共享目录解析组件绑定；注册错误在启动时失败，避免生成不可访问的路由。 */
+function registerPage(routeKey: RegisteredPage): [RegisteredPage, RegisteredPageDefinition] {
+  const definition = getAccessPage(routeKey)
+  if (!definition) throw new Error(`页面组件绑定缺少共享目录定义：${routeKey}`)
+  const scopePath = getAccessPage(`${definition.scopeType}.home`)?.path
+  if (
+    !scopePath ||
+    (definition.path !== scopePath && !definition.path.startsWith(`${scopePath}/`))
+  ) {
+    throw new Error(`页面路径不属于当前作用域：${routeKey}`)
+  }
+  return [
+    routeKey,
+    {
+      ...definition,
+      fullPath: definition.path,
+      path: definition.path === scopePath ? '' : definition.path.slice(scopePath.length + 1),
+      title: () => tr(definition.title),
+      component: pageComponents[routeKey],
+    },
+  ]
+}
+
+/** 本地组件绑定决定支持范围，服务端下发的 routeKey 不能动态 import 任意组件。 */
+export const pageRegistry = Object.fromEntries(registeredRouteKeys.map(registerPage)) as Record<
+  RegisteredPage,
+  RegisteredPageDefinition
+>
 
 /** 仅为前端已注册的页面生成指定作用域路径，未知页面返回 null。 */
 export function pagePath(scope: AccessScope, routeKey: string) {

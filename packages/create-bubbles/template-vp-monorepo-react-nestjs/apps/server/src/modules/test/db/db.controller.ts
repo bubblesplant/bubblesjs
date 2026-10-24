@@ -4,7 +4,7 @@ import { DbService } from './db.service'
 import type { DbCreateUserRequest } from 'shared/types'
 import { createUserSchema } from './dto/create-user.dto'
 
-@ApiTags('DB 测试')
+@ApiTags('数据库测试')
 @Controller('db')
 export class DbController {
   constructor(private readonly dbService: DbService) {}

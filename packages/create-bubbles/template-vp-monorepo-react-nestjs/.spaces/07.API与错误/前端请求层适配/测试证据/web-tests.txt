@@ -1,0 +1,38 @@
+note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.
+
+    mode: test
+    VITE_PORT: 9999
+    VITE_API_AFFIX: /api
+    VITE_API_URL: undefined
+    
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web
+
+ ❯ test/draft-projects.spec.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/draft-projects.spec.ts [ test/draft-projects.spec.ts ]
+ReferenceError: localStorage is not defined
+ ❯ src/i18n/instance.ts:11:35
+      9| } from './config'
+     10|
+     11| const storage = createJsonStorage(localStorage)
+       |                                   ^
+     12| const persistedLocale = storage.getItem<string>(I18N_STORAGE_KEY)
+     13|
+ ❯ VitestModuleRunner.directRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1277:59
+ ❯ VitestModuleRunner.cachedRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1184:73
+ ❯ src/i18n/index.ts:9:1
+ ❯ VitestModuleRunner.directRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1277:59
+ ❯ VitestModuleRunner.cachedRequest ../../node_modules/.pnpm/@voidzero-dev+vite-plus-cor_e0a02863cab4a819e6fa9ebc2b7f4b64/node_modules/@voidzero-dev/vite-plus-core/dist/vite/node/module-runner.js:1184:73
+ ❯ src/pages/examples/pro-table/config/index.ts:1:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 32 passed (33)
+      Tests  218 passed (218)
+   Start at  16:44:22
+   Duration  10.37s (import 72%, environment 14%, tests 7%, transform 7%)
+

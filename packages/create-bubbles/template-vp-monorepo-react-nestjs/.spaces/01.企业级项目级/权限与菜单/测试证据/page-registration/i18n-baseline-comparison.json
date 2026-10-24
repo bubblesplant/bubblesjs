@@ -1,0 +1,16 @@
+{
+  "baselineKeyCount": 614,
+  "currentKeyCount": 614,
+  "locales": {
+    "zh_CN": {
+      "baselineMissing": 36,
+      "currentMissing": 35,
+      "introducedMissing": []
+    },
+    "en_US": {
+      "baselineMissing": 18,
+      "currentMissing": 17,
+      "introducedMissing": []
+    }
+  }
+}

@@ -1,13 +1,23 @@
-import request from './index'
+import { isAxiosError } from 'axios'
+import { alovaRequest } from './index'
+import { createAlovaInstanceFactory } from './core'
+import { unAuthorizedResponseFunc } from './utils'
 import { cookie } from '@/utils/storage/cookie'
 
-/** 权限和管理数据不进入 alova 缓存；每个工作空间代次都有独立的在途请求集合。 */
-export const workspaceRequest = request({
-  cacheFor: { GET: 0, POST: 0, PUT: 0, PATCH: 0, DELETE: 0, HEAD: 0, OPTIONS: 0 },
-  cacheLogger: false,
-  isShowErrorMessage: false,
-  /** 延后到请求代次校验后再处理 401，防止旧会话的迟到失败退出新会话。 */
-  unAuthorizedResponseFunc: () => {},
+const responseHandlers = alovaRequest.options.responded
+
+/** 复用鉴权和成功响应处理；错误延后到会话／空间校验后，由现有页面反馈。 */
+export const workspaceRequest = createAlovaInstanceFactory({
+  ...alovaRequest.options,
+  responded: {
+    ...(typeof responseHandlers === 'function'
+      ? { onSuccess: responseHandlers }
+      : responseHandlers),
+    /** 保留原始 Axios 异常，避免旧请求提前触发全局提示或登录导航。 */
+    onError(error): never {
+      throw error
+    },
+  },
 })
 
 let currentKey = ''
@@ -20,6 +30,14 @@ export function clearWorkspaceRequests() {
   for (const abort of pending) abort()
   pending.clear()
   currentKey = ''
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('auth-session-change', clearWorkspaceRequests)
+  import.meta.hot?.dispose(() => {
+    clearWorkspaceRequests()
+    window.removeEventListener('auth-session-change', clearWorkspaceRequests)
+  })
 }
 
 /** 按会话令牌和工作空间键识别切换，切换时清理旧空间请求。 */
@@ -55,10 +73,8 @@ export async function runSessionRequest<T>(options: {
     return data
   } catch (error) {
     if (stale()) throw new DOMException('登录会话已变化', 'AbortError')
-    if ((error as { status?: number }).status === 401) {
-      clearWorkspaceRequests()
-      cookie.remove('token')
-      window.location.assign('/login')
+    if (isAxiosError(error) && error.response?.status === 401) {
+      unAuthorizedResponseFunc()
     }
     throw error
   } finally {
@@ -96,12 +112,11 @@ export async function runWorkspaceRequest<T>(options: {
     return result
   } catch (error) {
     if (stale()) throw new DOMException('工作空间已切换', 'AbortError')
-    if ((error as { status?: number }).status === 401) {
-      clearWorkspaceRequests()
-      cookie.remove('token')
-      window.location.assign('/login')
+    const status = isAxiosError(error) ? error.response?.status : undefined
+    if (status === 401) {
+      unAuthorizedResponseFunc()
     }
-    if (!accessRequest && (error as { status?: number }).status === 403) refreshAccess()
+    if (!accessRequest && status === 403) refreshAccess()
     throw error
   } finally {
     pending.delete(abort)

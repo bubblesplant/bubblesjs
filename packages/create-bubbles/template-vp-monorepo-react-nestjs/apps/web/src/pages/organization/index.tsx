@@ -7,7 +7,7 @@ import type {
   OrganizationUnitNode,
   OrganizationUnitRecord,
 } from 'shared/types'
-import { accessScopeKey } from 'shared/utils'
+import { getRequestErrorMessage, accessScopeKey } from 'shared/utils'
 import FullHeightProTable from '@/components/FullHeightProTable/FullHeightProTable'
 import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { useAccess, useManagementAction } from '@/pages/access/use-access'
@@ -69,7 +69,7 @@ export default function OrganizationPage() {
       setTreeData(toTreeNodes(result.units, tr('停用')))
     } catch (error) {
       if ((error as Error).name !== 'AbortError')
-        void message.error(error instanceof Error ? error.message : tr('无法加载组织架构'))
+        void message.error(getRequestErrorMessage(error, tr('无法加载组织架构')))
     } finally {
       setTreeLoading(false)
     }
@@ -95,7 +95,7 @@ export default function OrganizationPage() {
       )
     } catch (error) {
       if ((error as Error).name !== 'AbortError')
-        void message.error(error instanceof Error ? error.message : tr('无法加载下级组织'))
+        void message.error(getRequestErrorMessage(error, tr('无法加载下级组织')))
       throw error
     }
   }
@@ -114,7 +114,7 @@ export default function OrganizationPage() {
       onSuccess: (data) => membersRef.current?.show(unit, data.selected, data.filters),
       onError: (error) => {
         if ((error as Error).name !== 'AbortError')
-          void message.error(error instanceof Error ? error.message : tr('无法加载组织成员'))
+          void message.error(getRequestErrorMessage(error, tr('无法加载组织成员')))
       },
     })
   }
@@ -127,7 +127,7 @@ export default function OrganizationPage() {
       onSuccess: (options) => moveRef.current?.show(unit, options),
       onError: (error) => {
         if ((error as Error).name !== 'AbortError')
-          void message.error(error instanceof Error ? error.message : tr('无法加载可选父级'))
+          void message.error(getRequestErrorMessage(error, tr('无法加载可选父级')))
       },
     })
   }
@@ -202,7 +202,8 @@ export default function OrganizationPage() {
             }
             params={{ selection }}
             onRequestError={(error) => {
-              if (error.name !== 'AbortError') void message.error(error.message)
+              if (error.name !== 'AbortError')
+                void message.error(getRequestErrorMessage(error, error.message))
             }}
           />
         </div>

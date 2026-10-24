@@ -3,7 +3,7 @@ import { LoginForm, ProFormText } from '@ant-design/pro-components'
 import { useRequest } from 'alova/client'
 import { Alert } from 'antd'
 import type { RegisterRequest } from 'shared/types'
-import { ACCOUNT_PATTERN, normalizeAccount } from 'shared/utils'
+import { getRequestErrorMessage, ACCOUNT_PATTERN, normalizeAccount } from 'shared/utils'
 import { useI18n } from '@bubblesjs/i18n-react'
 import Brand from '@/components/Brand/Brand'
 import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
@@ -33,7 +33,7 @@ export default function RegisterPage() {
       void navigate(buildAuthPath('/login', { next, registered: true }), { replace: true })
       return true
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : tr('注册失败，请稍后重试'))
+      setError(getRequestErrorMessage(cause, tr('注册失败，请稍后重试')))
       return false
     }
   }

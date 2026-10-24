@@ -79,9 +79,9 @@ export function managementApi(scope: AccessScope) {
   const entities = scope.type === 'platform' ? '/platform/companies' : `${base}/projects`
 
   return {
-    /** 分页查询平台下的企业，支持按状态筛选。 */
+    /** 分页查询平台企业及全部直接管理员，支持按状态筛选。 */
     companies: (params: PageQuery & { status?: EntityStatus }) =>
-      get<PageResult<CompanyRecord>>(entities, params),
+      get<PageResult<CompanyDetail>>(entities, params),
     /** 分页查询当前企业下的项目，支持按状态筛选。 */
     projects: (params: PageQuery & { status?: EntityStatus }) =>
       get<PageResult<ProjectRecord>>(entities, params),

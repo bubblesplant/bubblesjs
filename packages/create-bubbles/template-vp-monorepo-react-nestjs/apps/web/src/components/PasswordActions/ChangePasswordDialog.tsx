@@ -1,3 +1,4 @@
+import { getRequestErrorMessage } from 'shared/utils'
 import { ModalForm } from '@ant-design/pro-components'
 import { useI18n } from '@bubblesjs/i18n-react'
 import { useRequest } from 'alova/client'
@@ -49,7 +50,7 @@ export default function ChangePasswordDialog({ ref }: { ref: Ref<ChangePasswordD
       void navigate('/login', { replace: true, state: { passwordChanged: true } })
       return true
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : tr('修改密码失败，请重试'))
+      setError(getRequestErrorMessage(cause, tr('修改密码失败，请重试')))
       return false
     } finally {
       pending.current = false

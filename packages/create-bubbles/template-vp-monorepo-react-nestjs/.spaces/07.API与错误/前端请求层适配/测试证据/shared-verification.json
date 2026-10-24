@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-23",
+  "workingDirectory": "packages/shared",
+  "runs": [
+    {
+      "command": "vp run build",
+      "exitCode": 0,
+      "result": "vp pack 构建 JS 与声明文件成功，包含 getRequestErrorMessage 导出",
+      "durationMs": 655
+    },
+    {
+      "command": "vp test",
+      "exitCode": 0,
+      "startedAtLocal": "16:41:09",
+      "testFilesPassed": 4,
+      "testsPassed": 38,
+      "durationMs": 429
+    }
+  ]
+}
