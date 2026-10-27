@@ -1,0 +1,118 @@
+[
+  {
+    "url": "https://vercel.com/docs/frameworks/backend/nestjs",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "summary: Deploy NestJS applications to Vercel with zero configuration.",
+      "NestJS is a progressive Node.js framework for building efficient, reliable and scalable server-side applications. You can deploy a NestJS app to Vercel with zero configuration using [Vercel Functions](/docs/functions).",
+      "- [Migrate a TanStack Start app from Cloudflare to Vercel](https://vercel.com/kb/guide/migrate-a-tanstack-start-app-from-cloudflare-to-vercel) — Move your TanStack Start app off Cloudflare Workers and onto Vercel Functions, where Fluid compute scales it automatical",
+      "- [Migrate a TanStack Start app from Netlify to Vercel](https://vercel.com/kb/guide/migrate-a-tanstack-start-app-from-netlify-to-vercel) — Move your TanStack Start app off Netlify and onto Vercel Functions, where Fluid compute scales it automatically. Swap to",
+      "- [How to ship an Express app on Vercel](https://vercel.com/kb/guide/ship-a-express-app-on-vercel) — Deploy an Express app to Vercel with zero configuration. Configure response streaming, middleware, cron jobs, the Bun ru",
+      "- [How to ship a Fastify app on Vercel](https://vercel.com/kb/guide/ship-a-fastify-app-on-vercel) — Deploy a Fastify app to Vercel with zero configuration, then add streaming, lifecycle hooks, cron jobs, and observabilit",
+      "- [How to Deploy a TanStack Start app to Vercel](https://vercel.com/kb/guide/deploy-a-tanstack-start-app-to-vercel) — Deploy a TanStack Start app to Vercel with the Nitro Vite plugin. Covers Git and CLI deployment, Fluid compute defaults,",
+      "- [Nitro on Vercel](https://vercel.com/docs/frameworks/backend/nitro) — Deploy Nitro applications to Vercel with zero configuration. Learn about observability, ISR, and custom build configurat",
+      "- [Fastify on Vercel](https://vercel.com/docs/frameworks/backend/fastify) — Deploy Fastify applications to Vercel with zero configuration.",
+      "- [Fluid compute](/docs/fluid-compute): Pay for the CPU you use, automatic cold start reduction, optimized concurrency, background processing, and more",
+      "- `src/main.{js,mjs,cjs,ts,cts,mts}`",
+      "When you deploy a NestJS app to Vercel, your NestJS application becomes a single [Vercel Function](/docs/functions) and uses [Fluid compute](/docs/fluid-compute) by default. This means your NestJS app will automatically scale up and down based on traffic.",
+      "All [Vercel Functions limitations](/docs/functions/limitations) apply to the NestJS application, including the standard bundle size limit of 250MB for Node.js applications. [Large Functions](/docs/functions/limitations#large-functions-beta) support Node.js bundles up to 5GB on Fluid compute when enabled (public beta)."
+    ]
+  },
+  {
+    "url": "https://vercel.com/docs/frameworks/backend/fastify",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "summary: Deploy Fastify applications to Vercel with zero configuration.",
+      "Fastify is a web framework highly focused on providing the best developer experience with the least overhead and a powerful plugin architecture. You can deploy a Fastify app to Vercel with zero configuration using [Vercel Functions](/docs/functions).",
+      "- [How to ship a FastAPI app on Vercel](https://vercel.com/kb/guide/ship-a-fastapi-app-on-vercel) — Deploy a FastAPI app to Vercel with zero configuration. Learn how the Python runtime, Vercel Functions, streaming, middl",
+      "- [How to ship an Express app on Vercel](https://vercel.com/kb/guide/ship-a-express-app-on-vercel) — Deploy an Express app to Vercel with zero configuration. Configure response streaming, middleware, cron jobs, the Bun ru",
+      "- [How to ship a Flask app on Vercel](https://vercel.com/kb/guide/ship-a-flask-app-on-vercel) — Deploy a Flask app to Vercel with zero configuration. Learn how to ship from a template, the Vercel CLI, or Git, and con",
+      "- [NestJS on Vercel](https://vercel.com/docs/frameworks/backend/nestjs) — Deploy NestJS applications to Vercel with zero configuration.",
+      "When you deploy a Fastify app to Vercel, your Fastify application becomes a single [Vercel Function](/docs/functions) and uses [Fluid compute](/docs/fluid-compute) by default. This means your Fastify app will automatically scale up and down based on traffic."
+    ]
+  },
+  {
+    "url": "https://vercel.com/docs/functions/limitations",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "| [Maximum duration](/docs/functions/limitations#max-duration)                     | Hobby: 300s default and maximum. Pro and Enterprise: 300s default, 800s maximum, and 1800s extended maximum Beta. See [max duration](/docs/functions/limitations#max-duration) for requirements and configuration.                                                                                                                                                                                                        |",
+      "| [API Coverage](/docs/functions/limitations#api-support)                          | Full Node.js coverage                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |",
+      "| Hobby      | 300s (5 minutes) | 300s (5 minutes) | - |",
+      "| Pro        | 300s (5 minutes) | 800s | 1800s (30 minutes) Beta |",
+      "The maximum payload size for the request body or the response body of a Vercel Function is **4.5 MB**. If a Vercel Function receives a payload in excess of the limit it will return an error [413: `FUNCTION_PAYLOAD_TOO_LARGE`](/docs/errors/function_payload_too_large). See [How do I bypass the 4.5MB body size limit of Vercel Functions](/kb/guide/how-to-bypass-vercel-body-size-limit-serverless-functions) for more information."
+    ]
+  },
+  {
+    "url": "https://vercel.com/docs/plans/hobby",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "The Hobby plan is **free** and aimed at developers with personal projects, and small-scale applications. It offers a generous set of features for individual users on a **per month** basis:",
+      "| [Active CPU](/docs/functions/usage-and-pricing)                                                     | 4 CPU-hrs            |",
+      "| [Provisioned Memory](/docs/functions/usage-and-pricing)                                             | 360 GB-hrs           |",
+      "| [Function Invocations](/docs/functions/usage-and-pricing)                                           | First 1,000,000      |",
+      "As the Hobby plan is a free tier there are no billing cycles. In most cases, if you exceed your usage limits on the Hobby plan, you will have to wait until 30 days have passed before you can use the feature again.",
+      "As stated in the [fair use guidelines](/docs/limits/fair-use-guidelines#commercial-usage), the Hobby plan restricts users to non-commercial, personal use only."
+    ]
+  },
+  {
+    "url": "https://vercel.com/docs/plans/pro-plan",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "You can use your monthly credit across all infrastructure resources. Once you have used your monthly credit, Vercel bills additional usage on-demand.",
+      "- $20/month Pro platform fee",
+      "  - 1 deploying team seat included",
+      "  - $20/month in usage credit",
+      "- Additional paid seats ([Owner](/docs/rbac/access-roles#owner-role) or [Member](/docs/rbac/access-roles#member-role) roles) for $20/month each"
+    ]
+  },
+  {
+    "url": "https://vercel.com/docs/daemons",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "> Daemons are available in Public Beta on all plans",
+      "Vercel keeps your configured number of instances running in each region and restarts instances that exit or crash. Daemons run on [Fluid compute](/docs/fluid-compute), the same compute platform as Vercel Functions.",
+      "Daemons are available on all plans, including Hobby, within each plan's quotas. The Hobby quota counts Active CPU, so a daemon that is mostly waiting for work uses less of it. See [Default quotas](/docs/daemons/limits#default-quotas).",
+      "- **Queue consumers** that poll [Vercel Queues](/docs/queues/poll-mode), Amazon SQS, Kafka, or Redis, including workers for Celery, Sidekiq, and BullMQ.",
+      "Daemons run alongside your existing app without changing how Vercel builds it. For example, you can use [Services](/docs/services) to run a Next.js frontend alongside a FastAPI Python backend, then add BullMQ and Celery workers to consume work from each app.",
+      "The Hobby quota counts Active CPU, the CPU time your code spends executing, not uptime. Time spent waiting, such as long polling an empty queue, doesn't count, so a daemon that is mostly waiting for work will use less of your monthly quota. Some work that looks like waiting still uses CPU: for example, HTTPS requests require cipher operations such as encryption, decryption, and signing, which consume Active CPU. See [Default quotas](/docs/daemons/limits#default-quotas) for each plan's quota and what happens when you reach it."
+    ]
+  },
+  {
+    "url": "https://vercel.com/docs/daemons/limits",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "- [Pricing and Limits](https://vercel.com/docs/queues/pricing) — Understand how Vercel Queues billing works, what's included, and which service limits apply.",
+      "| [Hobby](/docs/plans/hobby)           | 1 GiB or 2 GiB (1 vCPU) | 5 Active CPU-hours per month                  |",
+      "On Hobby, the quota counts Active CPU, so time spent waiting for work doesn't count. When a Hobby team reaches the quota, Vercel stops the team's daemons until the first of the next month (UTC) or until the team upgrades to Pro.",
+      "## Pricing",
+      "On Pro and Enterprise, daemons are billed for Active CPU and Provisioned Memory. See [Pricing](/pricing) for the rates. Hobby teams aren't billed for daemons, and the Hobby quota applies instead.",
+      "| Inbound HTTP or TCP traffic     | Use [Services](/docs/services) or [Vercel Functions](/docs/functions) for workloads that respond to requests.                                              |",
+      "| Persistent local storage        | Store state in [Vercel Blob](/docs/vercel-blob) or a database from the [Marketplace](/docs/marketplace-storage).                                           |",
+      "| Root directory set to a subfolder | Projects with a [root directory](/docs/builds/configure-a-build#root-directory) such as `apps/web` can't add daemons yet.                                |"
+    ]
+  },
+  {
+    "url": "https://vercel.com/docs/functions/runtimes/container",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "> Container Runtime is available in Beta on all plans",
+      "Vercel Functions can run any code and library using Open Container Initiative (OCI) container images, built from a `Dockerfile` or `Containerfile` in your project. Functions scale up and down automatically based on demand, and use [Active CPU](/docs/functions/usage-and-pricing) pricing. You are only billed for CPU when your code is actively running, not while waiting for I/O or sleeping.",
+      "The same [limits](/docs/functions/limitations) and [Active CPU pricing model](/docs/functions/usage-and-pricing) of Vercel Functions apply to custom container images."
+    ]
+  },
+  {
+    "url": "https://vercel.com/docs/domains/working-with-domains",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "When you create a deployment on Vercel, we automatically assign it a domain based on your project name and ending in `.vercel.app`. Your site will be available to anyone that you share the domain with. Deployment URLs with the domain `.vercel.app` are allocated on a first-come, first-served basis and cannot be reserved."
+    ]
+  },
+  {
+    "url": "https://vercel.com/docs/functions/runtimes/node-js",
+    "checkedDate": "2026-10-27",
+    "excerpts": [
+      "- **Complete Node.js compatibility**: The Node.js runtime offers access to all Node.js APIs, making it a powerful tool for many applications",
+      "Vercel Functions using the Node.js runtime support [all Node.js APIs](https://nodejs.org/docs/latest/api/), including standard Web APIs such as the [Request and Response Objects](/docs/functions/runtimes/node-js#node.js-request-and-response-objects)."
+    ]
+  }
+]

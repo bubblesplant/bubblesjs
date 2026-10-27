@@ -1,0 +1,27 @@
+{
+  "prepared": true,
+  "directDependencies": {
+    "@aws-sdk/client-s3": "3.1149.0",
+    "@nestjs-modules/ioredis": "2.3.1",
+    "@nestjs/bullmq": "12.0.0",
+    "@nestjs/common": "12.1.3",
+    "@nestjs/config": "12.0.0",
+    "@nestjs/core": "12.1.3",
+    "@nestjs/mapped-types": "12.0.0",
+    "@nestjs/platform-fastify": "12.1.3",
+    "argon2": "0.45.1",
+    "bullmq": "6.3.13",
+    "dayjs": "1.11.23",
+    "drizzle-orm": "0.45.4",
+    "drizzle-zod": "0.8.3",
+    "fastify": "5.12.5",
+    "ioredis": "6.0.0",
+    "pg": "8.23.1",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "zod": "4.6.7",
+    "@nestjs/swagger": "12.0.2",
+    "@fastify/static": "10.1.6",
+    "shared": "file:./shared"
+  }
+}

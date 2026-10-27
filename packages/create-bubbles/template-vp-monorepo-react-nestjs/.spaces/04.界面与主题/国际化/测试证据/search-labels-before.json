@@ -1,0 +1,38 @@
+{
+  "phase": "before",
+  "baseUrl": "http://127.0.0.1:10000",
+  "executedAt": "2026-10-27T04:22:26.630Z",
+  "scenarios": [
+    {
+      "name": "accounts-en-1880",
+      "path": "/platform/accounts",
+      "width": 1880,
+      "locale": "en_US",
+      "layout": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 80,
+            "controlWidth": 293.5,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "Account Status",
+            "textWidth": 100.28125,
+            "labelWidth": 80,
+            "controlWidth": 293.5,
+            "clipped": true,
+            "overlapsControl": true
+          }
+        ],
+        "viewportWidth": 1880,
+        "documentWidth": 1880,
+        "tableBodyHeight": 566
+      },
+      "screenshot": "ui/search-labels-before-accounts-en-1880.png",
+      "passed": true
+    }
+  ]
+}

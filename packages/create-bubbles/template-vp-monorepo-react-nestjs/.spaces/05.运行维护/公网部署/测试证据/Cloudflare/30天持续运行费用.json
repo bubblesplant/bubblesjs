@@ -1,0 +1,65 @@
+[
+  {
+    "instance": "lite",
+    "days": 30,
+    "hours": 720,
+    "provisionedMemoryGiB": 0.25,
+    "provisionedDiskGB": 2,
+    "baseUsd": 5,
+    "memoryUsd": 1.395,
+    "diskUsd": 0.31248000000000004,
+    "subtotalUsd": 6.70748,
+    "approximateCny": 48.29,
+    "assumedCnyPerUsd": 7.2,
+    "excludes": [
+      "CPU overage",
+      "PostgreSQL",
+      "Redis",
+      "Workers/Durable Objects overage",
+      "storage/egress/logs overage",
+      "tax and exchange fees"
+    ]
+  },
+  {
+    "instance": "basic",
+    "days": 30,
+    "hours": 720,
+    "provisionedMemoryGiB": 1,
+    "provisionedDiskGB": 4,
+    "baseUsd": 5,
+    "memoryUsd": 6.255000000000001,
+    "diskUsd": 0.6753600000000001,
+    "subtotalUsd": 11.93036,
+    "approximateCny": 85.9,
+    "assumedCnyPerUsd": 7.2,
+    "excludes": [
+      "CPU overage",
+      "PostgreSQL",
+      "Redis",
+      "Workers/Durable Objects overage",
+      "storage/egress/logs overage",
+      "tax and exchange fees"
+    ]
+  },
+  {
+    "instance": "standard-1",
+    "days": 30,
+    "hours": 720,
+    "provisionedMemoryGiB": 4,
+    "provisionedDiskGB": 8,
+    "baseUsd": 5,
+    "memoryUsd": 25.695000000000004,
+    "diskUsd": 1.4011200000000001,
+    "subtotalUsd": 32.09612,
+    "approximateCny": 231.09,
+    "assumedCnyPerUsd": 7.2,
+    "excludes": [
+      "CPU overage",
+      "PostgreSQL",
+      "Redis",
+      "Workers/Durable Objects overage",
+      "storage/egress/logs overage",
+      "tax and exchange fees"
+    ]
+  }
+]

@@ -1,0 +1,336 @@
+{
+  "phase": "after",
+  "baseUrl": "http://127.0.0.1:10000",
+  "executedAt": "2026-10-27T04:24:29.209Z",
+  "scenarios": [
+    {
+      "name": "accounts-en-1880",
+      "path": "/platform/accounts",
+      "width": 1880,
+      "locale": "en_US",
+      "layout": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 57.9375,
+            "controlWidth": 315.5625,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "Account Status",
+            "textWidth": 100.28125,
+            "labelWidth": 113.65625,
+            "controlWidth": 259.84375,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 1880,
+        "documentWidth": 1880,
+        "tableBodyHeight": 566
+      },
+      "screenshot": "ui/search-labels-after-accounts-en-1880.png",
+      "queries": [
+        {
+          "page": "1",
+          "pageSize": "20"
+        },
+        {
+          "page": "1",
+          "pageSize": "20",
+          "query": "qa.visual"
+        },
+        {
+          "page": "1",
+          "pageSize": "20"
+        }
+      ],
+      "switchedToChinese": {
+        "labels": [
+          {
+            "text": "搜索",
+            "textWidth": 28,
+            "labelWidth": 41.375,
+            "controlWidth": 332.125,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "账号状态",
+            "textWidth": 56,
+            "labelWidth": 69.375,
+            "controlWidth": 304.125,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 1880,
+        "documentWidth": 1880,
+        "tableBodyHeight": 585
+      },
+      "switchedToEnglish": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 57.9375,
+            "controlWidth": 315.5625,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "Account Status",
+            "textWidth": 100.28125,
+            "labelWidth": 113.65625,
+            "controlWidth": 259.84375,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 1880,
+        "documentWidth": 1880,
+        "tableBodyHeight": 566
+      },
+      "passed": true
+    },
+    {
+      "name": "accounts-en-1440",
+      "path": "/platform/accounts",
+      "width": 1440,
+      "locale": "en_US",
+      "layout": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 57.9375,
+            "controlWidth": 301.390625,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "Account Status",
+            "textWidth": 100.28125,
+            "labelWidth": 113.65625,
+            "controlWidth": 245.671875,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 1440,
+        "documentWidth": 1440,
+        "tableBodyHeight": 566
+      },
+      "passed": true
+    },
+    {
+      "name": "accounts-en-1024",
+      "path": "/platform/accounts",
+      "width": 1024,
+      "locale": "en_US",
+      "expandedSearch": true,
+      "layout": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 343,
+            "controlWidth": 343,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "Account Status",
+            "textWidth": 100.28125,
+            "labelWidth": 343,
+            "controlWidth": 343,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 1024,
+        "documentWidth": 1024,
+        "tableBodyHeight": 446
+      },
+      "passed": true
+    },
+    {
+      "name": "accounts-en-768",
+      "path": "/platform/accounts",
+      "width": 768,
+      "locale": "en_US",
+      "expandedSearch": true,
+      "layout": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 299,
+            "controlWidth": 299,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "Account Status",
+            "textWidth": 100.28125,
+            "labelWidth": 299,
+            "controlWidth": 299,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 768,
+        "documentWidth": 768,
+        "tableBodyHeight": 412
+      },
+      "passed": true
+    },
+    {
+      "name": "accounts-en-390",
+      "path": "/platform/accounts",
+      "width": 390,
+      "locale": "en_US",
+      "expandedSearch": true,
+      "layout": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 308,
+            "controlWidth": 308,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "Account Status",
+            "textWidth": 100.28125,
+            "labelWidth": 308,
+            "controlWidth": 308,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 390,
+        "documentWidth": 390,
+        "tableBodyHeight": 322
+      },
+      "screenshot": "ui/search-labels-after-accounts-en-390.png",
+      "passed": true
+    },
+    {
+      "name": "accounts-en-320",
+      "path": "/platform/accounts",
+      "width": 320,
+      "locale": "en_US",
+      "expandedSearch": true,
+      "layout": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 238,
+            "controlWidth": 238,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "Account Status",
+            "textWidth": 100.28125,
+            "labelWidth": 238,
+            "controlWidth": 238,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 320,
+        "documentWidth": 320,
+        "tableBodyHeight": 322
+      },
+      "passed": true
+    },
+    {
+      "name": "accounts-zh-1440",
+      "path": "/platform/accounts",
+      "width": 1440,
+      "locale": "zh_CN",
+      "layout": {
+        "labels": [
+          {
+            "text": "搜索",
+            "textWidth": 28,
+            "labelWidth": 41.375,
+            "controlWidth": 317.953125,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "账号状态",
+            "textWidth": 56,
+            "labelWidth": 69.375,
+            "controlWidth": 289.953125,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 1440,
+        "documentWidth": 1440,
+        "tableBodyHeight": 585
+      },
+      "passed": true
+    },
+    {
+      "name": "companies-en-1440",
+      "path": "/platform/companies",
+      "width": 1440,
+      "locale": "en_US",
+      "layout": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 57.9375,
+            "controlWidth": 301.390625,
+            "clipped": false,
+            "overlapsControl": false
+          },
+          {
+            "text": "Status",
+            "textWidth": 40.875,
+            "labelWidth": 54.25,
+            "controlWidth": 305.078125,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 1440,
+        "documentWidth": 1440,
+        "tableBodyHeight": 581
+      },
+      "passed": true
+    },
+    {
+      "name": "roles-en-1440",
+      "path": "/platform/roles",
+      "width": 1440,
+      "locale": "en_US",
+      "layout": {
+        "labels": [
+          {
+            "text": "Search",
+            "textWidth": 44.5625,
+            "labelWidth": 57.9375,
+            "controlWidth": 301.390625,
+            "clipped": false,
+            "overlapsControl": false
+          }
+        ],
+        "viewportWidth": 1440,
+        "documentWidth": 1440,
+        "tableBodyHeight": 605
+      },
+      "passed": true
+    }
+  ]
+}

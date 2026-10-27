@@ -1,0 +1,18 @@
+{
+  "platform": "linux",
+  "arch": "x64",
+  "node": "v24.14.0",
+  "checks": {
+    "argon2Native": "passed",
+    "builtSha256Worker": "passed",
+    "postgresReadOnly": "passed",
+    "sessionRedisPing": "passed",
+    "queueRedisPing": "passed",
+    "storageHeadBucket": "passed",
+    "nestLinuxStartup": "passed"
+  },
+  "openapiPathCount": 96,
+  "queueConsumerEnabled": false,
+  "status": "passed",
+  "ownQueueMetadataCleaned": true
+}
