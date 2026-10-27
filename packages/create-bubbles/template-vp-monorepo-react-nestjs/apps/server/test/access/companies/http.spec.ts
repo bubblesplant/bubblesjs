@@ -6,6 +6,7 @@ import { Test } from '@nestjs/testing'
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { ConfigService } from '@nestjs/config'
+import { SWAGGER_SESSION_AUTH } from '@/common/constants/swagger.constants'
 import { COMMON_ERRORS } from '@/common/error/common.error'
 import { AppException } from '@/common/exceptions/app.exception'
 import { GlobalExceptionFilter } from '@/common/filters/global-exception.filter'
@@ -150,7 +151,7 @@ describe('平台企业列表 HTTP 与响应契约（数据及会话使用替身�
   it('Swagger 从同一响应 Schema 描述管理员字段及 Bearer 认证', () => {
     const document = SwaggerModule.createDocument(
       app,
-      new DocumentBuilder().addBearerAuth(undefined, 'session').build(),
+      new DocumentBuilder().addBearerAuth(undefined, SWAGGER_SESSION_AUTH).build(),
     )
     const operation = document.paths['/platform/companies']!.get!
     expect(operation.security).toEqual([{ session: [] }])

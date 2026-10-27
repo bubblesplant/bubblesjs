@@ -5,7 +5,7 @@ import {
   ACCESS_POLICY_KEY,
   type AccessPolicyDefinition,
 } from '@/common/decorators/access-policy.decorator'
-import { IS_PUBLIC_KEY } from '@/common/constants/auth'
+import { IS_PUBLIC_KEY } from '@/common/constants/auth.constants'
 import { AppException } from '@/common/exceptions/app.exception'
 import { ACCESS_ERRORS } from './access.errors'
 import { AccessService } from './access.service'

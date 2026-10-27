@@ -12,6 +12,7 @@ import {
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 import type { FastifyRequest } from 'fastify'
 import type { CompanyDetail, PageResult } from 'shared/types'
+import { SWAGGER_SESSION_AUTH } from '@/common/constants/swagger.constants'
 import { AccessPolicy } from '@/common/decorators/access-policy.decorator'
 import { actor, ids } from '@/modules/access/access-http'
 import { entityListSchema, parse, statusSchema } from '@/modules/access/access.validation'
@@ -29,7 +30,7 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
   /** 校验分页筛选参数，从平台入口查询公司及当前管理员并序列化公开字段。 */
   @ApiOperation({ summary: '获取平台企业列表' })
-  @ApiBearerAuth('session')
+  @ApiBearerAuth(SWAGGER_SESSION_AUTH)
   @ApiOkResponse({ standardSchema: companyPageResponseSchema })
   @SerializeOptions({ schema: companyPageResponseSchema })
   @Get('platform/companies')

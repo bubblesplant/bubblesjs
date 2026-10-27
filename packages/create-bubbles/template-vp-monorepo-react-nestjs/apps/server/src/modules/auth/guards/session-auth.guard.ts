@@ -1,4 +1,4 @@
-import { IS_PUBLIC_KEY } from '@/common/constants/auth'
+import { IS_PUBLIC_KEY } from '@/common/constants/auth.constants'
 import { AppException } from '@/common/exceptions/app.exception'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'

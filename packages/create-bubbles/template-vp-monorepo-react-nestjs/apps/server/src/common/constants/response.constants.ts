@@ -1,5 +1,5 @@
 /**
- * @description  contentType
+ * HTTP 响应使用的 Content-Type 常量。
  */
 export enum ContentTypeEnum {
   // json

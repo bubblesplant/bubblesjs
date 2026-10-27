@@ -16,6 +16,7 @@ import { toValidationDetails } from 'shared/utils'
 import * as schema from '@/database/schema'
 import { ENV_ARR } from '@/utils/env-arr'
 import { createFastifyAdapter } from '@/common/adapters/fastify.adapter'
+import { SWAGGER_SESSION_AUTH } from '@/common/constants/swagger.constants'
 import { COMMON_ERRORS } from '@/common/error/common.error'
 import { AppException } from '@/common/exceptions/app.exception'
 import { GlobalExceptionFilter } from '@/common/filters/global-exception.filter'
@@ -373,7 +374,7 @@ describe.skipIf(!enabled)('字典本机隔离 PostgreSQL 与真实 HTTP 链路',
   it('Swagger 注册三类管理路由和独立业务选项接口', () => {
     const document = SwaggerModule.createDocument(
       app!,
-      new DocumentBuilder().addBearerAuth(undefined, 'session').build(),
+      new DocumentBuilder().addBearerAuth(undefined, SWAGGER_SESSION_AUTH).build(),
     )
     expect(document.paths['/platform/dictionaries']?.post?.requestBody).toBeTruthy()
     expect(document.paths['/companies/{companyId}/dictionaries']).toBeTruthy()

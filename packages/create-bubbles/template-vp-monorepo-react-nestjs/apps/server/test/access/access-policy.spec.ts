@@ -5,7 +5,7 @@ import type { ExecutionContext } from '@nestjs/common'
 import { AccessGuard } from '@/modules/access/access.guard'
 import type { AccessService } from '@/modules/access/access.service'
 import { ACCESS_POLICY_KEY } from '@/common/decorators/access-policy.decorator'
-import { IS_PUBLIC_KEY } from '@/common/constants/auth'
+import { IS_PUBLIC_KEY } from '@/common/constants/auth.constants'
 import { entityListSchema, parse } from '@/modules/access/access.validation'
 import { listSchema } from '@/modules/members/accounts/accounts.validation'
 import {

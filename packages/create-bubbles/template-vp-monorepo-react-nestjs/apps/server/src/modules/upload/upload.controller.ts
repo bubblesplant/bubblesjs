@@ -1,3 +1,4 @@
+import { SWAGGER_SESSION_AUTH } from '@/common/constants/swagger.constants'
 import { CurrentAuth } from '@/common/decorators/current-auth.decorator'
 import { Authenticated } from '@/common/decorators/access-policy.decorator'
 import {
@@ -39,7 +40,7 @@ type OctetStreamRequest = FastifyRequest & {
 }
 
 @ApiTags('大文件分片上传')
-@ApiBearerAuth('session')
+@ApiBearerAuth(SWAGGER_SESSION_AUTH)
 @Controller('uploads/multipart')
 @Authenticated()
 export class UploadController {

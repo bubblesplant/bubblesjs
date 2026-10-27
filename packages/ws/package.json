@@ -1,0 +1,48 @@
+{
+  "name": "@bubblesjs/ws",
+  "version": "0.0.1",
+  "private": false,
+  "description": "浏览器 WebSocket 客户端封装，提供事件订阅、自动重连和心跳发送。",
+  "keywords": [
+    "bubblesjs",
+    "typescript",
+    "websocket",
+    "ws"
+  ],
+  "bugs": {
+    "url": "https://github.com/435012357/bubblesjs/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/435012357/bubblesjs.git",
+    "directory": "packages/ws"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "vp run typecheck && vp run build"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

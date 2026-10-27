@@ -1,0 +1,10 @@
+note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server
+
+
+ Test Files  16 passed | 5 skipped (21)
+      Tests  99 passed | 43 skipped (142)
+   Start at  12:19:29
+   Duration  4.15s (import 92%, transform 4%, tests 4%)
+

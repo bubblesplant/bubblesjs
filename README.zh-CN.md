@@ -18,14 +18,15 @@
 
 ## 📦 包列表
 
-| 包名 | 描述 | 版本 |
-| --- | --- | --- |
-| [@bubblesjs/utils](./packages/utils) | 通用工具函数库 | [![npm](https://img.shields.io/npm/v/@bubblesjs/utils.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/utils) |
-| [@bubblesjs/request](./packages/request) | HTTP 请求封装（支持 Axios/Alova） | [![npm](https://img.shields.io/npm/v/@bubblesjs/request.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/request) |
-| [@bubblesjs/vue-ai-chart](./packages/vue-ai-chart) | Vue 3 AI 图表组件 | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-ai-chart.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-ai-chart) |
-| [@bubblesjs/vue-annotation](./packages/vue-annotator) | Vue 3 文本标注组件 | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-annotation.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-annotation) |
-| [@bubblesjs/vue-infinite-scroll](./packages/vue-infinite-scroll) | Vue 3 无限滚动组件 | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-infinite-scroll.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-infinite-scroll) |
-| [create-bubbles](./packages/create-bubbles) | CLI 脚手架工具 | [![npm](https://img.shields.io/npm/v/create-bubbles.svg?style=flat-square)](https://www.npmjs.com/package/create-bubbles) |
+| 包名                                                             | 描述                              | 版本                                                                                                                                                      |
+| ---------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [@bubblesjs/utils](./packages/utils)                             | 通用工具函数库                    | [![npm](https://img.shields.io/npm/v/@bubblesjs/utils.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/utils)                             |
+| [@bubblesjs/request](./packages/request)                         | HTTP 请求封装（支持 Axios/Alova） | [![npm](https://img.shields.io/npm/v/@bubblesjs/request.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/request)                         |
+| [@bubblesjs/ws](./packages/ws)                                   | 浏览器 WebSocket 客户端封装       | [![npm](https://img.shields.io/npm/v/@bubblesjs/ws.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/ws)                                   |
+| [@bubblesjs/vue-ai-chart](./packages/vue-ai-chart)               | Vue 3 AI 图表组件                 | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-ai-chart.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-ai-chart)               |
+| [@bubblesjs/vue-annotation](./packages/vue-annotator)            | Vue 3 文本标注组件                | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-annotation.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-annotation)           |
+| [@bubblesjs/vue-infinite-scroll](./packages/vue-infinite-scroll) | Vue 3 无限滚动组件                | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-infinite-scroll.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-infinite-scroll) |
+| [create-bubbles](./packages/create-bubbles)                      | CLI 脚手架工具                    | [![npm](https://img.shields.io/npm/v/create-bubbles.svg?style=flat-square)](https://www.npmjs.com/package/create-bubbles)                                 |
 
 ## 🚀 快速开始
 
@@ -60,4 +61,3 @@ pnpm add @bubblesjs/vue-infinite-scroll
 ## 📄 许可证
 
 [MIT](./LICENSE) License © 2024-Present
-

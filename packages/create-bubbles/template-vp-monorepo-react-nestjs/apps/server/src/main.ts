@@ -1,4 +1,5 @@
 import { AppModule } from '@/app.module'
+import { SWAGGER_SESSION_AUTH } from '@/common/constants/swagger.constants'
 import { logNetworkUrls } from '@/utils/server-address'
 import { ConsoleLogger, Logger } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
@@ -34,8 +35,8 @@ async function bootstrap() {
         scheme: 'bearer',
         bearerFormat: 'Opaque Session Token',
       },
-      'session',
-    ) // 用 JWT 就留着,不用可以删
+      SWAGGER_SESSION_AUTH,
+    ) // Session Token 通过 Bearer 请求头传输，与接口注解共用认证方案名称。
     .build()
 
   // 生成openAPI 文档

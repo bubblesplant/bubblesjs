@@ -18,14 +18,15 @@ A modern JavaScript/TypeScript monorepo providing utilities, Vue 3 components, a
 
 ## 📦 Packages
 
-| Package | Description | Version |
-| --- | --- | --- |
-| [@bubblesjs/utils](./packages/utils) | Common utility functions | [![npm](https://img.shields.io/npm/v/@bubblesjs/utils.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/utils) |
-| [@bubblesjs/request](./packages/request) | HTTP request wrapper for Axios/Alova | [![npm](https://img.shields.io/npm/v/@bubblesjs/request.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/request) |
-| [@bubblesjs/vue-ai-chart](./packages/vue-ai-chart) | AI-powered chart component for Vue 3 | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-ai-chart.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-ai-chart) |
-| [@bubblesjs/vue-annotation](./packages/vue-annotator) | Text annotation component for Vue 3 | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-annotation.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-annotation) |
-| [@bubblesjs/vue-infinite-scroll](./packages/vue-infinite-scroll) | Infinite scroll component for Vue 3 | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-infinite-scroll.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-infinite-scroll) |
-| [create-bubbles](./packages/create-bubbles) | CLI scaffolding tool | [![npm](https://img.shields.io/npm/v/create-bubbles.svg?style=flat-square)](https://www.npmjs.com/package/create-bubbles) |
+| Package                                                          | Description                          | Version                                                                                                                                                   |
+| ---------------------------------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [@bubblesjs/utils](./packages/utils)                             | Common utility functions             | [![npm](https://img.shields.io/npm/v/@bubblesjs/utils.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/utils)                             |
+| [@bubblesjs/request](./packages/request)                         | HTTP request wrapper for Axios/Alova | [![npm](https://img.shields.io/npm/v/@bubblesjs/request.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/request)                         |
+| [@bubblesjs/ws](./packages/ws)                                   | Browser WebSocket client             | [![npm](https://img.shields.io/npm/v/@bubblesjs/ws.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/ws)                                   |
+| [@bubblesjs/vue-ai-chart](./packages/vue-ai-chart)               | AI-powered chart component for Vue 3 | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-ai-chart.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-ai-chart)               |
+| [@bubblesjs/vue-annotation](./packages/vue-annotator)            | Text annotation component for Vue 3  | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-annotation.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-annotation)           |
+| [@bubblesjs/vue-infinite-scroll](./packages/vue-infinite-scroll) | Infinite scroll component for Vue 3  | [![npm](https://img.shields.io/npm/v/@bubblesjs/vue-infinite-scroll.svg?style=flat-square)](https://www.npmjs.com/package/@bubblesjs/vue-infinite-scroll) |
+| [create-bubbles](./packages/create-bubbles)                      | CLI scaffolding tool                 | [![npm](https://img.shields.io/npm/v/create-bubbles.svg?style=flat-square)](https://www.npmjs.com/package/create-bubbles)                                 |
 
 ## 🚀 Quick Start
 
@@ -60,4 +61,3 @@ pnpm add @bubblesjs/vue-infinite-scroll
 ## 📄 License
 
 [MIT](./LICENSE) License © 2024-Present
-

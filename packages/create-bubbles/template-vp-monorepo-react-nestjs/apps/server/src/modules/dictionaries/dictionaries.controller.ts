@@ -33,6 +33,7 @@ import {
   dictionaryRecordSchema,
   updateDictionarySchema,
 } from 'shared/utils'
+import { SWAGGER_SESSION_AUTH } from '@/common/constants/swagger.constants'
 import { AccessPolicy, Authenticated } from '@/common/decorators/access-policy.decorator'
 import { actor, ids, scopeFor } from '@/modules/access/access-http'
 import { DictionariesService } from './dictionaries.service'
@@ -44,7 +45,7 @@ const paths = [
 ]
 
 @ApiTags('数据字典')
-@ApiBearerAuth('session')
+@ApiBearerAuth(SWAGGER_SESSION_AUTH)
 @Controller()
 export class DictionariesController {
   constructor(private readonly service: DictionariesService) {}

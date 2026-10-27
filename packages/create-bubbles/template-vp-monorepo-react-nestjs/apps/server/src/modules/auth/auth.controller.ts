@@ -1,3 +1,4 @@
+import { SWAGGER_SESSION_AUTH } from '@/common/constants/swagger.constants'
 import { Authenticated } from '@/common/decorators/access-policy.decorator'
 import { CurrentAuth } from '@/common/decorators/current-auth.decorator'
 import { Public } from '@/common/decorators/public.decorator'
@@ -76,7 +77,7 @@ export class AuthController {
   }
 
   /** 撤销请求头令牌对应的当前终端会话；保持退出接口幂等。 */
-  @ApiBearerAuth('session')
+  @ApiBearerAuth(SWAGGER_SESSION_AUTH)
   @ApiOperation({ summary: '退出当前终端登录' })
   @ApiOkResponse({ standardSchema: logoutResultSchema })
   @SerializeOptions({ schema: logoutResultSchema })
@@ -88,7 +89,7 @@ export class AuthController {
   }
 
   /** 结合认证上下文与最新公开资料，返回当前用户及登录终端。 */
-  @ApiBearerAuth('session')
+  @ApiBearerAuth(SWAGGER_SESSION_AUTH)
   @ApiOperation({ summary: '获取当前登录用户资料' })
   @ApiOkResponse({ standardSchema: currentUserSchema })
   @SerializeOptions({ schema: currentUserSchema })
@@ -100,7 +101,7 @@ export class AuthController {
   }
 
   /** 修改本人密码，成功后撤销该用户全部终端会话。 */
-  @ApiBearerAuth('session')
+  @ApiBearerAuth(SWAGGER_SESSION_AUTH)
   @ApiOperation({ summary: '修改本人密码并撤销全部终端会话' })
   @ApiOkResponse({ standardSchema: changePasswordResultSchema })
   @SerializeOptions({ schema: changePasswordResultSchema })

@@ -1,0 +1,2 @@
+pass: All 1 file are correctly formatted (125ms, 24 threads)
+pass: Found no warnings, lint errors, or type errors in 1 file (306ms, 24 threads)

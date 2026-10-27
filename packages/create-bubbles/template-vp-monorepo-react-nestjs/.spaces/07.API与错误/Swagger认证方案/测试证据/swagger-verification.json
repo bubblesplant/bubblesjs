@@ -1,0 +1,238 @@
+{
+  "verifiedAt": "2026-10-26T04:20:17.063Z",
+  "baselineCommit": "aaec3019855101452d0a88ff78745973aa5024c5",
+  "comparedSource": "Git HEAD 与当前服务端源码，在独立 Node 进程和模块缓存中生成文档",
+  "controllerFiles": [
+    "apps/server/src/modules/auth/auth.controller.ts",
+    "apps/server/src/modules/companies/companies.controller.ts",
+    "apps/server/src/modules/dictionaries/dictionaries.controller.ts",
+    "apps/server/src/modules/upload/upload.controller.ts"
+  ],
+  "fullOpenApiUnchanged": true,
+  "securitySchemes": {
+    "session": {
+      "scheme": "bearer",
+      "bearerFormat": "Opaque Session Token",
+      "type": "http"
+    }
+  },
+  "operationCount": 27,
+  "securityOperationCount": 19,
+  "operationSecurityUnchanged": true,
+  "operationSecurity": [
+    {
+      "route": "/auth/register",
+      "method": "post",
+      "security": []
+    },
+    {
+      "route": "/auth/login",
+      "method": "post",
+      "security": []
+    },
+    {
+      "route": "/auth/logout",
+      "method": "post",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/auth/me",
+      "method": "get",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/auth/change-password",
+      "method": "post",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/platform/companies",
+      "method": "get",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/platform/companies",
+      "method": "post",
+      "security": []
+    },
+    {
+      "route": "/platform/companies/{companyId}",
+      "method": "get",
+      "security": []
+    },
+    {
+      "route": "/platform/companies/{companyId}/status",
+      "method": "patch",
+      "security": []
+    },
+    {
+      "route": "/platform/companies/{companyId}/administrator",
+      "method": "post",
+      "security": []
+    },
+    {
+      "route": "/companies/{companyId}",
+      "method": "get",
+      "security": []
+    },
+    {
+      "route": "/companies/{companyId}",
+      "method": "patch",
+      "security": []
+    },
+    {
+      "route": "/platform/dictionaries",
+      "method": "get",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/platform/dictionaries",
+      "method": "post",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/companies/{companyId}/dictionaries",
+      "method": "get",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/companies/{companyId}/dictionaries",
+      "method": "post",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/companies/{companyId}/projects/{projectId}/dictionaries",
+      "method": "get",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/companies/{companyId}/projects/{projectId}/dictionaries",
+      "method": "post",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/platform/dictionaries/{dictionaryId}",
+      "method": "patch",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/companies/{companyId}/dictionaries/{dictionaryId}",
+      "method": "patch",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/companies/{companyId}/projects/{projectId}/dictionaries/{dictionaryId}",
+      "method": "patch",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/dictionary-options",
+      "method": "get",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/uploads/multipart",
+      "method": "post",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/uploads/multipart/{uploadSessionId}",
+      "method": "get",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/uploads/multipart/{uploadSessionId}",
+      "method": "delete",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/uploads/multipart/{uploadSessionId}/parts/{partNumber}",
+      "method": "put",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    },
+    {
+      "route": "/uploads/multipart/{uploadSessionId}/complete",
+      "method": "post",
+      "security": [
+        {
+          "session": []
+        }
+      ]
+    }
+  ],
+  "openApiSha256": "81b3be2515350589ab64cba609c22196b7093184fbaf7a798eabc2c3676c6925",
+  "infrastructure": "仅四个真实 Controller 与构造器服务替身；未执行 AppModule/bootstrap，未初始化应用、监听端口或连接数据库/Redis/对象存储",
+  "comparisonScope": "受影响的四个 Controller 的完整 OpenAPI；使用当前已安装依赖，不验证真实外部服务连接"
+}
