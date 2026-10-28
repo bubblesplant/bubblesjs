@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.35
+
+### Patch Changes
+
+- [`43d75b6`](https://github.com/bubblesplant/bubblesjs/commit/43d75b604dde98123909a8b31d69fe688c6651d7) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 升级vue模板依赖
+
 ## 0.1.34
 
 ### Patch Changes
