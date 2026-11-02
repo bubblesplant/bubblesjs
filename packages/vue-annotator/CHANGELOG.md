@@ -1,5 +1,11 @@
 # @bubblesjs/vue-annotation
 
+## 0.0.6
+
+### Patch Changes
+
+- [`85d0a59`](https://github.com/bubblesplant/bubblesjs/commit/85d0a59cb4acb99642d93c0bbd8a0c89d72521c1) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 升级依赖
+
 ## 0.0.5
 
 ### Patch Changes
