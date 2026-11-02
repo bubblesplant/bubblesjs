@@ -2,13 +2,11 @@ import RouteTransition from '@/components/RouteTransition/RouteTransition'
 import BasicLayout from '@/layouts/BasicLayout'
 import RouteError from '@/pages/error/error'
 import { lazyLoad } from '@/router/lazy-load'
-import { authMiddleware, workspacesMiddleware } from '@/router/middleware'
 
 export const exampleRoutes: RouteObject[] = [
   {
     path: '/examples',
     element: <BasicLayout />,
-    middleware: [authMiddleware, workspacesMiddleware],
     errorElement: (
       <RouteTransition>
         <RouteError />

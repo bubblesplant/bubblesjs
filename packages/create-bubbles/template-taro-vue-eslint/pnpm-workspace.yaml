@@ -1,3 +1,6 @@
+overrides:
+  oxfmt@0.35.0>tinypool: ^2.2.0
+
 allowBuilds:
   '@parcel/watcher': true
   '@swc/core': true

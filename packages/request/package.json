@@ -36,6 +36,7 @@
     "@bubblesjs/utils": "workspace:^"
   },
   "devDependencies": {
+    "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",
     "vitest": "catalog:"

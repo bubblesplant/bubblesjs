@@ -53,7 +53,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@clack/prompts": "^1.5.1",
+    "@clack/prompts": "^1.8.1",
     "cross-spawn": "^7.0.6",
     "gradient-string": "^3.0.0",
     "mri": "^1.2.0",
@@ -61,7 +61,8 @@
   },
   "devDependencies": {
     "@types/cross-spawn": "catalog:",
-    "@types/node": "^24.3.0",
+    "@types/node": "^26.6.6",
+    "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   },

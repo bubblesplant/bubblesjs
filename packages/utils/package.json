@@ -32,9 +32,9 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
-    "@types/node": "^24.3.3",
-    "prettier": "^3.8.3",
+    "@changesets/cli": "^3.0.3",
+    "@types/node": "^26.6.6",
+    "prettier": "^3.9.10",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:"

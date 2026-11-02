@@ -1,6 +1,7 @@
 import PageLoading from '@/components/Loading/PageLoading'
 import RouteTransition from '@/components/RouteTransition/RouteTransition'
 import RouteError from '@/pages/error/error'
+import { authMiddleware } from '@/router/middleware'
 import { authRoutes } from './auth'
 import { companyRoutes } from './company'
 import { entryRoutes } from './entry'
@@ -21,10 +22,11 @@ export const routes: RouteObject[] = [
     HydrateFallback: PageLoading,
     children: [
       ...authRoutes,
-      ...entryRoutes,
-      ...platformRoutes,
-      ...companyRoutes,
-      ...projectRoutes,
+      {
+        id: 'authenticated',
+        middleware: [authMiddleware],
+        children: [...entryRoutes, ...platformRoutes, ...companyRoutes, ...projectRoutes],
+      },
       ...exampleRoutes,
       ...fallbackRoutes,
     ],

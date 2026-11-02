@@ -5,21 +5,22 @@ packages:
 catalogMode: prefer
 
 catalog:
-  '@antfu/eslint-config': ^9.5.1
+  '@antfu/eslint-config': ^10.0.0
   '@changesets/cli': ^3.0.3
-  '@commitlint/cli': ^21.2.3
-  '@commitlint/config-conventional': ^21.2.3
-  '@types/node': ^26.6.5
+  '@commitlint/cli': ^21.2.4
+  '@commitlint/config-conventional': ^21.2.4
+  '@types/node': ^26.6.6
   '@vitejs/plugin-vue': ^6.0.10
-  eslint: ^10.12.0
+  eslint: ^10.14.0
   typescript: ^6.0.3
   vite: npm:@voidzero-dev/vite-plus-core@1.4.0
   vite-plus: 1.4.0
-  vitepress: 2.0.0-alpha.20
-  vue: ^3.5.43
-  vue-tsc: ^3.3.13
+  vitepress: 2.0.0-alpha.21
+  vue: ^3.5.44
+  vue-tsc: ^3.3.14
 overrides:
   vite@*: 'catalog:'
+  oxfmt@0.35.0>tinypool: ^2.2.0
 peerDependencyRules:
   allowAny:
     - vite

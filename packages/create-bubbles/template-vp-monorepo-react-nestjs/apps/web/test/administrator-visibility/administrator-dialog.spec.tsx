@@ -94,17 +94,33 @@ function renderDialog() {
   )
 }
 
-/** 通过组件公开接口打开实体，并等待门户内容进入 DOM。 */
+/** 通过组件公开接口打开实体，并等待门户及真实选择器挂载。 */
 async function showDialog(record = company, admins = administrators) {
   flushSync(() => dialogRef.current?.show(record, admins))
-  await vi.waitFor(() => expect(document.querySelector('[role="dialog"]')).not.toBeNull())
+  await vi.waitFor(() => {
+    expect(document.querySelector('[role="dialog"]')).not.toBeNull()
+    expect(replacementSelect()).toBeDefined()
+  })
 }
 
 /** 获取被替换管理员的真实 AntD Select，避免误操作新管理员选择器。 */
 function replacementSelect() {
-  const select = document.querySelector('#replaceUserId')?.closest<HTMLDivElement>('.ant-select')
+  const select = dialogFieldInput('被替换的管理员（可选）').closest<HTMLDivElement>('.ant-select')
   if (!select) throw new Error('未渲染被替换管理员选择器')
   return select
+}
+
+/** 按弹窗内标签关联字段，兼容表单名称为控件 ID 添加的前缀。 */
+function dialogFieldInput(labelText: string) {
+  const dialog = document.querySelector('[role="dialog"]')
+  const label = [...(dialog?.querySelectorAll<HTMLLabelElement>('label') ?? [])].find(
+    (item) => item.title === labelText,
+  )
+  const input = label?.htmlFor ? document.getElementById(label.htmlFor) : null
+  if (!(input instanceof HTMLInputElement) || !dialog?.contains(input)) {
+    throw new Error(`未渲染弹窗字段：${labelText}`)
+  }
+  return input
 }
 
 /** 打开实际下拉选项并按完整账号选择，覆盖同名账号的识别。 */
@@ -123,7 +139,7 @@ async function selectReplacement(account: string) {
 
 /** 通过输入事件触发真实远程搜索，再选择返回的稳定用户身份。 */
 async function selectNewAdministrator() {
-  const input = document.querySelector<HTMLInputElement>('#administratorUserId')!
+  const input = dialogFieldInput('新管理员')
   flushSync(() => {
     input.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
     Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(input, 'new')

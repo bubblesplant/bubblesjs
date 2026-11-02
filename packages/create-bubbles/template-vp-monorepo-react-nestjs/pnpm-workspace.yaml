@@ -8,86 +8,87 @@ catalogMode: prefer
 overrides:
   # ioredis 适配包允许 Terminus 11/12；固定 Nest 12 兼容版，避免旧锁文件保留 11。
   '@nestjs-modules/ioredis>@nestjs/terminus': 12.1.0
+  oxfmt@0.35.0>tinypool: ^2.2.0
 
 catalog:
   '@alova/adapter-axios': ^2.0.20
   '@ant-design/cssinjs': ^2.1.2
   '@ant-design/icons': ^6.3.4
   # 最新 beta 支持 Ant Design 6；latest 标签仍是仅支持 Ant Design 4/5 的 2.x。
-  '@ant-design/pro-components': 3.1.14-7
+  '@ant-design/pro-components': 3.1.15-9
   '@antdv-next/auto-import-resolver': ^1.2.0
   '@antdv-next/icons': ^1.1.2
-  '@antfu/eslint-config': ^9.5.1
-  '@aws-sdk/client-s3': ^3.1149.0
-  '@commitlint/cli': ^21.2.3
-  '@commitlint/config-conventional': ^21.2.3
-  '@fastify/cookie': ^11.1.3
-  '@fastify/static': ^10.1.6
+  '@antfu/eslint-config': ^10.0.0
+  '@aws-sdk/client-s3': ^3.1161.0
+  '@commitlint/cli': ^21.2.4
+  '@commitlint/config-conventional': ^21.2.4
+  '@fastify/cookie': ^11.1.5
+  '@fastify/static': ^10.1.8
   '@nestjs-modules/ioredis': ^2.3.1
   '@nestjs/bullmq': ^12.0.0
   # Nest 12 原生 Standard Schema 请求校验、响应序列化与 Swagger。
-  '@nestjs/cli': 12.0.8
-  '@nestjs/common': 12.1.3
-  '@nestjs/config': ^12.0.0
-  '@nestjs/core': 12.1.3
-  '@nestjs/jwt': ^12.0.1
+  '@nestjs/cli': 12.0.11
+  '@nestjs/common': 12.3.2
+  '@nestjs/config': ^12.0.1
+  '@nestjs/core': 12.3.2
+  '@nestjs/jwt': ^12.0.3
   '@nestjs/mapped-types': ^12.0.0
-  '@nestjs/platform-fastify': 12.1.3
-  '@nestjs/schematics': 12.0.7
-  '@nestjs/swagger': 12.0.2
-  '@nestjs/testing': 12.1.3
-  '@rspack/core': ^2.2.9
+  '@nestjs/platform-fastify': 12.3.2
+  '@nestjs/schematics': 12.0.12
+  '@nestjs/swagger': 12.0.5
+  '@nestjs/testing': 12.3.2
+  '@rspack/core': ^2.3.0
   '@tailwindcss/vite': ^4.3.3
   '@types/express': ^5.0.6
-  # 保持现有 Node 26 类型系列；npm latest 标签目前指向维护中的 Node 22 类型。
-  '@types/node': ^26.6.5
+  # 保持现有 Node 26 类型系列。
+  '@types/node': ^26.6.6
   '@types/nprogress': ^0.2.3
   '@types/pg': ^8.23.1
   '@types/react': ^19.3.0
   '@types/react-dom': ^19.3.0
-  '@unocss/eslint-plugin': ^66.11.0
-  '@unocss/preset-attributify': ^66.11.0
-  '@unocss/preset-wind4': ^66.11.0
+  '@unocss/eslint-plugin': ^66.12.0
+  '@unocss/preset-attributify': ^66.12.0
+  '@unocss/preset-wind4': ^66.12.0
   '@vitejs/plugin-react': ^6.1.2
   '@vitejs/plugin-vue': ^6.0.10
   '@vue/devtools-api': ^8.2.1
   '@vue/tsconfig': ^0.9.1
   alova: ^3.5.5
-  antd: ^6.6.6
-  antdv-next: ^1.6.0
+  antd: ^6.6.8
+  antdv-next: ^1.7.1
   argon2: ^0.45.1
-  axios: ^1.20.0
-  bullmq: ^6.3.13
-  chokidar: ^5.0.0
+  axios: ^1.21.0
+  bullmq: ^6.5.3
+  chokidar: ^6.0.0
   classnames: ^2.5.1
   cross-env: ^10.1.0
   dayjs: ^1.11.23
-  dotenv: ^18.0.7
+  dotenv: ^18.0.9
   drizzle-kit: ^0.31.11
   drizzle-orm: ^0.45.4
   drizzle-zod: ^0.8.3
   echarts: ^6.1.0
-  es-toolkit: ^1.52.0
-  eslint: 10.12.0
+  es-toolkit: ^1.53.1
+  eslint: 10.14.0
   eslint-plugin-format: ^2.0.1
-  eslint-plugin-oxlint: ^1.87.0
+  eslint-plugin-oxlint: ^1.90.0
   fast-glob: ^3.3.3
-  fastify: ^5.12.5
-  globals: ^17.13.0
-  happy-dom: ^21.0.1
+  fastify: ^5.12.7
+  globals: ^17.14.0
+  happy-dom: ^21.0.4
   hash-wasm: ^4.12.0
   ioredis: ^6.0.0
   nprogress: ^0.2.0
-  oxlint: ^1.87.0
+  oxlint: ^1.90.0
   pg: ^8.23.1
-  pinia: ^4.0.3
+  pinia: ^4.1.0
   pinia-plugin-persistedstate: ^4.7.1
-  react: ^19.3.0
-  react-dom: ^19.3.0
-  react-router: ^8.4.0
+  react: ^19.3.1
+  react-dom: ^19.3.1
+  react-router: ^8.5.1
   reflect-metadata: ^0.2.2
   rxjs: ^7.8.2
-  sass: ^1.105.1
+  sass: ^1.107.1
   source-map-support: ^0.5.21
   tailwindcss: ^4.3.3
   ts-node: ^10.9.2
@@ -95,7 +96,7 @@ catalog:
   tsconfig-paths-webpack-plugin: ^4.2.0
   # vue-tsc 与 ts-node 仍依赖旧编译器 API，暂不兼容 TypeScript 7。
   typescript: ^6.0.3
-  unocss: 66.11.0
+  unocss: 66.12.0
   unplugin-auto-import: ^21.1.0
   unplugin-vue-components: ^32.1.0
   vite: npm:@voidzero-dev/vite-plus-core@1.4.0
@@ -103,14 +104,15 @@ catalog:
   vite-plugin-svg-icons: ^2.0.1
   vite-plugin-svgr: ^5.2.0
   vite-plus: 1.4.0
-  vue: ^3.5.43
+  vue: ^3.5.44
   vue-router: ^5.4.0
-  vue-tsc: ^3.3.13
+  vue-tsc: ^3.3.14
   webpack-node-externals: ^3.0.0
-  zod: ^4.6.6
-  zustand: ^5.0.15
+  zod: ^4.6.7
+  zustand: ^5.0.16
 
 minimumReleaseAgeExclude:
+  - '@ant-design/pro-components@3.1.15-9'
   - '@unocss/autocomplete@66.11.0'
   - '@unocss/cli@66.11.0'
   - '@unocss/config@66.11.0'
@@ -139,6 +141,7 @@ minimumReleaseAgeExclude:
   - antd@6.6.6
   - bullmq@6.3.13
   - cac@7.1.0
+  - globals@17.14.0
   - happy-dom@21.0.1
   - unocss@66.11.0
   - zod@4.6.6

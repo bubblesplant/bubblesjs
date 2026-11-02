@@ -36,7 +36,7 @@ export function useOrganizationMemberCandidateColumns(): ProColumns<Organization
       hideInTable: true,
       fieldProps: { placeholder: tr('搜索姓名或完整账号') },
     },
-    { title: tr('姓名'), dataIndex: 'name', search: false, width: 130 },
+    { title: tr('姓名'), dataIndex: 'name', search: false, fixed: 'left', width: 130 },
     {
       title: tr('完整账号'),
       dataIndex: 'account',

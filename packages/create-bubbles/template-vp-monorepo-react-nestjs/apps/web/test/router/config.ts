@@ -89,7 +89,7 @@ function scopeRoute(type: AccessScope['type'], path: string): RouteObject {
   return {
     id: type,
     path,
-    middleware: [authMiddleware, scopeMiddleware(type)],
+    middleware: [scopeMiddleware(type)],
     errorElement: '作用域不可用',
     children: pages.map((name): RouteObject => ({
       id: `${type}.${name}`,
@@ -111,18 +111,24 @@ export async function makeRouter() {
         children: [
           { path: '/placeholder', element: null },
           { path: '/login', element: null },
-          ...['/', '/home'].map((path) => ({
-            path,
-            middleware: [authMiddleware, workspacesMiddleware, entryMiddleware],
-          })),
           {
-            path: '/workspaces',
-            middleware: [authMiddleware, workspacesMiddleware],
-            element: null,
+            id: 'authenticated',
+            middleware: [authMiddleware],
+            children: [
+              ...['/', '/home'].map((path) => ({
+                path,
+                middleware: [workspacesMiddleware, entryMiddleware],
+              })),
+              {
+                path: '/workspaces',
+                middleware: [workspacesMiddleware],
+                element: null,
+              },
+              scopeRoute('platform', '/platform'),
+              scopeRoute('company', '/companies/:companyId'),
+              scopeRoute('project', '/companies/:companyId/projects/:projectId'),
+            ],
           },
-          scopeRoute('platform', '/platform'),
-          scopeRoute('company', '/companies/:companyId'),
-          scopeRoute('project', '/companies/:companyId/projects/:projectId'),
         ],
       },
     ],

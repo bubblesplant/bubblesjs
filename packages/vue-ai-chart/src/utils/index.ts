@@ -1,4 +1,4 @@
-import type { GroupedConversations } from '../interface'
+import type { GroupedConversations } from '../components/ConversationSidebar/conversation-list/interface'
 
 import dayjs from 'dayjs'
 
@@ -19,7 +19,7 @@ export function formatObjectArrayByTime(array: any[], dateKey: string) {
   const sevenDaysAgoStart = todayStart.subtract(7, 'day')
   const thirtyDaysAgoStart = todayStart.subtract(30, 'day')
   // 初始化分组对象
-  const grouped: GroupedConversations = {
+  const grouped: GroupedConversations<any> = {
     today: [],
     yesterday: [],
     last7Days: [],
@@ -55,7 +55,7 @@ export function formatObjectArrayByTime(array: any[], dateKey: string) {
     let isGrouped = false
     for (const time of groupTime) {
       if (createTime.isAfter(time.start) && createTime.isBefore(time.end)) {
-        grouped[time.key as keyof GroupedConversations].push(item)
+        grouped[time.key as keyof GroupedConversations<any>].push(item)
         isGrouped = true
         break
       }

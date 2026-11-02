@@ -8,8 +8,9 @@ export default function RouteTransition({
   const location = useLocation()
   const matches = useMatches()
   const transitionName = region === 'layout' ? 'route-layout' : 'route-page'
-  const transitionKey =
-    region === 'layout' ? (matches[1]?.pathname ?? location.pathname) : location.key
+  // 无路径父层与根匹配共享 pathname，布局标识取第一个具体路径。
+  const layoutPathname = matches.find((match) => match.pathname !== matches[0]?.pathname)?.pathname
+  const transitionKey = region === 'layout' ? (layoutPathname ?? location.pathname) : location.key
   const previousTransitionKey = useRef(transitionKey)
   const update =
     region === 'layout' && previousTransitionKey.current === transitionKey ? 'none' : transitionName

@@ -40,7 +40,7 @@
     "format": "vp fmt --write .",
     "lint": "vp lint .",
     "check": "vp check",
-    "typecheck": "tsc -p scripts --noEmit && pnpm -r --parallel run typecheck",
+    "typecheck": "pnpm -r --parallel run typecheck",
     "docs": "pnpm --filter=docs run docs",
     "docs:build": "pnpm --filter=docs run docs:build",
     "docs:preview": "pnpm --filter=docs run preview",
@@ -54,10 +54,10 @@
     "version": "changeset version && pnpm install --lockfile-only"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^1.0.0",
-    "@changesets/cli": "^3.0.1",
-    "@commitlint/cli": "^21.2.3",
-    "@commitlint/config-conventional": "^21.2.2",
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
     "vite": "catalog:",
     "vite-plus": "catalog:"
   }

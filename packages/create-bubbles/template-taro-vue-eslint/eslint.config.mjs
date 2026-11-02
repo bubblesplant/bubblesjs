@@ -16,6 +16,7 @@ export default antfu(
   },
   {
     rules: {
+      'antfu/reasonable-newline': 'off',
       'n/prefer-global/process': 'off',
     },
   },

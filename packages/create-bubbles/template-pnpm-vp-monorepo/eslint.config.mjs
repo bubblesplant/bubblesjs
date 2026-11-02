@@ -1,4 +1,4 @@
-import antfu from "@antfu/eslint-config";
+import antfu from '@antfu/eslint-config'
 
 export default antfu(
   {
@@ -7,16 +7,17 @@ export default antfu(
     stylistic: false,
     typescript: true,
     vue: true,
-    ignores: ["**/dist/**", "**/coverage/**", "**/.vitepress/cache/**", "**/.vitepress/dist/**"],
+    ignores: ['**/dist/**', '**/coverage/**', '**/.vitepress/cache/**', '**/.vitepress/dist/**'],
   },
   {
-    files: ["**/*.vue"],
+    files: ['**/*.vue'],
     rules: {
-      "vue/html-indent": "off",
-      "vue/html-self-closing": "off",
-      "vue/html-closing-bracket-newline": "off",
-      "vue/singleline-html-element-content-newline": "off",
-      "vue/multiline-html-element-content-newline": "off",
+      'vue/html-indent': 'off',
+      'vue/first-attribute-linebreak': 'off',
+      'vue/html-self-closing': 'off',
+      'vue/html-closing-bracket-newline': 'off',
+      'vue/singleline-html-element-content-newline': 'off',
+      'vue/multiline-html-element-content-newline': 'off',
     },
   },
-);
+)

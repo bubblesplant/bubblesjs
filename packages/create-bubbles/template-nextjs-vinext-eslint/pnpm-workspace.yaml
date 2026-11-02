@@ -1,4 +1,7 @@
 minimumReleaseAgeExcludePrune: true
+minimumReleaseAgeExclude:
+  - vinext@1.4.1
+
 trustPolicy: no-downgrade
 
 # Babel 7 requires this legacy release; its npm integrity matches the existing lockfile.
@@ -6,6 +9,9 @@ trustPolicyExclude:
   - semver@6.3.1
 
 shellEmulator: true
+
+overrides:
+  oxfmt@0.35.0>tinypool: ^2.2.0
 
 allowBuilds:
   esbuild: true

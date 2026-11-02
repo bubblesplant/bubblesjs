@@ -17,19 +17,22 @@ minimumReleaseAgeExclude:
   - '@voidzero-dev/vite-plus-linux-x64-musl@1.4.0'
   - '@voidzero-dev/vite-plus-win32-arm64-msvc@1.4.0'
   - '@voidzero-dev/vite-plus-win32-x64-msvc@1.4.0'
-  - '@vue/compiler-core@3.6.0-rc.13'
-  - '@vue/compiler-dom@3.6.0-rc.13'
-  - '@vue/compiler-sfc@3.6.0-rc.13'
-  - '@vue/compiler-ssr@3.6.0-rc.13'
-  - '@vue/compiler-vapor@3.6.0-rc.13'
-  - '@vue/reactivity@3.6.0-rc.13'
-  - '@vue/runtime-core@3.6.0-rc.13'
-  - '@vue/runtime-dom@3.6.0-rc.13'
-  - '@vue/runtime-vapor@3.6.0-rc.13'
-  - '@vue/server-renderer@3.6.0-rc.13'
-  - '@vue/shared@3.6.0-rc.13'
+  - '@vue/compiler-core@3.6.0-rc.14'
+  - '@vue/compiler-dom@3.6.0-rc.14'
+  - '@vue/compiler-sfc@3.6.0-rc.14'
+  - '@vue/compiler-ssr@3.6.0-rc.14'
+  - '@vue/compiler-vapor@3.6.0-rc.14'
+  - '@vue/reactivity@3.6.0-rc.14'
+  - '@vue/runtime-core@3.6.0-rc.14'
+  - '@vue/runtime-dom@3.6.0-rc.14'
+  - '@vue/runtime-vapor@3.6.0-rc.14'
+  - '@vue/server-renderer@3.6.0-rc.14'
+  - '@vue/shared@3.6.0-rc.14'
   - eslint-plugin-antfu@3.3.1
   - eslint-plugin-jsdoc@65.4.1
   - jsdoc-type-pratt-parser@9.4.0
   - vite-plus@1.4.0
-  - vue@3.6.0-rc.13
+  - vue@3.6.0-rc.14
+
+overrides:
+  'oxfmt@0.35.0>tinypool': ^2.2.0
