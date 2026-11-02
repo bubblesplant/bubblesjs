@@ -1,5 +1,13 @@
 # create-bubbles
 
+## 0.1.35
+
+### Patch Changes
+
+- [#73](https://github.com/bubblesplant/bubblesjs/pull/73) [`43d75b6`](https://github.com/bubblesplant/bubblesjs/commit/43d75b604dde98123909a8b31d69fe688c6651d7) Thanks [@github-actions](https://github.com/apps/github-actions)! - 升级vue模板依赖
+
+- [`85d0a59`](https://github.com/bubblesplant/bubblesjs/commit/85d0a59cb4acb99642d93c0bbd8a0c89d72521c1) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 升级依赖
+
 ## 0.1.34
 
 ### Patch Changes
