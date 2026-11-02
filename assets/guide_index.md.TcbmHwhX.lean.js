@@ -1,0 +1,1 @@
+import{_t as e,at as t,it as n,n as r}from"./chunks/framework.BsZR5UBw.js";var i=JSON.parse(`{"title":"指南","description":"","frontmatter":{},"headers":[],"relativePath":"guide/index.md","filePath":"zh/guide/index.md"}`),a={name:`guide/index.md`};function o(r,i,a,o,s,c){return e(),n(`div`,null,[...i[0]||=[t("",3)]])}var s=r(a,[[`render`,o]]);export{i as __pageData,s as default};
