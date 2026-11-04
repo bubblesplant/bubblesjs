@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.36
+
+### Patch Changes
+
+- [`ab08ddf`](https://github.com/bubblesplant/bubblesjs/commit/ab08ddf91a32aa350d02d0980936568022e0bb07) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 升级各项目模板的兼容依赖，将 Vite+ 与配套 Vite 核心统一至 1.5.0，同步锁文件并适配 Taro mini-ci 补丁。
+
 ## 0.1.35
 
 ### Patch Changes
