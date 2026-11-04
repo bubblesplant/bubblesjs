@@ -3,3 +3,7 @@ allowBuilds:
   core-js: true
   esbuild: true
   lefthook: true
+minimumReleaseAgeExclude:
+  - '@rsbuild/core@2.3.1'
+  - '@rspack/binding-linux-x64-gnu@2.3.1'
+  - antd@6.7.0

@@ -44,16 +44,16 @@
     "eslint-plugin-format": "^2.0.1",
     "eslint-plugin-oxlint": "^1.90.0",
     "fast-glob": "^3.3.3",
-    "oxlint": "^1.90.0",
+    "oxlint": "^1.91.0",
     "sass": "^1.107.1",
     "typescript": "^6.0.3",
     "unocss": "66.12.0",
     "unplugin-auto-import": "^21.1.0",
     "unplugin-vue-components": "^32.1.0",
-    "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0",
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.5.0",
     "vite-plugin-inspect": "^12.1.0",
     "vite-plugin-svg-icons": "^2.0.1",
-    "vite-plus": "1.4.0",
+    "vite-plus": "1.5.0",
     "vue-tsc": "^3.3.14"
   }
 }
