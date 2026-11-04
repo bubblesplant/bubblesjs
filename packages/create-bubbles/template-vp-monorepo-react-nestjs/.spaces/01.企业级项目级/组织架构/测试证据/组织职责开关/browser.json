@@ -1,0 +1,108 @@
+{
+  "mockData": true,
+  "pageErrors": [],
+  "unexpectedApi": [],
+  "checks": [
+    "默认关闭：无职责列、无下拉框、无成员提示，ID 回显去重并忽略隐藏关系",
+    "默认关闭：点击确定实际输出 string[]",
+    "显式关闭：搜索与勾选只返回 ID，不混入隐藏职责",
+    "纯组织：仅提供 relations 不产生选中项，空选择确认输出 []",
+    "开启职责：关系回显去重，保留已有职责，新组织默认为成员",
+    "开启职责：实际修改下拉框并点击确定，输出组织 ID 与 duty",
+    "开启职责：显式 value 优先决定选中项，未选组织不输出",
+    "移除后重选恢复成员，保留其他组织职责；搜索不丢失选择",
+    "开启职责：清空后确认输出 []",
+    "false：取消与 hide 不调用确认，重开清除搜索和草稿",
+    "false：返回 false 保留草稿，抛错可见且可重试",
+    "false：确认期间锁定编辑、关闭、重开及同一 tick 重复确认",
+    "true：取消与 hide 不调用确认，重开清除搜索和草稿",
+    "true：返回 false 保留草稿，抛错可见且可重试",
+    "true：确认期间锁定编辑、关闭、重开及同一 tick 重复确认",
+    "纯组织：大量标签内部 overflow:auto，布局高度不变，无横向溢出",
+    "纯组织：业务注入禁选，已有失效组织仍可移除",
+    "false：390px 窄屏固定已选区，上下排列，确定按钮可达",
+    "true：390px 窄屏固定已选区，上下排列，确定按钮可达"
+  ],
+  "outputs": {
+    "withoutDuties": ["org-demo-1", "org-demo-2"],
+    "withDuties": [
+      {
+        "organizationUnitId": "org-demo-1",
+        "duty": "leader"
+      },
+      {
+        "organizationUnitId": "org-demo-2",
+        "duty": "member"
+      }
+    ]
+  },
+  "layouts": [
+    {
+      "mode": false,
+      "before": {
+        "x": 200,
+        "y": 163.5,
+        "width": 1040,
+        "height": 573
+      },
+      "after": {
+        "x": 200,
+        "y": 163.5,
+        "width": 1040,
+        "height": 573
+      },
+      "metrics": {
+        "height": 330,
+        "contentHeight": 1890,
+        "width": 236,
+        "contentWidth": 236,
+        "overflow": "auto"
+      }
+    },
+    {
+      "mode": "false",
+      "viewport": 390,
+      "selected": {
+        "x": 32,
+        "y": 495.5,
+        "width": 326,
+        "height": 160
+      },
+      "table": {
+        "x": 32,
+        "y": 155.5,
+        "width": 326,
+        "height": 320
+      },
+      "dialog": {
+        "x": 8,
+        "y": 95.5,
+        "width": 374,
+        "height": 653
+      }
+    },
+    {
+      "mode": "true",
+      "viewport": 390,
+      "selected": {
+        "x": 32,
+        "y": 495.5,
+        "width": 326,
+        "height": 160
+      },
+      "table": {
+        "x": 32,
+        "y": 155.5,
+        "width": 326,
+        "height": 320
+      },
+      "dialog": {
+        "x": 8,
+        "y": 95.5,
+        "width": 374,
+        "height": 653
+      }
+    }
+  ],
+  "passed": true
+}

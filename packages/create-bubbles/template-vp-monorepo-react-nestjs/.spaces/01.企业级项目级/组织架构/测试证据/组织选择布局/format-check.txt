@@ -1,0 +1,13 @@
+日期：2026-11-04
+退出状态：0
+
+    mode: development
+    VITE_PORT: 9999
+    VITE_API_AFFIX: /api
+    VITE_API_URL: undefined
+    
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 428ms on 3 files using 24 threads.
+

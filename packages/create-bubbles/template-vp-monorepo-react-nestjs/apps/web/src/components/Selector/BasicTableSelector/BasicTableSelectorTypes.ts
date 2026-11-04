@@ -37,11 +37,19 @@ export type BasicTableSelectorProps<
 > = Omit<ProTableProps<T, Params, ValueType>, ManagedTableProps> & {
   ref: Ref<BasicTableSelectorRef<T>>
   title: ReactNode
+  /** 标题下的简短浏览提示，不参与弹窗的可访问名称。 */
+  description?: ReactNode
+  /** 已选容器标题，由业务提供领域名称，默认“已选项目”。 */
+  selectionTitle?: ReactNode
+  /** 空选择时提示用户从候选表格添加项目。 */
+  emptyDescription?: ReactNode
   rowKey: BasicTableSelectorRowKey<T>
   request: NonNullable<ProTableProps<T, Params, ValueType>['request']>
   multiple?: boolean
   /** 仅点击确定时触发；keys 和 rows 长度、顺序始终一致。 */
   onChange: (keys: Key[], rows: T[]) => void | Promise<void>
+  /** 取消或确认结束会话后通知调用方，供清理候选查询等临时资源。 */
+  onClose?: () => void
   /** 确定时补查尚未取得对象的已选 key；返回顺序不限。 */
   requestByKeys?: (keys: Key[]) => Promise<T[]>
   labelRender?: (record: T) => ReactNode

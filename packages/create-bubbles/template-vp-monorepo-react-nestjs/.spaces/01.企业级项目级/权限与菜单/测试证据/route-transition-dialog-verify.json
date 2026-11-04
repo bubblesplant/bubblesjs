@@ -1,0 +1,685 @@
+{
+  "executedAt": "2026-11-03T13:11:38.942Z",
+  "mode": "verify",
+  "mockApi": true,
+  "dictionaryGetDelayMs": 450,
+  "checks": [
+    {
+      "scope": "platform",
+      "name": "鼠标打开编辑",
+      "animated": false,
+      "beforePath": "/platform/dictionaries",
+      "afterPath": "/platform/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "platform",
+      "name": "编辑表单输入",
+      "animated": false,
+      "beforePath": "/platform/dictionaries",
+      "afterPath": "/platform/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "platform",
+      "name": "新增选项",
+      "animated": false,
+      "beforePath": "/platform/dictionaries",
+      "afterPath": "/platform/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "platform",
+      "name": "取消关闭",
+      "animated": false,
+      "beforePath": "/platform/dictionaries",
+      "afterPath": "/platform/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "platform",
+      "name": "键盘重开编辑",
+      "animated": false,
+      "beforePath": "/platform/dictionaries",
+      "afterPath": "/platform/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "platform",
+      "name": "保存与列表刷新",
+      "animated": false,
+      "beforePath": "/platform/dictionaries",
+      "afterPath": "/platform/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "platform",
+      "name": "菜单返回首页",
+      "animated": true,
+      "beforePath": "/platform/dictionaries",
+      "afterPath": "/platform",
+      "passed": true,
+      "snapshots": [
+        {
+          "name": "route-page-in",
+          "pseudo": "::view-transition-new(route-page)",
+          "playState": "running",
+          "currentTime": 89.93399999348917,
+          "duration": 320
+        },
+        {
+          "name": "route-page-out",
+          "pseudo": "::view-transition-old(route-page)",
+          "playState": "running",
+          "currentTime": 89.93399999348917,
+          "duration": 320
+        }
+      ],
+      "events": [
+        {
+          "path": "/platform",
+          "samples": [
+            {
+              "stage": "ready",
+              "animations": [
+                {
+                  "name": "-ua-view-transition-group-anim-route-page",
+                  "pseudo": "::view-transition-group(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-in",
+                  "pseudo": "::view-transition-new(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-out",
+                  "pseudo": "::view-transition-old(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "pseudo": "::view-transition-group(root)",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                },
+                {
+                  "pseudo": "::view-transition",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                }
+              ]
+            },
+            {
+              "stage": "frame",
+              "animations": [
+                {
+                  "name": "-ua-view-transition-group-anim-route-page",
+                  "pseudo": "::view-transition-group(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-in",
+                  "pseudo": "::view-transition-new(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-out",
+                  "pseudo": "::view-transition-old(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "pseudo": "::view-transition-group(root)",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                },
+                {
+                  "pseudo": "::view-transition",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                }
+              ]
+            },
+            {
+              "stage": "100ms",
+              "animations": [
+                {
+                  "name": "-ua-view-transition-group-anim-route-page",
+                  "pseudo": "::view-transition-group(route-page)",
+                  "playState": "running",
+                  "currentTime": 89.93399999348917,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-in",
+                  "pseudo": "::view-transition-new(route-page)",
+                  "playState": "running",
+                  "currentTime": 89.93399999348917,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-out",
+                  "pseudo": "::view-transition-old(route-page)",
+                  "playState": "running",
+                  "currentTime": 89.93399999348917,
+                  "duration": 320
+                },
+                {
+                  "pseudo": "::view-transition-group(root)",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                },
+                {
+                  "pseudo": "::view-transition",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "platform",
+      "name": "菜单切换后打开编辑",
+      "animated": false,
+      "beforePath": "/platform/dictionaries",
+      "afterPath": "/platform/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "platform",
+      "name": "Escape 关闭编辑",
+      "animated": false,
+      "beforePath": "/platform/dictionaries",
+      "afterPath": "/platform/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "company",
+      "name": "鼠标打开编辑",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "company",
+      "name": "编辑表单输入",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "company",
+      "name": "新增选项",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "company",
+      "name": "取消关闭",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "company",
+      "name": "键盘重开编辑",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "company",
+      "name": "保存与列表刷新",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "company",
+      "name": "菜单返回首页",
+      "animated": true,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111",
+      "passed": true,
+      "snapshots": [
+        {
+          "name": "route-page-in",
+          "pseudo": "::view-transition-new(route-page)",
+          "playState": "running",
+          "currentTime": 90.0080000089023,
+          "duration": 320
+        },
+        {
+          "name": "route-page-out",
+          "pseudo": "::view-transition-old(route-page)",
+          "playState": "running",
+          "currentTime": 90.0080000089023,
+          "duration": 320
+        }
+      ],
+      "events": [
+        {
+          "path": "/companies/11111111-1111-4111-8111-111111111111",
+          "samples": [
+            {
+              "stage": "ready",
+              "animations": [
+                {
+                  "name": "-ua-view-transition-group-anim-route-page",
+                  "pseudo": "::view-transition-group(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-in",
+                  "pseudo": "::view-transition-new(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-out",
+                  "pseudo": "::view-transition-old(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "pseudo": "::view-transition-group(root)",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                },
+                {
+                  "pseudo": "::view-transition",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                }
+              ]
+            },
+            {
+              "stage": "frame",
+              "animations": [
+                {
+                  "name": "-ua-view-transition-group-anim-route-page",
+                  "pseudo": "::view-transition-group(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-in",
+                  "pseudo": "::view-transition-new(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-out",
+                  "pseudo": "::view-transition-old(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "pseudo": "::view-transition-group(root)",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                },
+                {
+                  "pseudo": "::view-transition",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                }
+              ]
+            },
+            {
+              "stage": "100ms",
+              "animations": [
+                {
+                  "name": "-ua-view-transition-group-anim-route-page",
+                  "pseudo": "::view-transition-group(route-page)",
+                  "playState": "running",
+                  "currentTime": 90.0080000089023,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-in",
+                  "pseudo": "::view-transition-new(route-page)",
+                  "playState": "running",
+                  "currentTime": 90.0080000089023,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-out",
+                  "pseudo": "::view-transition-old(route-page)",
+                  "playState": "running",
+                  "currentTime": 90.0080000089023,
+                  "duration": 320
+                },
+                {
+                  "pseudo": "::view-transition-group(root)",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                },
+                {
+                  "pseudo": "::view-transition",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "company",
+      "name": "菜单切换后打开编辑",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "company",
+      "name": "Escape 关闭编辑",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "project",
+      "name": "鼠标打开编辑",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "project",
+      "name": "编辑表单输入",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "project",
+      "name": "新增选项",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "project",
+      "name": "取消关闭",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "project",
+      "name": "键盘重开编辑",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "project",
+      "name": "保存与列表刷新",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "project",
+      "name": "菜单返回首页",
+      "animated": true,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222",
+      "passed": true,
+      "snapshots": [
+        {
+          "name": "route-page-in",
+          "pseudo": "::view-transition-new(route-page)",
+          "playState": "running",
+          "currentTime": 90.02999999094818,
+          "duration": 320
+        },
+        {
+          "name": "route-page-out",
+          "pseudo": "::view-transition-old(route-page)",
+          "playState": "running",
+          "currentTime": 90.02999999094818,
+          "duration": 320
+        }
+      ],
+      "events": [
+        {
+          "path": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222",
+          "samples": [
+            {
+              "stage": "ready",
+              "animations": [
+                {
+                  "name": "-ua-view-transition-group-anim-route-page",
+                  "pseudo": "::view-transition-group(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-in",
+                  "pseudo": "::view-transition-new(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-out",
+                  "pseudo": "::view-transition-old(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "pseudo": "::view-transition-group(root)",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                },
+                {
+                  "pseudo": "::view-transition",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                }
+              ]
+            },
+            {
+              "stage": "frame",
+              "animations": [
+                {
+                  "name": "-ua-view-transition-group-anim-route-page",
+                  "pseudo": "::view-transition-group(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-in",
+                  "pseudo": "::view-transition-new(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-out",
+                  "pseudo": "::view-transition-old(route-page)",
+                  "playState": "running",
+                  "currentTime": 0,
+                  "duration": 320
+                },
+                {
+                  "pseudo": "::view-transition-group(root)",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                },
+                {
+                  "pseudo": "::view-transition",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                }
+              ]
+            },
+            {
+              "stage": "100ms",
+              "animations": [
+                {
+                  "name": "-ua-view-transition-group-anim-route-page",
+                  "pseudo": "::view-transition-group(route-page)",
+                  "playState": "running",
+                  "currentTime": 90.02999999094818,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-in",
+                  "pseudo": "::view-transition-new(route-page)",
+                  "playState": "running",
+                  "currentTime": 90.02999999094818,
+                  "duration": 320
+                },
+                {
+                  "name": "route-page-out",
+                  "pseudo": "::view-transition-old(route-page)",
+                  "playState": "running",
+                  "currentTime": 90.02999999094818,
+                  "duration": 320
+                },
+                {
+                  "pseudo": "::view-transition-group(root)",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                },
+                {
+                  "pseudo": "::view-transition",
+                  "playState": "finished",
+                  "currentTime": 0,
+                  "duration": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "project",
+      "name": "菜单切换后打开编辑",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    },
+    {
+      "scope": "project",
+      "name": "Escape 关闭编辑",
+      "animated": false,
+      "beforePath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "afterPath": "/companies/11111111-1111-4111-8111-111111111111/projects/22222222-2222-4222-8222-222222222222/dictionaries",
+      "passed": true,
+      "snapshots": [],
+      "events": []
+    }
+  ],
+  "browserVersion": "156.0.4314.58",
+  "passed": true
+}

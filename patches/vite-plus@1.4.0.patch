@@ -1,0 +1,11 @@
+diff --git a/dist/staged/bin.js b/dist/staged/bin.js
+--- a/dist/staged/bin.js
++++ b/dist/staged/bin.js
+@@ -297,6 +297,7 @@
+ 	return controller.signal;
+ }
+ async function readStream(stream) {
++	stream.setEncoding("utf8");
+ 	let output = "";
+ 	try {
+ 		for await (const chunk of stream) output += chunk.toString();

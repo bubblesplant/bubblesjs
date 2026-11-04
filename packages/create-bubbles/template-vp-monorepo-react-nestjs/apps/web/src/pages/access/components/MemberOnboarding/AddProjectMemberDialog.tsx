@@ -39,7 +39,7 @@ export default function AddProjectMemberDialog({
   }))
 
   return (
-    <ModalForm<AddProjectMemberRequest>
+    <ModalForm<{ userIds: string[] }>
       title={tr('添加项目成员')}
       open={open}
       width={640}
@@ -50,19 +50,22 @@ export default function AddProjectMemberDialog({
       submitter={{ searchConfig: { submitText: tr('添加成员') } }}
       onFinish={
         /** 提交选择器返回的稳定 userId，成功后关闭弹窗。 */ async (values) => {
-          const ok = await onSave({ userId: values.userId })
+          const userId = values.userIds?.[0]
+          if (!userId) return false
+          const ok = await onSave({ userId })
           if (ok) hide()
           return ok
         }
       }
     >
       <Form.Item
-        name="userId"
+        name="userIds"
         label={tr('企业成员')}
         rules={[{ required: true, message: tr('请选择企业成员') }]}
         extra={tr('只能选择所属企业中有效且尚未加入本项目的成员。')}
       >
         <OrganizationMemberSelector
+          multiple={false}
           candidateContextKey={`${memberContextKey}:addProjectMember`}
           scope={{ ...PROJECT_MEMBER_SOURCE_SCOPE, label: tr('所属企业') }}
           request={request}

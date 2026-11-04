@@ -1,6 +1,7 @@
 import { useI18n } from '@bubblesjs/i18n-react'
 import type { OrganizationMemberCandidate } from 'shared/types'
 import BasicTableSelector, { type BasicTableSelectorRef } from '../BasicTableSelector'
+import SelectedPersonLabel from '../SelectedPersonLabel'
 import { useOrganizationMemberCandidateColumns } from './OrganizationMemberCandidateColumns'
 import OrganizationMemberFilterPanel, {
   createEmptyOrganizationMemberFilterValue,
@@ -10,7 +11,7 @@ import type {
   OrganizationMemberResourceFilters,
 } from './OrganizationMemberSelectorTypes'
 
-/** 提供左侧组织浏览、右侧分页选人、跨页选择和 resolve 回显。 */
+/** 复用左侧组织筛选、中间分页选人和右侧滚动已选区，支持跨页选择与 resolve 回显。 */
 export default function OrganizationMemberBrowser({
   ref,
   candidateContextKey,
@@ -95,6 +96,9 @@ export default function OrganizationMemberBrowser({
     <BasicTableSelector<OrganizationMemberCandidate>
       ref={selectorRef}
       title={title ?? tr('选择成员')}
+      description={tr('浏览成员并添加到已选列表')}
+      selectionTitle={tr('已选成员')}
+      emptyDescription={tr('从左侧选择成员')}
       rowKey="userId"
       multiple={multiple}
       columns={columns}
@@ -129,7 +133,9 @@ export default function OrganizationMemberBrowser({
       requestByKeys={
         /** 按稳定 userId 批量补查跨页或历史选择。 */ async (keys) => resolve(keys.map(String))
       }
-      labelRender={(candidate) => `${candidate.name} · ${candidate.account}`}
+      labelRender={(candidate) => (
+        <SelectedPersonLabel name={candidate.name} account={candidate.account} />
+      )}
       getCheckboxProps={(candidate) => {
         const disabled = candidate.disabled || getCandidateDisabled?.(candidate)
         return {

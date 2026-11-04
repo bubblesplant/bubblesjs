@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>选择器样式提案</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      :root {
+        --purple: #7861cc;
+        --text: #26243b;
+        --muted: #8a869d;
+        --line: #eeebf5;
+        --panel: #f7f5fd;
+      }
+      body {
+        margin: 0;
+        background: #f0f1f6;
+        color: var(--text);
+        font:
+          14px/1.5 'Microsoft YaHei',
+          'PingFang SC',
+          sans-serif;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .board {
+        width: 1600px;
+        padding: 48px 60px 44px;
+      }
+      .board-title {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 650;
+        letter-spacing: 0.3px;
+      }
+      .board-note {
+        margin: 6px 0 26px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .modal {
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 20px;
+        background: #fff;
+        box-shadow:
+          0 18px 60px #302a5c0d,
+          0 2px 8px #302a5c04;
+      }
+      .modal-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 27px 32px 21px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 23px;
+        font-weight: 650;
+      }
+      .subtitle {
+        margin: 5px 0 0;
+        color: var(--muted);
+      }
+      .close {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        border: 0;
+        background: transparent;
+        color: #9692a5;
+        font-size: 25px;
+        font-weight: 300;
+      }
+      .modal-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 26px;
+        padding: 4px 32px 26px;
+      }
+      .candidate-panel {
+        min-width: 0;
+      }
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin: 0 0 22px;
+      }
+      .search {
+        display: flex;
+        height: 42px;
+        flex: 1;
+        align-items: center;
+        gap: 11px;
+        padding: 0 14px;
+        border: 1px solid #e7e3f0;
+        border-radius: 8px;
+        background: #fff;
+        color: #a09aae;
+      }
+      .search input {
+        width: 100%;
+        border: 0;
+        outline: 0;
+        color: var(--text);
+        background: transparent;
+      }
+      input::placeholder {
+        color: #aaa6b8;
+      }
+      .glass {
+        width: 14px;
+        height: 14px;
+        border: 1.6px solid #aaa4ba;
+        border-radius: 50%;
+        position: relative;
+      }
+      .glass::after {
+        content: '';
+        position: absolute;
+        width: 6px;
+        height: 1.5px;
+        background: #aaa4ba;
+        right: -5px;
+        bottom: -3px;
+        transform: rotate(45deg);
+      }
+      .button {
+        height: 40px;
+        min-width: 82px;
+        padding: 0 20px;
+        border: 1px solid #e4dfef;
+        border-radius: 8px;
+        background: #fff;
+        color: #625b78;
+      }
+      .primary {
+        border-color: var(--purple);
+        background: var(--purple);
+        color: white;
+        box-shadow: 0 3px 8px #7861cc14;
+      }
+      .text-button {
+        border: 0;
+        background: transparent;
+        padding: 0;
+        color: var(--purple);
+      }
+      .reset {
+        color: #7c768d;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+      th {
+        height: 46px;
+        background: #f7f6fb;
+        color: #726c83;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      th:first-child {
+        border-radius: 8px 0 0 8px;
+        width: 48px;
+      }
+      th:last-child {
+        border-radius: 0 8px 8px 0;
+        width: 100px;
+      }
+      td {
+        height: 57px;
+        border-bottom: 1px solid #f0edf6;
+      }
+      th,
+      td {
+        padding: 0 14px;
+        white-space: nowrap;
+      }
+      tr.selected td {
+        background: #faf8ff;
+      }
+      td:first-child,
+      th:first-child {
+        padding-left: 16px;
+        padding-right: 12px;
+      }
+      .check {
+        display: inline-grid;
+        width: 17px;
+        height: 17px;
+        place-items: center;
+        border: 1px solid #dcd6eb;
+        border-radius: 5px;
+        background: white;
+        vertical-align: middle;
+        color: white;
+        font: bold 12px/1 sans-serif;
+      }
+      .check.checked {
+        background: var(--purple);
+        border-color: var(--purple);
+      }
+      .check.checked::before {
+        content: '✓';
+      }
+      .check.disabled {
+        background: #f2f1f5;
+        border-color: #e9e6ef;
+      }
+      .role-name {
+        font-weight: 500;
+      }
+      .type {
+        color: #8b849a;
+        font-size: 12px;
+      }
+      .type.builtin {
+        padding: 4px 9px;
+        border-radius: 5px;
+        background: #eee8fc;
+        color: #8a70c3;
+      }
+      .description {
+        color: #8e889f;
+        font-size: 13px;
+      }
+      .status {
+        color: #579478;
+        font-size: 12px;
+      }
+      .status::before {
+        content: '';
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        margin-right: 7px;
+        border-radius: 50%;
+        background: #69a98c;
+        vertical-align: 2px;
+      }
+      .unavailable {
+        color: #a5a0af;
+      }
+      .unavailable::before {
+        background: #c7c2d0;
+      }
+      .disabled-row td {
+        color: #a5a0af;
+      }
+      .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        height: 58px;
+        color: #9690a5;
+        font-size: 12px;
+      }
+      .pagination .page {
+        display: grid;
+        width: 27px;
+        height: 27px;
+        place-items: center;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: #8e879e;
+      }
+      .pagination .current {
+        background: #f0eafb;
+        color: var(--purple);
+        font-weight: 600;
+      }
+      .page-size {
+        margin-left: 5px;
+        border: 1px solid #e9e5f0;
+        padding: 5px 9px;
+        border-radius: 5px;
+      }
+      .selected-panel {
+        height: 526px;
+        padding: 20px;
+        border-radius: 12px;
+        background: var(--panel);
+      }
+      .selected-heading {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding-bottom: 17px;
+        border-bottom: 1px solid #eae5f5;
+      }
+      .selected-heading strong {
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .count {
+        display: inline-flex;
+        min-width: 26px;
+        height: 23px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 7px;
+        border-radius: 6px;
+        background: #eae3fa;
+        color: var(--purple);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .selected-heading .text-button {
+        margin-left: auto;
+        font-size: 12px;
+      }
+      .selected-scroll {
+        position: relative;
+        height: 414px;
+        overflow: auto;
+        margin-top: 18px;
+        padding-right: 12px;
+        scrollbar-width: thin;
+        scrollbar-color: #dad3eb transparent;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        align-content: flex-start;
+        gap: 9px 8px;
+      }
+      .chip {
+        display: inline-flex;
+        max-width: 100%;
+        min-height: 34px;
+        align-items: center;
+        gap: 12px;
+        padding: 7px 11px;
+        border: 1px solid #e9e3f3;
+        border-radius: 7px;
+        background: white;
+        color: #625579;
+        font-size: 13px;
+        line-height: 18px;
+      }
+      .chip .remove {
+        flex-shrink: 0;
+        color: #aaa1ba;
+        font: 16px/16px sans-serif;
+      }
+      .chip .label {
+        overflow-wrap: anywhere;
+      }
+      .scroll-continuation {
+        height: 194px;
+      }
+      .fake-scroll-track {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 3px;
+        height: 380px;
+        border-radius: 3px;
+        background: #f0ebf9;
+        pointer-events: none;
+      }
+      .fake-scroll-thumb {
+        display: block;
+        width: 3px;
+        height: 112px;
+        border-radius: 3px;
+        background: #d5cce8;
+      }
+      .modal-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 32px;
+        border-top: 1px solid #f0edf6;
+      }
+      .footer-note {
+        color: #a09aad;
+        font-size: 12px;
+      }
+      .footer-actions {
+        display: flex;
+        gap: 12px;
+      }
+      .details {
+        display: grid;
+        grid-template-columns: 1fr 1.08fr 0.92fr;
+        gap: 28px;
+        margin-top: 30px;
+      }
+      .detail {
+        min-width: 0;
+      }
+      .detail h2 {
+        margin: 0 0 13px;
+        color: #726b84;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .detail-body {
+        position: relative;
+        height: 188px;
+        border-radius: 11px;
+        background: #f9f7fe;
+        border: 1px solid #e9e5f1;
+        padding: 20px;
+      }
+      .detail-body .chips {
+        gap: 10px 8px;
+      }
+      .avatar {
+        display: grid;
+        width: 23px;
+        height: 23px;
+        flex-shrink: 0;
+        place-items: center;
+        border-radius: 50%;
+        background: #f0eafb;
+        color: #957cc5;
+        font-size: 11px;
+      }
+      .person {
+        gap: 7px;
+        padding: 5px 9px 5px 6px;
+      }
+      .detail-hint {
+        margin: 18px 0 0;
+        color: #a49bae;
+        font-size: 12px;
+      }
+      .empty-heading {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+      }
+      .empty-heading .count {
+        background: #eee9f5;
+        color: #ada4bc;
+      }
+      .empty-heading .clear-disabled {
+        margin-left: auto;
+        color: #beb7cc;
+        font-size: 12px;
+      }
+      .empty-body {
+        display: grid;
+        justify-items: center;
+        gap: 8px;
+        margin-top: 26px;
+        color: #aba3b9;
+        font-size: 12px;
+      }
+      .empty-icon {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 30px;
+        border: 1.5px solid #d6cde6;
+        border-radius: 7px;
+        color: #bcb0d0;
+        font-size: 22px;
+        font-weight: 300;
+      }
+      .board-footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 24px;
+        color: #a7a2b4;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="board">
+      <h2 class="board-title">选择器样式提案</h2>
+      <p class="board-note">浅紫侧栏 · 胶囊标签</p>
+      <section class="modal">
+        <header class="modal-header">
+          <div>
+            <h1>选择角色</h1>
+            <p class="subtitle">浏览角色并添加到已选列表</p>
+          </div>
+          <button class="close" aria-label="关闭">×</button>
+        </header>
+        <div class="modal-body">
+          <div class="candidate-panel">
+            <div class="toolbar">
+              <label class="search"
+                ><span class="glass"></span><input placeholder="搜索角色名称" /></label
+              ><button class="text-button reset">重置</button
+              ><button class="button primary">查询</button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th><span class="check checked"></span></th>
+                  <th>角色名称</th>
+                  <th>类型</th>
+                  <th>说明</th>
+                  <th>状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="selected">
+                  <td><span class="check checked"></span></td>
+                  <td class="role-name">普通成员</td>
+                  <td><span class="type builtin">内置角色</span></td>
+                  <td class="description">基础访问权限</td>
+                  <td><span class="status">可选择</span></td>
+                </tr>
+                <tr class="selected">
+                  <td><span class="check checked"></span></td>
+                  <td class="role-name">数据查看</td>
+                  <td><span class="type">自定义角色</span></td>
+                  <td class="description">查看项目数据</td>
+                  <td><span class="status">可选择</span></td>
+                </tr>
+                <tr class="selected">
+                  <td><span class="check checked"></span></td>
+                  <td class="role-name">报表管理</td>
+                  <td><span class="type">自定义角色</span></td>
+                  <td class="description">维护业务报表</td>
+                  <td><span class="status">可选择</span></td>
+                </tr>
+                <tr class="selected">
+                  <td><span class="check checked"></span></td>
+                  <td class="role-name">项目编辑</td>
+                  <td><span class="type">自定义角色</span></td>
+                  <td class="description">编辑项目信息</td>
+                  <td><span class="status">可选择</span></td>
+                </tr>
+                <tr class="selected">
+                  <td><span class="check checked"></span></td>
+                  <td class="role-name">审核员</td>
+                  <td><span class="type">自定义角色</span></td>
+                  <td class="description">审核业务记录</td>
+                  <td><span class="status">可选择</span></td>
+                </tr>
+                <tr class="selected">
+                  <td><span class="check checked"></span></td>
+                  <td class="role-name">运维</td>
+                  <td><span class="type">自定义角色</span></td>
+                  <td class="description">处理日常运维</td>
+                  <td><span class="status">可选择</span></td>
+                </tr>
+                <tr class="disabled-row">
+                  <td><span class="check disabled"></span></td>
+                  <td class="role-name">只读访客</td>
+                  <td><span class="type">自定义角色</span></td>
+                  <td class="description">只读访问</td>
+                  <td><span class="status unavailable">不可选择</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <span>共 24 项</span><button class="page">‹</button
+              ><button class="page current">1</button><button class="page">2</button
+              ><button class="page">3</button><button class="page">›</button
+              ><span class="page-size">10 条/页 ⌄</span>
+            </div>
+          </div>
+          <aside class="selected-panel">
+            <div class="selected-heading">
+              <strong>已选角色</strong><span class="count">12</span
+              ><button class="text-button">清空</button>
+            </div>
+            <div class="selected-scroll">
+              <div class="chips">
+                <span class="chip"
+                  ><span class="label">普通成员</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">数据查看</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">报表管理</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">项目编辑</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">审核员</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">运维</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">财务</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">内容维护</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">项目协作</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">统计分析</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">资源查看</span><span class="remove">×</span></span
+                >
+                <span class="chip"
+                  ><span class="label">跨部门项目资料审核</span><span class="remove">×</span></span
+                >
+              </div>
+              <div class="scroll-continuation"></div>
+              <span class="fake-scroll-track"><span class="fake-scroll-thumb"></span></span>
+            </div>
+          </aside>
+        </div>
+        <footer class="modal-footer">
+          <span class="footer-note">支持跨页选择</span>
+          <div class="footer-actions">
+            <button class="button">取消</button><button class="button primary">确定选择</button>
+          </div>
+        </footer>
+      </section>
+      <section class="details">
+        <div class="detail">
+          <h2>角色标签</h2>
+          <div class="detail-body">
+            <div class="chips">
+              <span class="chip">数据查看<span class="remove">×</span></span
+              ><span class="chip">报表管理<span class="remove">×</span></span
+              ><span class="chip">审核员<span class="remove">×</span></span
+              ><span class="chip">运维<span class="remove">×</span></span
+              ><span class="chip">统计分析<span class="remove">×</span></span>
+            </div>
+            <p class="detail-hint">按内容宽度排列，放不下自动换行</p>
+          </div>
+        </div>
+        <div class="detail">
+          <h2>账号 / 成员标签</h2>
+          <div class="detail-body">
+            <div class="chips">
+              <span class="chip person"
+                ><span class="avatar">甲</span>测试甲 · qa1<span class="remove">×</span></span
+              ><span class="chip person"
+                ><span class="avatar">乙</span>测试乙 · qa2<span class="remove">×</span></span
+              ><span class="chip person"
+                ><span class="avatar">丙</span>测试丙 · qa3<span class="remove">×</span></span
+              >
+            </div>
+            <p class="detail-hint">悬停可查看完整账号</p>
+          </div>
+        </div>
+        <div class="detail">
+          <h2>空选择</h2>
+          <div class="detail-body">
+            <div class="empty-heading">
+              <span>已选成员</span><span class="count">0</span
+              ><span class="clear-disabled">清空</span>
+            </div>
+            <div class="empty-body">
+              <span class="empty-icon">+</span><span>从左侧选择成员</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="board-footer">
+        <span>设计提案 · 待确认</span><span>角色 / 账号 / 成员共用选择器样式</span>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.
+
+    mode: test
+    VITE_PORT: 9999
+    VITE_API_AFFIX: /api
+    VITE_API_URL: undefined
+    
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web
+
+(node:36960) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39908) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:15420) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:18016) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32952) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  9 passed (9)
+      Tests  58 passed (58)
+   Start at  10:13:35
+   Duration  954ms (import 34%, environment 33%, tests 28%, transform 5%, worker 1%)
+

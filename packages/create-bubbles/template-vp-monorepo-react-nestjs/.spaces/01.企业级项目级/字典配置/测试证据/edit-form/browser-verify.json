@@ -1,0 +1,73 @@
+{
+  "executedAt": "2026-11-03T09:45:12.925Z",
+  "mode": "verify",
+  "mockHttp": true,
+  "checks": [
+    "platform: 首次直接编辑完整回填启用与停用项",
+    "platform: 取消草稿后重开同一字典恢复保存内容",
+    "platform: 切换记录及新增不串数据，编辑保存提交完整选项和版本",
+    "platform: 空字典编辑可新增选项、保存并在重开后完整显示",
+    "company: 首次直接编辑完整回填启用与停用项",
+    "company: 取消草稿后重开同一字典恢复保存内容",
+    "company: 切换记录及新增不串数据，编辑保存提交完整选项和版本",
+    "company: 空字典编辑可新增选项、保存并在重开后完整显示",
+    "project: 首次直接编辑完整回填启用与停用项",
+    "project: 取消草稿后重开同一字典恢复保存内容",
+    "project: 切换记录及新增不串数据，编辑保存提交完整选项和版本",
+    "project: 空字典编辑可新增选项、保存并在重开后完整显示"
+  ],
+  "browserVersion": "156.0.4314.58",
+  "firstEdit": [
+    {
+      "id": "",
+      "value": "",
+      "disabled": false
+    },
+    {
+      "id": "41c3ecbd-a3ff-497a-994d-192fbb0786eb_code",
+      "value": "nation",
+      "disabled": true
+    },
+    {
+      "id": "41c3ecbd-a3ff-497a-994d-192fbb0786eb_name",
+      "value": "project民族",
+      "disabled": false
+    },
+    {
+      "id": "41c3ecbd-a3ff-497a-994d-192fbb0786eb_status",
+      "value": "",
+      "disabled": false
+    },
+    {
+      "id": "41c3ecbd-a3ff-497a-994d-192fbb0786eb_items_0_value",
+      "value": "han",
+      "disabled": true
+    },
+    {
+      "id": "41c3ecbd-a3ff-497a-994d-192fbb0786eb_items_0_label",
+      "value": "汉族",
+      "disabled": false
+    },
+    {
+      "id": "41c3ecbd-a3ff-497a-994d-192fbb0786eb_items_0_status",
+      "value": "",
+      "disabled": false
+    },
+    {
+      "id": "41c3ecbd-a3ff-497a-994d-192fbb0786eb_items_1_value",
+      "value": "other",
+      "disabled": true
+    },
+    {
+      "id": "41c3ecbd-a3ff-497a-994d-192fbb0786eb_items_1_label",
+      "value": "其他",
+      "disabled": false
+    },
+    {
+      "id": "41c3ecbd-a3ff-497a-994d-192fbb0786eb_items_1_status",
+      "value": "",
+      "disabled": false
+    }
+  ],
+  "passed": true
+}

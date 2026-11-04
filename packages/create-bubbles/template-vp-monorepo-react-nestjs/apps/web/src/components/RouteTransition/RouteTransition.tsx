@@ -1,6 +1,6 @@
 import './RouteTransition.css'
 
-/** 跨布局或工作空间滑动整页，同一布局内仅滑动内容区；忽略同一路由的异步更新。 */
+/** 按导航标识滑动布局或内容区，提交后关闭转场许可，隔离弹窗和页内异步更新。 */
 export default function RouteTransition({
   children,
   region = 'page',
@@ -12,12 +12,14 @@ export default function RouteTransition({
   const layoutPathname = matches.find((match) => match.pathname !== matches[0]?.pathname)?.pathname
   const transitionKey = region === 'layout' ? (layoutPathname ?? location.pathname) : location.key
   const previousTransitionKey = useRef(transitionKey)
-  const update =
-    region === 'layout' && previousTransitionKey.current === transitionKey ? 'none' : transitionName
+  const [committedTransitionKey, setCommittedTransitionKey] = useState(transitionKey)
+  const update = committedTransitionKey === transitionKey ? 'none' : transitionName
 
   // onUpdate 先于 passive effect 执行；无动画的同步导航也需要更新基准。
   useEffect(() => {
     previousTransitionKey.current = transitionKey
+    // Ref 不会刷新已提交的 ViewTransition 属性；显式关闭后续布局更新的动画许可。
+    setCommittedTransitionKey(transitionKey)
   }, [transitionKey])
 
   /** 同一导航只保留首次滑动，取消当前区域因页内更新产生的快照动画。 */

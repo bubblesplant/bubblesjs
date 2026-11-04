@@ -1,0 +1,113 @@
+{
+  "checks": [
+    "company/单选/accountIds：取消、替换或累加、回显与清空数组",
+    "company/单选/memberIds：取消、替换或累加、回显与清空数组",
+    "company/单选/roleIds：取消、替换或累加、回显与清空数组",
+    "company/单选/organizationIds：取消、替换或累加、回显与清空数组",
+    "company/单选/organizationRelations：取消、替换或累加、回显与清空数组",
+    "company/单选/positionIds：取消、替换或累加、回显与清空数组",
+    "company/单选：程序赋值、必填、提交和重置",
+    "company/多选/accountIds：取消、替换或累加、回显与清空数组",
+    "company/多选/memberIds：取消、替换或累加、回显与清空数组",
+    "company/多选/roleIds：取消、替换或累加、回显与清空数组",
+    "company/多选/organizationIds：取消、替换或累加、回显与清空数组",
+    "company/多选/organizationRelations：取消、替换或累加、回显与清空数组",
+    "company/多选/positionIds：取消、替换或累加、回显与清空数组",
+    "company/多选：程序赋值、必填、提交和重置",
+    "project/单选/accountIds：取消、替换或累加、回显与清空数组",
+    "project/单选/memberIds：取消、替换或累加、回显与清空数组",
+    "project/单选/roleIds：取消、替换或累加、回显与清空数组",
+    "project/单选/organizationIds：取消、替换或累加、回显与清空数组",
+    "project/单选/organizationRelations：取消、替换或累加、回显与清空数组",
+    "project/单选/positionIds：取消、替换或累加、回显与清空数组",
+    "project/单选：程序赋值、必填、提交和重置",
+    "project/多选/accountIds：取消、替换或累加、回显与清空数组",
+    "project/多选/memberIds：取消、替换或累加、回显与清空数组",
+    "project/多选/roleIds：取消、替换或累加、回显与清空数组",
+    "project/多选/organizationIds：取消、替换或累加、回显与清空数组",
+    "project/多选/organizationRelations：取消、替换或累加、回显与清空数组",
+    "project/多选/positionIds：取消、替换或累加、回显与清空数组",
+    "project/多选：程序赋值、必填、提交和重置",
+    "accountIds：跨页多选及禁选候选",
+    "memberIds：跨页多选及禁选候选",
+    "roleIds：跨页多选及禁选候选",
+    "职责单选替换后保留独立职责数组，确认输出正确",
+    "禁用时六字段和表单按钮不能操作",
+    "32 项多选不增加入口高度，已选区 overflow:auto，390px 无横向溢出"
+  ],
+  "outputs": {
+    "company-single": {
+      "accountIds": ["demo-user-1"],
+      "memberIds": ["demo-user-1"],
+      "roleIds": ["company-role-1"],
+      "organizationIds": ["company-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "company-org-1",
+          "duty": "leader"
+        }
+      ],
+      "positionIds": ["company-position-1"]
+    },
+    "company-multiple": {
+      "accountIds": ["demo-user-1"],
+      "memberIds": ["demo-user-1", "demo-user-2"],
+      "roleIds": ["company-role-1"],
+      "organizationIds": ["company-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "company-org-1",
+          "duty": "leader"
+        }
+      ],
+      "positionIds": ["company-position-1"]
+    },
+    "project-single": {
+      "accountIds": ["demo-user-1"],
+      "memberIds": ["demo-user-1"],
+      "roleIds": ["project-role-1"],
+      "organizationIds": ["project-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "project-org-1",
+          "duty": "leader"
+        }
+      ],
+      "positionIds": ["project-position-1"]
+    },
+    "project-multiple": {
+      "accountIds": ["demo-user-1"],
+      "memberIds": ["demo-user-1", "demo-user-2"],
+      "roleIds": ["project-role-1"],
+      "organizationIds": ["project-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "project-org-1",
+          "duty": "leader"
+        }
+      ],
+      "positionIds": ["project-position-1"]
+    },
+    "single-with-duty": {
+      "accountIds": ["demo-user-1"],
+      "memberIds": ["demo-user-1"],
+      "roleIds": ["project-role-1"],
+      "organizationIds": ["project-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "project-org-2",
+          "duty": "deputy"
+        }
+      ],
+      "positionIds": ["project-position-1"]
+    }
+  },
+  "pageErrors": [],
+  "unexpectedApi": [],
+  "scroll": {
+    "overflow": "auto",
+    "height": 330,
+    "scrollHeight": 1336
+  },
+  "fieldHeight": 36
+}

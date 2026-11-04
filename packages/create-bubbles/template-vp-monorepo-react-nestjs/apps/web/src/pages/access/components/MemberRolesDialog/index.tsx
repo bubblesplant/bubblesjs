@@ -1,7 +1,8 @@
-import { ModalForm, ProFormSelect } from '@ant-design/pro-components'
+import { ModalForm, ProFormItem } from '@ant-design/pro-components'
 import { Alert } from 'antd'
 import { useI18n } from '@bubblesjs/i18n-react'
 import type { AccountRecord, MemberRecord, RoleRecord } from 'shared/types'
+import { RoleSelect } from '@/components/Selector'
 
 export interface MemberRolesDialogRef {
   show: (record: MemberRecord | AccountRecord, roles: RoleRecord[]) => void
@@ -36,6 +37,7 @@ export default function MemberRolesDialog({
   }))
   return (
     <ModalForm<{ roleIds: string[] }>
+      key={record?.id}
       title={tr('分配角色 · {name}', { name: record?.name ?? '' })}
       open={open}
       width={580}
@@ -63,18 +65,13 @@ export default function MemberRolesDialog({
         )}
         style={{ marginBottom: 20 }}
       />
-      <ProFormSelect
+      <ProFormItem
         name="roleIds"
         label={tr('角色')}
-        mode="multiple"
-        placeholder={tr('选择角色；留空表示撤销当前范围全部角色')}
-        options={roles.map((role) => ({
-          value: role.id,
-          label: `${role.name}${role.builtin ? tr('（内置）') : ''}`,
-          disabled: !role.assignable && !selected.includes(role.id),
-        }))}
-        fieldProps={{ optionFilterProp: 'label', allowClear: true }}
-      />
+        extra={tr('选择角色；留空表示撤销当前范围全部角色')}
+      >
+        <RoleSelect roles={roles} originalRoleIds={selected} />
+      </ProFormItem>
     </ModalForm>
   )
 }

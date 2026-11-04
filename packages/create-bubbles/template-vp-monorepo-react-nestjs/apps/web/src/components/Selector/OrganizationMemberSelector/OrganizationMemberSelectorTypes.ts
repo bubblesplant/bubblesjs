@@ -77,16 +77,19 @@ type ManagedSelectProps =
   | 'mode'
   | 'options'
   | 'open'
+  | 'onOpenChange'
   | 'showSearch'
   | 'onChange'
   | 'labelInValue'
+  | 'children'
+  | 'fieldNames'
 
 /** Select 风格的组织成员选择器属性，稳定值始终为 userId。 */
 export interface OrganizationMemberSelectorProps extends Omit<
-  SelectProps<string | string[] | undefined>,
+  SelectProps<string | string[]>,
   ManagedSelectProps
 > {
-  value?: string | string[]
+  value?: string[]
   /** 必须包含完整来源作用域和业务用途，防止同 userId 跨上下文复用。 */
   candidateContextKey: string
   scope: OrganizationMemberBrowserScope
@@ -96,8 +99,5 @@ export interface OrganizationMemberSelectorProps extends Omit<
   request: OrganizationMemberBrowserProps['request']
   resolve: OrganizationMemberBrowserProps['resolve']
   getCandidateDisabled?: OrganizationMemberBrowserProps['getCandidateDisabled']
-  onChange?: (
-    value: string | string[] | undefined,
-    candidates: OrganizationMemberCandidate[],
-  ) => void
+  onChange?: (value: string[], candidates: OrganizationMemberCandidate[]) => void
 }

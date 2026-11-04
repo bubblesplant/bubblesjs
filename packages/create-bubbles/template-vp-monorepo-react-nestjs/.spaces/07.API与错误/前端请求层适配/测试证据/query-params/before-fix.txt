@@ -1,0 +1,139 @@
+note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.
+
+    mode: test
+    VITE_PORT: 9999
+    VITE_API_AFFIX: /api
+    VITE_API_URL: undefined
+    
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web
+
+(node:21612) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ❯ test/request/query-params.spec.ts (8 tests | 6 failed) 38ms
+   ❯ 数组 Query 的实际 HTTP 编码 (6)
+     × organizationUnitIds 的单值和多值均可通过候选 Schema 17ms
+     × positionIds 的单值和多值均可通过候选 Schema 2ms
+     × roleIds 的单值和多值均可通过候选 Schema 1ms
+     × projectIds 的单值和多值均可通过候选 Schema 1ms
+   ❯ 组织页面 API 的工作空间请求 (2)
+     × company 组织页组合筛选保留全部 ID 并通过后端契约 2ms
+     × project 组织页组合筛选保留全部 ID 并通过后端契约 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/request/query-params.spec.ts > 数组 Query 的实际 HTTP 编码 > organizationUnitIds 的单值和多值均可通过候选 Schema
+AssertionError: expected [ 'organizationUnitIds[]' ] to deeply equal [ 'organizationUnitIds' ]
+
+- Expected
++ Received
+
+  [
+-   "organizationUnitIds",
++   "organizationUnitIds[]",
+  ]
+
+ ❯ test/request/query-params.spec.ts:39:37
+     37|       await request.Get('/query', { params: { [field]: ids } })
+     38|       const received = fixture.requests.at(-1)!.query
+     39|       expect(Object.keys(received)).toEqual([field])
+       |                                     ^
+     40|       expect(organizationMemberCandidateQuerySchema.parse(received)[fi…
+     41|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  test/request/query-params.spec.ts > 数组 Query 的实际 HTTP 编码 > positionIds 的单值和多值均可通过候选 Schema
+AssertionError: expected [ 'positionIds[]' ] to deeply equal [ 'positionIds' ]
+
+- Expected
++ Received
+
+  [
+-   "positionIds",
++   "positionIds[]",
+  ]
+
+ ❯ test/request/query-params.spec.ts:39:37
+     37|       await request.Get('/query', { params: { [field]: ids } })
+     38|       const received = fixture.requests.at(-1)!.query
+     39|       expect(Object.keys(received)).toEqual([field])
+       |                                     ^
+     40|       expect(organizationMemberCandidateQuerySchema.parse(received)[fi…
+     41|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  test/request/query-params.spec.ts > 数组 Query 的实际 HTTP 编码 > roleIds 的单值和多值均可通过候选 Schema
+AssertionError: expected [ 'roleIds[]' ] to deeply equal [ 'roleIds' ]
+
+- Expected
++ Received
+
+  [
+-   "roleIds",
++   "roleIds[]",
+  ]
+
+ ❯ test/request/query-params.spec.ts:39:37
+     37|       await request.Get('/query', { params: { [field]: ids } })
+     38|       const received = fixture.requests.at(-1)!.query
+     39|       expect(Object.keys(received)).toEqual([field])
+       |                                     ^
+     40|       expect(organizationMemberCandidateQuerySchema.parse(received)[fi…
+     41|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  test/request/query-params.spec.ts > 数组 Query 的实际 HTTP 编码 > projectIds 的单值和多值均可通过候选 Schema
+AssertionError: expected [ 'projectIds[]' ] to deeply equal [ 'projectIds' ]
+
+- Expected
++ Received
+
+  [
+-   "projectIds",
++   "projectIds[]",
+  ]
+
+ ❯ test/request/query-params.spec.ts:39:37
+     37|       await request.Get('/query', { params: { [field]: ids } })
+     38|       const received = fixture.requests.at(-1)!.query
+     39|       expect(Object.keys(received)).toEqual([field])
+       |                                     ^
+     40|       expect(organizationMemberCandidateQuerySchema.parse(received)[fi…
+     41|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  test/request/query-params.spec.ts > 组织页面 API 的工作空间请求 > company 组织页组合筛选保留全部 ID 并通过后端契约
+ FAIL  test/request/query-params.spec.ts > 组织页面 API 的工作空间请求 > project 组织页组合筛选保留全部 ID 并通过后端契约
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "organizationUnitIds[]",
+      "positionIds[]",
+      "roleIds[]",
+      "projectIds[]"
+    ],
+    "path": [],
+    "message": "Unrecognized keys: \"organizationUnitIds[]\", \"positionIds[]\", \"roleIds[]\", \"projectIds[]\""
+  }
+]
+ ❯ test/request/query-params.spec.ts:100:51
+     98|     const base = `/companies/${firstId}${scope.type === 'project' ? `/…
+     99|     expect(received.pathname).toBe(`${base}/organization/member-candid…
+    100|     expect(organizationMemberCandidateQuerySchema.parse(received.query…
+       |                                                   ^
+    101|   })
+    102| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed | 2 passed (8)
+   Start at  10:13:17
+   Duration  339ms (import 65%, transform 17%, tests 16%, worker 1%)
+

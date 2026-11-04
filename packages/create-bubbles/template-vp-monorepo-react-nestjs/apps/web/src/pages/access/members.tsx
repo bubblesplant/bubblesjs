@@ -16,7 +16,7 @@ import ResetAccountPasswordDialog, {
 import { useLatestDialogRequest } from '@/hooks/useLatestDialogRequest'
 import { managementApi } from './api'
 import MemberOnboardingActions from './components/MemberOnboarding/MemberOnboardingActions'
-import MemberRolesDialog, { type MemberRolesDialogRef } from './components/MemberRolesDialog'
+import MemberRolesDialog, { type MemberRolesDialogRef } from './components/MemberRolesDialog/index'
 import {
   MemberOrganizationsDialog,
   type MemberOrganizationsDialogRef,

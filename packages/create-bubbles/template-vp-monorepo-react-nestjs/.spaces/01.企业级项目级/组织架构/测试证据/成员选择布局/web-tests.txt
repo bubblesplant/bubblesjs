@@ -1,0 +1,31 @@
+note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.
+
+    mode: test
+    VITE_PORT: 9999
+    VITE_API_AFFIX: /api
+    VITE_API_URL: undefined
+    
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web
+
+(node:46432) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:46000) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:46292) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:43328) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45372) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39232) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+ Test Files  40 passed (40)
+      Tests  264 passed (264)
+   Start at  10:29:22
+   Duration  11.47s (import 70%, environment 14%, tests 11%, transform 5%)
+
+    Isolate  40 workers spawned · ~869ms startup each (spawn + environment, per file)
+             at least ~643ms faster with isolate: false — reuses workers across files instead of one per file
+

@@ -2,6 +2,8 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 
+const transitionUpdates = vi.hoisted(() => [] as { name: string; update: string }[])
+
 vi.mock('react', async (importOriginal) => {
   const actual = await importOriginal<typeof import('react')>()
   return {
@@ -12,6 +14,7 @@ vi.mock('react', async (importOriginal) => {
       update,
       children,
     }: PropsWithChildren<{ name: string; update: string }>) {
+      transitionUpdates.push({ name, update })
       return (
         <div data-transition={name} data-update={update}>
           {children}
@@ -78,6 +81,7 @@ function transitionUpdate(region = 'layout') {
 }
 
 beforeEach(() => {
+  transitionUpdates.length = 0
   host = document.createElement('div')
   document.body.append(host)
   root = createRoot(host)
@@ -91,16 +95,31 @@ afterEach(() => {
 })
 
 describe('无路径认证父层下的路由转场', () => {
+  it('首次进入后页内更新没有页面或布局转场许可', async () => {
+    await mountRouter('/companies/company-a')
+    expect(transitionUpdate()).toBe('none')
+    expect(transitionUpdate('page')).toBe('none')
+    expect(transitionUpdates.every(({ update }) => update === 'none')).toBe(true)
+  })
+
   it('同企业菜单仅更新内容区，重新校验不触发整布局动画', async () => {
     const current = await mountRouter('/companies/company-a')
+    transitionUpdates.length = 0
     await current.navigate('/companies/company-a/members')
     await vi.waitFor(() => expect(host.textContent).toBe('企业成员'))
     expect(transitionUpdate()).toBe('none')
-    expect(transitionUpdate('page')).toBe('route-page')
+    expect(transitionUpdates).toContainEqual({ name: 'route-page', update: 'route-page' })
+    expect(
+      transitionUpdates.some(({ name, update }) => name === 'route-layout' && update !== 'none'),
+    ).toBe(false)
+    await vi.waitFor(() => expect(transitionUpdate('page')).toBe('none'))
 
+    transitionUpdates.length = 0
     await current.revalidate()
     await vi.waitFor(() => expect(current.state.revalidation).toBe('idle'))
     expect(transitionUpdate()).toBe('none')
+    expect(transitionUpdate('page')).toBe('none')
+    expect(transitionUpdates.every(({ update }) => update === 'none')).toBe(true)
   })
 
   it.each([
@@ -116,10 +135,13 @@ describe('无路径认证父层下的路由转场', () => {
     ['/companies/company-a', '/unknown-path', '未找到'],
   ])('%s → %s 仍触发整布局动画', async (from, to, content) => {
     const current = await mountRouter(from)
+    transitionUpdates.length = 0
     await current.navigate(to)
     await vi.waitFor(() => {
       expect(host.textContent).toBe(content)
-      expect(transitionUpdate()).toBe('route-layout')
+      expect(transitionUpdates).toContainEqual({ name: 'route-layout', update: 'route-layout' })
     })
+    await vi.waitFor(() => expect(transitionUpdate()).toBe('none'))
+    expect(transitionUpdate('page')).not.toBe('route-page')
   })
 })

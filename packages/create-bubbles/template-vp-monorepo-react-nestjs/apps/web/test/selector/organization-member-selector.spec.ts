@@ -320,7 +320,7 @@ describe('OrganizationMemberSelector 候选回显补查', () => {
       .mockImplementationOnce(() => oldRequest.promise)
       .mockImplementationOnce(() => newRequest.promise)
     const baseProps = {
-      value: oldCandidate.userId,
+      value: [oldCandidate.userId],
       scope: companyScope,
       request: emptyRequest,
       resolve,
@@ -352,7 +352,7 @@ describe('OrganizationMemberSelector 候选回显补查', () => {
       .fn<OrganizationMemberSelectorProps['resolve']>()
       .mockImplementationOnce(() => failedRequest.promise)
       .mockImplementationOnce(() => retryRequest.promise)
-    const baseProps = { value: alice.userId, scope: companyScope, request: emptyRequest, resolve }
+    const baseProps = { value: [alice.userId], scope: companyScope, request: emptyRequest, resolve }
 
     renderSelector({ ...baseProps, candidateContextKey: 'context-x' })
     hookRuntime.flushEffects()

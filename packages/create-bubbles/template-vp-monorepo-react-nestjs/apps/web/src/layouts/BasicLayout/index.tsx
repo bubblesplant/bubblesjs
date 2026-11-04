@@ -2,6 +2,8 @@ import { getRequestErrorMessage } from 'shared/utils'
 import { logout } from '@/api/auth'
 import Brand, { BrandMark } from '@/components/Brand/Brand'
 import LocaleSwitch from '@/components/LocaleSwitch/LocaleSwitch'
+import SelectorMenuIcon from '@/assets/svg/menu-item.svg?react'
+import SvgIcon from '@/components/Icon/svg-icon/SvgIcon'
 import RouteTransition from '@/components/RouteTransition/RouteTransition'
 import { workspaceLayoutToken } from '@/config/theme'
 import { cookie } from '@/utils/storage/cookie'
@@ -33,6 +35,11 @@ function createMenuRoutes(tr: I18nState['tr']) {
       ],
     },
     { path: '/examples/i18n', name: tr('国际化示例'), icon: <TranslationOutlined /> },
+    {
+      path: '/examples/selector',
+      name: tr('选择器示例'),
+      icon: <SvgIcon icon={SelectorMenuIcon} />,
+    },
   ]
 }
 

@@ -1,0 +1,4 @@
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 117ms on 15 files using 24 threads.

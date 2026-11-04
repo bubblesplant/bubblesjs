@@ -23,6 +23,12 @@ import AdministratorList from './AdministratorList'
 
 const PROJECT_ADMINISTRATOR_SOURCE_SCOPE = { type: 'company' } as const
 
+/** 选择器在表单内使用数组，提交时映射既有单 ID 协议。 */
+interface AdministratorFormValues {
+  administratorUserIds: string[]
+  replaceUserId?: string
+}
+
 export interface AdministratorDialogRef {
   show: (record: CompanyRecord, administrators: AdministratorSummary[]) => void
   hide: () => void
@@ -52,7 +58,7 @@ export default function AdministratorDialog({
   const [record, setRecord] = useState<CompanyRecord>()
   const [administrators, setAdministrators] = useState<AdministratorSummary[]>([])
   const [open, setOpen] = useState(false)
-  const formRef = useRef<ProFormInstance<SetAdministratorRequest>>(undefined)
+  const formRef = useRef<ProFormInstance<AdministratorFormValues>>(undefined)
   const { tr } = useI18n()
   const hide = () => setOpen(false)
   useImperativeHandle(ref, () => ({
@@ -66,7 +72,7 @@ export default function AdministratorDialog({
     hide,
   }))
   return (
-    <ModalForm<SetAdministratorRequest>
+    <ModalForm<AdministratorFormValues>
       formRef={formRef}
       title={tr('设置{type}管理员 · {name}', {
         type: project ? tr('项目') : tr('企业'),
@@ -81,9 +87,10 @@ export default function AdministratorDialog({
       submitter={{ searchConfig: { submitText: tr('保存管理员') } }}
       onFinish={
         /** 按稳定 userId 和可选替换对象提交管理员设置。 */ async (values) => {
-          if (!record) return false
+          const administratorUserId = values.administratorUserIds?.[0]
+          if (!record || !administratorUserId) return false
           const ok = await onSave(record, {
-            administratorUserId: values.administratorUserId,
+            administratorUserId,
             ...(values.replaceUserId ? { replaceUserId: values.replaceUserId } : {}),
           })
           if (ok) hide()
@@ -104,13 +111,14 @@ export default function AdministratorDialog({
         <AdministratorList administrators={administrators} />
       </Form.Item>
       <Form.Item
-        name="administratorUserId"
+        name="administratorUserIds"
         label={tr('新管理员')}
         rules={[{ required: true, message: tr('请选择新管理员') }]}
         extra={project ? tr('新管理员须为有效企业成员。') : tr('新管理员须为有效全局账号。')}
       >
         {project ? (
           <OrganizationMemberSelector
+            multiple={false}
             candidateContextKey={`${memberContextKey}:setProjectAdministrator`}
             scope={PROJECT_ADMINISTRATOR_SOURCE_SCOPE}
             request={memberRequest}
@@ -118,7 +126,11 @@ export default function AdministratorDialog({
             placeholder={tr('选择企业成员')}
           />
         ) : (
-          <GlobalAccountSelect request={globalAccountRequest} resolve={resolveGlobalAccounts} />
+          <GlobalAccountSelect
+            multiple={false}
+            request={globalAccountRequest}
+            resolve={resolveGlobalAccounts}
+          />
         )}
       </Form.Item>
       <ProFormSelect

@@ -1,0 +1,144 @@
+~/packages/shared$ vp test ◉ cache hit, replaying
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/shared
+
+ ✓ test/request-error.spec.ts (8 tests) 4ms
+ ✓ test/access.spec.ts (8 tests) 6ms
+ ✓ test/organization.spec.ts (7 tests) 9ms
+ ✓ test/file-hash/calculate.spec.ts (15 tests) 241ms
+
+ Test Files  4 passed (4)
+      Tests  38 passed (38)
+   Start at  15:48:58
+   Duration  472ms (tests 41%, import 31%, transform 25%, worker 3%)
+
+
+~/packages/i18n/cli$ vp test run ◉ cache hit, replaying
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/i18n/cli
+
+ ✓ src/scanner.test.ts (25 tests) 5ms
+ ✓ test/report.test.ts (2 tests) 20ms
+ ✓ test/config.test.ts (1 test) 2ms
+ ✓ test/sync.test.ts (8 tests) 92ms
+ ✓ test/load-config.test.ts (25 tests) 130ms
+ ✓ test/command.test.ts (10 tests) 142ms
+
+ Test Files  6 passed (6)
+      Tests  71 passed (71)
+   Start at  15:48:59
+   Duration  492ms (tests 49%, transform 29%, import 17%, worker 4%)
+
+
+~/apps/server$ vp test ◉ cache hit, replaying
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server
+
+ ↓ test/database/independent-companies-migration.spec.ts (6 tests | 6 skipped)
+ ✓ test/menus.validation.spec.ts (2 tests) 7ms
+ ✓ test/error-catalog.spec.ts (2 tests) 7ms
+ ✓ test/access/member-onboarding.validation.spec.ts (2 tests) 10ms
+ ✓ test/dictionaries/contracts.spec.ts (7 tests) 12ms
+ ✓ test/upload/minio-object-read.spec.ts (3 tests) 41ms
+ ✓ test/upload/content-hash.spec.ts (10 tests) 498ms
+ ✓ test/organization/organization-domain.spec.ts (8 tests) 14ms
+ ✓ test/access/companies/list.spec.ts (3 tests) 17ms
+ ✓ test/task-queue.processor.spec.ts (4 tests) 8ms
+ ✓ test/schema/native-schema.spec.ts (8 tests) 18ms
+ ✓ test/task-queue.service.spec.ts (7 tests) 10ms
+ ↓ test/task-queue.integration.spec.ts (1 test | 1 skipped)
+ ✓ test/access/access-policy.spec.ts (5 tests) 18ms
+ ✓ test/upload/upload-completion.spec.ts (19 tests) 349ms
+ ↓ test/auth/password/password.integration.spec.ts (5 tests | 5 skipped)
+ ↓ test/access/access.integration.spec.ts (21 tests | 21 skipped)
+ ✓ test/auth/password/password-operations.spec.ts (12 tests) 371ms
+   ✓ 改密安全事件 (3)
+     ✓ 真实 Fastify 响应钩子按路由模板分别记录成功与前置拒绝 355ms
+ ↓ test/dictionaries/integration.spec.ts (10 tests | 10 skipped)
+ ✓ test/access/companies/http.spec.ts (5 tests) 219ms
+ ✓ test/access/retired-company-routes.spec.ts (2 tests) 185ms
+
+ Test Files  16 passed | 5 skipped (21)
+      Tests  99 passed | 43 skipped (142)
+   Start at  15:48:59
+   Duration  5.78s (import 87%, transform 10%, tests 3%)
+
+
+~/apps/web$ vp test
+
+    mode: test
+    VITE_PORT: 9999
+    VITE_API_AFFIX: /api
+    VITE_API_URL: undefined
+    
+
+ RUN  v5.0.5 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web
+
+(node:40104) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:56856) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20652) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ test/request/public-auth.spec.ts (2 tests) 50ms
+ ✓ test/request/workspace.integration.spec.ts (6 tests) 65ms
+ ✓ test/request.spec.ts (14 tests) 80ms
+ ✓ test/dictionary/core.spec.ts (15 tests) 230ms
+ ✓ test/storage.spec.ts (14 tests) 11ms
+ ✓ test/selector/organization-member-selector.spec.ts (6 tests) 9ms
+ ✓ test/selector/global-account-select.spec.ts (6 tests) 10ms
+(node:17308) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ test/file-hash/worker.spec.ts (10 tests) 995ms
+ ✓ test/workspace-requests.spec.ts (14 tests) 8ms
+ ✓ test/workspaces/persistence.spec.ts (8 tests) 138ms
+ ✓ test/selector/selector-selection.spec.ts (7 tests) 8ms
+(node:36224) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ test/dictionary/persistence.spec.ts (8 tests) 12ms
+ ✓ test/workspaces/store.spec.ts (11 tests) 359ms
+ ✓ test/request/unauthorized.spec.ts (4 tests) 601ms
+   ✓ 登录失效处理的路由依赖 (4)
+     ✓ 加载请求工具时不初始化路由，首次失效后才加载且重复失效仅提示导航一次 471ms
+ ✓ test/password/password-actions.spec.ts (2 tests) 5ms
+ ✓ test/request/login-session.spec.tsx (2 tests) 238ms
+ ✓ test/latest-dialog-request.spec.ts (3 tests) 5ms
+ ✓ test/member-onboarding/auth-navigation.spec.ts (3 tests) 4ms
+ ✓ test/organization-assignment.spec.ts (4 tests) 5ms
+ ✓ test/request/session-cleanup.spec.ts (2 tests) 640ms
+   ✓ 统一登录失效的真实会话事件 (2)
+     ✓ 会话级 401 清空内存和快照，中止空间、用户、字典在途请求并拒绝迟到数据 568ms
+ ✓ test/router/route-transition.spec.tsx (7 tests) 890ms
+ ✓ test/router/access.spec.ts (7 tests) 39ms
+ ✓ test/router/workspace-data.spec.ts (6 tests) 96ms
+ ✓ test/router/access-pages.spec.tsx (10 tests) 35ms
+ ✓ test/router/entry.spec.ts (21 tests) 46ms
+ ✓ test/router/authenticated-routes.spec.ts (13 tests) 450ms
+ ✓ test/workspace-navigation.spec.ts (6 tests) 6ms
+ ✓ test/password/password-reset-action.spec.ts (2 tests) 3ms
+ ✓ test/icon-selector.spec.tsx (1 test) 3ms
+ ✓ test/workspace-navigation-boundary.spec.tsx (2 tests) 43ms
+ ✓ test/member-onboarding/member-onboarding-actions.spec.tsx (2 tests) 56ms
+ ✓ test/password/workspaces-password-entry.spec.tsx (1 test) 133ms
+ ✓ test/i18n-locale.spec.ts (2 tests) 2ms
+ ✓ test/draft-projects.spec.ts (4 tests) 8ms
+ ✓ test/router/access-page-titles.spec.ts (1 test) 5ms
+ ✓ test/locale/locale-switch.spec.tsx (11 tests) 1468ms
+ ✓ test/dictionary/select.spec.tsx (6 tests) 1218ms
+   ✓ DictionarySelect 真实 ProFormSelect 接入 (6)
+     ✓ 两个字段只取一次，打开下拉继续复用缓存 467ms
+ ✓ test/administrator-visibility/administrator-dialog.spec.tsx (7 tests) 2588ms
+   ✓ 企业管理员身份展示 (7)
+     ✓ 打开设置后立即展示现任名单，选择和清空替换对象会同步撤销提示 464ms
+     ✓ 以 补充 方式保存时提交稳定用户身份及准确的替换对象 635ms
+     ✓ 以 替换 方式保存时提交稳定用户身份及准确的替换对象 589ms
+     ✓ 保存未成功时保留弹窗和替换对象，便于检查后重试 607ms
+
+ Test Files  38 passed (38)
+      Tests  250 passed (250)
+   Start at  16:02:08
+   Duration  9.94s (import 70%, environment 14%, tests 11%, transform 4%)
+
+
+---
+vp run: 3/4 cache hit (75%), 4/4 successful, 7.81s saved. web#test not cached because it modified its inputs. (Run `vp run --last-details` for full details)

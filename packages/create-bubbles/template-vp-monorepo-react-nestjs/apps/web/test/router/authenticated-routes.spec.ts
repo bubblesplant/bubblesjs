@@ -66,6 +66,7 @@ describe('生产路由统一认证边界', () => {
     '/examples/pro-table',
     '/examples/pro-table/draft',
     '/examples/i18n',
+    '/examples/selector',
   ])('未登录直接访问公开地址 %s 不受认证拦截', async (path) => {
     const current = await enterRoute(path)
     expect(current.state.location.pathname).toBe(path)

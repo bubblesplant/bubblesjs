@@ -1,0 +1,74 @@
+{
+  "localCandidates": true,
+  "checks": [
+    "未登录可通过公开路由直达七个 ProFormItem 字段",
+    "初始回显及纯组织／职责组织值类型正确",
+    "基础导航可以往返国际化与选择器示例",
+    "页面提供 ProFormItem 接入代码及显式职责开关",
+    "账号草稿取消不改值，确认后更新单值",
+    "成员单选确认后更新 userId",
+    "成员多选确认后更新 ID 数组",
+    "角色字段直接参与表单更新",
+    "纯组织没有职责控件且只更新 string 数组",
+    "开启职责后可修改职责，取消不污染已提交值",
+    "岗位字段确认后更新岗位 ID 数组",
+    "有效提交的 JSON 与七个真实字段完全一致",
+    "清空字段不会改变最近有效提交快照",
+    "全部清空后七项必填阻止提交并保留原快照",
+    "填入示例程序赋值恢复全部回显与校验状态",
+    "禁用时全部字段与四个表单按钮不可操作",
+    "重置恢复初值并清除提交快照",
+    "切换项目后使用项目候选与独立成员上下文",
+    "项目级职责组织与纯组织独立提交",
+    "重新切换企业时恢复企业初值并清除项目快照",
+    "大量已选标签换行且容器内部 overflow:auto，字段不增高",
+    "390px 窄屏页面与弹窗没有横向溢出",
+    "浏览器没有运行时错误或业务 API 请求"
+  ],
+  "pageErrors": [],
+  "unexpectedApi": [],
+  "outputs": {
+    "company": {
+      "accountId": "demo-user-3",
+      "memberId": "demo-user-4",
+      "memberIds": ["demo-user-1", "demo-user-2", "demo-user-3"],
+      "roleIds": ["company-role-1", "company-role-2"],
+      "organizationIds": ["company-org-1", "company-org-2"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "company-org-1",
+          "duty": "deputy"
+        },
+        {
+          "organizationUnitId": "company-org-2",
+          "duty": "member"
+        }
+      ],
+      "positionIds": ["company-position-1", "company-position-2"]
+    },
+    "project": {
+      "accountId": "demo-user-1",
+      "memberId": "demo-user-2",
+      "memberIds": ["demo-user-1", "demo-user-2"],
+      "roleIds": ["project-role-1"],
+      "organizationIds": ["project-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "project-org-1",
+          "duty": "leader"
+        },
+        {
+          "organizationUnitId": "project-org-2",
+          "duty": "member"
+        }
+      ],
+      "positionIds": ["project-position-1"]
+    }
+  },
+  "scroll": {
+    "overflow": "auto",
+    "height": 330,
+    "scrollHeight": 1336
+  },
+  "fieldHeight": 36
+}

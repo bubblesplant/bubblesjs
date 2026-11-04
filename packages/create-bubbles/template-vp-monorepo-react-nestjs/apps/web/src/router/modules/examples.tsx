@@ -16,6 +16,7 @@ export const exampleRoutes: RouteObject[] = [
       { path: 'pro-table', element: lazyLoad('examples/pro-table') },
       { path: 'pro-table/draft', element: lazyLoad('examples/pro-table/draft') },
       { path: 'i18n', element: lazyLoad('examples/i18n') },
+      { path: 'selector', element: lazyLoad('examples/selector') },
     ],
   },
 ]

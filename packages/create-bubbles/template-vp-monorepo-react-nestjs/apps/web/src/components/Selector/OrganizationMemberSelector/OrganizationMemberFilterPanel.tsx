@@ -13,6 +13,7 @@ import type {
   OrganizationMemberFilterOption,
   OrganizationMemberResourceFilters,
 } from './OrganizationMemberSelectorTypes'
+import styles from './OrganizationMemberFilterPanel.module.css'
 
 /** 左侧浏览面板当前提交给候选查询的筛选值。 */
 export interface OrganizationMemberFilterValue {
@@ -95,20 +96,7 @@ export default function OrganizationMemberFilterPanel({
   }
 
   return (
-    <Flex
-      vertical
-      gap={16}
-      style={{
-        flex: '0 0 252px',
-        width: 252,
-        minHeight: 472,
-        padding: 16,
-        border: '1px solid rgba(113, 83, 184, .18)',
-        borderRadius: 12,
-        background:
-          'linear-gradient(180deg, rgba(118, 87, 190, .085) 0%, rgba(118, 87, 190, .025) 100%)',
-      }}
-    >
+    <Flex vertical gap={16} className={styles.filterPanel}>
       <Flex align="center" justify="space-between" gap={8}>
         <div>
           <Typography.Text type="secondary" style={{ fontSize: 12 }}>

@@ -1,0 +1,909 @@
+{
+  "date": "2026-11-04",
+  "mockApi": true,
+  "cases": [
+    {
+      "scope": "company",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 1,
+      "fraction": 0,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": false,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 458
+    },
+    {
+      "scope": "company",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 1,
+      "fraction": 0.5,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": false,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 458
+    },
+    {
+      "scope": "company",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 1,
+      "fraction": 1,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": false,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 458
+    },
+    {
+      "scope": "company",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 30,
+      "fraction": 0,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": true,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 1380
+    },
+    {
+      "scope": "company",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 30,
+      "fraction": 0.5,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": true,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 1380
+    },
+    {
+      "scope": "company",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 30,
+      "fraction": 1,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": true,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 1380
+    },
+    {
+      "scope": "project",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 1,
+      "fraction": 0,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": false,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 458
+    },
+    {
+      "scope": "project",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 1,
+      "fraction": 0.5,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": false,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 458
+    },
+    {
+      "scope": "project",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 1,
+      "fraction": 1,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": false,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 458
+    },
+    {
+      "scope": "project",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 30,
+      "fraction": 0,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": true,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 1380
+    },
+    {
+      "scope": "project",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 30,
+      "fraction": 0.5,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": true,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 1380
+    },
+    {
+      "scope": "project",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 30,
+      "fraction": 1,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 920,
+        "right": 1310,
+        "width": 390,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": true,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 458,
+      "scrollHeight": 1380
+    },
+    {
+      "scope": "platform",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 1,
+      "fraction": 0,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": false,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 462,
+      "scrollHeight": 462
+    },
+    {
+      "scope": "platform",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 1,
+      "fraction": 0.5,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": false,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 462,
+      "scrollHeight": 462
+    },
+    {
+      "scope": "platform",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 1,
+      "fraction": 1,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": false,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 462,
+      "scrollHeight": 462
+    },
+    {
+      "scope": "platform",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 30,
+      "fraction": 0,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": true,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 462,
+      "scrollHeight": 1380
+    },
+    {
+      "scope": "platform",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 30,
+      "fraction": 0.5,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": true,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 462,
+      "scrollHeight": 1380
+    },
+    {
+      "scope": "platform",
+      "scrollbarMode": "native-scrollbars",
+      "rows": 30,
+      "fraction": 1,
+      "body": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "scroll"
+      },
+      "header": {
+        "left": 273,
+        "right": 1325,
+        "width": 1052,
+        "rightStyle": "auto",
+        "overflowY": "hidden"
+      },
+      "actionHeader": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "15px",
+        "overflowY": "visible"
+      },
+      "actionCell": {
+        "left": 990,
+        "right": 1310,
+        "width": 320,
+        "rightStyle": "0px",
+        "overflowY": "visible"
+      },
+      "delta": 0,
+      "scrollbar": 15,
+      "scrollbarStyle": "auto",
+      "scrollbarPseudo": "auto",
+      "overflow": true,
+      "scrollbarHeader": [
+        {
+          "left": 1309,
+          "right": 1325,
+          "width": 16,
+          "rightStyle": "0px",
+          "overflowY": "visible"
+        }
+      ],
+      "bodyHeight": 462,
+      "scrollHeight": 1380
+    }
+  ],
+  "pageErrors": [],
+  "unexpectedApi": [],
+  "passed": true
+}

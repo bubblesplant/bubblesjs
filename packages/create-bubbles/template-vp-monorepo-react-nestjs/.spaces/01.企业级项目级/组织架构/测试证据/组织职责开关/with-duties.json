@@ -1,0 +1,10 @@
+[
+  {
+    "organizationUnitId": "org-demo-1",
+    "duty": "leader"
+  },
+  {
+    "organizationUnitId": "org-demo-2",
+    "duty": "member"
+  }
+]

@@ -1,0 +1,72 @@
+{
+  "mockData": true,
+  "checks": [
+    "八个 ProFormItem 接收 initialValues，字段 id 与原始值一致，账号／成员按 ID 补查回显",
+    "组织取消丢弃草稿，重新打开以表单值回显；确认纯组织 ID，不影响独立字段",
+    "职责开启时完整回显，确认结构化关系，新加入组织默认成员",
+    "岗位默认禁选停用项，取消不变，确认后回填稳定 ID",
+    "角色保留既有受限角色资格，禁止新增受限角色，取消与确认遵循表单协议",
+    "accountId 取消不改值，确认回填 userId，禁选候选不能新增",
+    "memberIds 取消不改值，确认回填 userId，禁选候选不能新增",
+    "memberId 取消不改值，确认回填 userId，禁选候选不能新增",
+    "真实点击提交输出稳定值，职责开关两种协议不混用",
+    "accountId 字段清空即时更新，不误开弹窗",
+    "memberIds 字段清空即时更新，不误开弹窗",
+    "roleIds 字段清空即时更新，不误开弹窗",
+    "organizationIds 字段清空即时更新，不误开弹窗",
+    "organizationRelations 字段清空即时更新，不误开弹窗",
+    "positionIds 字段清空即时更新，不误开弹窗",
+    "memberId 字段清空即时更新，不误开弹窗",
+    "otherOrganizationIds 字段清空即时更新，不误开弹窗",
+    "必填校验由 ProFormItem 执行，空字段阻止提交",
+    "resetFields 恢复全部初始值与回显，并清除校验错误",
+    "setFieldsValue 后各字段显示最新值，打开草稿读取程序赋值",
+    "禁用字段阻止鼠标／键盘打开及清空，表单值保持不变",
+    "异步候选尚未到达时保留 ID，到达后自动回显名称",
+    "多选入口大量值保持单行，弹窗已选区滚动且不推动表格",
+    "390px 窄屏字段无横向溢出，仍可打开和取消组织选择"
+  ],
+  "pageErrors": [],
+  "unexpectedApi": [],
+  "outputs": {
+    "submitted": {
+      "accountId": "user-2",
+      "memberIds": ["user-1", "user-2"],
+      "roleIds": ["role-1", "role-3", "role-2"],
+      "organizationIds": ["org-1", "org-2"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "org-1",
+          "duty": "deputy"
+        },
+        {
+          "organizationUnitId": "org-2",
+          "duty": "member"
+        }
+      ],
+      "positionIds": ["pos-1", "pos-2"],
+      "memberId": "user-2",
+      "otherOrganizationIds": ["org-3"]
+    }
+  },
+  "layout": {
+    "before": {
+      "x": 147,
+      "y": 423,
+      "width": 549.46875,
+      "height": 36
+    },
+    "after": {
+      "x": 147,
+      "y": 423,
+      "width": 549.46875,
+      "height": 36
+    },
+    "scroll": {
+      "overflow": "auto",
+      "client": 330,
+      "total": 1504
+    }
+  },
+  "passed": true
+}

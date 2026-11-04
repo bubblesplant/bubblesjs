@@ -1,0 +1,124 @@
+{
+  "mockApi": true,
+  "checks": [
+    "字段挂载不预加载账号，点击打开全局账号分页弹窗",
+    "同名账号显示完整账号，停用及锁定账号禁止选择",
+    "空态给出选择提示与数量；账号标签悬停可查看完整账号，悬停不移动表格",
+    "空选、单选、移除和清空保持弹窗与表格位置，已选容器始终占位",
+    "服务端分页后确认，回填姓名与完整账号",
+    "再次打开保留已选账号，修改后取消保持原值",
+    "键盘打开弹窗，搜索姓名或账号后确认回填",
+    "清空字段不打开选择弹窗，并可重新选择",
+    "保存管理员只提交稳定 userId",
+    "企业开通复用同一账号弹窗并绑定创建用途",
+    "390px 窄屏已选区固定高度且可自动滚动，确认按钮在视口内"
+  ],
+  "queries": [
+    {
+      "query": "",
+      "page": 1,
+      "pageSize": 20,
+      "purpose": "setCompanyAdministrator"
+    },
+    {
+      "query": "",
+      "page": 2,
+      "pageSize": 20,
+      "purpose": "setCompanyAdministrator"
+    },
+    {
+      "query": "",
+      "page": 1,
+      "pageSize": 20,
+      "purpose": "setCompanyAdministrator"
+    },
+    {
+      "query": "",
+      "page": 1,
+      "pageSize": 20,
+      "purpose": "setCompanyAdministrator"
+    },
+    {
+      "query": "",
+      "page": 1,
+      "pageSize": 20,
+      "purpose": "setCompanyAdministrator"
+    },
+    {
+      "query": "qa.selector.1",
+      "page": 1,
+      "pageSize": 20,
+      "purpose": "setCompanyAdministrator"
+    },
+    {
+      "query": "",
+      "page": 1,
+      "pageSize": 20,
+      "purpose": "setCompanyAdministrator"
+    },
+    {
+      "query": "",
+      "page": 1,
+      "pageSize": 20,
+      "purpose": "createCompanyAdministrator"
+    },
+    {
+      "query": "",
+      "page": 1,
+      "pageSize": 20,
+      "purpose": "createCompanyAdministrator"
+    }
+  ],
+  "saves": [
+    {
+      "administratorUserId": "qa-account-1"
+    }
+  ],
+  "pageErrors": [],
+  "unexpectedApi": [],
+  "layout": {
+    "before": {
+      "dialog": {
+        "x": 160,
+        "y": 204.5,
+        "width": 1120,
+        "height": 691
+      },
+      "table": {
+        "x": 184,
+        "y": 304.5,
+        "width": 772,
+        "height": 498
+      }
+    },
+    "selected": {
+      "dialog": {
+        "x": 160,
+        "y": 204.5,
+        "width": 1120,
+        "height": 691
+      },
+      "table": {
+        "x": 184,
+        "y": 304.5,
+        "width": 772,
+        "height": 498
+      }
+    },
+    "cleared": {
+      "dialog": {
+        "x": 160,
+        "y": 204.5,
+        "width": 1120,
+        "height": 691
+      },
+      "table": {
+        "x": 184,
+        "y": 304.5,
+        "width": 772,
+        "height": 498
+      }
+    }
+  },
+  "passed": true
+}

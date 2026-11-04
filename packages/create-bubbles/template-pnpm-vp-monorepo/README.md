@@ -88,6 +88,6 @@ pnpm 12 的 `pnpm ci` 是清理后安装依赖的内置命令。执行本项目�
 
 推送 `main` 或创建 PR 时，CI 在 Linux 和 Windows 上执行 `pnpm ready`，使用与本地一致的 Node 和 pnpm 版本。
 
-将来新增公开包后，Release 工作流需先设置仓库变量 `RELEASE_ENABLED=true`，再从 `main` 手动运行。无 `NPM_TOKEN` 时只创建版本 PR，有 token 时支持 npm 发布。仓库需允许 GitHub Actions 创建 PR。首次使用之前完成包名、许可证、仓库元信息和 npm 权限的配置。
+将来新增公开包后，从 `main` 手动运行 Release 工作流。无 `NPM_TOKEN` 时只创建版本 PR，有 token 时支持 npm 发布。仓库需允许 GitHub Actions 创建 PR。首次使用之前完成包名、许可证、仓库元信息和 npm 权限的配置。
 
 文档工作流手动运行。将 GitHub Pages 的构建来源设为 **GitHub Actions**，工作流会根据仓库名设置 `DOCS_BASE`。本地默认为 `/`，也可指定部署子路径（例如 PowerShell：`$env:DOCS_BASE = '/my-project/'`，然后 `pnpm docs:build`）。

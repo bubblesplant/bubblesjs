@@ -1,0 +1,638 @@
+{
+  "date": "2026-11-04",
+  "mockApi": true,
+  "baseUrl": "http://127.0.0.1:10000",
+  "scopes": [
+    {
+      "scope": "company",
+      "passed": true,
+      "checks": [
+        "fixed left name and account",
+        "fixed right actions",
+        "header and body alignment",
+        "middle columns scroll",
+        "copy account after scrolling",
+        "open and cancel role action after scrolling"
+      ],
+      "samples": [
+        {
+          "scrollLeft": 0,
+          "maxScroll": 570,
+          "body": {
+            "left": 273,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 886,
+            "position": "static"
+          },
+          "name": {
+            "left": 273,
+            "right": 423,
+            "top": 342.84375,
+            "width": 150,
+            "position": "sticky"
+          },
+          "account": {
+            "left": 423,
+            "right": 603,
+            "top": 342.84375,
+            "width": 180,
+            "position": "sticky"
+          },
+          "middle": {
+            "left": 603,
+            "right": 703,
+            "top": 342.84375,
+            "width": 100,
+            "position": "relative"
+          },
+          "action": {
+            "left": 769,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 390,
+            "position": "sticky"
+          },
+          "headers": [
+            {
+              "title": "姓名",
+              "left": 273,
+              "right": 423,
+              "top": 291,
+              "width": 150,
+              "position": "sticky"
+            },
+            {
+              "title": "完整账号",
+              "left": 423,
+              "right": 603,
+              "top": 291,
+              "width": 180,
+              "position": "sticky"
+            },
+            {
+              "title": "操作",
+              "left": 769,
+              "right": 1159,
+              "top": 291,
+              "width": 390,
+              "position": "sticky"
+            }
+          ]
+        },
+        {
+          "scrollLeft": 285,
+          "maxScroll": 570,
+          "body": {
+            "left": 273,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 886,
+            "position": "static"
+          },
+          "name": {
+            "left": 273,
+            "right": 423,
+            "top": 342.84375,
+            "width": 150,
+            "position": "sticky"
+          },
+          "account": {
+            "left": 423,
+            "right": 603,
+            "top": 342.84375,
+            "width": 180,
+            "position": "sticky"
+          },
+          "middle": {
+            "left": 318,
+            "right": 418,
+            "top": 342.84375,
+            "width": 100,
+            "position": "relative"
+          },
+          "action": {
+            "left": 769,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 390,
+            "position": "sticky"
+          },
+          "headers": [
+            {
+              "title": "姓名",
+              "left": 273,
+              "right": 423,
+              "top": 291,
+              "width": 150,
+              "position": "sticky"
+            },
+            {
+              "title": "完整账号",
+              "left": 423,
+              "right": 603,
+              "top": 291,
+              "width": 180,
+              "position": "sticky"
+            },
+            {
+              "title": "操作",
+              "left": 769,
+              "right": 1159,
+              "top": 291,
+              "width": 390,
+              "position": "sticky"
+            }
+          ]
+        },
+        {
+          "scrollLeft": 570,
+          "maxScroll": 570,
+          "body": {
+            "left": 273,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 886,
+            "position": "static"
+          },
+          "name": {
+            "left": 273,
+            "right": 423,
+            "top": 342.84375,
+            "width": 150,
+            "position": "sticky"
+          },
+          "account": {
+            "left": 423,
+            "right": 603,
+            "top": 342.84375,
+            "width": 180,
+            "position": "sticky"
+          },
+          "middle": {
+            "left": 33,
+            "right": 133,
+            "top": 342.84375,
+            "width": 100,
+            "position": "relative"
+          },
+          "action": {
+            "left": 769,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 390,
+            "position": "sticky"
+          },
+          "headers": [
+            {
+              "title": "姓名",
+              "left": 273,
+              "right": 423,
+              "top": 291,
+              "width": 150,
+              "position": "sticky"
+            },
+            {
+              "title": "完整账号",
+              "left": 423,
+              "right": 603,
+              "top": 291,
+              "width": 180,
+              "position": "sticky"
+            },
+            {
+              "title": "操作",
+              "left": 769,
+              "right": 1159,
+              "top": 291,
+              "width": 390,
+              "position": "sticky"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "project",
+      "passed": true,
+      "checks": [
+        "fixed left name and account",
+        "fixed right actions",
+        "header and body alignment",
+        "middle columns scroll",
+        "copy account after scrolling",
+        "open and cancel role action after scrolling"
+      ],
+      "samples": [
+        {
+          "scrollLeft": 0,
+          "maxScroll": 570,
+          "body": {
+            "left": 273,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 886,
+            "position": "static"
+          },
+          "name": {
+            "left": 273,
+            "right": 423,
+            "top": 342.84375,
+            "width": 150,
+            "position": "sticky"
+          },
+          "account": {
+            "left": 423,
+            "right": 603,
+            "top": 342.84375,
+            "width": 180,
+            "position": "sticky"
+          },
+          "middle": {
+            "left": 603,
+            "right": 703,
+            "top": 342.84375,
+            "width": 100,
+            "position": "relative"
+          },
+          "action": {
+            "left": 769,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 390,
+            "position": "sticky"
+          },
+          "headers": [
+            {
+              "title": "姓名",
+              "left": 273,
+              "right": 423,
+              "top": 291,
+              "width": 150,
+              "position": "sticky"
+            },
+            {
+              "title": "完整账号",
+              "left": 423,
+              "right": 603,
+              "top": 291,
+              "width": 180,
+              "position": "sticky"
+            },
+            {
+              "title": "操作",
+              "left": 769,
+              "right": 1159,
+              "top": 291,
+              "width": 390,
+              "position": "sticky"
+            }
+          ]
+        },
+        {
+          "scrollLeft": 285,
+          "maxScroll": 570,
+          "body": {
+            "left": 273,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 886,
+            "position": "static"
+          },
+          "name": {
+            "left": 273,
+            "right": 423,
+            "top": 342.84375,
+            "width": 150,
+            "position": "sticky"
+          },
+          "account": {
+            "left": 423,
+            "right": 603,
+            "top": 342.84375,
+            "width": 180,
+            "position": "sticky"
+          },
+          "middle": {
+            "left": 318,
+            "right": 418,
+            "top": 342.84375,
+            "width": 100,
+            "position": "relative"
+          },
+          "action": {
+            "left": 769,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 390,
+            "position": "sticky"
+          },
+          "headers": [
+            {
+              "title": "姓名",
+              "left": 273,
+              "right": 423,
+              "top": 291,
+              "width": 150,
+              "position": "sticky"
+            },
+            {
+              "title": "完整账号",
+              "left": 423,
+              "right": 603,
+              "top": 291,
+              "width": 180,
+              "position": "sticky"
+            },
+            {
+              "title": "操作",
+              "left": 769,
+              "right": 1159,
+              "top": 291,
+              "width": 390,
+              "position": "sticky"
+            }
+          ]
+        },
+        {
+          "scrollLeft": 570,
+          "maxScroll": 570,
+          "body": {
+            "left": 273,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 886,
+            "position": "static"
+          },
+          "name": {
+            "left": 273,
+            "right": 423,
+            "top": 342.84375,
+            "width": 150,
+            "position": "sticky"
+          },
+          "account": {
+            "left": 423,
+            "right": 603,
+            "top": 342.84375,
+            "width": 180,
+            "position": "sticky"
+          },
+          "middle": {
+            "left": 33,
+            "right": 133,
+            "top": 342.84375,
+            "width": 100,
+            "position": "relative"
+          },
+          "action": {
+            "left": 769,
+            "right": 1159,
+            "top": 342.84375,
+            "width": 390,
+            "position": "sticky"
+          },
+          "headers": [
+            {
+              "title": "姓名",
+              "left": 273,
+              "right": 423,
+              "top": 291,
+              "width": 150,
+              "position": "sticky"
+            },
+            {
+              "title": "完整账号",
+              "left": 423,
+              "right": 603,
+              "top": 291,
+              "width": 180,
+              "position": "sticky"
+            },
+            {
+              "title": "操作",
+              "left": 769,
+              "right": 1159,
+              "top": 291,
+              "width": 390,
+              "position": "sticky"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "platform",
+      "passed": true,
+      "checks": [
+        "fixed left name and account",
+        "fixed right actions",
+        "header and body alignment",
+        "middle columns scroll",
+        "copy account after scrolling",
+        "open and cancel role action after scrolling"
+      ],
+      "samples": [
+        {
+          "scrollLeft": 0,
+          "maxScroll": 400,
+          "body": {
+            "left": 273,
+            "right": 1159,
+            "top": 338.84375,
+            "width": 886,
+            "position": "static"
+          },
+          "name": {
+            "left": 273,
+            "right": 423,
+            "top": 338.84375,
+            "width": 150,
+            "position": "sticky"
+          },
+          "account": {
+            "left": 423,
+            "right": 603,
+            "top": 338.84375,
+            "width": 180,
+            "position": "sticky"
+          },
+          "middle": {
+            "left": 603,
+            "right": 703,
+            "top": 338.84375,
+            "width": 100,
+            "position": "relative"
+          },
+          "action": {
+            "left": 839,
+            "right": 1159,
+            "top": 338.84375,
+            "width": 320,
+            "position": "sticky"
+          },
+          "headers": [
+            {
+              "title": "姓名",
+              "left": 273,
+              "right": 423,
+              "top": 287,
+              "width": 150,
+              "position": "sticky"
+            },
+            {
+              "title": "完整账号",
+              "left": 423,
+              "right": 603,
+              "top": 287,
+              "width": 180,
+              "position": "sticky"
+            },
+            {
+              "title": "操作",
+              "left": 839,
+              "right": 1159,
+              "top": 287,
+              "width": 320,
+              "position": "sticky"
+            }
+          ]
+        },
+        {
+          "scrollLeft": 200,
+          "maxScroll": 400,
+          "body": {
+            "left": 273,
+            "right": 1159,
+            "top": 338.84375,
+            "width": 886,
+            "position": "static"
+          },
+          "name": {
+            "left": 273,
+            "right": 423,
+            "top": 338.84375,
+            "width": 150,
+            "position": "sticky"
+          },
+          "account": {
+            "left": 423,
+            "right": 603,
+            "top": 338.84375,
+            "width": 180,
+            "position": "sticky"
+          },
+          "middle": {
+            "left": 403,
+            "right": 503,
+            "top": 338.84375,
+            "width": 100,
+            "position": "relative"
+          },
+          "action": {
+            "left": 839,
+            "right": 1159,
+            "top": 338.84375,
+            "width": 320,
+            "position": "sticky"
+          },
+          "headers": [
+            {
+              "title": "姓名",
+              "left": 273,
+              "right": 423,
+              "top": 287,
+              "width": 150,
+              "position": "sticky"
+            },
+            {
+              "title": "完整账号",
+              "left": 423,
+              "right": 603,
+              "top": 287,
+              "width": 180,
+              "position": "sticky"
+            },
+            {
+              "title": "操作",
+              "left": 839,
+              "right": 1159,
+              "top": 287,
+              "width": 320,
+              "position": "sticky"
+            }
+          ]
+        },
+        {
+          "scrollLeft": 400,
+          "maxScroll": 400,
+          "body": {
+            "left": 273,
+            "right": 1159,
+            "top": 338.84375,
+            "width": 886,
+            "position": "static"
+          },
+          "name": {
+            "left": 273,
+            "right": 423,
+            "top": 338.84375,
+            "width": 150,
+            "position": "sticky"
+          },
+          "account": {
+            "left": 423,
+            "right": 603,
+            "top": 338.84375,
+            "width": 180,
+            "position": "sticky"
+          },
+          "middle": {
+            "left": 203,
+            "right": 303,
+            "top": 338.84375,
+            "width": 100,
+            "position": "relative"
+          },
+          "action": {
+            "left": 839,
+            "right": 1159,
+            "top": 338.84375,
+            "width": 320,
+            "position": "sticky"
+          },
+          "headers": [
+            {
+              "title": "姓名",
+              "left": 273,
+              "right": 423,
+              "top": 287,
+              "width": 150,
+              "position": "sticky"
+            },
+            {
+              "title": "完整账号",
+              "left": 423,
+              "right": 603,
+              "top": 287,
+              "width": 180,
+              "position": "sticky"
+            },
+            {
+              "title": "操作",
+              "left": 839,
+              "right": 1159,
+              "top": 287,
+              "width": 320,
+              "position": "sticky"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "unexpectedApi": [],
+  "browserVersion": "156.0.4314.58",
+  "passed": true
+}

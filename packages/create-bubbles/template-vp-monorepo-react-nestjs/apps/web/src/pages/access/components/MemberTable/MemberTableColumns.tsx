@@ -31,6 +31,7 @@ interface MemberTableColumnOptions {
 
 /**
  * 创建平台账号或工作空间成员表格列。
+ * 姓名和完整账号固定在左侧，操作固定在右侧，便于横向滚动时识别和管理成员。
  * 操作副作用由页面注入，列定义只负责展示、确认提示和触发对应动作。
  */
 export function createMemberTableColumns({
@@ -63,8 +64,15 @@ export function createMemberTableColumns({
       hideInTable: true,
       fieldProps: { placeholder: tr('搜索姓名或账号') },
     },
-    { title: tr('姓名'), dataIndex: 'name', search: false, width: 150 },
-    { title: tr('完整账号'), dataIndex: 'account', search: false, copyable: true, width: 180 },
+    { title: tr('姓名'), dataIndex: 'name', search: false, width: 150, fixed: 'left' },
+    {
+      title: tr('完整账号'),
+      dataIndex: 'account',
+      search: false,
+      copyable: true,
+      width: 180,
+      fixed: 'left',
+    },
     {
       title: platform ? tr('账号状态') : tr('成员状态'),
       dataIndex: 'status',
@@ -153,6 +161,7 @@ export function createMemberTableColumns({
       title: tr('操作'),
       valueType: 'option',
       width: platform ? 320 : 390,
+      fixed: 'right',
       render: (_, record) => (
         <Space size={4} wrap>
           {!platform && canAssignOrganization && (

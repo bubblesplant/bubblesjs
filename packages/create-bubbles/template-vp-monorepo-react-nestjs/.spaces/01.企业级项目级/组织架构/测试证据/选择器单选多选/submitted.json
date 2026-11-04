@@ -1,0 +1,67 @@
+{
+  "company-single": {
+    "accountIds": ["demo-user-1"],
+    "memberIds": ["demo-user-1"],
+    "roleIds": ["company-role-1"],
+    "organizationIds": ["company-org-1"],
+    "organizationRelations": [
+      {
+        "organizationUnitId": "company-org-1",
+        "duty": "leader"
+      }
+    ],
+    "positionIds": ["company-position-1"]
+  },
+  "company-multiple": {
+    "accountIds": ["demo-user-1"],
+    "memberIds": ["demo-user-1", "demo-user-2"],
+    "roleIds": ["company-role-1"],
+    "organizationIds": ["company-org-1"],
+    "organizationRelations": [
+      {
+        "organizationUnitId": "company-org-1",
+        "duty": "leader"
+      }
+    ],
+    "positionIds": ["company-position-1"]
+  },
+  "project-single": {
+    "accountIds": ["demo-user-1"],
+    "memberIds": ["demo-user-1"],
+    "roleIds": ["project-role-1"],
+    "organizationIds": ["project-org-1"],
+    "organizationRelations": [
+      {
+        "organizationUnitId": "project-org-1",
+        "duty": "leader"
+      }
+    ],
+    "positionIds": ["project-position-1"]
+  },
+  "project-multiple": {
+    "accountIds": ["demo-user-1"],
+    "memberIds": ["demo-user-1", "demo-user-2"],
+    "roleIds": ["project-role-1"],
+    "organizationIds": ["project-org-1"],
+    "organizationRelations": [
+      {
+        "organizationUnitId": "project-org-1",
+        "duty": "leader"
+      }
+    ],
+    "positionIds": ["project-position-1"]
+  },
+  "single-with-duty": {
+    "accountIds": ["demo-user-1"],
+    "memberIds": ["demo-user-1"],
+    "roleIds": ["project-role-1"],
+    "organizationIds": ["project-org-1"],
+    "organizationRelations": [
+      {
+        "organizationUnitId": "project-org-2",
+        "duty": "deputy"
+      }
+    ],
+    "positionIds": ["project-position-1"]
+  }
+}

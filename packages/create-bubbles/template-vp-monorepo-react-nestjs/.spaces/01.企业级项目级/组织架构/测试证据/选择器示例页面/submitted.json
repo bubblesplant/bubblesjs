@@ -1,0 +1,38 @@
+{
+  "company": {
+    "accountId": "demo-user-3",
+    "memberId": "demo-user-4",
+    "memberIds": ["demo-user-1", "demo-user-2", "demo-user-3"],
+    "roleIds": ["company-role-1", "company-role-2"],
+    "organizationIds": ["company-org-1", "company-org-2"],
+    "organizationRelations": [
+      {
+        "organizationUnitId": "company-org-1",
+        "duty": "deputy"
+      },
+      {
+        "organizationUnitId": "company-org-2",
+        "duty": "member"
+      }
+    ],
+    "positionIds": ["company-position-1", "company-position-2"]
+  },
+  "project": {
+    "accountId": "demo-user-1",
+    "memberId": "demo-user-2",
+    "memberIds": ["demo-user-1", "demo-user-2"],
+    "roleIds": ["project-role-1"],
+    "organizationIds": ["project-org-1"],
+    "organizationRelations": [
+      {
+        "organizationUnitId": "project-org-1",
+        "duty": "leader"
+      },
+      {
+        "organizationUnitId": "project-org-2",
+        "duty": "member"
+      }
+    ],
+    "positionIds": ["project-position-1"]
+  }
+}

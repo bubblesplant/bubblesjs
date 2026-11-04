@@ -1,0 +1,16 @@
+2026-11-04 已选标签横向排列专项
+
+vp check apps/web/src/components/Selector/BasicTableSelector/BasicTableSelector.module.css apps/web/src/components/Selector/BasicTableSelector/README.md apps/web/src/components/Selector/OrganizationMemberSelector/README.md .spaces/01.企业级项目级/组织架构/工具/成员选择布局/verify.mjs .spaces/01.企业级项目级/权限与菜单/工具/role-selector/verify.mjs
+退出码：0
+pass: All 5 files are correctly formatted (181ms, 24 threads)
+pass: Found no warnings, lint errors, or type errors in 2 files (446ms, 24 threads)
+
+apps/web 下执行 vp test run test/selector
+退出码：0
+Test Files 3 passed (3)
+Tests 19 passed (19)
+Duration 246ms
+
+真实 Edge 浏览器：账号 10 项、角色 12 项、组织成员 19 项，全部通过。
+所有候选为虚构数据，业务 API 均被模拟或拦截，无真实后端写入。
+本轮未重复执行 Web 全量测试和生产构建；调整前的全量验证仅作历史基线。

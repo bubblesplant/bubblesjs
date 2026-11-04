@@ -1,0 +1,107 @@
+日期：2026-11-04
+检查：vp run build（apps/web；资产清单受工具输出预算截断）
+
+pos-build
+退出码：0
+Warning: truncated output (original token count: 7052)
+Total output lines: 352
+
+~/apps/web$ tsc ○ cache miss: 'apps/web/src/locales/zh_CN.json' modified, executing
+
+~/apps/web$ vp build --mode dev
+
+    mode: dev
+    VITE_PORT: 10000
+    VITE_API_AFFIX: /api
+    VITE_API_URL: http://localhost:13000
+    
+transforming...
+✓ 4103 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                        11.60 kB │ gzip:  2.45 kB
+dist/assets/home-B7KbqgsQ.css                           0.30 kB │ gzip:  0.22 kB
+dist/assets/i18n-ItaDj64q.css                           0.30 kB │ gzip:  0.21 kB
+dist/assets/OrganizationMemberSelector-C3j-bPpR.css     0.60 kB │ gzip:  0.37 kB
+dist/assets/columns-Du0xROgk.css                        0.69 kB │ gzip:  0.33 kB
+dist/assets/columns-BeRcfti7.css                        0.81 kB │ gzip:  0.40 kB
+dist/assets/FullHeightProTable-Bbx8WqJD.css             0.81 kB │ gzip:  0.29 kB
+dist/assets/RegisterCompanyMemberDialog-Bv7N9WdG.css    1.19 kB │ gzip:  0.17 kB
+dist/assets/draft-Kcxo5RW-.css                          1.40 kB │ gzip:  0.45 kB
+dist/assets/PasswordFields-BGPkAGNl.css                 1.42 kB │ gzip:  0.18 kB
+dist/assets/router-Z0uKzNQe.css                         1.97 kB │ gzip:  0.39 kB
+dist/assets/AffiliationPicker-COuPVbvj.css              2.75 kB │ gzip:  0.96 kB
+dist/assets/BasicTableSelector-DfBeZLif.css             2.94 kB │ gzip:  1.03 kB
+dist/assets/LocaleSwitch-LVji4ocT.css                   4.82 kB │ gzip:  1.67 kB
+dist/assets/login-C2v_Ksd2.css                          6.37 kB │ gzip:  1.93 kB
+dist/assets/index-CwW4I0gA.css                         11.48 kB │ gzip:  3.38 kB
+dist/assets/workspace-Cnqy7PCd.css                     16.56 kB │ gzip:  3.86 kB
+dist/assets/useCSSVarCls-D5LDH8FE.js                    0.03 kB │ gzip:  0.05 kB
+dist/assets/AffiliationPicker-CHy0JNXE.js               0.04 kB │ gzip:  0.06 kB
+dist/assets/404-DwhAEuyB.js                             0.04 kB │ gzip:  0.06 kB
+dist/assets/error-DE9wxPFd.js                           0.04 kB │ gzip:  0.06 kB
+dist/assets/router-SDgJp3lp.js                          0.04 kB │ gzip:  0.06 kB
+dist/assets/RoleSelector-FSuEkpyz.js                    0.05 kB │ gzip:  0.07 kB
+dist/assets/CleanupDialog-Dh8rdyXR.js                   0.05 kB │ gzip:  0.07 kB
+dist/assets/WorkspaceCard-i5-lc3L-.js                   0.05 kB │ gzip:  0.07 kB
+dist/assets/MenuFormDialog-M-JvJdhs.js                  0.05 kB │ gzip:  0.07 kB
+dist/assets/RoleFormDialog-C6h_A99g.js                  0.05 kB │ gzip:  0.07 kB
+dist/assets/EntityFormDialog-Cz5MPPRa.js                0.05 kB │ gzip:  0.07 kB
+dist/assets/AdministratorList-LgXpiLLy.js               0.05 kB │ gzip:  0.07 kB
+dist/assets/AffiliationPicker-CKkbDN9N.js               0.05 kB │ gzip:  0.07 kB
+dist/assets/MemberRolesDialog-KxWHd4eb.js               0.05 kB │ gzip:  0.07 kB
+dist/assets/ProjectFormDialog-DSXIyTEt.js               0.05 kB │ gzip:  0.07 kB
+dist/assets/PositionFormDialog-C_t2z_Nx.js              0.05 kB │ gzip:  0.07 kB
+dist/assets/button-BGsZMtuF.js                          0.05 kB │ gzip:  0.07 kB
+dist/assets/AdministratorDialog-rdUZnyKK.js             0.06 kB │ gzip:  0.08 kB
+dist/assets/DictionaryFormDialog-DCPTBCUR.js            0.06 kB │ gzip:  0.08 kB
+dist/assets/columns-DAMhyPSt.js                         0.06 kB │ gzip:  0.07 kB
+dist/assets/fallbackProp-Bfe6RA8u.js                    0.06 kB │ gzip:  0.08 kB
+dist/assets/MemberPositionsDialog-Czmha9mD.js           0.06 kB │ gzip:  0.08 kB
+dist/assets/OrganizationTreePanel-BK5DK8Hc.js   …5252 tokens truncated…15.01 kB │ gzip:  5.81 kB
+dist/assets/ErrorBoundary-D4jASABx.js                  15.23 kB │ gzip:  5.94 kB
+dist/assets/style-CZ-POPaT.js                          15.90 kB │ gzip:  3.82 kB
+dist/assets/es-DUjt9wLR.js                             15.93 kB │ gzip:  6.29 kB
+dist/assets/ProCard-BShX4T9h.js                        16.62 kB │ gzip:  5.36 kB
+dist/assets/Button-DcR4PDae.js                         19.59 kB │ gzip:  6.05 kB
+dist/assets/typography-DTzhB-g0.js                     20.03 kB │ gzip:  7.97 kB
+dist/assets/input-number-BBSMovkO.js                   21.13 kB │ gzip:  7.73 kB
+dist/assets/SvgAsset-DhcAmRWr.js                       21.19 kB │ gzip:  5.22 kB
+dist/assets/lib-Dk3Vhtgu.js                            21.29 kB │ gzip:  7.80 kB
+dist/assets/TreeSelect-CTGIxA5Z.js                     21.45 kB │ gzip:  8.48 kB
+dist/assets/form-C4UXD76B.js                           22.63 kB │ gzip:  8.73 kB
+dist/assets/es-B268udce.js                             22.94 kB │ gzip:  8.31 kB
+dist/assets/LocaleSwitch-rHbN1iRC.js                   22.96 kB │ gzip: 10.00 kB
+dist/assets/provider-v4czAbuB.js                       23.94 kB │ gzip:  9.45 kB
+dist/assets/context-CV1MJih1.js                        24.00 kB │ gzip:  8.81 kB
+dist/assets/ColorPicker-A8_3wDYw.js                    24.08 kB │ gzip:  8.31 kB
+dist/assets/pagination-Db5G8X1c.js                     24.31 kB │ gzip:  7.35 kB
+dist/assets/slider-CM6Wtq-8.js                         24.64 kB │ gzip:  8.98 kB
+dist/assets/Cascader-B_9SZpTW.js                       25.15 kB │ gzip:  9.76 kB
+dist/assets/es-CR_qc8rB.js                             25.70 kB │ gzip: 10.05 kB
+dist/assets/useModal-BKds_fs6.js                       25.75 kB │ gzip:  8.90 kB
+dist/assets/PageContainer-QPhsYUVT.js                  27.08 kB │ gzip:  9.98 kB
+dist/assets/zh_CN-kCwn2KBi.js                          30.92 kB │ gzip:  7.69 kB
+dist/assets/Image-CMKZMUHY.js                          32.40 kB │ gzip: 11.82 kB
+dist/assets/es-CnkXBD1t.js                             34.66 kB │ gzip: 11.03 kB
+dist/assets/result-BfSV0yQI.js                         34.67 kB │ gzip: 10.88 kB
+dist/assets/en_US-nQRyv8qc.js                          35.13 kB │ gzip: 12.61 kB
+dist/assets/dropdown-o1Yd0DZW.js                       40.36 kB │ gzip: 11.74 kB
+dist/assets/context-BV-Bdhr6.js                        41.54 kB │ gzip: 13.51 kB
+dist/assets/card-EoCeXzcc.js                           44.07 kB │ gzip: 13.47 kB
+dist/assets/select-BZmNIxIP.js                         50.66 kB │ gzip: 17.39 kB
+dist/assets/config-4Itn7okU.js                         53.02 kB │ gzip: 16.70 kB
+dist/assets/Field-B3xyFa4Z.js                          53.74 kB │ gzip: 18.38 kB
+dist/assets/hooks-Bsp8wcak.js                          74.66 kB │ gzip: 24.64 kB
+dist/assets/request-CQrzWriI.js                        80.24 kB │ gzip: 31.19 kB
+dist/assets/table-BkI4svGw.js                          91.41 kB │ gzip: 30.47 kB
+dist/assets/date-picker-GT5IgZzG.js                    99.12 kB │ gzip: 30.97 kB
+dist/assets/utils-B4JJCtuZ-mjPXpiy-.js                104.27 kB │ gzip: 29.04 kB
+dist/assets/router-8mOSVsDj.js                        127.40 kB │ gzip: 37.17 kB
+dist/assets/Table-CbQPOg_7.js                         156.91 kB │ gzip: 49.53 kB
+dist/assets/SizeContext-CmC5otGy.js                   287.99 kB │ gzip: 96.03 kB
+
+✓ built in 1.79s
+
+---
+vp run: 0/2 cache hit (0%), 2/2 successful. web#build not cached because it modified its inputs. (Run `vp run --last-details` for full details)

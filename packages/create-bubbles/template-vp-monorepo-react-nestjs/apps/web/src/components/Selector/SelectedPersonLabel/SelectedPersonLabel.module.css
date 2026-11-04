@@ -1,0 +1,25 @@
+.label {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 6px;
+  vertical-align: top;
+}
+
+.avatar {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #efe9fc;
+  color: #8c76c5;
+  font-size: 12px;
+}
+
+.text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

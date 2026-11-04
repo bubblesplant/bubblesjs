@@ -133,12 +133,16 @@ export default function OrganizationMemberSelector({
     const candidate = candidateById.get(userId)
     return {
       value: userId,
-      label: candidate ? `${candidate.name} · ${candidate.account}` : userId,
+      label: candidate
+        ? `${candidate.name} · ${candidate.account}`
+        : `${userId} · ${tr('记录信息不可用')}`,
     }
   })
 
-  /** 提交弹窗选择并缓存候选快照，表单值只保留稳定 userId。 */
+  /** 缓存弹窗快照，按稳定 userId 顺序输出完整记录，保留已有的已解析记录。 */
   const confirm = (selectedUserIds: string[], candidates: OrganizationMemberCandidate[]) => {
+    if (disabled) return
+    const ids = normalizeValue(selectedUserIds, multiple)
     setCandidateCache((current) => {
       const currentCandidates =
         current.contextKey === candidateContextKey ? current.candidateById : candidateById
@@ -146,13 +150,22 @@ export default function OrganizationMemberSelector({
       for (const candidate of candidates) next.set(candidate.userId, candidate)
       return { contextKey: candidateContextKey, candidateById: next }
     })
-    onChange?.(multiple ? selectedUserIds : selectedUserIds[0], candidates)
+    const confirmedById = new Map(candidateById)
+    for (const candidate of candidates) confirmedById.set(candidate.userId, candidate)
+    onChange?.(
+      ids,
+      ids
+        .map((id) => confirmedById.get(id))
+        .filter((candidate): candidate is OrganizationMemberCandidate => !!candidate),
+    )
   }
 
   return (
     <>
-      <Select
+      <Select<string | string[]>
         {...selectProps}
+        style={{ width: '100%', ...selectProps.style }}
+        maxTagCount={selectProps.maxTagCount ?? 'responsive'}
         value={multiple ? userIds : userIds[0]}
         mode={multiple ? 'multiple' : undefined}
         options={options}
@@ -161,8 +174,8 @@ export default function OrganizationMemberSelector({
         disabled={disabled}
         allowClear={allowClear}
         placeholder={placeholder ?? tr('请选择成员')}
-        onClick={() => {
-          if (!disabled)
+        onOpenChange={(open) => {
+          if (open && !disabled)
             browserRef.current?.show(
               userIds,
               userIds
@@ -172,11 +185,12 @@ export default function OrganizationMemberSelector({
         }}
         onChange={
           /** 允许通过清空按钮或多选标签删除立即更新受控表单值。 */ (nextValue) => {
+            if (disabled) return
             const nextIds = normalizeValue(nextValue, multiple)
             const rows = nextIds
               .map((userId) => candidateById.get(userId))
               .filter((candidate): candidate is OrganizationMemberCandidate => !!candidate)
-            onChange?.(multiple ? nextIds : nextIds[0], rows)
+            onChange?.(nextIds, rows)
           }
         }
       />

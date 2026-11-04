@@ -47,7 +47,7 @@
   .table :global(.ant-table-body) {
     min-height: 0;
     flex: 1;
-    overflow-y: auto !important;
+    /* 保留 Ant Design 原生滚动条占位，使固定表头与表体列宽一致。 */
     /* 滚动到底部了如果再滚动看页面要不要滚动 */
     overscroll-behavior: contain;
   }

@@ -16,7 +16,7 @@ export interface GlobalAccountSelectOption {
 export interface GlobalAccountSearchRequest {
   /** 已去除首尾空白的姓名或账号关键词。 */
   query: string
-  /** 当前组件只查询第一页，字段保留用于对接分页接口。 */
+  /** 账号选择弹窗当前查询的页码。 */
   page: number
   /** 单次最多返回的候选账号数。 */
   pageSize: number
@@ -50,26 +50,32 @@ type ManagedSelectProps =
   | 'optionRender'
   | 'labelRender'
   | 'notFoundContent'
+  | 'open'
+  | 'onOpenChange'
 
-/** 受控全局账号 Select 的公开属性。默认值应由 Form 的 initialValues 提供。 */
+/** 受控全局账号选择字段，点击打开分页弹窗。默认值由 Form.initialValues 提供。 */
 export interface GlobalAccountSelectProps extends Omit<
-  SelectProps<string | undefined, GlobalAccountSelectOption>,
+  SelectProps<string | string[], GlobalAccountSelectOption>,
   ManagedSelectProps
 > {
-  /** 始终使用全局用户 id 作为表单值。 */
-  value?: string
+  /** 全局用户 ID 数组；单选最多一项，清空为 []。 */
+  value?: string[]
+  /** 默认单选；启用后支持跨页多选。 */
+  multiple?: boolean
+  /** 编辑回显的账号快照，支持单选与多选。 */
+  selectedAccounts?: readonly GlobalAccountOption[]
   /** 编辑回显时提供已选账号，避免组件只能显示裸 userId。 */
   selectedAccount?: GlobalAccountOption
   /** 由业务侧注入受权限保护的候选账号查询。 */
   request: (input: GlobalAccountSearchRequest) => Promise<GlobalAccountSearchResult>
   /** 由业务侧注入与搜索 purpose 相同的 userId 补查请求。 */
   resolve: GlobalAccountResolver
-  /** 触发远程查询所需的最少字符数，默认 2。 */
+  /** 搜索所需的最少字符数，默认 0，允许打开弹窗后直接分页浏览。 */
   minSearchLength?: number
-  /** 输入停止后发起查询的等待时间，单位毫秒，默认 300。 */
+  /** 弹窗查询的防抖等待时间，单位毫秒，默认 300。 */
   debounceMs?: number
-  /** 单次查询的最大候选数量，默认 20。 */
+  /** 弹窗默认每页候选数量，默认 20。 */
   pageSize?: number
-  /** 返回稳定 userId，并同时提供当前账号快照便于业务展示或过渡映射。 */
-  onChange?: (userId: string | undefined, account: GlobalAccountOption | undefined) => void
+  /** 返回稳定 userId 数组与按选择顺序排列的账号快照。 */
+  onChange?: (userIds: string[], accounts: GlobalAccountOption[]) => void
 }

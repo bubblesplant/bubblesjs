@@ -1,0 +1,204 @@
+.modal :global(.ant-modal-title) {
+  color: #26243b;
+  font-size: 22px;
+  line-height: 32px;
+}
+
+.modal :global(.ant-modal-footer) {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #eeebf5;
+}
+
+.description {
+  margin: 0 0 20px;
+  color: #8a869d;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.footerHint {
+  color: #8a869d;
+  font-size: 12px;
+  text-align: left;
+}
+
+.layout {
+  display: grid;
+  flex: 1 1 640px;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 20px;
+  min-width: 0;
+}
+
+.tablePanel {
+  min-width: 0;
+}
+
+.tablePanel :global(.ant-pro-table-search),
+.tablePanel :global(.ant-pro-card) {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.tablePanel :global(.ant-pro-table-search) {
+  margin-bottom: 12px;
+  padding: 0;
+}
+
+.tablePanel :global(.ant-pro-card-body) {
+  padding-inline: 0;
+}
+
+.tablePanel :global(.ant-table-tbody > tr.ant-table-row-selected > td) {
+  background: #faf8ff;
+}
+
+.selectionPanel {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #f3effb;
+  border-radius: 12px;
+  background: #f7f5fd;
+}
+
+.selectionHeader {
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 36px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eae5f5;
+}
+
+.selectionHeading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #26243b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.selectionCount {
+  display: inline-flex;
+  min-width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: #ebe5fa;
+  color: #7861cc;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.clearButton {
+  padding-inline: 0;
+  font-size: 12px;
+}
+
+.selectedItems {
+  display: flex;
+  /* 由表格决定桌面行高，已选内容只填满剩余空间，不参与固有高度计算。 */
+  height: 0;
+  min-height: 0;
+  flex: 1 1 0;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #d8ceee transparent;
+}
+
+.selectedItem {
+  display: inline-flex;
+  max-width: 100%;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 5px 10px;
+  border: 1px solid #e8e1f7;
+  border-radius: 8px;
+  background: #fff;
+  color: #6c6482;
+  font-size: 14px;
+  line-height: 22px;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.selectedItemContent {
+  min-width: 0;
+}
+
+.selectedItem :global(.ant-tag-close-icon) {
+  flex-shrink: 0;
+  margin: 0;
+  color: #aaa0bf;
+  font-size: 11px;
+  transition: color 160ms;
+}
+
+.selectedItem :global(.ant-tag-close-icon:hover) {
+  color: #7861cc;
+}
+
+.selectedItem :global(.ant-tag-close-icon:focus-visible) {
+  outline: 2px solid #7861cc;
+  outline-offset: 3px;
+}
+
+.empty {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-block: 8px;
+  color: #aaa0bf;
+  font-size: 12px;
+}
+
+.emptyIcon {
+  display: flex;
+  width: 36px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd3f2;
+  border-radius: 8px;
+  color: #b6a7d5;
+  font-size: 16px;
+}
+
+@media (max-width: 767px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .selectionPanel {
+    height: 160px;
+  }
+}

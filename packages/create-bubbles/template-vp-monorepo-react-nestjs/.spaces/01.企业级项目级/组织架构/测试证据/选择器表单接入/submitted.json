@@ -1,0 +1,19 @@
+{
+  "accountId": "user-2",
+  "memberIds": ["user-1", "user-2"],
+  "roleIds": ["role-1", "role-3", "role-2"],
+  "organizationIds": ["org-1", "org-2"],
+  "organizationRelations": [
+    {
+      "organizationUnitId": "org-1",
+      "duty": "deputy"
+    },
+    {
+      "organizationUnitId": "org-2",
+      "duty": "member"
+    }
+  ],
+  "positionIds": ["pos-1", "pos-2"],
+  "memberId": "user-2",
+  "otherOrganizationIds": ["org-3"]
+}

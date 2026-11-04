@@ -1,0 +1,148 @@
+{
+  "baseUrl": "http://127.0.0.1:10000",
+  "mockApi": true,
+  "checks": [
+    "表单使用按钮入口；已有角色回显；新增受限角色禁选，原有受限角色可撤销恢复",
+    "跨页选择及搜索后保留完整选择集合",
+    "取消选择器不更改外层表单，也不发送保存请求",
+    "确认只回填表单；保存失败保留已选角色",
+    "外层保存提交稳定角色 ID 和原版本",
+    "取消外层丢弃草稿；重新打开恢复记录；清空后保存空角色集合",
+    "切换成员不串入上个成员的选择",
+    "platform 作用域回显及保存使用当前空间角色和原接口",
+    "project 作用域回显及保存使用当前空间角色和原接口",
+    "角色空态提供选择引导、数量徽标和禁用清空，多选提示支持跨页选择",
+    "已选短角色按内容宽度同行，空间不足时自动换行",
+    "43 项跨页已选角色及长名称仅在侧栏内滚动，移除和清空不改变弹窗或表格边界",
+    "390px 窄屏弹窗和确认按钮保持在视口内，内容可滚动且能确认回填"
+  ],
+  "pageErrors": [],
+  "unexpectedApi": [],
+  "saves": [
+    {
+      "scope": "company",
+      "payload": {
+        "roleIds": ["role-0", "role-1", "role-3", "role-11"],
+        "expectedVersion": 3
+      },
+      "failed": true
+    },
+    {
+      "scope": "company",
+      "payload": {
+        "roleIds": ["role-0", "role-1", "role-3", "role-11"],
+        "expectedVersion": 3
+      },
+      "failed": false
+    },
+    {
+      "scope": "company",
+      "payload": {
+        "roleIds": [],
+        "expectedVersion": 3
+      },
+      "failed": false
+    },
+    {
+      "scope": "platform",
+      "payload": {
+        "roleIds": ["role-0", "role-1", "role-3"]
+      },
+      "failed": false
+    },
+    {
+      "scope": "project",
+      "payload": {
+        "roleIds": ["role-0", "role-1", "role-3"],
+        "expectedVersion": 3
+      },
+      "failed": false
+    }
+  ],
+  "browserVersion": "156.0.4314.58",
+  "shortTags": [
+    {
+      "x": 1087.359375,
+      "y": 403.5,
+      "width": 69,
+      "height": 34
+    },
+    {
+      "x": 956,
+      "y": 445.5,
+      "width": 69,
+      "height": 34
+    },
+    {
+      "x": 1033,
+      "y": 445.5,
+      "width": 69,
+      "height": 34
+    },
+    {
+      "x": 1110,
+      "y": 445.5,
+      "width": 69,
+      "height": 34
+    },
+    {
+      "x": 956,
+      "y": 487.5,
+      "width": 69,
+      "height": 34
+    }
+  ],
+  "layout": {
+    "before": {
+      "dialog": {
+        "x": 123,
+        "y": 104.5,
+        "width": 1120,
+        "height": 691
+      },
+      "table": {
+        "x": 147,
+        "y": 204.5,
+        "width": 772,
+        "height": 498
+      }
+    },
+    "selected": {
+      "dialog": {
+        "x": 123,
+        "y": 104.5,
+        "width": 1120,
+        "height": 691
+      },
+      "table": {
+        "x": 147,
+        "y": 204.5,
+        "width": 772,
+        "height": 498
+      }
+    },
+    "cleared": {
+      "dialog": {
+        "x": 123,
+        "y": 104.5,
+        "width": 1120,
+        "height": 691
+      },
+      "table": {
+        "x": 147,
+        "y": 204.5,
+        "width": 772,
+        "height": 498
+      }
+    },
+    "scroll": {
+      "height": 408,
+      "scrollHeight": 4930,
+      "scrollTop": 4522,
+      "width": 236,
+      "scrollWidth": 236,
+      "overflow": "auto"
+    }
+  },
+  "passed": true
+}

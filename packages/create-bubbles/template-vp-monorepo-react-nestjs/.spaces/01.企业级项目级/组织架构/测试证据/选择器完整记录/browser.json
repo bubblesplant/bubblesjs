@@ -1,0 +1,1199 @@
+{
+  "checks": [
+    "company/单选：初始补查与模式切换不制造回调",
+    "company/单选/accountIds：取消、完整记录、选择顺序、移除与清空",
+    "company/单选/memberIds：取消、完整记录、选择顺序、移除与清空",
+    "company/单选/roleIds：取消、完整记录、选择顺序、移除与清空",
+    "company/单选/organizationIds：取消、完整记录、选择顺序、移除与清空",
+    "company/单选/organizationRelations：取消、完整记录、选择顺序、移除与清空",
+    "company/单选/positionIds：取消、完整记录、选择顺序、移除与清空",
+    "company/单选：赋值、提交、清空字段及重置保留表单值协议",
+    "company/多选：初始补查与模式切换不制造回调",
+    "company/多选/accountIds：取消、完整记录、选择顺序、移除与清空",
+    "company/多选/memberIds：取消、完整记录、选择顺序、移除与清空",
+    "company/多选/roleIds：取消、完整记录、选择顺序、移除与清空",
+    "company/多选/organizationIds：取消、完整记录、选择顺序、移除与清空",
+    "company/多选/organizationRelations：取消、完整记录、选择顺序、移除与清空",
+    "company/多选/positionIds：取消、完整记录、选择顺序、移除与清空",
+    "company/多选：赋值、提交、清空字段及重置保留表单值协议",
+    "project/单选：初始补查与模式切换不制造回调",
+    "project/单选/accountIds：取消、完整记录、选择顺序、移除与清空",
+    "project/单选/memberIds：取消、完整记录、选择顺序、移除与清空",
+    "project/单选/roleIds：取消、完整记录、选择顺序、移除与清空",
+    "project/单选/organizationIds：取消、完整记录、选择顺序、移除与清空",
+    "project/单选/organizationRelations：取消、完整记录、选择顺序、移除与清空",
+    "project/单选/positionIds：取消、完整记录、选择顺序、移除与清空",
+    "project/单选：赋值、提交、清空字段及重置保留表单值协议",
+    "project/多选：初始补查与模式切换不制造回调",
+    "project/多选/accountIds：取消、完整记录、选择顺序、移除与清空",
+    "project/多选/memberIds：取消、完整记录、选择顺序、移除与清空",
+    "project/多选/roleIds：取消、完整记录、选择顺序、移除与清空",
+    "project/多选/organizationIds：取消、完整记录、选择顺序、移除与清空",
+    "project/多选/organizationRelations：取消、完整记录、选择顺序、移除与清空",
+    "project/多选/positionIds：取消、完整记录、选择顺序、移除与清空",
+    "project/多选：赋值、提交、清空字段及重置保留表单值协议",
+    "accountIds：跨页完整记录与既有选中顺序",
+    "memberIds：跨页完整记录与既有选中顺序",
+    "roleIds：跨页完整记录与既有选中顺序",
+    "职责变更通过第一参数关联组织完整记录，纯组织字段独立",
+    "禁用六字段不产生回调或打开弹窗"
+  ],
+  "callbacks": {
+    "company/单选/accountIds": {
+      "values": ["demo-user-2"],
+      "records": [
+        {
+          "userId": "demo-user-2",
+          "name": "演示成员乙",
+          "account": "demo.2@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        }
+      ]
+    },
+    "company/单选/memberIds": {
+      "values": ["demo-user-2"],
+      "records": [
+        {
+          "userId": "demo-user-2",
+          "name": "演示成员乙",
+          "account": "demo.2@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "company",
+                "companyId": "demo-company"
+              },
+              "scopeName": "演示企业",
+              "memberId": "company-member-2",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        }
+      ]
+    },
+    "company/单选/roleIds": {
+      "values": ["company-role-2"],
+      "records": [
+        {
+          "id": "company-role-2",
+          "scope": {
+            "type": "company",
+            "companyId": "demo-company"
+          },
+          "name": "业务审核员",
+          "description": "虚构角色，仅用于示例",
+          "builtin": null,
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "company/单选/organizationIds": {
+      "values": ["company-org-2"],
+      "records": [
+        {
+          "id": "company-org-2",
+          "treeId": "company-tree",
+          "parentId": null,
+          "name": "产品中心",
+          "code": "ORG-2",
+          "description": "虚构组织，仅用于示例",
+          "sort": 1,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示企业 / 产品中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "company/单选/organizationRelations": {
+      "values": [
+        {
+          "organizationUnitId": "company-org-2",
+          "duty": "member"
+        }
+      ],
+      "records": [
+        {
+          "id": "company-org-2",
+          "treeId": "company-tree",
+          "parentId": null,
+          "name": "产品中心",
+          "code": "ORG-2",
+          "description": "虚构组织，仅用于示例",
+          "sort": 1,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示企业 / 产品中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "company/单选/positionIds": {
+      "values": ["company-position-2"],
+      "records": [
+        {
+          "id": "company-position-2",
+          "scope": {
+            "type": "company",
+            "companyId": "demo-company"
+          },
+          "name": "产品经理",
+          "code": "POS-2",
+          "description": "虚构岗位，仅用于示例",
+          "status": "active",
+          "version": 1,
+          "memberCount": 0,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "company/多选/accountIds": {
+      "values": ["demo-user-1", "demo-user-3", "demo-user-2"],
+      "records": [
+        {
+          "userId": "demo-user-1",
+          "name": "演示成员甲",
+          "account": "demo.1@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        },
+        {
+          "userId": "demo-user-3",
+          "name": "演示成员丙",
+          "account": "demo.3@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        },
+        {
+          "userId": "demo-user-2",
+          "name": "演示成员乙",
+          "account": "demo.2@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        }
+      ]
+    },
+    "company/多选/memberIds": {
+      "values": ["demo-user-1", "demo-user-3", "demo-user-2"],
+      "records": [
+        {
+          "userId": "demo-user-1",
+          "name": "演示成员甲",
+          "account": "demo.1@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "company",
+                "companyId": "demo-company"
+              },
+              "scopeName": "演示企业",
+              "memberId": "company-member-1",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        },
+        {
+          "userId": "demo-user-3",
+          "name": "演示成员丙",
+          "account": "demo.3@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "company",
+                "companyId": "demo-company"
+              },
+              "scopeName": "演示企业",
+              "memberId": "company-member-3",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        },
+        {
+          "userId": "demo-user-2",
+          "name": "演示成员乙",
+          "account": "demo.2@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "company",
+                "companyId": "demo-company"
+              },
+              "scopeName": "演示企业",
+              "memberId": "company-member-2",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        }
+      ]
+    },
+    "company/多选/roleIds": {
+      "values": ["company-role-1", "company-role-3", "company-role-2"],
+      "records": [
+        {
+          "id": "company-role-1",
+          "scope": {
+            "type": "company",
+            "companyId": "demo-company"
+          },
+          "name": "项目协作员",
+          "description": "虚构角色，仅用于示例",
+          "builtin": "member",
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "company-role-3",
+          "scope": {
+            "type": "company",
+            "companyId": "demo-company"
+          },
+          "name": "资料维护员",
+          "description": "虚构角色，仅用于示例",
+          "builtin": null,
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "company-role-2",
+          "scope": {
+            "type": "company",
+            "companyId": "demo-company"
+          },
+          "name": "业务审核员",
+          "description": "虚构角色，仅用于示例",
+          "builtin": null,
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "company/多选/organizationIds": {
+      "values": ["company-org-1", "company-org-3", "company-org-2"],
+      "records": [
+        {
+          "id": "company-org-1",
+          "treeId": "company-tree",
+          "parentId": null,
+          "name": "研发中心",
+          "code": "ORG-1",
+          "description": "虚构组织，仅用于示例",
+          "sort": 0,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示企业 / 研发中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "company-org-3",
+          "treeId": "company-tree",
+          "parentId": null,
+          "name": "设计中心",
+          "code": "ORG-3",
+          "description": "虚构组织，仅用于示例",
+          "sort": 2,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示企业 / 设计中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "company-org-2",
+          "treeId": "company-tree",
+          "parentId": null,
+          "name": "产品中心",
+          "code": "ORG-2",
+          "description": "虚构组织，仅用于示例",
+          "sort": 1,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示企业 / 产品中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "company/多选/organizationRelations": {
+      "values": [
+        {
+          "organizationUnitId": "company-org-1",
+          "duty": "leader"
+        },
+        {
+          "organizationUnitId": "company-org-3",
+          "duty": "member"
+        },
+        {
+          "organizationUnitId": "company-org-2",
+          "duty": "member"
+        }
+      ],
+      "records": [
+        {
+          "id": "company-org-1",
+          "treeId": "company-tree",
+          "parentId": null,
+          "name": "研发中心",
+          "code": "ORG-1",
+          "description": "虚构组织，仅用于示例",
+          "sort": 0,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示企业 / 研发中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "company-org-3",
+          "treeId": "company-tree",
+          "parentId": null,
+          "name": "设计中心",
+          "code": "ORG-3",
+          "description": "虚构组织，仅用于示例",
+          "sort": 2,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示企业 / 设计中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "company-org-2",
+          "treeId": "company-tree",
+          "parentId": null,
+          "name": "产品中心",
+          "code": "ORG-2",
+          "description": "虚构组织，仅用于示例",
+          "sort": 1,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示企业 / 产品中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "company/多选/positionIds": {
+      "values": ["company-position-1", "company-position-3", "company-position-2"],
+      "records": [
+        {
+          "id": "company-position-1",
+          "scope": {
+            "type": "company",
+            "companyId": "demo-company"
+          },
+          "name": "前端工程师",
+          "code": "POS-1",
+          "description": "虚构岗位，仅用于示例",
+          "status": "active",
+          "version": 1,
+          "memberCount": 0,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "company-position-3",
+          "scope": {
+            "type": "company",
+            "companyId": "demo-company"
+          },
+          "name": "交互设计师",
+          "code": "POS-3",
+          "description": "虚构岗位，仅用于示例",
+          "status": "active",
+          "version": 1,
+          "memberCount": 0,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "company-position-2",
+          "scope": {
+            "type": "company",
+            "companyId": "demo-company"
+          },
+          "name": "产品经理",
+          "code": "POS-2",
+          "description": "虚构岗位，仅用于示例",
+          "status": "active",
+          "version": 1,
+          "memberCount": 0,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "project/单选/accountIds": {
+      "values": ["demo-user-2"],
+      "records": [
+        {
+          "userId": "demo-user-2",
+          "name": "演示成员乙",
+          "account": "demo.2@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        }
+      ]
+    },
+    "project/单选/memberIds": {
+      "values": ["demo-user-2"],
+      "records": [
+        {
+          "userId": "demo-user-2",
+          "name": "演示成员乙",
+          "account": "demo.2@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "project",
+                "companyId": "demo-company",
+                "projectId": "demo-project"
+              },
+              "scopeName": "演示项目",
+              "memberId": "project-member-2",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        }
+      ]
+    },
+    "project/单选/roleIds": {
+      "values": ["project-role-2"],
+      "records": [
+        {
+          "id": "project-role-2",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "业务审核员",
+          "description": "虚构角色，仅用于示例",
+          "builtin": null,
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "project/单选/organizationIds": {
+      "values": ["project-org-2"],
+      "records": [
+        {
+          "id": "project-org-2",
+          "treeId": "project-tree",
+          "parentId": null,
+          "name": "产品中心",
+          "code": "ORG-2",
+          "description": "虚构组织，仅用于示例",
+          "sort": 1,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示项目 / 产品中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "project/单选/organizationRelations": {
+      "values": [
+        {
+          "organizationUnitId": "project-org-2",
+          "duty": "member"
+        }
+      ],
+      "records": [
+        {
+          "id": "project-org-2",
+          "treeId": "project-tree",
+          "parentId": null,
+          "name": "产品中心",
+          "code": "ORG-2",
+          "description": "虚构组织，仅用于示例",
+          "sort": 1,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示项目 / 产品中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "project/单选/positionIds": {
+      "values": ["project-position-2"],
+      "records": [
+        {
+          "id": "project-position-2",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "产品经理",
+          "code": "POS-2",
+          "description": "虚构岗位，仅用于示例",
+          "status": "active",
+          "version": 1,
+          "memberCount": 0,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "project/多选/accountIds": {
+      "values": ["demo-user-1", "demo-user-3", "demo-user-2"],
+      "records": [
+        {
+          "userId": "demo-user-1",
+          "name": "演示成员甲",
+          "account": "demo.1@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        },
+        {
+          "userId": "demo-user-3",
+          "name": "演示成员丙",
+          "account": "demo.3@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        },
+        {
+          "userId": "demo-user-2",
+          "name": "演示成员乙",
+          "account": "demo.2@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        }
+      ]
+    },
+    "project/多选/memberIds": {
+      "values": ["demo-user-1", "demo-user-3", "demo-user-2"],
+      "records": [
+        {
+          "userId": "demo-user-1",
+          "name": "演示成员甲",
+          "account": "demo.1@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "project",
+                "companyId": "demo-company",
+                "projectId": "demo-project"
+              },
+              "scopeName": "演示项目",
+              "memberId": "project-member-1",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        },
+        {
+          "userId": "demo-user-3",
+          "name": "演示成员丙",
+          "account": "demo.3@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "project",
+                "companyId": "demo-company",
+                "projectId": "demo-project"
+              },
+              "scopeName": "演示项目",
+              "memberId": "project-member-3",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        },
+        {
+          "userId": "demo-user-2",
+          "name": "演示成员乙",
+          "account": "demo.2@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "project",
+                "companyId": "demo-company",
+                "projectId": "demo-project"
+              },
+              "scopeName": "演示项目",
+              "memberId": "project-member-2",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        }
+      ]
+    },
+    "project/多选/roleIds": {
+      "values": ["project-role-1", "project-role-3", "project-role-2"],
+      "records": [
+        {
+          "id": "project-role-1",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "项目协作员",
+          "description": "虚构角色，仅用于示例",
+          "builtin": "member",
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "project-role-3",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "资料维护员",
+          "description": "虚构角色，仅用于示例",
+          "builtin": null,
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "project-role-2",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "业务审核员",
+          "description": "虚构角色，仅用于示例",
+          "builtin": null,
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "project/多选/organizationIds": {
+      "values": ["project-org-1", "project-org-3", "project-org-2"],
+      "records": [
+        {
+          "id": "project-org-1",
+          "treeId": "project-tree",
+          "parentId": null,
+          "name": "研发中心",
+          "code": "ORG-1",
+          "description": "虚构组织，仅用于示例",
+          "sort": 0,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示项目 / 研发中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "project-org-3",
+          "treeId": "project-tree",
+          "parentId": null,
+          "name": "设计中心",
+          "code": "ORG-3",
+          "description": "虚构组织，仅用于示例",
+          "sort": 2,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示项目 / 设计中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "project-org-2",
+          "treeId": "project-tree",
+          "parentId": null,
+          "name": "产品中心",
+          "code": "ORG-2",
+          "description": "虚构组织，仅用于示例",
+          "sort": 1,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示项目 / 产品中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "project/多选/organizationRelations": {
+      "values": [
+        {
+          "organizationUnitId": "project-org-1",
+          "duty": "leader"
+        },
+        {
+          "organizationUnitId": "project-org-3",
+          "duty": "member"
+        },
+        {
+          "organizationUnitId": "project-org-2",
+          "duty": "member"
+        }
+      ],
+      "records": [
+        {
+          "id": "project-org-1",
+          "treeId": "project-tree",
+          "parentId": null,
+          "name": "研发中心",
+          "code": "ORG-1",
+          "description": "虚构组织，仅用于示例",
+          "sort": 0,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示项目 / 研发中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "project-org-3",
+          "treeId": "project-tree",
+          "parentId": null,
+          "name": "设计中心",
+          "code": "ORG-3",
+          "description": "虚构组织，仅用于示例",
+          "sort": 2,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示项目 / 设计中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "project-org-2",
+          "treeId": "project-tree",
+          "parentId": null,
+          "name": "产品中心",
+          "code": "ORG-2",
+          "description": "虚构组织，仅用于示例",
+          "sort": 1,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示项目 / 产品中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "project/多选/positionIds": {
+      "values": ["project-position-1", "project-position-3", "project-position-2"],
+      "records": [
+        {
+          "id": "project-position-1",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "前端工程师",
+          "code": "POS-1",
+          "description": "虚构岗位，仅用于示例",
+          "status": "active",
+          "version": 1,
+          "memberCount": 0,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "project-position-3",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "交互设计师",
+          "code": "POS-3",
+          "description": "虚构岗位，仅用于示例",
+          "status": "active",
+          "version": 1,
+          "memberCount": 0,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "project-position-2",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "产品经理",
+          "code": "POS-2",
+          "description": "虚构岗位，仅用于示例",
+          "status": "active",
+          "version": 1,
+          "memberCount": 0,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "跨页/accountIds": {
+      "values": ["demo-user-1", "demo-user-21"],
+      "records": [
+        {
+          "userId": "demo-user-1",
+          "name": "演示成员甲",
+          "account": "demo.1@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        },
+        {
+          "userId": "demo-user-21",
+          "name": "演示成员 21",
+          "account": "demo.21@example.invalid",
+          "status": "active",
+          "disabled": false,
+          "disabledReason": null
+        }
+      ]
+    },
+    "跨页/memberIds": {
+      "values": ["demo-user-1", "demo-user-2", "demo-user-21"],
+      "records": [
+        {
+          "userId": "demo-user-1",
+          "name": "演示成员甲",
+          "account": "demo.1@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "project",
+                "companyId": "demo-company",
+                "projectId": "demo-project"
+              },
+              "scopeName": "演示项目",
+              "memberId": "project-member-1",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        },
+        {
+          "userId": "demo-user-2",
+          "name": "演示成员乙",
+          "account": "demo.2@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "project",
+                "companyId": "demo-company",
+                "projectId": "demo-project"
+              },
+              "scopeName": "演示项目",
+              "memberId": "project-member-2",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        },
+        {
+          "userId": "demo-user-21",
+          "name": "演示成员 21",
+          "account": "demo.21@example.invalid",
+          "accountStatus": "active",
+          "disabled": false,
+          "disabledReason": null,
+          "identities": [
+            {
+              "scope": {
+                "type": "project",
+                "companyId": "demo-company",
+                "projectId": "demo-project"
+              },
+              "scopeName": "演示项目",
+              "memberId": "project-member-21",
+              "memberStatus": "active",
+              "scopeStatus": "active",
+              "organizationUnits": [],
+              "positions": [],
+              "roles": []
+            }
+          ]
+        }
+      ]
+    },
+    "跨页/roleIds": {
+      "values": ["project-role-1", "project-role-11"],
+      "records": [
+        {
+          "id": "project-role-1",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "项目协作员",
+          "description": "虚构角色，仅用于示例",
+          "builtin": "member",
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        },
+        {
+          "id": "project-role-11",
+          "scope": {
+            "type": "project",
+            "companyId": "demo-company",
+            "projectId": "demo-project"
+          },
+          "name": "协作角色 11",
+          "description": "虚构角色，仅用于示例",
+          "builtin": null,
+          "permissionKeys": [],
+          "version": 1,
+          "memberCount": 0,
+          "assignable": true,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    },
+    "职责变更": {
+      "values": [
+        {
+          "organizationUnitId": "project-org-1",
+          "duty": "deputy"
+        }
+      ],
+      "records": [
+        {
+          "id": "project-org-1",
+          "treeId": "project-tree",
+          "parentId": null,
+          "name": "研发中心",
+          "code": "ORG-1",
+          "description": "虚构组织，仅用于示例",
+          "sort": 0,
+          "status": "active",
+          "version": 1,
+          "depth": 0,
+          "fullPath": "演示项目 / 研发中心",
+          "effective": true,
+          "hasChildren": false,
+          "createdAt": "2026-11-04T00:00:00.000Z",
+          "updatedAt": "2026-11-04T00:00:00.000Z"
+        }
+      ]
+    }
+  },
+  "submissions": {
+    "company/单选": {
+      "accountIds": ["demo-user-1"],
+      "memberIds": ["demo-user-1"],
+      "roleIds": ["company-role-1"],
+      "organizationIds": ["company-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "company-org-1",
+          "duty": "leader"
+        }
+      ],
+      "positionIds": ["company-position-1"]
+    },
+    "company/多选": {
+      "accountIds": ["demo-user-1"],
+      "memberIds": ["demo-user-1", "demo-user-2"],
+      "roleIds": ["company-role-1"],
+      "organizationIds": ["company-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "company-org-1",
+          "duty": "leader"
+        }
+      ],
+      "positionIds": ["company-position-1"]
+    },
+    "project/单选": {
+      "accountIds": ["demo-user-1"],
+      "memberIds": ["demo-user-1"],
+      "roleIds": ["project-role-1"],
+      "organizationIds": ["project-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "project-org-1",
+          "duty": "leader"
+        }
+      ],
+      "positionIds": ["project-position-1"]
+    },
+    "project/多选": {
+      "accountIds": ["demo-user-1"],
+      "memberIds": ["demo-user-1", "demo-user-2"],
+      "roleIds": ["project-role-1"],
+      "organizationIds": ["project-org-1"],
+      "organizationRelations": [
+        {
+          "organizationUnitId": "project-org-1",
+          "duty": "leader"
+        }
+      ],
+      "positionIds": ["project-position-1"]
+    }
+  },
+  "pageErrors": [],
+  "unexpectedApi": []
+}

@@ -1,10 +1,14 @@
 import { createServer, type ServerResponse } from 'node:http'
 import type { AddressInfo } from 'node:net'
+import { parse } from 'node:querystring'
 
-/** 创建请求层专用 HTTP 服务，支持控制迟到响应以验证完整拦截器链路。 */
+/** 创建请求层 HTTP 服务，记录实际路径与平铺 Query，并支持控制迟到响应。 */
 export function createRequestServer() {
+  const requests: { pathname: string; query: ReturnType<typeof parse> }[] = []
   const waiting = new Map<string, (response: ServerResponse) => void>()
   const server = createServer((request, response) => {
+    const url = new URL(request.url ?? '/', 'http://127.0.0.1')
+    requests.push({ pathname: url.pathname, query: parse(url.search.slice(1)) })
     response.setHeader('Content-Type', 'application/json')
     const notify = waiting.get(request.url ?? '')
     if (notify) {
@@ -43,6 +47,7 @@ export function createRequestServer() {
 
   return {
     baseURL: '',
+    requests,
     /** 启动随机本机端口，避免占用开发服务的固定端口。 */
     async start() {
       await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))

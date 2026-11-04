@@ -7,7 +7,8 @@ export default {
     options: { typeAware: true, typeCheck: true },
   },
   staged: {
-    '*': 'vp check --fix --no-lint --no-error-on-unmatched-pattern',
+    // 显式使用 Node 入口，避免 Windows 的 vp.cmd 转义触发命令长度限制。
+    '*': 'node node_modules/vite-plus/bin/vp check --fix --no-lint --no-error-on-unmatched-pattern',
   },
   fmt: {
     semi: false,

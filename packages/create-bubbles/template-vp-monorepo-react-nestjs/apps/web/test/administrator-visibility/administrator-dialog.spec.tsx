@@ -137,21 +137,29 @@ async function selectReplacement(account: string) {
   flushSync(() => option.click())
 }
 
-/** 通过输入事件触发真实远程搜索，再选择返回的稳定用户身份。 */
+/** 点击字段打开真实账号弹窗，选择账号并确认回填稳定用户身份。 */
 async function selectNewAdministrator() {
   const input = dialogFieldInput('新管理员')
   flushSync(() => {
     input.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
-    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(input, 'new')
-    input.dispatchEvent(new Event('input', { bubbles: true }))
+    input.click()
   })
+  let browser: HTMLElement | undefined
   await vi.waitFor(() => {
-    const option = [
-      ...document.querySelectorAll<HTMLElement>('.ant-select-item-option-content'),
-    ].find((item) => item.textContent?.includes('new.admin'))
-    expect(option).toBeDefined()
-    flushSync(() => option!.click())
+    browser = [...document.querySelectorAll<HTMLElement>('[role="dialog"]')].find(
+      (dialog) => dialog.querySelector('.ant-modal-title')?.textContent === '全局账号',
+    )
+    expect(browser?.textContent).toContain('new.admin')
   })
+  const row = [...browser!.querySelectorAll<HTMLElement>('.ant-table-tbody tr')].find((item) =>
+    item.textContent?.includes('new.admin'),
+  )!
+  flushSync(() => row.querySelector<HTMLInputElement>('input[type="radio"]')!.click())
+  const confirm = [...browser!.querySelectorAll<HTMLButtonElement>('button')].find(
+    (button) => button.textContent?.replace(/\s/g, '') === '确定选择',
+  )!
+  flushSync(() => confirm.click())
+  await vi.waitFor(() => expect(document.querySelectorAll('[role="dialog"]')).toHaveLength(1))
 }
 
 /** 点击实际提交按钮，让真实 Form 校验后调用保存接口。 */

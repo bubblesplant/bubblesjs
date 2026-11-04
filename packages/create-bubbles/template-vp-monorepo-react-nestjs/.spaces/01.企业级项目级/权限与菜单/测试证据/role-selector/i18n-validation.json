@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "locales": [
+    {
+      "locale": "zh_CN",
+      "keys": 19,
+      "missing": []
+    },
+    {
+      "locale": "en_US",
+      "keys": 19,
+      "missing": []
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+
+    mode: development
+    VITE_PORT: 9999
+    VITE_API_AFFIX: /api
+    VITE_API_URL: undefined
+    
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 470ms on 2 files using 24 threads.

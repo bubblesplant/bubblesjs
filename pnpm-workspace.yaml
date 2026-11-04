@@ -7,6 +7,10 @@ catalogMode: prefer
 allowBuilds:
   '@parcel/watcher': true
 
+# 保留跨输出分块的 UTF-8 字符，避免 staged 将中文路径误判为 intent-to-add。
+patchedDependencies:
+  vite-plus@1.4.0: patches/vite-plus@1.4.0.patch
+
 # 上游精确锁定旧版本；在同一主版本内应用已发布的安全修复。
 overrides:
   'oxfmt@0.35.0>tinypool': ^2.2.0

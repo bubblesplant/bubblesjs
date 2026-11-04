@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "name": "组织回归",
+      "exitCode": 0,
+      "output": "组织选择布局：26 项检查通过\n"
+    },
+    {
+      "name": "岗位回归",
+      "exitCode": 0,
+      "output": "岗位选择布局：28 项检查通过\n"
+    },
+    {
+      "name": "Web 测试",
+      "exitCode": 0,
+      "output": "(Use `node --trace-warnings ...` to show where the warning was created)\r\n(node:49660) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.\r\n(Use `node --trace-warnings ...` to show where the warning was created)\r\n(node:45856) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.\r\n(Use `node --trace-warnings ...` to show where the warning was created)\r\n(node:6796) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.\r\n(Use `node --trace-warnings ...` to show where the warning was created)\r\n\r\n Test Files  40 passed (40)\r\n      Tests  264 passed (264)\r\n   Start at  11:59:00\r\n   Duration  10.86s (import 71%, environment 14%, tests 10%, transform 4%)\r\n\r\n    Isolate  40 workers spawned · ~770ms startup each (spawn + environment, per file)\r\n             at least ~569ms faster with isolate: false — reuses workers across files instead of one per file\r\n\r\n"
+    },
+    {
+      "name": "Web 构建",
+      "exitCode": 0,
+      "output": "dist/assets/Table-CbQPOg_7.js                         156.91 kB │ gzip: 49.53 kB\r\ndist/assets/SizeContext-CmC5otGy.js                   287.99 kB │ gzip: 96.03 kB\r\n\r\n✓ built in 1.89s\r\n\r\n---\r\nvp run: 0/2 cache hit (0%), 2/2 successful. web#build not cached because it modified its inputs. (Run `vp run --last-details` for full details)\r\n"
+    },
+    {
+      "name": "定向检查",
+      "exitCode": 0,
+      "output": "pass: All 13 files are correctly formatted (122ms, 24 threads)\r\npass: Found no warnings, lint errors, or type errors in 11 files (619ms, 24 threads)\r\n"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ import {
   type Method,
 } from 'alova'
 import ReactHook, { type ReactHookExportType } from 'alova/react'
-import type { AxiosResponse, AxiosResponseHeaders } from 'axios'
+import axios, { type AxiosResponse, type AxiosResponseHeaders } from 'axios'
 
 /** 全局拦截器不知道各接口的最终结果；逐接口结果由 alova 请求方法的泛型指定。 */
 type AxiosRequestTypes<
@@ -59,6 +59,7 @@ export type RequestOptions<
 
 /**
  * 创建 Axios + React 请求实例，保留 alova 的请求方法、transform 和 Hooks 泛型。
+ * 数组 Query 默认编码为重复同名参数，匹配后端的严格字段校验。
  * @typeParam TResponse 全局响应体类型；各接口仍使用 Get<TResult, TInput> 等方法声明结果。
  * @typeParam TL1Cache 内存缓存适配器类型，默认使用 alova 内置适配器。
  * @typeParam TL2Cache 持久化缓存适配器类型，默认使用 alova 内置适配器。
@@ -72,7 +73,9 @@ export function createAlovaInstanceFactory<
 ): Alova<AxiosRequestTypes<TResponse, TL1Cache, TL2Cache>> {
   return createAlova({
     ...options,
-    requestAdapter: axiosRequestAdapter(),
+    requestAdapter: axiosRequestAdapter({
+      axios: axios.create({ paramsSerializer: { indexes: null } }),
+    }),
     id: 'default',
     statesHook: ReactHook,
     cacheFor: null,

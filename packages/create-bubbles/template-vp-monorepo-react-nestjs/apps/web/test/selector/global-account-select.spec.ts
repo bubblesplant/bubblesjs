@@ -107,14 +107,28 @@ vi.mock('antd', () => ({
   Typography: { Text: 'span' },
 }))
 
+vi.mock('../../src/components/Selector/GlobalAccountSelect/GlobalAccountBrowser', () => ({
+  default: 'account-browser',
+}))
+
 import GlobalAccountSelect from '../../src/components/Selector/GlobalAccountSelect'
 
 interface SelectElement {
   props: {
+    value?: string | string[]
+    mode?: 'multiple'
+    onChange: (value: string | string[] | undefined) => void
     labelRender: (input: { value?: string }) => unknown
     loading: boolean
     options: Array<{ value: string; label: string }>
-    showSearch: { onSearch: (query: string) => void }
+    open: boolean
+    showSearch: boolean
+  }
+}
+
+interface FieldElement {
+  props: {
+    children: [SelectElement, { props: { onConfirm: (accounts: GlobalAccountOption[]) => void } }]
   }
 }
 
@@ -147,10 +161,10 @@ function account(userId: string, name: string): GlobalAccountOption {
 /** 使用轻量 Hook 运行时执行一次组件渲染并返回 Select 属性。 */
 function renderSelect(props: GlobalAccountSelectProps) {
   hookRuntime.beginRender()
-  return GlobalAccountSelect(props) as unknown as SelectElement
+  return (GlobalAccountSelect(props) as unknown as FieldElement).props.children[0]
 }
 
-/** 等待 resolve/search Promise 的 then、catch 与 finally 链全部完成。 */
+/** 等待补查 Promise 的 then、catch 与 finally 链全部完成。 */
 async function flushMicrotasks() {
   await Promise.resolve()
   await Promise.resolve()
@@ -180,16 +194,16 @@ describe('GlobalAccountSelect 的 userId 回显补查', () => {
     const alice = account('user-alice', 'Alice')
     const resolve = vi.fn(async () => [alice])
 
-    renderSelect({ value: alice.userId, request: emptySearch, resolve })
+    renderSelect({ value: [alice.userId], request: emptySearch, resolve })
     hookRuntime.flushEffects()
     await flushMicrotasks()
-    const select = renderSelect({ value: alice.userId, request: emptySearch, resolve })
+    const select = renderSelect({ value: [alice.userId], request: emptySearch, resolve })
 
     expect(resolve).toHaveBeenCalledExactlyOnceWith([alice.userId], expect.any(AbortSignal))
     expect(select.props.labelRender({ value: alice.userId })).toBe('Alice · alice@example.com')
   })
 
-  it('初始搜索状态更新不会取消正在进行的账号回显补查', async () => {
+  it('重渲染不会取消正在进行的账号回显补查', async () => {
     const alice = account('user-alice', 'Alice')
     const pendingResolve = deferred<readonly GlobalAccountOption[]>()
     const signals: AbortSignal[] = []
@@ -197,12 +211,12 @@ describe('GlobalAccountSelect 的 userId 回显补查', () => {
       signals.push(signal)
       return pendingResolve.promise
     })
-    const props = { value: alice.userId, request: emptySearch, resolve }
+    const props = { value: [alice.userId], request: emptySearch, resolve }
 
     renderSelect(props)
     hookRuntime.flushEffects()
 
-    // 模拟 effect 内 setAccounts([]) 与 setResolving(true) 触发的真实 React 重渲染。
+    // 模拟 effect 内 setResolving(true) 触发的真实 React 重渲染。
     renderSelect(props)
     hookRuntime.flushEffects()
     expect(signals[0]?.aborted).toBe(false)
@@ -226,16 +240,16 @@ describe('GlobalAccountSelect 的 userId 回显补查', () => {
       return userIds[0] === alice.userId ? aliceRequest.promise : bobRequest.promise
     })
 
-    renderSelect({ value: alice.userId, request: emptySearch, resolve })
+    renderSelect({ value: [alice.userId], request: emptySearch, resolve })
     hookRuntime.flushEffects()
-    renderSelect({ value: bob.userId, request: emptySearch, resolve })
+    renderSelect({ value: [bob.userId], request: emptySearch, resolve })
     hookRuntime.flushEffects()
     expect(signals[0]?.aborted).toBe(true)
 
     bobRequest.resolve([bob])
     aliceRequest.resolve([alice])
     await flushMicrotasks()
-    const select = renderSelect({ value: bob.userId, request: emptySearch, resolve })
+    const select = renderSelect({ value: [bob.userId], request: emptySearch, resolve })
 
     expect(resolve).toHaveBeenCalledTimes(2)
     expect(select.props.labelRender({ value: bob.userId })).toBe('Bob · bob@example.com')
@@ -243,7 +257,7 @@ describe('GlobalAccountSelect 的 userId 回显补查', () => {
 
   it('空补查结果不伪造账号，也不会在重渲染时重复请求', async () => {
     const resolve = vi.fn(async () => [])
-    const props = { value: 'missing-user', request: emptySearch, resolve }
+    const props = { value: ['missing-user'], request: emptySearch, resolve }
 
     renderSelect(props)
     hookRuntime.flushEffects()
@@ -257,48 +271,32 @@ describe('GlobalAccountSelect 的 userId 回显补查', () => {
     expect(select.props.labelRender({ value: 'missing-user' })).toBe('账号信息不可用')
   })
 
-  it('补查失败被消费且不阻断后续关键词搜索', async () => {
+  it('补查失败后仍可通过弹窗确认新账号，字段不预加载候选', async () => {
     const alice = account('user-alice', 'Alice')
-    const unhandledRejection = vi.fn()
-    process.on('unhandledRejection', unhandledRejection)
     const resolve = vi.fn(async () => {
       throw new Error('resolve failed')
     })
     const request = vi.fn(async () => ({ items: [alice], total: 1 }))
-    const props = { value: 'missing-user', request, resolve, debounceMs: 0 }
-
-    try {
-      renderSelect(props)
-      hookRuntime.flushEffects()
-      await flushMicrotasks()
-      const failedSelect = renderSelect(props)
-      hookRuntime.flushEffects()
-      failedSelect.props.showSearch.onSearch('alice')
-
-      renderSelect(props)
-      hookRuntime.flushEffects()
-      await vi.runAllTimersAsync()
-      await flushMicrotasks()
-      const searchedSelect = renderSelect(props)
-
-      expect(unhandledRejection).not.toHaveBeenCalled()
-      expect(resolve).toHaveBeenCalledTimes(1)
-      expect(request).toHaveBeenCalledExactlyOnceWith(
-        expect.objectContaining({ query: 'alice', signal: expect.any(AbortSignal) }),
-      )
-      expect(searchedSelect.props.options).toEqual([
-        expect.objectContaining({ value: alice.userId, label: 'Alice · alice@example.com' }),
-      ])
-    } finally {
-      process.off('unhandledRejection', unhandledRejection)
-    }
+    const onChange = vi.fn()
+    const props = { value: ['missing-user'], request, resolve, onChange }
+    renderSelect(props)
+    hookRuntime.flushEffects()
+    await flushMicrotasks()
+    hookRuntime.beginRender()
+    const field = GlobalAccountSelect(props) as unknown as FieldElement
+    expect(field.props.children[0].props.open).toBe(false)
+    expect(field.props.children[0].props.showSearch).toBe(false)
+    expect(request).not.toHaveBeenCalled()
+    field.props.children[1].props.onConfirm([alice])
+    expect(onChange).toHaveBeenCalledExactlyOnceWith([alice.userId], [alice])
+    expect(resolve).toHaveBeenCalledTimes(1)
   })
 
   it('已提供账号快照时直接回显且不发起补查', () => {
     const alice = account('user-alice', 'Alice')
     const resolve = vi.fn(async () => [alice])
     const select = renderSelect({
-      value: alice.userId,
+      value: [alice.userId],
       selectedAccount: alice,
       request: emptySearch,
       resolve,
@@ -307,5 +305,81 @@ describe('GlobalAccountSelect 的 userId 回显补查', () => {
 
     expect(resolve).not.toHaveBeenCalled()
     expect(select.props.labelRender({ value: alice.userId })).toBe('Alice · alice@example.com')
+  })
+
+  it('多选批量补齐缺失快照并按去重后的值顺序回显', async () => {
+    const alice = account('user-alice', 'Alice')
+    const bob = account('user-bob', 'Bob')
+    const carol = account('user-carol', 'Carol')
+    const resolve = vi.fn(async () => [carol, bob])
+    const onChange = vi.fn()
+    const props = {
+      multiple: true,
+      value: [bob.userId, alice.userId, bob.userId, carol.userId],
+      selectedAccounts: [alice],
+      request: emptySearch,
+      resolve,
+      onChange,
+    }
+    renderSelect(props)
+    hookRuntime.flushEffects()
+    await flushMicrotasks()
+    const select = renderSelect(props)
+    expect(resolve).toHaveBeenCalledExactlyOnceWith(
+      [bob.userId, carol.userId],
+      expect.any(AbortSignal),
+    )
+    expect(select.props.options.map((option) => option.value)).toEqual([
+      bob.userId,
+      alice.userId,
+      carol.userId,
+    ])
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('单选对外部多项值只回显首项，确认和清空始终输出数组', () => {
+    const alice = account('user-alice', 'Alice')
+    const bob = account('user-bob', 'Bob')
+    const onChange = vi.fn()
+    const props = {
+      multiple: false,
+      value: [alice.userId, bob.userId],
+      selectedAccounts: [alice, bob],
+      request: emptySearch,
+      resolve: vi.fn(async () => []),
+      onChange,
+    }
+    const select = renderSelect(props)
+    expect(select.props.value).toBe(alice.userId)
+    expect(select.props.mode).toBeUndefined()
+    expect(onChange).not.toHaveBeenCalled()
+    hookRuntime.beginRender()
+    const field = GlobalAccountSelect(props) as unknown as FieldElement
+    field.props.children[1].props.onConfirm([bob, alice])
+    expect(onChange).toHaveBeenLastCalledWith([bob.userId], [bob])
+    select.props.onChange(undefined)
+    expect(onChange).toHaveBeenLastCalledWith([], [])
+  })
+
+  it('多选确认保持 ID 和快照同序，删除标签只保留对应快照', () => {
+    const alice = account('user-alice', 'Alice')
+    const bob = account('user-bob', 'Bob')
+    const onChange = vi.fn()
+    const props = {
+      multiple: true,
+      value: [bob.userId, alice.userId],
+      selectedAccounts: [alice, bob],
+      request: emptySearch,
+      resolve: vi.fn(async () => []),
+      onChange,
+    }
+    hookRuntime.beginRender()
+    const field = GlobalAccountSelect(props) as unknown as FieldElement
+    field.props.children[1].props.onConfirm([bob, alice, bob])
+    expect(onChange).toHaveBeenLastCalledWith([bob.userId, alice.userId], [bob, alice])
+    field.props.children[0].props.onChange([alice.userId])
+    expect(onChange).toHaveBeenLastCalledWith([alice.userId], [alice])
+    field.props.children[0].props.onChange([])
+    expect(onChange).toHaveBeenLastCalledWith([], [])
   })
 })

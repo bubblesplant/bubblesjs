@@ -1,211 +1,149 @@
 import { useI18n } from '@bubblesjs/i18n-react'
-import { Flex, Select, Spin, Tag, Typography } from 'antd'
+import { Select } from 'antd'
+import type { BasicTableSelectorRef } from '../BasicTableSelector'
+import GlobalAccountBrowser from './GlobalAccountBrowser'
 import type {
   GlobalAccountOption,
   GlobalAccountSelectOption,
   GlobalAccountSelectProps,
 } from './GlobalAccountSelectTypes'
 
-const DEFAULT_MIN_SEARCH_LENGTH = 2
-const DEFAULT_DEBOUNCE_MS = 300
-const DEFAULT_PAGE_SIZE = 20
-
-/** 远程搜索平台全局账号，以稳定 userId 作为单选值。 */
+/** 以 userId 数组保存账号，单选或跨页多选都在确认后回填表单。 */
 export default function GlobalAccountSelect({
-  value,
+  value = [],
+  multiple = false,
   selectedAccount,
+  selectedAccounts,
   request,
   resolve,
-  minSearchLength = DEFAULT_MIN_SEARCH_LENGTH,
-  debounceMs = DEFAULT_DEBOUNCE_MS,
-  pageSize = DEFAULT_PAGE_SIZE,
+  minSearchLength,
+  debounceMs,
+  pageSize,
   placeholder,
+  disabled,
   allowClear = true,
   onChange,
   ...selectProps
 }: GlobalAccountSelectProps) {
   const { tr } = useI18n()
-  const [query, setQuery] = useState('')
-  const [accounts, setAccounts] = useState<readonly GlobalAccountOption[]>([])
-  const [currentAccount, setCurrentAccount] = useState(selectedAccount)
-  const [loading, setLoading] = useState(false)
+  const browserRef = useRef<BasicTableSelectorRef<GlobalAccountOption>>(null)
+  const [resolvedAccounts, setResolvedAccounts] = useState<readonly GlobalAccountOption[]>([])
   const [resolving, setResolving] = useState(false)
-  const [error, setError] = useState(false)
-  const requestRef = useRef(request)
   const resolveRef = useRef(resolve)
   const accountCacheRef = useRef(new Map<string, GlobalAccountOption>())
-  const requestSequence = useRef(0)
   const resolveSequence = useRef(0)
-  const attemptedResolveValueRef = useRef<string | undefined>(undefined)
-  requestRef.current = request
+  const uniqueIds = [...new Set(value)]
+  const ids = multiple ? uniqueIds : uniqueIds.slice(0, 1)
+  const idsKey = JSON.stringify(ids)
   resolveRef.current = resolve
 
-  /** 优先使用业务快照或当前搜索结果，并按需通过 userId 补齐账号回显。 */
+  /** 批量补查缺失快照；切换值、清空或卸载时取消旧请求，失败保留 ID。 */
   useEffect(() => {
-    if (!value) {
-      attemptedResolveValueRef.current = undefined
-      setCurrentAccount(undefined)
-      setResolving(false)
-      return
-    }
-
-    const knownAccount =
-      (selectedAccount?.userId === value ? selectedAccount : undefined) ??
-      accountCacheRef.current.get(value)
-    if (knownAccount) {
-      accountCacheRef.current.set(knownAccount.userId, knownAccount)
-      attemptedResolveValueRef.current = undefined
-      setCurrentAccount(knownAccount)
-      setResolving(false)
-      return
-    }
-
-    if (attemptedResolveValueRef.current === value) return
-    attemptedResolveValueRef.current = value
     const sequence = ++resolveSequence.current
     const controller = new AbortController()
-    setCurrentAccount(undefined)
-    setResolving(true)
-    void resolveRef
-      .current([value], controller.signal)
-      .then((resolvedAccounts) => {
-        if (resolveSequence.current !== sequence || controller.signal.aborted) return
-        for (const account of resolvedAccounts) accountCacheRef.current.set(account.userId, account)
-        setCurrentAccount(accountCacheRef.current.get(value))
-      })
-      .catch(() => {
-        // 补查失败时保留受控 userId，但不伪造候选；同一值等待显式变化后再重试。
-      })
-      .finally(() => {
-        if (resolveSequence.current === sequence && !controller.signal.aborted) setResolving(false)
-      })
-
-    return () => controller.abort()
-  }, [selectedAccount, value])
-
-  /** 防抖查询候选账号，并取消或忽略已经失效的请求结果。 */
-  useEffect(() => {
-    const normalizedQuery = query.trim()
-    const sequence = ++requestSequence.current
-    setError(false)
-    setAccounts([])
-
-    if (normalizedQuery.length < minSearchLength) {
-      setLoading(false)
-      return
-    }
-
-    const controller = new AbortController()
-    setLoading(true)
-    const timer = window.setTimeout(() => {
-      void requestRef
-        .current({
-          query: normalizedQuery,
-          page: 1,
-          pageSize,
-          signal: controller.signal,
-        })
-        .then((result) => {
-          if (requestSequence.current !== sequence || controller.signal.aborted) return
-          const uniqueAccounts = new Map(
-            result.items.map((account) => [account.userId, account] as const),
-          )
-          for (const account of uniqueAccounts.values())
-            accountCacheRef.current.set(account.userId, account)
-          setAccounts([...uniqueAccounts.values()])
+    const cache = accountCacheRef.current
+    for (const account of selectedAccounts ?? []) cache.set(account.userId, account)
+    if (selectedAccount) cache.set(selectedAccount.userId, selectedAccount)
+    const currentIds: string[] = JSON.parse(idsKey)
+    const missing = currentIds.filter((id) => !cache.has(id))
+    setResolvedAccounts([...cache.values()])
+    setResolving(missing.length > 0)
+    if (missing.length) {
+      void resolveRef
+        .current(missing, controller.signal)
+        .then((accounts) => {
+          if (resolveSequence.current !== sequence || controller.signal.aborted) return
+          for (const account of accounts) cache.set(account.userId, account)
+          setResolvedAccounts([...cache.values()])
         })
         .catch(() => {
-          if (requestSequence.current !== sequence || controller.signal.aborted) return
-          setAccounts([])
-          setError(true)
+          // 不伪造候选或循环重试，仍可打开弹窗重新选择。
         })
         .finally(() => {
-          if (requestSequence.current === sequence && !controller.signal.aborted) setLoading(false)
+          if (resolveSequence.current === sequence && !controller.signal.aborted)
+            setResolving(false)
         })
-    }, debounceMs)
-
-    return () => {
-      window.clearTimeout(timer)
-      controller.abort()
     }
-  }, [debounceMs, minSearchLength, pageSize, query])
+    return () => controller.abort()
+  }, [idsKey, selectedAccount, selectedAccounts])
 
-  const accountById = new Map(accounts.map((account) => [account.userId, account] as const))
+  const accountById = new Map(resolvedAccounts.map((account) => [account.userId, account]))
+  for (const account of selectedAccounts ?? []) accountById.set(account.userId, account)
+  if (selectedAccount) accountById.set(selectedAccount.userId, selectedAccount)
+  const accounts = ids
+    .map((id) => accountById.get(id))
+    .filter((account): account is GlobalAccountOption => !!account)
   const options: GlobalAccountSelectOption[] = accounts.map((account) => ({
     value: account.userId,
     label: `${account.name} · ${account.account}`,
-    disabled: account.disabled,
+    disabled: false,
     account,
   }))
-  const normalizedQueryLength = query.trim().length
+
+  /** 使用当前值和可信快照打开弹窗，不在打开时修改表单。 */
+  const show = () => {
+    if (!disabled) browserRef.current?.show({ value: ids, selectedRows: accounts })
+  }
+
+  /** 缓存确认结果，单选仍输出一个元素的数组，空选择输出 []。 */
+  const confirm = (rows: GlobalAccountOption[]) => {
+    if (disabled) return
+    const next = [...new Map(rows.map((account) => [account.userId, account])).values()]
+    const selected = multiple ? next : next.slice(0, 1)
+    for (const account of selected) accountCacheRef.current.set(account.userId, account)
+    setResolvedAccounts([...accountCacheRef.current.values()])
+    onChange?.(
+      selected.map((account) => account.userId),
+      selected,
+    )
+  }
 
   return (
-    <Select<string | undefined, GlobalAccountSelectOption>
-      {...selectProps}
-      value={value}
-      placeholder={placeholder ?? tr('搜索姓名或账号')}
-      allowClear={allowClear}
-      showSearch={{ onSearch: setQuery, filterOption: false }}
-      loading={loading || resolving}
-      options={options}
-      onChange={
-        /** 回传稳定 userId 和本次选项快照，并保留选中账号用于后续回显。 */ (
-          userId,
-          selectedOption,
-        ) => {
-          const option = Array.isArray(selectedOption) ? selectedOption[0] : selectedOption
-          const account = userId ? (option?.account ?? accountById.get(userId)) : undefined
-          if (account) accountCacheRef.current.set(account.userId, account)
-          setQuery('')
-          setCurrentAccount(account)
-          onChange?.(userId, account)
-        }
-      }
-      labelRender={
-        /** 使用可信账号快照渲染选中值；缺失时给出不可用提示而不暴露裸 userId。 */ ({
-          value: selectedUserId,
-        }) => {
-          const account =
-            selectedAccount?.userId === selectedUserId
-              ? selectedAccount
-              : currentAccount?.userId === selectedUserId
-                ? currentAccount
-                : typeof selectedUserId === 'string'
-                  ? accountCacheRef.current.get(selectedUserId)
-                  : undefined
-          return account ? `${account.name} · ${account.account}` : tr('账号信息不可用')
-        }
-      }
-      optionRender={
-        /** 在候选项中同时展示姓名、完整账号和账号状态。 */ (option) => {
-          const account = option.data.account
-          const statusText = account.status === 'active' ? tr('启用') : tr('不可选')
-          return (
-            <Flex align="center" justify="space-between" gap={12}>
-              <Flex vertical style={{ minWidth: 0 }}>
-                <Typography.Text ellipsis>{account.name}</Typography.Text>
-                <Typography.Text type="secondary" ellipsis>
-                  {account.account}
-                </Typography.Text>
-              </Flex>
-              <Tag color={account.disabled ? 'error' : 'success'}>{statusText}</Tag>
-            </Flex>
+    <>
+      <Select<string | string[], GlobalAccountSelectOption>
+        {...selectProps}
+        style={{ width: '100%', ...selectProps.style }}
+        maxTagCount={selectProps.maxTagCount ?? 'responsive'}
+        value={multiple ? ids : ids[0]}
+        mode={multiple ? 'multiple' : undefined}
+        placeholder={placeholder ?? tr('搜索姓名或账号')}
+        disabled={disabled}
+        allowClear={allowClear}
+        open={false}
+        showSearch={false}
+        loading={resolving}
+        options={options}
+        onOpenChange={(open) => {
+          if (open) show()
+        }}
+        onChange={(nextValue) => {
+          if (disabled) return
+          const next = [
+            ...new Set(Array.isArray(nextValue) ? nextValue : nextValue ? [nextValue] : []),
+          ]
+          const nextIds = multiple ? next : next.slice(0, 1)
+          onChange?.(
+            nextIds,
+            nextIds
+              .map((id) => accountById.get(id))
+              .filter((account): account is GlobalAccountOption => !!account),
           )
-        }
-      }
-      notFoundContent={
-        loading ? (
-          <Spin size="small" />
-        ) : error ? (
-          <Typography.Text type="danger">{tr('请求失败，请稍后重试')}</Typography.Text>
-        ) : normalizedQueryLength < minSearchLength ? (
-          <Typography.Text type="secondary">{tr('搜索姓名或账号')}</Typography.Text>
-        ) : (
-          <Typography.Text type="secondary">
-            {tr('暂无{type}', { type: tr('全局账号') })}
-          </Typography.Text>
-        )
-      }
-    />
+        }}
+        labelRender={({ value: id }) => {
+          const account = accountById.get(String(id))
+          return account ? `${account.name} · ${account.account}` : tr('账号信息不可用')
+        }}
+      />
+      <GlobalAccountBrowser
+        ref={browserRef}
+        multiple={multiple}
+        request={request}
+        resolve={resolve}
+        minSearchLength={minSearchLength}
+        debounceMs={debounceMs}
+        pageSize={pageSize}
+        onConfirm={confirm}
+      />
+    </>
   )
 }

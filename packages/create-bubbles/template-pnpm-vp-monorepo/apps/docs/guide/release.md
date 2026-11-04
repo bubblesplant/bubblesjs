@@ -14,7 +14,7 @@
 2. 更新包清单中的 `repository`、`homepage`、`bugs`、作者和许可证信息，确保链接指向自己的项目。
 3. 检查 `.changeset/config.json` 的默认分支。模板使用 `main`；你的仓库若使用其他分支，需要同步修改配置与工作流。
 4. 确认可发布包的 `files`、`exports`、类型入口和版本，并保持 `publishConfig.access` 为 `public`。模板初始版本是起点，首次发布的目标版本由 changeset 决定。
-5. 发布到 npm 的账户需拥有 `@bubblesjs` scope 或对应组织的包发布权限。在 GitHub 仓库配置具有目标包发布权限的 `NPM_TOKEN` secret，并将仓库变量 `RELEASE_ENABLED` 设置为字符串 `true`，启用发布工作流。
+5. 发布到 npm 的账户需拥有 `@bubblesjs` scope 或对应组织的包发布权限。在 GitHub 仓库配置具有目标包发布权限的 `NPM_TOKEN` secret，并允许 GitHub Actions 创建 PR。
 
 执行 `pnpm install` 更新锁文件，再执行 `pnpm ready` 完成质量检查、测试、构建与包产物检查。验证通过后再进行发布。
 
@@ -48,8 +48,7 @@ pnpm release
 
 `.github/workflows/release.yml` 使用手动触发 `workflow_dispatch`，并要求在 `main` 分支运行。在 Actions 页面运行它之前，先完成上述发布配置。
 
-- `RELEASE_ENABLED` 未设置为 `true` 时，发布任务跳过。
-- 启用后，Changesets Action 可以创建或更新版本 PR。
+- 手动运行后，Changesets Action 可以创建或更新版本 PR。
 - 版本 PR 合并后，再次手动运行工作流可发布新版本；仅配置了 `NPM_TOKEN` 时才执行 npm 发布。
 
 模板不会因一次普通代码推送自动开启 npm 发布。自己的包完成初始化后，可根据团队流程调整触发条件。

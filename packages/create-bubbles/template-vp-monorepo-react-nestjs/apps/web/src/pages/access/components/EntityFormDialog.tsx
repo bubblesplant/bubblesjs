@@ -33,7 +33,7 @@ interface EntityFormValues {
   name: string
   code: string
   description?: string
-  administratorUserId: string
+  administratorUserIds: string[]
   organizationInitializationMode?: 'blank' | 'template'
   templateId?: string
 }
@@ -105,11 +105,13 @@ export default function EntityFormDialog({
       }}
       onFinish={
         /** 规范化实体资料并构造互斥的企业或项目创建请求。 */ async (values) => {
+          const administratorUserId = values.administratorUserIds?.[0]
+          if (!administratorUserId) return false
           const common = {
             name: values.name.trim(),
             code: values.code.trim().toLowerCase(),
             description: values.description?.trim(),
-            administratorUserId: values.administratorUserId,
+            administratorUserId,
           }
           let request: CreateCompanyRequest | CreateProjectRequest
           if (project) {
@@ -157,12 +159,13 @@ export default function EntityFormDialog({
 
       {project ? (
         <Form.Item
-          name="administratorUserId"
+          name="administratorUserIds"
           label={tr('首位项目管理员')}
           rules={[{ required: true, message: tr('请选择首位项目管理员') }]}
           extra={tr('候选人必须是当前企业的有效成员。')}
         >
           <OrganizationMemberSelector
+            multiple={false}
             candidateContextKey={`${memberContextKey}:createProjectAdministrator`}
             scope={PROJECT_ADMINISTRATOR_SOURCE_SCOPE}
             request={memberRequest}
@@ -172,12 +175,16 @@ export default function EntityFormDialog({
         </Form.Item>
       ) : (
         <Form.Item
-          name="administratorUserId"
+          name="administratorUserIds"
           label={tr('首位企业管理员')}
           rules={[{ required: true, message: tr('请选择首位企业管理员') }]}
           extra={tr('可从平台全部启用账号中搜索；系统会将其加入企业。')}
         >
-          <GlobalAccountSelect request={globalAccountRequest} resolve={resolveGlobalAccounts} />
+          <GlobalAccountSelect
+            multiple={false}
+            request={globalAccountRequest}
+            resolve={resolveGlobalAccounts}
+          />
         </Form.Item>
       )}
 
