@@ -1,8 +1,8 @@
 {
   "name": "template-vp-vue-eslint-vapor",
+  "type": "module",
   "version": "0.0.1",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "vp dev --mode development",
     "build": "vp build && vue-tsc -b",

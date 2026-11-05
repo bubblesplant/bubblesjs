@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
     },
     staged: {
       '*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,vue}': 'vp check --fix',
-      '*.{json,jsonc}': 'vp fmt',
+      '*.{json,jsonc}': 'eslint --fix',
     },
     plugins: lazyPlugins(() => [
       Vue({}),
@@ -45,12 +45,16 @@ export default defineConfig(({ mode }) => {
         dts: './src/types/auto-import.d.ts',
       }),
       Components({
-        resolvers: [AntdvNextResolver()],
+        resolvers: [
+          AntdvNextResolver(),
+        ],
         dts: './src/types/components.d.ts',
       }),
       createSvgIconsPlugin({
         // Specify the icon folder to be cached
-        iconDirs: [path.resolve(__dirname, 'src/assets/icon')],
+        iconDirs: [
+          path.resolve(__dirname, 'src/assets/icon'),
+        ],
         // Specify symbolId format
         symbolId: 'icon-[dir]-[name]',
       }),

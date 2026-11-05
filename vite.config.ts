@@ -11,6 +11,11 @@ export default {
     '*': 'node node_modules/vite-plus/bin/vp check --fix --no-lint --no-error-on-unmatched-pattern',
   },
   fmt: {
+    // 这两个独立模板由 ESLint 格式化，避免仓库钩子覆盖其格式与字段顺序。
+    ignorePatterns: [
+      'packages/create-bubbles/template-vp-vue-eslint-vapor/**',
+      'packages/create-bubbles/template-vue-vp-eslint/**',
+    ],
     semi: false,
     singleQuote: true,
   },
