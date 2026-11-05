@@ -1,5 +1,11 @@
 # create-bubbles
 
+## 0.1.37
+
+### Patch Changes
+
+- [`40013d8`](https://github.com/bubblesplant/bubblesjs/commit/40013d873fd161ff7c65beb5e9886779482b0ad3) Thanks [@bubblesplant](https://github.com/bubblesplant)! - vue 模板eslint oxlint 冲突
+
 ## 0.1.36
 
 ### Patch Changes
