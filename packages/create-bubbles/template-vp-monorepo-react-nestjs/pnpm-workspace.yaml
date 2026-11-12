@@ -19,26 +19,26 @@ catalog:
   '@antdv-next/auto-import-resolver': ^1.2.0
   '@antdv-next/icons': ^1.1.2
   '@antfu/eslint-config': ^10.0.0
-  '@aws-sdk/client-s3': ^3.1161.0
+  '@aws-sdk/client-s3': ^3.1167.0
   '@commitlint/cli': ^21.2.4
   '@commitlint/config-conventional': ^21.2.4
   '@fastify/cookie': ^11.1.5
-  '@fastify/static': ^10.1.8
+  '@fastify/static': ^10.1.10
   '@nestjs-modules/ioredis': ^2.3.1
-  '@nestjs/bullmq': ^12.0.0
+  '@nestjs/bullmq': ^12.0.1
   # Nest 12 原生 Standard Schema 请求校验、响应序列化与 Swagger。
-  '@nestjs/cli': 12.0.11
-  '@nestjs/common': 12.3.2
-  '@nestjs/config': ^12.0.1
-  '@nestjs/core': 12.3.2
-  '@nestjs/jwt': ^12.0.3
+  '@nestjs/cli': 12.0.12
+  '@nestjs/common': 12.4.2
+  '@nestjs/config': ^12.1.1
+  '@nestjs/core': 12.4.2
+  '@nestjs/jwt': ^12.0.4
   '@nestjs/mapped-types': ^12.0.1
-  '@nestjs/platform-fastify': 12.3.2
-  '@nestjs/schematics': 12.0.12
-  '@nestjs/swagger': 12.1.0
-  '@nestjs/testing': 12.3.2
-  '@rspack/core': ^2.3.1
-  '@tailwindcss/vite': ^4.3.4
+  '@nestjs/platform-fastify': 12.4.2
+  '@nestjs/schematics': 12.0.13
+  '@nestjs/swagger': 12.1.1
+  '@nestjs/testing': 12.4.2
+  '@rspack/core': ^2.3.2
+  '@tailwindcss/vite': ^4.3.5
   '@types/express': ^5.0.6
   # 保持现有 Node 26 类型系列。
   '@types/node': ^26.6.6
@@ -49,37 +49,37 @@ catalog:
   '@unocss/eslint-plugin': ^66.12.0
   '@unocss/preset-attributify': ^66.12.0
   '@unocss/preset-wind4': ^66.12.0
-  '@vitejs/plugin-react': ^6.2.1
+  '@vitejs/plugin-react': ^6.3.0
   '@vitejs/plugin-vue': ^6.0.10
   '@vue/devtools-api': ^8.2.1
   '@vue/tsconfig': ^0.9.1
   alova: ^3.5.5
   antd: ^6.7.0
-  antdv-next: ^1.7.1
+  antdv-next: ^1.8.1
   argon2: ^0.45.2
-  axios: ^1.21.0
-  bullmq: ^6.6.0
+  axios: ^1.21.1
+  bullmq: ^6.7.5
   chokidar: ^6.0.0
   classnames: ^2.5.1
   cross-env: ^10.1.0
   dayjs: ^1.11.23
-  dotenv: ^18.0.9
+  dotenv: ^18.0.10
   drizzle-kit: ^0.31.11
   drizzle-orm: ^0.45.4
   drizzle-zod: ^0.8.3
   echarts: ^6.1.0
-  es-toolkit: ^1.53.1
+  es-toolkit: ^1.53.2
   eslint: 10.14.0
   eslint-plugin-format: ^2.0.1
-  eslint-plugin-oxlint: ^1.90.0
+  eslint-plugin-oxlint: ^1.93.0
   fast-glob: ^3.3.3
   fastify: ^5.12.8
   globals: ^17.14.0
   happy-dom: ^21.0.4
-  hash-wasm: ^4.12.0
+  hash-wasm: ^4.13.0
   ioredis: ^6.0.0
   nprogress: ^0.2.0
-  oxlint: ^1.91.0
+  oxlint: ^1.93.0
   pg: ^8.23.1
   pinia: ^4.1.0
   pinia-plugin-persistedstate: ^4.7.1
@@ -88,9 +88,9 @@ catalog:
   react-router: ^8.5.1
   reflect-metadata: ^0.2.2
   rxjs: ^7.8.2
-  sass: ^1.107.1
+  sass: ^1.108.2
   source-map-support: ^0.5.21
-  tailwindcss: ^4.3.4
+  tailwindcss: ^4.3.5
   ts-node: ^10.9.2
   tsconfig-paths: ^4.2.0
   tsconfig-paths-webpack-plugin: ^4.2.0
@@ -99,17 +99,17 @@ catalog:
   unocss: 66.12.0
   unplugin-auto-import: ^21.1.0
   unplugin-vue-components: ^32.1.0
-  vite: npm:@voidzero-dev/vite-plus-core@1.5.0
+  vite: npm:@voidzero-dev/vite-plus-core@1.6.0
   vite-plugin-inspect: ^12.1.0
   vite-plugin-svg-icons: ^2.0.1
   vite-plugin-svgr: ^5.2.0
-  vite-plus: 1.5.0
-  vue: ^3.5.44
-  vue-router: ^5.4.0
+  vite-plus: 1.6.0
+  vue: ^3.5.45
+  vue-router: ^5.5.0
   vue-tsc: ^3.3.14
   webpack-node-externals: ^3.0.0
   zod: ^4.6.7
-  zustand: ^5.0.16
+  zustand: ^5.1.0
 
 minimumReleaseAgeExclude:
   - '@ant-design/pro-components@3.1.15-9'
@@ -139,64 +139,96 @@ minimumReleaseAgeExclude:
   - '@unocss/transformer-variant-group@66.11.0'
   - '@unocss/vite@66.11.0'
   - antd@6.6.6 || 6.7.0
-  - bullmq@6.3.13 || 6.6.0
+  - bullmq@6.3.13 || 6.6.0 || 6.7.5
   - cac@7.1.0
   - globals@17.14.0
   - happy-dom@21.0.1
   - unocss@66.11.0
   - zod@4.6.6
-  - '@voidzero-dev/vite-plus-core@1.5.0'
-  - '@voidzero-dev/vite-plus-darwin-arm64@1.5.0'
-  - '@voidzero-dev/vite-plus-darwin-x64@1.5.0'
-  - '@voidzero-dev/vite-plus-linux-arm64-gnu@1.5.0'
-  - '@voidzero-dev/vite-plus-linux-arm64-musl@1.5.0'
-  - '@voidzero-dev/vite-plus-linux-x64-gnu@1.5.0'
-  - '@voidzero-dev/vite-plus-linux-x64-musl@1.5.0'
-  - '@voidzero-dev/vite-plus-win32-arm64-msvc@1.5.0'
-  - '@voidzero-dev/vite-plus-win32-x64-msvc@1.5.0'
-  - vite-plus@1.5.0
-  - '@oxfmt/binding-android-arm-eabi@0.76.0'
-  - '@oxfmt/binding-android-arm64@0.76.0'
-  - '@oxfmt/binding-darwin-arm64@0.76.0'
-  - '@oxfmt/binding-darwin-x64@0.76.0'
-  - '@oxfmt/binding-freebsd-x64@0.76.0'
-  - '@oxfmt/binding-linux-arm-gnueabihf@0.76.0'
-  - '@oxfmt/binding-linux-arm-musleabihf@0.76.0'
-  - '@oxfmt/binding-linux-arm64-gnu@0.76.0'
-  - '@oxfmt/binding-linux-arm64-musl@0.76.0'
-  - '@oxfmt/binding-linux-ppc64-gnu@0.76.0'
-  - '@oxfmt/binding-linux-riscv64-gnu@0.76.0'
-  - '@oxfmt/binding-linux-riscv64-musl@0.76.0'
-  - '@oxfmt/binding-linux-s390x-gnu@0.76.0'
-  - '@oxfmt/binding-linux-x64-gnu@0.76.0'
-  - '@oxfmt/binding-linux-x64-musl@0.76.0'
-  - '@oxfmt/binding-openharmony-arm64@0.76.0'
-  - '@oxfmt/binding-win32-arm64-msvc@0.76.0'
-  - '@oxfmt/binding-win32-ia32-msvc@0.76.0'
-  - '@oxfmt/binding-win32-x64-msvc@0.76.0'
-  - '@oxlint/binding-android-arm-eabi@1.91.0'
-  - '@oxlint/binding-android-arm64@1.91.0'
-  - '@oxlint/binding-darwin-arm64@1.91.0'
-  - '@oxlint/binding-darwin-x64@1.91.0'
-  - '@oxlint/binding-freebsd-x64@1.91.0'
-  - '@oxlint/binding-linux-arm-gnueabihf@1.91.0'
-  - '@oxlint/binding-linux-arm-musleabihf@1.91.0'
-  - '@oxlint/binding-linux-arm64-gnu@1.91.0'
-  - '@oxlint/binding-linux-arm64-musl@1.91.0'
-  - '@oxlint/binding-linux-ppc64-gnu@1.91.0'
-  - '@oxlint/binding-linux-riscv64-gnu@1.91.0'
-  - '@oxlint/binding-linux-riscv64-musl@1.91.0'
-  - '@oxlint/binding-linux-s390x-gnu@1.91.0'
-  - '@oxlint/binding-linux-x64-gnu@1.91.0'
-  - '@oxlint/binding-linux-x64-musl@1.91.0'
-  - '@oxlint/binding-openharmony-arm64@1.91.0'
-  - '@oxlint/binding-win32-arm64-msvc@1.91.0'
-  - '@oxlint/binding-win32-ia32-msvc@1.91.0'
-  - '@oxlint/binding-win32-x64-msvc@1.91.0'
-  - '@oxlint/plugins@1.91.0'
-  - '@rspack/binding-linux-x64-gnu@2.3.1'
-  - oxfmt@0.76.0
-  - oxlint@1.91.0
+  - '@voidzero-dev/vite-plus-core@1.6.0'
+  - '@voidzero-dev/vite-plus-darwin-arm64@1.6.0'
+  - '@voidzero-dev/vite-plus-darwin-x64@1.6.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-gnu@1.6.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-musl@1.6.0'
+  - '@voidzero-dev/vite-plus-linux-x64-gnu@1.6.0'
+  - '@voidzero-dev/vite-plus-linux-x64-musl@1.6.0'
+  - '@voidzero-dev/vite-plus-win32-arm64-msvc@1.6.0'
+  - '@voidzero-dev/vite-plus-win32-x64-msvc@1.6.0'
+  - vite-plus@1.6.0
+  - '@oxfmt/binding-android-arm-eabi@0.78.0'
+  - '@oxfmt/binding-android-arm64@0.78.0'
+  - '@oxfmt/binding-darwin-arm64@0.78.0'
+  - '@oxfmt/binding-darwin-x64@0.78.0'
+  - '@oxfmt/binding-freebsd-x64@0.78.0'
+  - '@oxfmt/binding-linux-arm-gnueabihf@0.78.0'
+  - '@oxfmt/binding-linux-arm-musleabihf@0.78.0'
+  - '@oxfmt/binding-linux-arm64-gnu@0.78.0'
+  - '@oxfmt/binding-linux-arm64-musl@0.78.0'
+  - '@oxfmt/binding-linux-ppc64-gnu@0.78.0'
+  - '@oxfmt/binding-linux-riscv64-gnu@0.78.0'
+  - '@oxfmt/binding-linux-riscv64-musl@0.78.0'
+  - '@oxfmt/binding-linux-s390x-gnu@0.78.0'
+  - '@oxfmt/binding-linux-x64-gnu@0.78.0'
+  - '@oxfmt/binding-linux-x64-musl@0.78.0'
+  - '@oxfmt/binding-openharmony-arm64@0.78.0'
+  - '@oxfmt/binding-win32-arm64-msvc@0.78.0'
+  - '@oxfmt/binding-win32-ia32-msvc@0.78.0'
+  - '@oxfmt/binding-win32-x64-msvc@0.78.0'
+  - '@oxlint/binding-android-arm-eabi@1.93.0'
+  - '@oxlint/binding-android-arm64@1.93.0'
+  - '@oxlint/binding-darwin-arm64@1.93.0'
+  - '@oxlint/binding-darwin-x64@1.93.0'
+  - '@oxlint/binding-freebsd-x64@1.93.0'
+  - '@oxlint/binding-linux-arm-gnueabihf@1.93.0'
+  - '@oxlint/binding-linux-arm-musleabihf@1.93.0'
+  - '@oxlint/binding-linux-arm64-gnu@1.93.0'
+  - '@oxlint/binding-linux-arm64-musl@1.93.0'
+  - '@oxlint/binding-linux-ppc64-gnu@1.93.0'
+  - '@oxlint/binding-linux-riscv64-gnu@1.93.0'
+  - '@oxlint/binding-linux-riscv64-musl@1.93.0'
+  - '@oxlint/binding-linux-s390x-gnu@1.93.0'
+  - '@oxlint/binding-linux-x64-gnu@1.93.0'
+  - '@oxlint/binding-linux-x64-musl@1.93.0'
+  - '@oxlint/binding-openharmony-arm64@1.93.0'
+  - '@oxlint/binding-win32-arm64-msvc@1.93.0'
+  - '@oxlint/binding-win32-ia32-msvc@1.93.0'
+  - '@oxlint/binding-win32-x64-msvc@1.93.0'
+  - '@oxlint/plugins@1.93.0'
+  - '@rspack/binding-linux-x64-gnu@2.3.1 || 2.3.2'
+  - oxfmt@0.78.0
+  - oxlint@1.93.0
+  - '@aws-sdk/checksums@3.1002.5'
+  - '@aws-sdk/client-s3@3.1166.0 || 3.1167.0'
+  - '@aws-sdk/core@3.981.0'
+  - '@aws-sdk/credential-provider-env@3.972.84'
+  - '@aws-sdk/credential-provider-http@3.972.86'
+  - '@aws-sdk/credential-provider-ini@3.973.29 || 3.973.30'
+  - '@aws-sdk/credential-provider-login@3.972.91 || 3.972.92'
+  - '@aws-sdk/credential-provider-node@3.972.96 || 3.972.97'
+  - '@aws-sdk/credential-provider-process@3.972.84'
+  - '@aws-sdk/credential-provider-sso@3.973.28'
+  - '@aws-sdk/credential-provider-web-identity@3.972.90'
+  - '@aws-sdk/middleware-sdk-s3@3.972.89'
+  - '@aws-sdk/nested-clients@3.998.3'
+  - '@aws-sdk/token-providers@3.1166.0'
+  - '@rspack/binding-darwin-arm64@2.3.2'
+  - '@rspack/binding-darwin-x64@2.3.2'
+  - '@rspack/binding-linux-arm64-gnu@2.3.2'
+  - '@rspack/binding-linux-arm64-musl@2.3.2'
+  - '@rspack/binding-linux-ppc64-gnu@2.3.2'
+  - '@rspack/binding-linux-riscv64-gnu@2.3.2'
+  - '@rspack/binding-linux-riscv64-musl@2.3.2'
+  - '@rspack/binding-linux-s390x-gnu@2.3.2'
+  - '@rspack/binding-linux-x64-musl@2.3.2'
+  - '@rspack/binding-wasm32-wasi@2.3.2'
+  - '@rspack/binding-win32-arm64-msvc@2.3.2'
+  - '@rspack/binding-win32-ia32-msvc@2.3.2'
+  - '@rspack/binding-win32-x64-msvc@2.3.2'
+  - '@rspack/binding@2.3.2'
+  - '@rspack/core@2.3.2'
+  - '@smithy/core@3.40.0'
+  - sass@1.108.2
+  - vue-router@5.5.0
 
 allowBuilds:
   '@parcel/watcher': true

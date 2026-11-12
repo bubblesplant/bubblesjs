@@ -53,7 +53,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@clack/prompts": "^1.8.1",
+    "@clack/prompts": "^1.9.0",
     "cross-spawn": "^7.0.6",
     "gradient-string": "^3.0.0",
     "mri": "^1.2.0",

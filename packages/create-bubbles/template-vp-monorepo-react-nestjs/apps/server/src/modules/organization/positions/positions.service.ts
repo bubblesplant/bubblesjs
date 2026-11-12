@@ -248,7 +248,7 @@ export class PositionsService {
       )
   }
 
-  /** 返回成员的完整岗位集合，使用岗位列表的稳定时间倒序。 */
+  /** 顺序读取成员的完整岗位详情以复用事务连接，保持岗位列表的稳定时间倒序。 */
   private async memberPositionResult(
     db: AccessDb,
     input: { scope: OrganizationScope; userId: string },
@@ -268,9 +268,11 @@ export class PositionsService {
         ),
       )
       .orderBy(desc(positions.createdAt), desc(positions.id))
+    const records: PositionRecord[] = []
+    for (const row of rows) records.push(await this.positionRecord(db, input.scope, row))
     return {
       userId: input.userId,
-      positions: await Promise.all(rows.map((row) => this.positionRecord(db, input.scope, row))),
+      positions: records,
     }
   }
 
@@ -305,7 +307,7 @@ export class PositionsService {
     return { positionId: input.positionId, members: records }
   }
 
-  /** 按作用域、状态和关键词分页读取岗位，返回实时任职人数。 */
+  /** 按作用域、状态和关键词分页读取岗位，在事务连接上顺序统计实时任职人数。 */
   list(input: {
     actor: AccessActor
     scope: OrganizationScope
@@ -332,8 +334,10 @@ export class PositionsService {
           .orderBy(desc(positions.createdAt), desc(positions.id))
           .limit(pageSize)
           .offset(offset)
+        const items: PositionRecord[] = []
+        for (const row of rows) items.push(await this.positionRecord(tx, input.scope, row))
         return {
-          items: await Promise.all(rows.map((row) => this.positionRecord(tx, input.scope, row))),
+          items,
           total: total?.value ?? 0,
           page,
           pageSize,

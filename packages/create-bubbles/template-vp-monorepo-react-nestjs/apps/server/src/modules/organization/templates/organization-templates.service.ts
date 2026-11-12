@@ -58,30 +58,28 @@ export class OrganizationTemplatesService {
     return requireFound(row)
   }
 
-  /** 读取模板指定版本的完整组织单元和岗位快照。 */
+  /** 在同一连接上顺序读取模板指定版本的完整组织单元和岗位快照。 */
   async snapshot(db: AccessDb, input: { templateId: string; templateVersion: number }) {
-    const [units, positions] = await Promise.all([
-      db
-        .select()
-        .from(organizationTemplateUnits)
-        .where(
-          and(
-            eq(organizationTemplateUnits.templateId, input.templateId),
-            eq(organizationTemplateUnits.templateVersion, input.templateVersion),
-          ),
-        )
-        .orderBy(asc(organizationTemplateUnits.sort), asc(organizationTemplateUnits.id)),
-      db
-        .select()
-        .from(organizationTemplatePositions)
-        .where(
-          and(
-            eq(organizationTemplatePositions.templateId, input.templateId),
-            eq(organizationTemplatePositions.templateVersion, input.templateVersion),
-          ),
-        )
-        .orderBy(asc(organizationTemplatePositions.id)),
-    ])
+    const units = await db
+      .select()
+      .from(organizationTemplateUnits)
+      .where(
+        and(
+          eq(organizationTemplateUnits.templateId, input.templateId),
+          eq(organizationTemplateUnits.templateVersion, input.templateVersion),
+        ),
+      )
+      .orderBy(asc(organizationTemplateUnits.sort), asc(organizationTemplateUnits.id))
+    const positions = await db
+      .select()
+      .from(organizationTemplatePositions)
+      .where(
+        and(
+          eq(organizationTemplatePositions.templateId, input.templateId),
+          eq(organizationTemplatePositions.templateVersion, input.templateVersion),
+        ),
+      )
+      .orderBy(asc(organizationTemplatePositions.id))
     return { units, positions }
   }
 
@@ -204,7 +202,7 @@ export class OrganizationTemplatesService {
     })
   }
 
-  /** 分页读取企业模板摘要，仅统计当前版本的组织单元和岗位数量。 */
+  /** 分页读取企业模板摘要，顺序统计当前版本子项数量以复用事务连接。 */
   list(input: {
     actor: AccessActor
     companyId: string
@@ -234,43 +232,40 @@ export class OrganizationTemplatesService {
           .orderBy(desc(organizationTemplates.createdAt), desc(organizationTemplates.id))
           .limit(pageSize)
           .offset(offset)
-        const items = await Promise.all(
-          rows.map(async (row): Promise<OrganizationTemplateSummary> => {
-            const [unitCount, positionCount] = await Promise.all([
-              tx
-                .select({ value: count() })
-                .from(organizationTemplateUnits)
-                .where(
-                  and(
-                    eq(organizationTemplateUnits.templateId, row.id),
-                    eq(organizationTemplateUnits.templateVersion, row.version),
-                  ),
-                ),
-              tx
-                .select({ value: count() })
-                .from(organizationTemplatePositions)
-                .where(
-                  and(
-                    eq(organizationTemplatePositions.templateId, row.id),
-                    eq(organizationTemplatePositions.templateVersion, row.version),
-                  ),
-                ),
-            ])
-            return {
-              id: row.id,
-              companyId: row.companyId,
-              name: row.name,
-              description: row.description,
-              status: row.status,
-              isDefault: row.isDefault,
-              version: row.version,
-              unitCount: unitCount[0]?.value ?? 0,
-              positionCount: positionCount[0]?.value ?? 0,
-              createdAt: row.createdAt.toISOString(),
-              updatedAt: row.updatedAt.toISOString(),
-            }
-          }),
-        )
+        const items: OrganizationTemplateSummary[] = []
+        for (const row of rows) {
+          const [unitCount] = await tx
+            .select({ value: count() })
+            .from(organizationTemplateUnits)
+            .where(
+              and(
+                eq(organizationTemplateUnits.templateId, row.id),
+                eq(organizationTemplateUnits.templateVersion, row.version),
+              ),
+            )
+          const [positionCount] = await tx
+            .select({ value: count() })
+            .from(organizationTemplatePositions)
+            .where(
+              and(
+                eq(organizationTemplatePositions.templateId, row.id),
+                eq(organizationTemplatePositions.templateVersion, row.version),
+              ),
+            )
+          items.push({
+            id: row.id,
+            companyId: row.companyId,
+            name: row.name,
+            description: row.description,
+            status: row.status,
+            isDefault: row.isDefault,
+            version: row.version,
+            unitCount: unitCount?.value ?? 0,
+            positionCount: positionCount?.value ?? 0,
+            createdAt: row.createdAt.toISOString(),
+            updatedAt: row.updatedAt.toISOString(),
+          })
+        }
         return { items, total: total?.value ?? 0, page, pageSize }
       },
     )

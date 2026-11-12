@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-12",
+  "vitePlusVersion": "1.6.0",
+  "bundlePath": "C:\\malei\\stu\\bubbles\\node_modules\\vite-plus\\dist\\staged\\bin.js",
+  "expectedBroken": false,
+  "cases": 96,
+  "failureCount": 26,
+  "failureExamples": [
+    {
+      "offset": 26,
+      "expected": "packages/example/.spaces/权限与菜单/测试证据/selector-tests.txt\u0000",
+      "actual": "packages/example/.spaces/���限与菜单/测试证据/selector-tests.txt\u0000"
+    },
+    {
+      "offset": 27,
+      "expected": "packages/example/.spaces/权限与菜单/测试证据/selector-tests.txt\u0000",
+      "actual": "packages/example/.spaces/��限与菜单/测试证据/selector-tests.txt\u0000"
+    },
+    {
+      "offset": 29,
+      "expected": "packages/example/.spaces/权限与菜单/测试证据/selector-tests.txt\u0000",
+      "actual": "packages/example/.spaces/权���与菜单/测试证据/selector-tests.txt\u0000"
+    }
+  ]
+}

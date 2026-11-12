@@ -316,16 +316,14 @@ export class OrganizationUnitsService {
       )
   }
 
-  /** 返回某成员当前作用域内的组织关系，并按职责和关系 ID 稳定排序。 */
+  /** 顺序查询某成员当前作用域内的组织关系，并按职责和关系 ID 稳定排序。 */
   private async memberRelationResult(
     db: AccessDb,
     input: { scope: OrganizationScope; userId: string },
   ): Promise<ReplaceMemberOrganizationUnitsResult> {
     const tree = await this.tree(db, input.scope)
-    const [rows, relations] = await Promise.all([
-      this.allUnits(db, tree.id),
-      this.memberships(db, { scope: input.scope, userId: input.userId }),
-    ])
+    const rows = await this.allUnits(db, tree.id)
+    const relations = await this.memberships(db, { scope: input.scope, userId: input.userId })
     const unitsById = new Map(rows.map((row) => [row.id, row]))
     const derived = deriveOrganizationUnits(rows)
     const records: OrganizationMembershipRecord[] = relations
@@ -354,15 +352,13 @@ export class OrganizationUnitsService {
     return { userId: input.userId, relations: records }
   }
 
-  /** 返回某组织单元的完整成员关系，并按职责和关系 ID 稳定排序。 */
+  /** 顺序查询某组织单元的完整成员关系和成员快照，并按职责和关系 ID 稳定排序。 */
   private async unitMemberResult(
     db: AccessDb,
     input: { scope: OrganizationScope; organizationUnitId: string },
   ): Promise<ReplaceOrganizationUnitMembersResult> {
-    const [relations, members] = await Promise.all([
-      this.memberships(db, input),
-      this.scopeMembers(db, input.scope),
-    ])
+    const relations = await this.memberships(db, input)
+    const members = await this.scopeMembers(db, input.scope)
     const records: OrganizationUnitMemberRecord[] = relations
       .map((relation) => {
         const member = requireFound(members.get(relation.userId))
@@ -671,7 +667,7 @@ export class OrganizationUnitsService {
     )
   }
 
-  /** 按成员全量替换当前作用域内组织关系，允许空集合并原子校验负责人唯一性。 */
+  /** 按成员全量替换组织关系，在事务内顺序查询并原子校验负责人唯一性，允许空集合。 */
   replaceMemberUnits(input: {
     actor: AccessActor
     scope: OrganizationScope
@@ -686,11 +682,12 @@ export class OrganizationUnitsService {
       },
       async (tx, access) => {
         const tree = await this.tree(tx, input.scope)
-        const [rows, memberMap, previousRows] = await Promise.all([
-          this.allUnits(tx, tree.id),
-          this.scopeMembers(tx, input.scope, [input.userId]),
-          this.memberships(tx, { scope: input.scope, userId: input.userId }),
-        ])
+        const rows = await this.allUnits(tx, tree.id)
+        const memberMap = await this.scopeMembers(tx, input.scope, [input.userId])
+        const previousRows = await this.memberships(tx, {
+          scope: input.scope,
+          userId: input.userId,
+        })
         const member = requireFound(memberMap.get(input.userId))
         const unitsById = new Map(rows.map((row) => [row.id, row]))
         const derived = deriveOrganizationUnits(rows)

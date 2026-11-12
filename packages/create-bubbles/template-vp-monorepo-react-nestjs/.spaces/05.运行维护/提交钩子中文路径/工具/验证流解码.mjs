@@ -20,6 +20,9 @@ const repoRoot = execFileSync('git', ['rev-parse', '--show-toplevel'], {
   encoding: 'utf8',
 }).trim()
 const bundlePath = path.join(repoRoot, 'node_modules/vite-plus/dist/staged/bin.js')
+const { version: vitePlusVersion } = JSON.parse(
+  await readFile(path.join(repoRoot, 'node_modules/vite-plus/package.json'), 'utf8'),
+)
 const source = await readFile(bundlePath, 'utf8')
 const functionSource = source.match(/async function readStream\(stream\) \{[\s\S]*?\n\}/)?.[0]
 assert.ok(functionSource, '必须验证实际安装的 Vite+ readStream 实现')
@@ -51,7 +54,8 @@ for (const expected of samples) {
 const emptyOutput = await readStream(Readable.from([], { objectMode: false }))
 assert.equal(emptyOutput, '', '空输出必须保持为空字符串')
 const report = {
-  date: '2026-11-04',
+  date: new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Shanghai' }).format(new Date()),
+  vitePlusVersion,
   bundlePath,
   expectedBroken: values['expect-broken'],
   cases: cases + 1,

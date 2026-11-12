@@ -18,6 +18,7 @@
     "lint": "pnpm lint:ox && pnpm lint:vue",
     "lint:ox": "vp lint .",
     "lint:vue": "eslint \"apps/**/*.vue\" \"packages/**/*.vue\" --no-error-on-unmatched-pattern --max-warnings=0",
+    "prepare": "pnpm hooks:install",
     "preview": "vp run playground#preview",
     "ready": "pnpm run ci",
     "release": "pnpm ready && changeset publish",

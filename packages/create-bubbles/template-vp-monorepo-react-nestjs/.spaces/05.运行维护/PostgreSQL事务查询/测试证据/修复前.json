@@ -1,0 +1,207 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 4,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 13,
+  "numPassedTests": 1,
+  "numFailedTests": 12,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1794468058407,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询"],
+          "fullName": "同一事务连接顺序执行查询 多角色分页顺序聚合详情，并保持记录顺序和分页",
+          "status": "failed",
+          "title": "多角色分页顺序聚合详情，并保持记录顺序和分页",
+          "duration": 7.037000000000035,
+          "failureMessages": [
+            "Error: Failed query: select \"id\", \"scope_type\", \"company_id\", \"project_id\", \"name\", \"description\", \"builtin\", \"version\", \"created_at\", \"updated_at\" from \"roles\" where ((\"roles\".\"scope_type\" = $1 and \"roles\".\"company_id\" is null and \"roles\".\"project_id\" is null) and \"roles\".\"id\" = $2)\nparams: platform,00000000-0000-4000-8000-000000000002\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at RolesService.record (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/access/roles/roles.service.ts:45:19)\n    at async Promise.all (index 1)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/access/roles/roles.service.ts:120:18"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询", "company 作用域"],
+          "fullName": "同一事务连接顺序执行查询 company 作用域 多岗位分页顺序统计任职人数",
+          "status": "failed",
+          "title": "多岗位分页顺序统计任职人数",
+          "duration": 1.7099000000000615,
+          "failureMessages": [
+            "Error: Failed query: select count(*) from \"company_position_members\" where (\"company_position_members\".\"company_id\" = $1 and \"company_position_members\".\"position_id\" = $2)\nparams: 00000000-0000-4000-8000-000000000004,00000000-0000-4000-8000-000000000002\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at PositionsService.positionRecord (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/positions/positions.service.ts:76:11)\n    at async Promise.all (index 1)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/positions/positions.service.ts:336:18"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询", "company 作用域"],
+          "fullName": "同一事务连接顺序执行查询 company 作用域 成员岗位替换后顺序读取多条岗位详情",
+          "status": "failed",
+          "title": "成员岗位替换后顺序读取多条岗位详情",
+          "duration": 1.9377999999999247,
+          "failureMessages": [
+            "Error: Failed query: select count(*) from \"company_position_members\" where (\"company_position_members\".\"company_id\" = $1 and \"company_position_members\".\"position_id\" = $2)\nparams: 00000000-0000-4000-8000-000000000004,00000000-0000-4000-8000-000000000002\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at PositionsService.positionRecord (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/positions/positions.service.ts:76:11)\n    at async Promise.all (index 1)\n    at PositionsService.memberPositionResult (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/positions/positions.service.ts:273:18)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询", "company 作用域"],
+          "fullName": "同一事务连接顺序执行查询 company 作用域 按成员替换组织关系，校验和返回结果均不重叠查询",
+          "status": "failed",
+          "title": "按成员替换组织关系，校验和返回结果均不重叠查询",
+          "duration": 1.8174000000000206,
+          "failureMessages": [
+            "Error: Failed query: select \"id\", \"organization_unit_id\", \"user_id\", \"duty\", \"created_at\", \"updated_at\" from \"company_organization_unit_members\" where (\"company_organization_unit_members\".\"company_id\" = $1 and \"company_organization_unit_members\".\"user_id\" = $2)\nparams: 00000000-0000-4000-8000-000000000004,00000000-0000-4000-8000-000000000003\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at async Promise.all (index 2)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/units/organization-units.service.ts:689:49"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询", "company 作用域"],
+          "fullName": "同一事务连接顺序执行查询 company 作用域 按组织单元替换成员后顺序查询成员快照",
+          "status": "failed",
+          "title": "按组织单元替换成员后顺序查询成员快照",
+          "duration": 1.5740999999999303,
+          "failureMessages": [
+            "Error: Failed query: select \"company_members\".\"id\", \"company_members\".\"user_id\", \"users\".\"account\", \"users\".\"name\", \"company_members\".\"status\", \"users\".\"status\" from \"company_members\" inner join \"users\" on \"users\".\"id\" = \"company_members\".\"user_id\" where \"company_members\".\"company_id\" = $1\nparams: 00000000-0000-4000-8000-000000000004\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at OrganizationUnitsService.scopeMembers (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/units/organization-units.service.ts:141:11)\n    at async Promise.all (index 1)\n    at OrganizationUnitsService.unitMemberResult (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/units/organization-units.service.ts:362:34)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询", "project 作用域"],
+          "fullName": "同一事务连接顺序执行查询 project 作用域 多岗位分页顺序统计任职人数",
+          "status": "failed",
+          "title": "多岗位分页顺序统计任职人数",
+          "duration": 0.8613000000000284,
+          "failureMessages": [
+            "Error: Failed query: select count(*) from \"project_position_members\" where (\"project_position_members\".\"company_id\" = $1 and \"project_position_members\".\"project_id\" = $2 and \"project_position_members\".\"position_id\" = $3)\nparams: 00000000-0000-4000-8000-000000000004,00000000-0000-4000-8000-000000000005,00000000-0000-4000-8000-000000000002\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at PositionsService.positionRecord (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/positions/positions.service.ts:85:11)\n    at async Promise.all (index 1)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/positions/positions.service.ts:336:18"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询", "project 作用域"],
+          "fullName": "同一事务连接顺序执行查询 project 作用域 成员岗位替换后顺序读取多条岗位详情",
+          "status": "failed",
+          "title": "成员岗位替换后顺序读取多条岗位详情",
+          "duration": 1.0412000000000035,
+          "failureMessages": [
+            "Error: Failed query: select count(*) from \"project_position_members\" where (\"project_position_members\".\"company_id\" = $1 and \"project_position_members\".\"project_id\" = $2 and \"project_position_members\".\"position_id\" = $3)\nparams: 00000000-0000-4000-8000-000000000004,00000000-0000-4000-8000-000000000005,00000000-0000-4000-8000-000000000002\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at PositionsService.positionRecord (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/positions/positions.service.ts:85:11)\n    at async Promise.all (index 1)\n    at PositionsService.memberPositionResult (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/positions/positions.service.ts:273:18)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询", "project 作用域"],
+          "fullName": "同一事务连接顺序执行查询 project 作用域 按成员替换组织关系，校验和返回结果均不重叠查询",
+          "status": "failed",
+          "title": "按成员替换组织关系，校验和返回结果均不重叠查询",
+          "duration": 0.7620999999999185,
+          "failureMessages": [
+            "Error: Failed query: select \"id\", \"organization_unit_id\", \"user_id\", \"duty\", \"created_at\", \"updated_at\" from \"project_organization_unit_members\" where (\"project_organization_unit_members\".\"company_id\" = $1 and \"project_organization_unit_members\".\"project_id\" = $2 and \"project_organization_unit_members\".\"user_id\" = $3)\nparams: 00000000-0000-4000-8000-000000000004,00000000-0000-4000-8000-000000000005,00000000-0000-4000-8000-000000000003\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at async Promise.all (index 2)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/units/organization-units.service.ts:689:49"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询", "project 作用域"],
+          "fullName": "同一事务连接顺序执行查询 project 作用域 按组织单元替换成员后顺序查询成员快照",
+          "status": "failed",
+          "title": "按组织单元替换成员后顺序查询成员快照",
+          "duration": 0.9828999999999724,
+          "failureMessages": [
+            "Error: Failed query: select \"project_members\".\"id\", \"project_members\".\"user_id\", \"users\".\"account\", \"users\".\"name\", \"project_members\".\"status\", \"users\".\"status\" from \"project_members\" inner join \"users\" on \"users\".\"id\" = \"project_members\".\"user_id\" where (\"project_members\".\"company_id\" = $1 and \"project_members\".\"project_id\" = $2)\nparams: 00000000-0000-4000-8000-000000000004,00000000-0000-4000-8000-000000000005\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at OrganizationUnitsService.scopeMembers (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/units/organization-units.service.ts:158:11)\n    at async Promise.all (index 1)\n    at OrganizationUnitsService.unitMemberResult (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/units/organization-units.service.ts:362:34)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询"],
+          "fullName": "同一事务连接顺序执行查询 模板快照顺序读取组织单元与岗位，并保持版本条件",
+          "status": "failed",
+          "title": "模板快照顺序读取组织单元与岗位，并保持版本条件",
+          "duration": 1.1578999999999269,
+          "failureMessages": [
+            "Error: Failed query: select \"id\", \"template_id\", \"template_version\", \"name\", \"name_key\", \"code\", \"code_key\", \"description\", \"status\", \"created_at\" from \"organization_template_positions\" where (\"organization_template_positions\".\"template_id\" = $1 and \"organization_template_positions\".\"template_version\" = $2) order by \"organization_template_positions\".\"id\" asc\nparams: 00000000-0000-4000-8000-000000000001,3\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at async Promise.all (index 1)\n    at OrganizationTemplatesService.snapshot (C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/templates/organization-templates.service.ts:63:32)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/test/database/transaction-queries/sequential-queries.spec.ts:204:20\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.1.0_@types+node@26_0912e29e666527fd8ab28b30d6444782/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2801:20"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询"],
+          "fullName": "同一事务连接顺序执行查询 多模板摘要顺序统计各自当前版本",
+          "status": "failed",
+          "title": "多模板摘要顺序统计各自当前版本",
+          "duration": 0.908399999999915,
+          "failureMessages": [
+            "Error: Failed query: select count(*) from \"organization_template_positions\" where (\"organization_template_positions\".\"template_id\" = $1 and \"organization_template_positions\".\"template_version\" = $2)\nparams: 00000000-0000-4000-8000-000000000001,3\n    at PreparedQuery.queryWithCache (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:80:33\n    at async file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/drizzle-orm@0.45.4_@types+pg@8.23.1_pg@8.23.1/node_modules/drizzle-orm/pg-proxy/session.js:75:20\n    at async Promise.all (index 1)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/templates/organization-templates.service.ts:239:48\n    at async Promise.all (index 0)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/src/modules/organization/templates/organization-templates.service.ts:237:23"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询"],
+          "fullName": "同一事务连接顺序执行查询 空角色、岗位和模板列表不追加详情查询",
+          "status": "passed",
+          "title": "空角色、岗位和模板列表不追加详情查询",
+          "duration": 1.5417999999999665,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["同一事务连接顺序执行查询"],
+          "fullName": "同一事务连接顺序执行查询 快照查询失败向上传播，且不再发起后续岗位查询",
+          "status": "failed",
+          "title": "快照查询失败向上传播，且不再发起后续岗位查询",
+          "duration": 3.76520000000005,
+          "failureMessages": [
+            "Error: expected Error: Failed query: select \"id\", \"templa… { …(2) } to match object { cause: Error: 查询失败 }\n(2 matching properties omitted from actual)\n    at Assertion.__VITEST_REJECTS__ (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.1.0_@types+node@26_0912e29e666527fd8ab28b30d6444782/node_modules/vitest/dist/chunks/index.CZzC1gGg.js:2178:33)\n    at Assertion.propertyGetter (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1607:27)\n    at Reflect.get (<anonymous>)\n    at Object.proxyGetter [as get] (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/chai@6.3.0/node_modules/chai/index.js:1696:22)\n    at C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/test/database/transaction-queries/sequential-queries.spec.ts:240:6\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.1.0_@types+node@26_0912e29e666527fd8ab28b30d6444782/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:1632:35\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.1.0_@types+node@26_0912e29e666527fd8ab28b30d6444782/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:2801:26\n    at file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.1.0_@types+node@26_0912e29e666527fd8ab28b30d6444782/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3338:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/node_modules/.pnpm/vitest@5.1.0_@types+node@26_0912e29e666527fd8ab28b30d6444782/node_modules/vitest/dist/chunks/run.CjdgFZiW.js:3333:10)"
+          ],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1794468059264,
+      "endTime": 1794468059289.7651,
+      "status": "failed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/server/test/database/transaction-queries/sequential-queries.spec.ts"
+    }
+  ]
+}

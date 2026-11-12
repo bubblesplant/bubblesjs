@@ -101,7 +101,7 @@ export class RolesService {
   list(input: { actor: AccessActor; scope: AccessScope; query: PageQuery }) {
     return this.access.read(
       { ...input, permission: this.readPermissions(input.scope) },
-      /** 在同一快照内计算角色总数、读取当前页并聚合角色授权详情。 */
+      /** 在同一快照内计算角色总数、读取当前页，并顺序查询角色详情以复用事务连接。 */
       async (tx, access) => {
         const { page, pageSize, offset } = pageWindow(input.query)
         const condition = and(scopeFilter(input.scope), searchSql([roles.name], input.query.query))
@@ -113,11 +113,13 @@ export class RolesService {
           .orderBy(desc(roles.createdAt), desc(roles.id))
           .limit(pageSize)
           .offset(offset)
+        const items: RoleRecord[] = []
+        for (const row of selected) items.push(await this.record(tx, access, row.id))
         return {
           page,
           pageSize,
           total: total!.value,
-          items: await Promise.all(selected.map((r) => this.record(tx, access, r.id))),
+          items,
         }
       },
     )

@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-12",
+  "browser": "Microsoft Edge headless",
+  "baseUrl": "http://127.0.0.1:10000",
+  "tabOrder": ["账号", "密码", "登录"],
+  "scenarios": [
+    {
+      "name": "账号有值时 Tab 跳过清空按钮进入密码框",
+      "passed": true
+    },
+    {
+      "name": "密码为空时 Tab 跳过小眼睛进入登录按钮",
+      "passed": true
+    },
+    {
+      "name": "登录按钮 Shift+Tab 跳过小眼睛返回密码框",
+      "passed": true
+    },
+    {
+      "name": "密码有值时 Tab 跳过小眼睛进入登录按钮",
+      "passed": true
+    },
+    {
+      "name": "密码框 Shift+Tab 跳过清空按钮返回账号框",
+      "passed": true
+    },
+    {
+      "name": "账号为空时 Tab 进入密码框",
+      "passed": true
+    },
+    {
+      "name": "鼠标清空账号且焦点留在账号框",
+      "passed": true
+    },
+    {
+      "name": "键盘全选删除仍可清空账号",
+      "passed": true
+    },
+    {
+      "name": "小眼睛保留鼠标显示与隐藏密码",
+      "passed": true
+    }
+  ],
+  "pageErrors": [],
+  "loginRequests": 0
+}

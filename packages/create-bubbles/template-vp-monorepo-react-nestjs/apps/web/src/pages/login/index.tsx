@@ -116,6 +116,7 @@ export default function LoginPage() {
               placeholder={tr('请输入账号')}
               fieldProps={{
                 prefix: <UserOutlined />,
+                allowClear: { tabIndex: -1 },
                 autoComplete: 'username',
                 maxLength: 32,
                 size: 'large',
@@ -143,6 +144,7 @@ export default function LoginPage() {
               placeholder={tr('请输入密码')}
               fieldProps={{
                 prefix: <LockOutlined />,
+                visibilityToggle: { tabIndex: -1 },
                 autoComplete: 'current-password',
                 maxLength: 128,
                 size: 'large',

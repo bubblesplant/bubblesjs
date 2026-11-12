@@ -14,3 +14,6 @@ allowBuilds:
   protobufjs: true
 patchedDependencies:
   '@tarojs/plugin-mini-ci': patches/@tarojs__plugin-mini-ci.patch
+minimumReleaseAgeExclude:
+  - sass@1.108.2
+  - '@babel/runtime@7.29.14'
