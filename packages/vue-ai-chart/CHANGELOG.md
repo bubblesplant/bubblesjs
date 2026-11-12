@@ -1,5 +1,11 @@
 # @bubblesjs/vue-ai-chart
 
+## 0.0.8
+
+### Patch Changes
+
+- [`00cd1cb`](https://github.com/bubblesplant/bubblesjs/commit/00cd1cb2f7a926a1201c0d103250d826f2b88ee0) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 升级脚手架、全部模板和 Vue 组件库的兼容依赖，统一 Vite+ 与配套 Vite 核心为 1.6.0，并同步 pnpm 锁文件。Vite+ 补丁保持移除，保留 TypeScript、Taro 和 UnoCSS 的现有兼容版本系列。
+
 ## 0.0.7
 
 ### Patch Changes
