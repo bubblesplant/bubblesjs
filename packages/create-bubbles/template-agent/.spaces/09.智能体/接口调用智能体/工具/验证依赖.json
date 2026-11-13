@@ -1,0 +1,16 @@
+{
+  "name": "agent-course-verification",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@langchain/core": "1.4.0",
+    "@langchain/openai": "1.8.4",
+    "@langchain/anthropic": "1.6.4",
+    "@langchain/langgraph": "1.7.4",
+    "@langchain/mcp-adapters": "2.0.3",
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "langchain": "1.6.5",
+    "zod": "4.6.7",
+    "yaml": "2.9.1"
+  }
+}

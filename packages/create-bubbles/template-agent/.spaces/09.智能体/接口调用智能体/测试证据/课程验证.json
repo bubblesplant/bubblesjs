@@ -1,0 +1,105 @@
+{
+  "date": "2026-11-13T06:35:37.255Z",
+  "node": "v26.13.1",
+  "scope": "本地模拟模型响应与真实SDK、本地只读stdio MCP；未调用外部付费模型",
+  "results": [
+    {
+      "name": "语法模块数",
+      "count": 28
+    },
+    {
+      "name": "提取全部完整示例并通过 Node 语法检查",
+      "status": "passed",
+      "durationMs": 1442
+    },
+    {
+      "name": "OpenAI 与 Claude 真实适配器连接本地协议服务",
+      "status": "passed",
+      "durationMs": 31
+    },
+    {
+      "name": "OpenAI 流式消息块读取",
+      "status": "passed",
+      "durationMs": 5
+    },
+    {
+      "name": "503 使用备用 Claude，401 不使用备用",
+      "status": "passed",
+      "durationMs": 7
+    },
+    {
+      "name": "取消信号不触发备用，工具成功后切换不重复工具",
+      "status": "passed",
+      "durationMs": 6
+    },
+    {
+      "name": "手写工具循环与 LangChain createAgent 得到60",
+      "status": "passed",
+      "durationMs": 25
+    },
+    {
+      "name": "工具循环拒绝未知工具、非法参数与超限",
+      "status": "passed",
+      "durationMs": 2
+    },
+    {
+      "name": "Skills 名称发现、正文、参考文件与路径越界拒绝",
+      "status": "passed",
+      "durationMs": 6
+    },
+    {
+      "name": "真实本地 stdio MCP 工具发现、调用和关闭",
+      "status": "passed",
+      "durationMs": 386
+    },
+    {
+      "name": "会话历史连续、跨用户隔离、同会话并发拒绝",
+      "status": "passed",
+      "durationMs": 1
+    },
+    {
+      "name": "LangGraph 模型工具往返与检查点历史",
+      "status": "passed",
+      "durationMs": 20
+    },
+    {
+      "name": "候选问题校验与原图暂停恢复",
+      "status": "passed",
+      "durationMs": 10
+    },
+    {
+      "name": "第九课实际 Send 图动态并行、两个子问题、恢复后一次汇总",
+      "status": "passed",
+      "durationMs": 36
+    },
+    {
+      "name": "封装输入输出校验、归属隔离及事件",
+      "status": "passed",
+      "durationMs": 7
+    },
+    {
+      "name": "封装等待、漏答拒绝、并发会话拒绝、同run恢复",
+      "status": "passed",
+      "durationMs": 7
+    },
+    {
+      "name": "封装并行委派同一子Agent、两个问题与共享计数",
+      "status": "passed",
+      "durationMs": 17
+    },
+    {
+      "name": "父权限约束子代理、总步骤及深度任务上限",
+      "status": "passed",
+      "durationMs": 19
+    },
+    {
+      "name": "取消等待、外部取消、超时与关闭资源",
+      "status": "passed",
+      "durationMs": 138
+    }
+  ],
+  "summary": {
+    "passed": 18,
+    "failed": 0
+  }
+}

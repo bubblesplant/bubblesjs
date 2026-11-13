@@ -1,0 +1,23 @@
+{
+  "name": "docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vp run bundle",
+    "dev": "vitepress dev . --port 5174 --strictPort",
+    "preview": "vitepress preview .",
+    "typecheck": "vue-tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vitepress": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}
