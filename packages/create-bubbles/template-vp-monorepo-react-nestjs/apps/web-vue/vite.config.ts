@@ -17,6 +17,17 @@ export default defineConfig(({ mode }) => {
   const { VITE_PORT, VITE_API_URL, VITE_API_AFFIX } = env
 
   return {
+    fmt: { semi: false, singleQuote: true, ignorePatterns: ['src/types/**', 'dist/**'] },
+    lint: {
+      ignorePatterns: ['src/types/**', 'dist/**'],
+      plugins: ['typescript', 'unicorn', 'oxc'],
+    },
+    test: {
+      environment: 'happy-dom',
+      include: ['test/**/*.spec.ts'],
+      restoreMocks: true,
+      clearMocks: true,
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),
@@ -31,7 +42,7 @@ export default defineConfig(({ mode }) => {
           target: VITE_API_URL,
           changeOrigin: true,
           // secure: false, // Disable SSL certificate verification
-          rewrite: path => path.replace(new RegExp(`^/${VITE_API_AFFIX}`), ''),
+          rewrite: (path) => path.replace(new RegExp(`^/${VITE_API_AFFIX}`), ''),
         },
       },
     },

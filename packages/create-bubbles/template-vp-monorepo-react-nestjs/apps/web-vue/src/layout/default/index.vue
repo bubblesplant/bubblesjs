@@ -1,127 +1,165 @@
-<script lang="ts" setup>
-import type { MenuProps } from 'antdv-next'
+<script setup lang="ts">
+import type { MenuNode } from 'shared/types'
+import { useI18n } from '@bubblesjs/i18n-vue'
+import { Alert, Button, Drawer, Menu, Spin } from 'antdv-next'
+import { accessRoutePath, accessScopeKey } from 'shared/utils'
+import { computed, h, onBeforeUnmount, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import AccountMenu from '@/components/application/AccountMenu.vue'
+import LocaleSwitch from '@/components/application/LocaleSwitch.vue'
+import { firstAccessiblePath, navigationMenus, routeScope } from '@/router/access'
+import { useUserStore } from '@/store/modules/user'
 
-import type { MenuRouteRecordRawType } from '@/router/interface'
-
-import SvgIcon from '@/components/Icon/svg-icon.vue'
-
-import { menuRoutes } from '@/router/modules'
-
-import Header from './header/index.vue'
-
+const store = useUserStore()
 const route = useRoute()
 const router = useRouter()
-
-const collapsed = ref(false)
-
-/** 根据当前路由匹配链计算菜单选中项。 */
-const selectedKeys = computed(() => {
-  const matched = route.matched.map(item => item.name)
-  return matched.filter(Boolean) as string[]
-})
-
-const openKeys = ref<string[]>([])
-
-watchEffect(/** 路由变化时同步父菜单展开状态。 */ () => {
-  const matched = route.matched.map(item => item.name).filter(Boolean) as string[]
-  const parentKey = matched[0]
-
-  openKeys.value = matched.length > 1 && parentKey !== undefined ? [parentKey] : []
-})
-
-/** 按菜单项的路由名称跳转。 */
-function handleMenuClick({ key }: { key: string }) {
-  router.push({ name: key })
-}
-
-/** 将 `svg-` 前缀的菜单图标转换为图标组件，其余图标返回 `null`。 */
-function renderIcon(icon?: string) {
-  if (!icon)
-    return null
-  const isSvgIcon = icon.startsWith('svg-')
-  if (isSvgIcon) {
-    return h(SvgIcon, {
-      icon: icon.replace('svg-', ''),
-      style: { fontSize: '18px' },
-    })
-  }
-  return null
-}
-
-/** 递归将可见路由转换为菜单项，保留标题、图标和子菜单层级。 */
-function getMenuItems(routes: MenuRouteRecordRawType[]): NonNullable<MenuProps['items']> {
-  return routes
-    .filter(item => !item.meta?.hideInMenu)
-    .map(/** 生成当前路由的菜单项，并递归构造可见子菜单。 */ (item) => {
-      const hasChildren = item.children && item.children.length > 0
-      const key = String(item.name ?? item.path)
-      const label = item.meta?.title ?? key
-      if (hasChildren) {
-        return {
-          key,
-          label,
-          icon: renderIcon(item.meta?.icon),
-          children: getMenuItems(item.children as MenuRouteRecordRawType[]),
+const { tr } = useI18n()
+const drawer = ref(false)
+const refreshing = ref(false)
+const refreshFailed = ref(false)
+const entry = computed(() =>
+  store.workspaces.find(
+    (item) =>
+      accessScopeKey(item.scope) === (store.access ? accessScopeKey(store.access.scope) : ''),
+  ),
+)
+const examples = computed(() => [
+  {
+    key: '/examples/pro-table',
+    label: tr('ProTable 示例'),
+  },
+  {
+    key: '/examples/pro-table/draft',
+    label: tr('草稿编辑表格'),
+  },
+  {
+    key: '/examples/i18n',
+    label: tr('国际化示例'),
+  },
+  {
+    key: '/examples/selector',
+    label: tr('选择器示例'),
+  },
+])
+/** 将已授权菜单转为 Antdv Menu 项，目录保留完整层级。 */
+function menuItems(
+  nodes: MenuNode[],
+): Array<{ key: string; label: string; children?: ReturnType<typeof menuItems> }> {
+  return nodes.map((node) => ({
+    key:
+      node.routeKey && store.access
+        ? accessRoutePath({ scope: store.access.scope, routeKey: node.routeKey })!
+        : node.id,
+    label: tr(node.name),
+    ...(node.type === 'directory'
+      ? {
+          children: menuItems(node.children),
         }
-      }
-      return {
-        key,
-        label,
-        icon: renderIcon(item.meta?.icon),
-      }
-    })
+      : {}),
+  }))
 }
-
-const menuItems = computed(() => getMenuItems(menuRoutes))
+const items = computed(() => [
+  ...(store.access ? menuItems(navigationMenus(store.access)) : []),
+  {
+    key: 'examples',
+    label: tr('组件示例'),
+    children: examples.value,
+  },
+])
+/** 权限失效时隐藏旧内容，并重读授权后跳转至合法页面。 */
+async function refresh() {
+  const scope = routeScope(route)
+  if (!scope || refreshing.value) return
+  refreshing.value = true
+  refreshFailed.value = false
+  try {
+    const access = await store.loadAccess(scope, true)
+    if (!access.permissionKeys.includes(`${String(route.meta.routeKey)}.read`))
+      await router.replace(firstAccessiblePath(access) ?? '/403')
+  } catch {
+    refreshFailed.value = true
+  } finally {
+    refreshing.value = false
+  }
+}
+window.addEventListener('workspace-access-refresh', refresh)
+onBeforeUnmount(() => window.removeEventListener('workspace-access-refresh', refresh))
+/** 手机端导航后关闭抽屉。 */
+function navigate({ key }: { key: string }) {
+  if (key.startsWith('/')) {
+    drawer.value = false
+    void router.push(key)
+  }
+}
+function sidebar() {
+  return h(Menu, {
+    mode: 'inline',
+    items: items.value,
+    selectedKeys: [route.path],
+    defaultOpenKeys: ['examples'],
+    onClick: navigate,
+  })
+}
 </script>
 
 <template>
-  <ALayout class="h-screen">
-    <ALayoutSider v-model:collapsed="collapsed" :trigger="null" collapsible :width="220" class="layout-sider">
-      <div class="logo flex-center gap-2 h-[var(--header-height)]">
-        <SvgIcon icon="logo" class="text-2xl" />
-        <span v-show="!collapsed" class="text-lg text-white font-bold">
-          Vue Template
-        </span>
+  <div class="app-shell">
+    <aside class="app-sidebar">
+      <RouterLink to="/workspaces" class="brand">
+        <span class="brand-mark small">b.</span>
+        Bubbles
+      </RouterLink>
+      <div class="space-label">
+        <span>{{ tr('当前工作空间') }}</span>
+        <strong>{{ entry?.name || tr('组件实验室') }}</strong>
       </div>
-      <AMenu v-model:selected-keys="selectedKeys" v-model:open-keys="openKeys" :items="menuItems" theme="dark"
-        mode="inline" @click="handleMenuClick" />
-    </ALayoutSider>
-
-    <ALayout>
-      <ALayoutHeader class="layout-header px-4 flex items-center justify-between">
-        <div class="flex gap-3 items-center">
-          <AButton type="text" class="flex-center" @click="collapsed = !collapsed">
-            <SvgIcon :icon="collapsed ? 'menu-unfold' : 'menu-fold'" style="font-size: 18px" />
-          </AButton>
+      <component :is="sidebar" />
+      <div class="sidebar-bottom">
+        <span class="status-dot" />
+        {{ tr('有序工作，自在创造') }}
+      </div>
+    </aside>
+    <Drawer v-model:open="drawer" placement="left" :size="260" :title="entry?.name || 'Bubbles'">
+      <component :is="sidebar" />
+    </Drawer>
+    <div class="app-main">
+      <header class="app-header">
+        <div class="header-breadcrumb">
+          <Button
+            type="text"
+            class="mobile-menu"
+            :aria-label="tr('打开菜单')"
+            @click="drawer = true"
+          >
+            ☰
+          </Button>
+          <span>{{ entry?.name || 'Bubbles' }}</span>
+          <span>/</span>
+          <strong>{{ tr(String(route.meta.title)) }}</strong>
         </div>
-        <Header />
-      </ALayoutHeader>
-
-      <ALayoutContent class="layout-content p-4 overflow-auto">
-        <RouterView />
-      </ALayoutContent>
-    </ALayout>
-  </ALayout>
+        <div class="header-actions">
+          <Button @click="router.push('/workspaces')">{{ tr('切换空间') }}</Button>
+          <LocaleSwitch />
+          <AccountMenu v-if="store.user" />
+          <Button v-else @click="router.push('/login')">
+            {{ tr('登录') }}
+          </Button>
+        </div>
+      </header>
+      <main class="app-content">
+        <Spin v-if="refreshing" class="page-spinner" />
+        <Alert v-else-if="refreshFailed" type="error" :message="tr('权限加载失败')">
+          <template #action>
+            <Button @click="refresh">
+              {{ tr('重试') }}
+            </Button>
+          </template>
+        </Alert>
+        <RouterView v-else v-slot="{ Component }">
+          <component :is="Component" :key="route.path" />
+        </RouterView>
+      </main>
+      <footer class="app-footer">BUBBLES · {{ tr('让协作自然发生') }}</footer>
+    </div>
+  </div>
 </template>
-
-<style lang="scss" scoped>
-.layout-sider {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: auto;
-}
-
-.layout-header {
-  height: var(--header-height);
-  background: #fff;
-  border-bottom: 1px solid #f0f0f0;
-  padding: 0;
-}
-
-.layout-content {
-  min-height: calc(100vh - var(--header-height));
-  background: #f5f5f5;
-}
-</style>

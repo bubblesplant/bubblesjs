@@ -6,6 +6,4 @@ defineOptions({ name: 'TreeChart' })
   <div class="tree-chart-container" />
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

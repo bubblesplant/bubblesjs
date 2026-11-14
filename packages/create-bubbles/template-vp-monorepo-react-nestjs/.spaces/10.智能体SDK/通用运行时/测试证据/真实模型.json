@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-14T03:26:09.761Z",
+  "model": "DeepSeek-V4.1-Flash-1017-Event",
+  "baseUrl": "https://api.scnet.cn/api/llm/anthropic",
+  "auth": "api-key",
+  "scenarios": [
+    {
+      "name": "conversation",
+      "status": "completed",
+      "passed": true,
+      "output": "PONG",
+      "usage": {
+        "inputTokens": 46,
+        "outputTokens": 3
+      }
+    },
+    {
+      "name": "local-tool",
+      "status": "completed",
+      "passed": true,
+      "executions": 1,
+      "output": "42",
+      "usage": {
+        "inputTokens": 79,
+        "outputTokens": 72
+      }
+    },
+    {
+      "name": "process-subagent",
+      "status": "completed",
+      "passed": true,
+      "workerTool": true,
+      "output": "42",
+      "usage": {
+        "inputTokens": 1107,
+        "outputTokens": 144
+      }
+    }
+  ],
+  "passed": true,
+  "durationMs": 10193,
+  "modelRequests": 7,
+  "completedTools": [
+    {
+      "tool": "add",
+      "agent": "local-calculator",
+      "depth": 0
+    },
+    {
+      "tool": "add",
+      "agent": "process-calculator",
+      "depth": 1
+    },
+    {
+      "tool": "delegate_agent",
+      "agent": "parent",
+      "depth": 0
+    }
+  ]
+}

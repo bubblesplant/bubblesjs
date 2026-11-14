@@ -7,12 +7,15 @@
     "dev": "vp dev --mode development",
     "build": "vue-tsc -b && vp build",
     "preview": "vp preview",
+    "test": "vp test",
     "lint": "oxlint && eslint",
     "lint:fix": "oxlint && eslint --fix"
   },
   "dependencies": {
     "@alova/adapter-axios": "catalog:",
     "@antdv-next/icons": "catalog:",
+    "@bubblesjs/antdv-next-pro": "^0.3.4",
+    "@bubblesjs/i18n-core": "workspace:*",
     "@bubblesjs/i18n-vue": "workspace:*",
     "@vue/devtools-api": "catalog:",
     "alova": "catalog:",
@@ -24,13 +27,13 @@
     "nprogress": "catalog:",
     "pinia": "catalog:",
     "pinia-plugin-persistedstate": "catalog:",
+    "shared": "workspace:*",
     "vue": "catalog:",
     "vue-router": "catalog:"
   },
   "devDependencies": {
     "@antdv-next/auto-import-resolver": "catalog:",
     "@antfu/eslint-config": "catalog:",
-    "@bubblesjs/i18n-core": "workspace:*",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@types/node": "catalog:",
@@ -44,6 +47,7 @@
     "eslint-plugin-format": "catalog:",
     "eslint-plugin-oxlint": "catalog:",
     "fast-glob": "catalog:",
+    "happy-dom": "catalog:",
     "oxlint": "catalog:",
     "sass": "catalog:",
     "typescript": "catalog:",

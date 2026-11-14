@@ -1,0 +1,266 @@
+{
+  "executedAt": "2026-11-14T04:29:37.220Z",
+  "baseUrl": "http://127.0.0.1:5197",
+  "mockData": true,
+  "browser": "145.0.7632.6",
+  "checks": [
+    "login",
+    "workspaces",
+    "platform.home",
+    "platform.companies",
+    "platform.accounts",
+    "platform.roles",
+    "platform.menus",
+    "platform.audit",
+    "company.home",
+    "company.profile",
+    "company.members",
+    "company.roles",
+    "company.projects",
+    "company.organization",
+    "company.positions",
+    "company.organization.templates",
+    "company.audit",
+    "project.home",
+    "project.profile",
+    "project.members",
+    "project.roles",
+    "project.organization",
+    "project.positions",
+    "project.audit",
+    "platform.dictionaries",
+    "company.dictionaries",
+    "project.dictionaries",
+    "pro-table",
+    "pro-table-draft",
+    "i18n",
+    "selector",
+    "register-validation",
+    "workspace-navigation",
+    "dictionary-write-and-conflict",
+    "position-write",
+    "role-permission-dependency",
+    "member-relations",
+    "organization-write-and-assignment",
+    "template-edit",
+    "menu-directory-and-cleanup",
+    "draft-persistence",
+    "selector-submit-and-modes",
+    "language-switch",
+    "mobile-navigation",
+    "forbidden-direct-route",
+    "unauthorized-session"
+  ],
+  "failures": [],
+  "runtimeErrors": [],
+  "unexpected": [],
+  "writes": [
+    {
+      "path": "/auth/login",
+      "method": "POST",
+      "body": {
+        "account": "vue_qa"
+      }
+    },
+    {
+      "path": "/auth/register",
+      "method": "POST",
+      "body": {
+        "name": "虚构注册用户",
+        "account": "vue_qa_new"
+      }
+    },
+    {
+      "path": "/companies/qa-company/dictionaries",
+      "method": "POST",
+      "body": {
+        "code": "qa_state",
+        "name": "验收状态",
+        "description": "",
+        "status": "active",
+        "items": [
+          {
+            "value": "ready",
+            "label": "待处理",
+            "sort": 0,
+            "status": "active"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/companies/qa-company/dictionaries",
+      "method": "POST",
+      "body": {
+        "code": "qa_state",
+        "name": "验收状态",
+        "description": "",
+        "status": "active",
+        "items": [
+          {
+            "value": "ready",
+            "label": "待处理",
+            "sort": 0,
+            "status": "active"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/companies/qa-company/dictionaries/dict-new-1",
+      "method": "PATCH",
+      "body": {
+        "name": "验收状态更新",
+        "description": "",
+        "status": "active",
+        "items": [
+          {
+            "value": "ready",
+            "label": "待处理",
+            "sort": 0,
+            "status": "active"
+          }
+        ],
+        "expectedVersion": 1
+      }
+    },
+    {
+      "path": "/companies/qa-company/positions",
+      "method": "POST",
+      "body": {
+        "name": "验收工程师",
+        "code": "qa_engineer",
+        "description": ""
+      }
+    },
+    {
+      "path": "/companies/qa-company/roles/qa-role/permissions",
+      "method": "PUT",
+      "body": {
+        "expectedVersion": 1,
+        "permissionKeys": ["company.home.read", "company.roles.create", "company.roles.read"]
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/member-candidates/resolve",
+      "method": "POST",
+      "body": {
+        "userIds": ["qa-user"],
+        "purpose": "browseOrganization"
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/members/qa-user/units",
+      "method": "PUT",
+      "body": {
+        "relations": [
+          {
+            "organizationUnitId": "qa-unit",
+            "duty": "member"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/member-candidates/resolve",
+      "method": "POST",
+      "body": {
+        "userIds": ["qa-user"],
+        "purpose": "assignPositionMembers"
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/members/qa-user/positions",
+      "method": "PUT",
+      "body": {
+        "positionIds": ["qa-position"]
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/units",
+      "method": "POST",
+      "body": {
+        "name": "验收团队",
+        "code": "qa_team",
+        "description": "",
+        "sort": 0,
+        "parentId": null
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/member-candidates/resolve",
+      "method": "POST",
+      "body": {
+        "userIds": ["qa-user"],
+        "purpose": "browseOrganization"
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/units/qa-unit/members",
+      "method": "PUT",
+      "body": {
+        "members": [
+          {
+            "userId": "qa-user",
+            "duty": "member"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/units/qa-unit/move",
+      "method": "POST",
+      "body": {
+        "expectedVersion": 1,
+        "parentId": null
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/templates/qa-template",
+      "method": "PUT",
+      "body": {
+        "name": "验收协作模板",
+        "description": "虚构验收数据",
+        "units": [
+          {
+            "clientKey": "qa-unit",
+            "parentClientKey": null,
+            "name": "验收研发团队",
+            "code": "dev",
+            "description": "虚构验收数据",
+            "sort": 0
+          }
+        ],
+        "positions": [
+          {
+            "name": "开发工程师",
+            "code": "dev",
+            "description": "虚构验收数据",
+            "status": "active"
+          },
+          {
+            "name": "验收岗位",
+            "code": "qa_job",
+            "description": "",
+            "status": "active"
+          }
+        ],
+        "isDefault": true,
+        "expectedVersion": 1
+      }
+    },
+    {
+      "path": "/platform/menus",
+      "method": "POST",
+      "body": {
+        "expectedVersion": 1,
+        "parentId": null,
+        "name": "验收目录",
+        "sort": 0,
+        "hidden": false,
+        "status": "active",
+        "type": "directory"
+      }
+    }
+  ]
+}

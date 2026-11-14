@@ -11,16 +11,17 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AAvatar: typeof import('antdv-next')['Avatar']
-    AButton: typeof import('antdv-next')['Button']
-    ADropdown: typeof import('antdv-next')['Dropdown']
-    ALayout: typeof import('antdv-next')['Layout']
-    ALayoutContent: typeof import('antdv-next')['LayoutContent']
-    ALayoutHeader: typeof import('antdv-next')['LayoutHeader']
-    ALayoutSider: typeof import('antdv-next')['LayoutSider']
-    AMenu: typeof import('antdv-next')['Menu']
+    AccountMenu: typeof import('./../components/application/AccountMenu.vue')['default']
+    AppProviders: typeof import('./../components/application/AppProviders.vue')['default']
+    AssignmentDialog: typeof import('./../components/selector/AssignmentDialog.vue')['default']
+    CandidateSelect: typeof import('./../components/selector/CandidateSelect.vue')['default']
+    DictionarySelect: typeof import('./../components/dictionary/DictionarySelect.vue')['default']
+    LocaleSwitch: typeof import('./../components/application/LocaleSwitch.vue')['default']
+    MemberRelationsDialog: typeof import('./../components/selector/MemberRelationsDialog.vue')['default']
+    PageHeading: typeof import('./../components/management/PageHeading.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SchemaDialog: typeof import('./../components/management/SchemaDialog.vue')['default']
     SvgIcon: typeof import('./../components/Icon/svg-icon.vue')['default']
   }
 }

@@ -1,0 +1,54 @@
+{
+  "check": {
+    "command": "vp check",
+    "chunk_id": "0809f5",
+    "wall_time_seconds": 1.7150504,
+    "exit_code": 0,
+    "original_token_count": 37,
+    "output": "pass: All 97 files are correctly formatted (129ms, 24 threads)\npass: Found no warnings, lint errors, or type errors in 86 files (713ms, 24 threads)\n"
+  },
+  "test": {
+    "command": "vp test",
+    "chunk_id": "1cf567",
+    "wall_time_seconds": 3.1345502,
+    "exit_code": 0,
+    "original_token_count": 99,
+    "output": "note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.\n\n RUN  v5.1.0 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web-vue\n\n\n Test Files  5 passed (5)\n      Tests  31 passed (31)\n   Start at  12:19:16\n   Duration  660ms (environment 73%, import 20%, tests 4%, transform 2%, worker 1%)\n\n"
+  },
+  "eslint": {
+    "command": "vp exec eslint src test vite.config.ts",
+    "chunk_id": "b43d48",
+    "wall_time_seconds": 5.1240116,
+    "exit_code": 0,
+    "original_token_count": 0,
+    "output": ""
+  },
+  "typecheck": {
+    "command": "vp exec vue-tsc -b --pretty false",
+    "chunk_id": "d5bce3",
+    "wall_time_seconds": 3.6113621,
+    "exit_code": 0,
+    "original_token_count": 0,
+    "output": ""
+  },
+  "build": {
+    "command": "vp run build",
+    "exit_code": 0,
+    "summary": "vue-tsc -b 与 vp build 两个任务均实际执行成功，4281 modules transformed；SchemaForm 分包 764.65 kB，构建提示部分分包超过 500 kB。"
+  },
+  "finalRevalidation": {
+    "date": "2026-11-14",
+    "reason": "移动抽屉由废弃 width 参数迁移为 size 后重新检查。",
+    "check": "vp check 通过：97 个文件格式正确，86 个文件无警告或错误。",
+    "test": "vp test 通过：5 个文件、31 项测试，571ms。",
+    "eslint": "vp exec eslint src test vite.config.ts 退出码为 0。",
+    "build": "vp run build 两个任务均实际执行成功（0/2 cache hit）：vue-tsc -b 及 vp build；4281 modules，2.20s。SchemaForm 764.65 kB，保留超过 500 kB 的体积提示。",
+    "exit_code": 0
+  },
+  "shared": {
+    "command": "vp run build",
+    "cwd": "packages/shared",
+    "exit_code": 0,
+    "summary": "本轮实际执行成功（541ms），确认新增组织与岗位关联工具导出。"
+  }
+}

@@ -1,0 +1,300 @@
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 22,
+  "numPassedTests": 22,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1794626770502,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["HTTP 模型协议"],
+          "fullName": "HTTP 模型协议 Anthropic 保留网关前缀、合并工具结果并忽略内部思考内容",
+          "status": "passed",
+          "title": "Anthropic 保留网关前缀、合并工具结果并忽略内部思考内容",
+          "duration": 28.773600000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HTTP 模型协议"],
+          "fullName": "HTTP 模型协议 支持完整 messages 路径与显式 bearer 网关认证",
+          "status": "passed",
+          "title": "支持完整 messages 路径与显式 bearer 网关认证",
+          "duration": 5.1743000000000166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HTTP 模型协议"],
+          "fullName": "HTTP 模型协议 OpenAI 保留工具 ID 并正确解析参数与用量",
+          "status": "passed",
+          "title": "OpenAI 保留工具 ID 并正确解析参数与用量",
+          "duration": 3.8284000000000162,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HTTP 模型协议"],
+          "fullName": "HTTP 模型协议 协议无效或 HTTP 出错不回显远端敏感正文",
+          "status": "passed",
+          "title": "协议无效或 HTTP 出错不回显远端敏感正文",
+          "duration": 5.446899999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1794626770741,
+      "endTime": 1794626770784.447,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/agent/tests/model/http.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["独立进程复用统一入口"],
+          "fullName": "独立进程复用统一入口 真实 worker 执行工具、隔离 pid、复用进程并保持 session 历史",
+          "status": "passed",
+          "title": "真实 worker 执行工具、隔离 pid、复用进程并保持 session 历史",
+          "duration": 169.8633,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["独立进程复用统一入口"],
+          "fullName": "独立进程复用统一入口 跨两层进程共享预算与单个模型名额，不会等待死锁",
+          "status": "passed",
+          "title": "跨两层进程共享预算与单个模型名额，不会等待死锁",
+          "duration": 284.40090000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["独立进程复用统一入口"],
+          "fullName": "独立进程复用统一入口 祖先授权限制和深度限制跨进程生效",
+          "status": "passed",
+          "title": "祖先授权限制和深度限制跨进程生效",
+          "duration": 378.8333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["独立进程复用统一入口"],
+          "fullName": "独立进程复用统一入口 取消后 worker 可继续独立任务，关闭确实回收进程",
+          "status": "passed",
+          "title": "取消后 worker 可继续独立任务，关闭确实回收进程",
+          "duration": 226.93259999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["独立进程复用统一入口"],
+          "fullName": "独立进程复用统一入口 工厂失败与进程崩溃返回确定错误",
+          "status": "passed",
+          "title": "工厂失败与进程崩溃返回确定错误",
+          "duration": 209.69450000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["独立进程复用统一入口"],
+          "fullName": "独立进程复用统一入口 worker 自身更短的总期限和跨进程深度边界生效",
+          "status": "passed",
+          "title": "worker 自身更短的总期限和跨进程深度边界生效",
+          "duration": 336.3030000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["独立进程复用统一入口"],
+          "fullName": "独立进程复用统一入口 worker 清理钩子失败会报告，进程依然被回收",
+          "status": "passed",
+          "title": "worker 清理钩子失败会报告，进程依然被回收",
+          "duration": 107.22869999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1794626770720,
+      "endTime": 1794626772433.2288,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/agent/tests/process/worker.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 校验真实参数、执行工具并提交可隔离的成功历史",
+          "status": "passed",
+          "title": "校验真实参数、执行工具并提交可隔离的成功历史",
+          "duration": 7.241800000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 参数错误和权限拒绝不会执行工具或泄露底层异常",
+          "status": "passed",
+          "title": "参数错误和权限拒绝不会执行工具或泄露底层异常",
+          "duration": 1.542599999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 工具完成后 fallback 只重发当前请求，不重复副作用",
+          "status": "passed",
+          "title": "工具完成后 fallback 只重发当前请求，不重复副作用",
+          "duration": 0.6402000000000214,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 认证错误不切换备用模型，失败不提交历史",
+          "status": "passed",
+          "title": "认证错误不切换备用模型，失败不提交历史",
+          "duration": 1.0707999999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 并发异步链的身份隔离，会话内顺序执行",
+          "status": "passed",
+          "title": "并发异步链的身份隔离，会话内顺序执行",
+          "duration": 34.6079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 排队期间取消不会越过活跃会话，且不污染历史",
+          "status": "passed",
+          "title": "排队期间取消不会越过活跃会话，且不污染历史",
+          "duration": 92.50140000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 单模型名额下并行子代理无死锁，借入实例不会被父关闭",
+          "status": "passed",
+          "title": "单模型名额下并行子代理无死锁，借入实例不会被父关闭",
+          "duration": 1.5366000000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 预算覆盖整树，父取消传播而其他独立 run 继续",
+          "status": "passed",
+          "title": "预算覆盖整树，父取消传播而其他独立 run 继续",
+          "duration": 90.80540000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 超时停止等待不配合取消的工具，错误结果安全返回",
+          "status": "passed",
+          "title": "超时停止等待不配合取消的工具，错误结果安全返回",
+          "duration": 30.314300000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 步骤、token 和总超时均有确定终态",
+          "status": "passed",
+          "title": "步骤、token 和总超时均有确定终态",
+          "duration": 30.876899999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["统一运行内核"],
+          "fullName": "统一运行内核 初始化期间关闭仍回收延迟工厂的资源",
+          "status": "passed",
+          "title": "初始化期间关闭仍回收延迟工厂的资源",
+          "duration": 16.906900000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1794626770722,
+      "endTime": 1794626771029.907,
+      "status": "passed",
+      "message": "",
+      "name": "C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/packages/agent/tests/runtime/agent.test.ts"
+    }
+  ]
+}

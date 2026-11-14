@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useI18n } from '@bubblesjs/i18n-vue';
+import { useI18n } from '@bubblesjs/i18n-vue'
 
 const { tr, loadLocale } = useI18n()
 

@@ -5,6 +5,7 @@ export type {
 } from '../types'
 export * from './dictionary/contracts'
 export * from './dictionary/options'
+export * from './organization/assignment'
 export {
   ACCESS_BUILTIN_MEMBER_PERMISSIONS,
   ACCESS_CATALOG_VERSION,
