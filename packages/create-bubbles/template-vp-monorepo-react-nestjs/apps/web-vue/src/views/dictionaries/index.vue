@@ -5,7 +5,6 @@ import { ProTable } from '@bubblesjs/antdv-next-pro'
 import { Button, Modal } from 'antdv-next'
 import { computed, ref } from 'vue'
 import DictionarySelect from '@/components/dictionary/DictionarySelect.vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { statusEnum } from '@/components/management/schema'
 import { useWorkspace } from '@/components/management/useWorkspace'
 import { dictionaryCache } from '@/store/dictionary'
@@ -91,13 +90,15 @@ async function save(body: CreateDictionaryRequest) {
 </script>
 
 <template>
-  <PageHeading :title="title" :description="tr('统一维护业务选项，按工作空间独立管理。')" />
   <ProTable
     ref="table"
+    class="adaptive-table"
+    :header-title="title"
     :columns="columns"
+    :search="{ labelWidth: 'auto' }"
     :request="request"
     row-key="id"
-    :scroll="{ x: 950 }"
+    :scroll="{ x: 950, y: 'auto' }"
     @request-error="showError"
   >
     <template #toolbar-actions>

@@ -3,7 +3,6 @@ import type { ProColumns } from '@bubblesjs/antdv-next-pro'
 import type { AuditRecord } from 'shared/types'
 import { ProTable } from '@bubblesjs/antdv-next-pro'
 import { computed } from 'vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { useWorkspace } from '@/components/management/useWorkspace'
 
 type Row = AuditRecord & Record<string, unknown>
@@ -79,12 +78,14 @@ async function request(params: Record<string, unknown>) {
 </script>
 
 <template>
-  <PageHeading :title="title" :description="tr('追踪关键操作，查看变更来源与执行时间。')" />
   <ProTable
+    class="adaptive-table"
+    :header-title="title"
     :columns="columns"
+    :search="{ labelWidth: 'auto' }"
     :request="request"
     row-key="id"
-    :scroll="{ x: 1100 }"
+    :scroll="{ x: 1100, y: 'auto' }"
     @request-error="showError"
   />
 </template>

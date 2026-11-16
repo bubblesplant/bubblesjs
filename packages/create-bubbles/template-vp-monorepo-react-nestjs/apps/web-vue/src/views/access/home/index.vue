@@ -1,58 +1,66 @@
 <script setup lang="ts">
-import { Tag } from 'antdv-next'
+import type { MenuNode } from 'shared/types'
+import { Card, Descriptions, Empty, Space, Tag } from 'antdv-next'
 import { accessRoutePath } from 'shared/utils'
 import { computed } from 'vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { useWorkspace } from '@/components/management/useWorkspace'
-import { supportedPages } from '@/router/access'
+import NavigationIcon from '@/components/navigation/NavigationIcon.vue'
+import { navigationMenus } from '@/router/access'
+import '@/styles/workspace/home.css'
 
 const { store, scope, title, tr } = useWorkspace()
-const pages = computed(() =>
-  supportedPages.filter(
-    (page) =>
-      page.scopeType === scope.type &&
-      !page.routeKey.endsWith('.home') &&
-      store.access?.permissionKeys.includes(page.permissionKey),
+const typeName = computed(() =>
+  tr(scope.type === 'platform' ? '平台' : scope.type === 'company' ? '企业' : '项目'),
+)
+const roleName = computed(() =>
+  tr(
+    store.access?.administrator === 'platform'
+      ? '平台管理员'
+      : store.access?.administrator === 'company'
+        ? '企业管理员'
+        : store.access?.administrator === 'project'
+          ? '项目管理员'
+          : '普通成员',
   ),
 )
+/** 仅将当前授权菜单中的可导航页面作为工作台入口。 */
+function flatten(nodes: MenuNode[]): MenuNode[] {
+  return nodes.flatMap((node) => (node.type === 'directory' ? flatten(node.children) : [node]))
+}
+const entries = computed(() => (store.access ? flatten(navigationMenus(store.access)) : []))
+const descriptions = computed(() => [
+  { key: 'name', label: tr('当前用户'), content: store.user?.name },
+  { key: 'account', label: tr('完整账号'), content: store.user?.account },
+  { key: 'scope', label: tr('工作空间'), content: typeName.value },
+  { key: 'role', label: tr('当前身份') },
+])
 </script>
 
 <template>
-  <PageHeading :title="title" :description="tr('在这里管理团队、权限和项目，保持协作井然有序。')" />
-  <div class="stat-grid">
-    <div class="stat-card">
-      <span>{{ tr('当前身份') }}</span>
-      <strong>{{ store.user?.name }}</strong>
-      <Tag color="purple">
-        {{ tr(store.access?.administrator ? '管理员' : '成员') }}
-      </Tag>
+  <div class="workspace-stateless-home">
+    <div class="workspace-page-title">
+      <h1>{{ title }}</h1>
+      <p>{{ tr('查看当前身份，选择你需要的管理功能。') }}</p>
     </div>
-    <div class="stat-card">
-      <span>{{ tr('可访问页面') }}</span>
-      <strong>{{ pages.length }}</strong>
-      <span>{{ tr('根据当前权限展示') }}</span>
-    </div>
-    <div class="stat-card">
-      <span>{{ tr('我的工作空间') }}</span>
-      <strong>{{ store.workspaces.length }}</strong>
-      <RouterLink to="/workspaces">{{ tr('切换空间') }} ↗</RouterLink>
-    </div>
+    <Descriptions bordered :column="{ xs: 1, sm: 2 }" :items="descriptions">
+      <template #contentRender="{ item, value }">
+        <Tag v-if="item.key === 'role'" :color="store.access?.administrator ? 'cyan' : undefined">{{
+          roleName
+        }}</Tag>
+        <template v-else>{{ value }}</template>
+      </template>
+    </Descriptions>
+    <Card :title="tr('可用功能')">
+      <Space v-if="entries.length" :size="[24, 18]" wrap>
+        <RouterLink
+          v-for="entry in entries"
+          :key="entry.id"
+          :to="accessRoutePath({ scope, routeKey: entry.routeKey! })!"
+        >
+          <NavigationIcon :name="entry.icon" /> {{ tr(entry.name) }}
+        </RouterLink>
+      </Space>
+      <Empty v-else :description="tr('当前没有可用的菜单，请联系管理员授权。')" />
+    </Card>
   </div>
-  <section class="panel">
-    <h3>{{ tr('快捷入口') }}</h3>
-    <p class="muted">
-      {{ tr('按你的权限，为你准备常用功能。') }}
-    </p>
-    <div class="shortcut-grid">
-      <RouterLink
-        v-for="page in pages"
-        :key="page.routeKey"
-        :to="accessRoutePath({ scope, routeKey: page.routeKey })!"
-        class="shortcut"
-      >
-        {{ tr(page.title) }}
-        <span>↗</span>
-      </RouterLink>
-    </div>
-  </section>
 </template>

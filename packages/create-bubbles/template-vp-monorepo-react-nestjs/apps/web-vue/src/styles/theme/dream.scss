@@ -1,0 +1,32 @@
+:root {
+  --header-height: 72px;
+  --wanwu-ink: #302b49;
+  --wanwu-muted: #78718e;
+  --wanwu-accent: #7864c4;
+  --wanwu-lilac: #8270db;
+  --wanwu-fog: #f5f3fc;
+  --wanwu-ice: #dceefa;
+  --wanwu-rose: #f2dfef;
+  --wanwu-border: rgba(255, 255, 255, 0.85);
+  --wanwu-glass: rgba(255, 255, 255, 0.76);
+  --wanwu-shadow: 0 12px 40px rgba(91, 70, 144, 0.06);
+  --wanwu-atmosphere:
+    radial-gradient(ellipse at 84% 7%, #e6ddf6 0, transparent 44%),
+    radial-gradient(ellipse at 38% 95%, var(--wanwu-ice) 0, transparent 48%),
+    radial-gradient(ellipse at 2% 26%, var(--wanwu-rose) 0, transparent 44%), var(--wanwu-fog);
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--wanwu-accent);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

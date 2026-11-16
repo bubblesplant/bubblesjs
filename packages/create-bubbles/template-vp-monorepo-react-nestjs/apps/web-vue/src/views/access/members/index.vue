@@ -1,21 +1,34 @@
 <script setup lang="ts">
 import type { ProColumns, ProTableInstance, SchemaFormColumn } from '@bubblesjs/antdv-next-pro'
-import type { AccountRecord, MemberRecord, OrganizationScope, RoleRecord } from 'shared/types'
+import type {
+  AccountRecord,
+  MemberRecord,
+  OrganizationMemberCandidate,
+  OrganizationScope,
+  RoleRecord,
+} from 'shared/types'
+import { MailOutlined, PlusOutlined, UserAddOutlined } from '@antdv-next/icons'
 import { ProTable } from '@bubblesjs/antdv-next-pro'
-import { Button, Popconfirm, Space } from 'antdv-next'
+import { Button, Popconfirm, Space, Tag, Tooltip } from 'antdv-next'
 import { computed, h, onBeforeUnmount, ref, watch } from 'vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { passwordField, statusEnum, textField } from '@/components/management/schema'
 import SchemaDialog from '@/components/management/SchemaDialog.vue'
 import { useWorkspace } from '@/components/management/useWorkspace'
 import CandidateSelect from '@/components/selector/CandidateSelect.vue'
 import { loadPages } from '@/components/selector/choices'
 import MemberRelationsDialog from '@/components/selector/MemberRelationsDialog.vue'
+import { organizationApi } from '@/views/organization/api'
 
-type Row = (AccountRecord | MemberRecord) & Record<string, unknown>
-const { api, scope, store, title, can, act, showError, message, tr } = useWorkspace()
+type Row = (AccountRecord | MemberRecord) &
+  Record<string, unknown> & { candidate?: OrganizationMemberCandidate }
+const { api, scope, store, can, act, showError, message, tr } = useWorkspace()
 const platform = scope.type === 'platform'
 const organizationScope = platform ? undefined : (scope as OrganizationScope)
+const organization = organizationScope ? organizationApi(organizationScope) : undefined
+const canReadOrganization = computed(() => !platform && can(`${scope.type}.organization.read`))
+const title = computed(() =>
+  tr(platform ? '全局账号' : scope.type === 'company' ? '企业成员' : '项目成员'),
+)
 const table = ref<ProTableInstance<Row>>()
 const open = ref(false)
 const rolesOpen = ref(false)
@@ -31,45 +44,107 @@ const columns = computed<ProColumns<Row>[]>(() => [
     title: tr('搜索'),
     dataIndex: 'query',
     hideInTable: true,
+    fieldProps: { placeholder: tr('搜索姓名或账号') },
   },
   {
     title: tr('姓名'),
     dataIndex: 'name',
     hideInSearch: true,
+    width: 150,
+    fixed: 'left',
   },
   {
-    title: tr('账号'),
+    title: tr('完整账号'),
     dataIndex: 'account',
     hideInSearch: true,
     copyable: true,
+    width: 180,
+    fixed: 'left',
   },
   {
-    title: tr('状态'),
+    title: tr(platform ? '账号状态' : '成员状态'),
     dataIndex: 'status',
     valueType: 'select',
-    valueEnum: statusEnum(tr),
+    width: 100,
+    valueEnum: {
+      active: { text: tr('启用'), status: 'Success' },
+      disabled: { text: tr('停用'), status: 'Default' },
+      ...(platform ? { locked: { text: tr('锁定'), status: 'Warning' } } : {}),
+    },
   },
   ...(!platform
     ? [
         {
-          title: tr('角色'),
-          dataIndex: 'roleNames',
+          title: tr('账号状态'),
+          dataIndex: 'accountStatus',
           hideInSearch: true,
-          renderText: (value: unknown) => (value as string[]).join('、'),
+          width: 100,
+          valueEnum: statusEnum(tr),
         },
       ]
     : []),
   {
-    title: tr('创建时间'),
+    title: tr(platform ? '平台角色' : '角色'),
+    dataIndex: 'roleNames',
+    hideInSearch: true,
+    render: (_value, record) =>
+      'roleNames' in record
+        ? h(Space, { size: [0, 4], wrap: true }, () =>
+            (record as MemberRecord).roleNames.map((name) => h(Tag, { key: name }, () => name)),
+          )
+        : tr('{count} 个角色', { count: (record as AccountRecord).platformRoleIds.length }),
+  },
+  ...(canReadOrganization.value
+    ? [
+        {
+          title: tr('组织归属'),
+          dataIndex: 'organizationUnits',
+          hideInSearch: true,
+          width: 220,
+          render: (_value: unknown, record: Row) =>
+            h(
+              Space,
+              { size: [0, 4], wrap: true },
+              () =>
+                record.candidate?.identities
+                  .flatMap((identity) => identity.organizationUnits)
+                  .map((unit) =>
+                    h(Tag, { key: unit.membershipId, color: 'purple' }, () => unit.name),
+                  ) ?? '—',
+            ),
+        },
+        {
+          title: tr('岗位'),
+          dataIndex: 'positions',
+          hideInSearch: true,
+          width: 200,
+          render: (_value: unknown, record: Row) =>
+            h(
+              Space,
+              { size: [0, 4], wrap: true },
+              () =>
+                record.candidate?.identities
+                  .flatMap((identity) => identity.positions)
+                  .map((position) =>
+                    h(Tag, { key: position.id, color: 'blue' }, () => position.name),
+                  ) ?? '—',
+            ),
+        },
+      ]
+    : []),
+  {
+    title: tr('加入时间'),
     dataIndex: 'createdAt',
     valueType: 'dateTime',
     hideInSearch: true,
+    width: 180,
   },
   {
     title: tr('操作'),
     key: 'actions',
     valueType: 'option',
-    width: platform ? 270 : 430,
+    width: platform ? 320 : 390,
+    fixed: 'right',
   },
 ])
 const addFields = computed<SchemaFormColumn[]>(() =>
@@ -120,17 +195,28 @@ const passwordFields = computed(() => [
   passwordField('newPassword', tr('新密码')),
   passwordField('confirmPassword', tr('确认密码')),
 ])
-/** 按当前空间读取账号或成员，并转换为 ProTable 分页结果。 */
+/** 读取账号或成员及有权查看的组织岗位快照，转换为表格分页结果。 */
 async function request(params: Record<string, unknown>) {
   const query = {
     page: Number(params.current ?? 1),
-    pageSize: Number(params.pageSize ?? 10),
+    pageSize: Number(params.pageSize ?? 20),
     query: params.query as string,
     status: params.status as 'active' | 'disabled',
   }
   const result = platform ? await api.accounts(query) : await api.members(query)
+  const candidates =
+    organization && canReadOrganization.value && result.items.length
+      ? await organization.resolveMemberCandidates({
+          userIds: result.items.map((item) => (item as MemberRecord).userId),
+          purpose: 'browseOrganization',
+        })
+      : []
+  const candidateByUserId = new Map(candidates.map((candidate) => [candidate.userId, candidate]))
   return {
-    data: result.items.map((item) => ({ ...item })),
+    data: result.items.map((item) => ({
+      ...item,
+      candidate: platform ? undefined : candidateByUserId.get((item as MemberRecord).userId),
+    })),
     total: result.total,
     success: true,
   }
@@ -226,25 +312,37 @@ onBeforeUnmount(() => roleRevision++)
 </script>
 
 <template>
-  <PageHeading :title="title" :description="tr('管理账号状态、空间成员、角色及组织归属。')" />
   <ProTable
     ref="table"
+    class="adaptive-table"
+    :header-title="title"
     :columns="columns"
+    :search="{ labelWidth: 'auto' }"
     :request="request"
     row-key="id"
-    :scroll="{ x: platform ? 1000 : 1250 }"
+    :pagination="{ defaultPageSize: 20, showSizeChanger: true, pageSizeOptions: [20, 50, 100] }"
+    :scroll="{ x: 'max-content', y: 'auto' }"
     @request-error="showError"
   >
     <template #toolbar-actions>
-      <Button v-if="!platform && can('add')" type="primary" @click="open = true">
-        ＋ {{ tr(scope.type === 'company' ? '注册企业成员' : '添加项目成员') }}
-      </Button>
+      <Space v-if="!platform && can('add')" size="small">
+        <Button type="primary" @click="open = true">
+          <template #icon
+            ><UserAddOutlined v-if="scope.type === 'company'" /><PlusOutlined v-else
+          /></template>
+          {{ tr(scope.type === 'company' ? '直接注册' : '添加成员') }}
+        </Button>
+        <Tooltip v-if="scope.type === 'company'" :title="tr('邀请流程尚待确认，暂不可用')">
+          <span
+            ><Button disabled
+              ><template #icon><MailOutlined /></template>{{ tr('邀请成员（待确认）') }}</Button
+            ></span
+          >
+        </Tooltip>
+      </Space>
     </template>
     <template #cell-actions="{ record }">
-      <Space wrap :size="0">
-        <Button v-if="can('roles')" type="link" size="small" @click="editRoles(record)">
-          {{ tr('分配角色') }}
-        </Button>
+      <Space wrap :size="4">
         <Button
           v-if="
             !platform &&
@@ -255,7 +353,7 @@ onBeforeUnmount(() => roleRevision++)
           size="small"
           @click="relations(record, 'organization')"
         >
-          {{ tr('组织归属') }}
+          {{ tr('编辑组织') }}
         </Button>
         <Button
           v-if="!platform && can(`${scope.type}.positions.assign`)"
@@ -263,13 +361,17 @@ onBeforeUnmount(() => roleRevision++)
           size="small"
           @click="relations(record, 'positions')"
         >
-          {{ tr('岗位任职') }}
+          {{ tr('编辑岗位') }}
+        </Button>
+        <Button v-if="can('roles')" type="link" size="small" @click="editRoles(record)">
+          {{ tr('分配角色') }}
         </Button>
         <Button
           v-if="can('status')"
           type="link"
           size="small"
           :disabled="own(record)"
+          :danger="record.status === 'active'"
           @click="toggle(record)"
         >
           {{ tr(record.status === 'active' ? '停用' : '启用') }}

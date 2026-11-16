@@ -1,0 +1,198 @@
+.workspace-account-trigger.ant-btn {
+  height: 44px;
+  gap: 10px;
+  padding: 5px 10px 5px 6px;
+  border: 1px solid transparent;
+  border-radius: 26px;
+  background-color: transparent;
+  color: var(--wanwu-ink);
+  transition:
+    color 180ms,
+    background-color 180ms,
+    border-color 180ms;
+}
+.workspace-account-trigger.ant-btn:hover,
+.workspace-account-trigger.ant-btn[aria-expanded='true'] {
+  background-color: #ffffff8c;
+  border-color: var(--wanwu-border);
+}
+.workspace-account-trigger .ant-avatar,
+.workspace-account-identity .ant-avatar {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #e9e1f7, #e3eafb);
+  border: 1px solid #fff;
+  color: #7763ad;
+  font-weight: 600;
+}
+.workspace-account-name {
+  max-width: 132px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.workspace-account-chevron {
+  color: var(--wanwu-muted);
+  font-size: 10px;
+}
+.workspace-account-dropdown {
+  width: 272px;
+  max-width: calc(100vw - 32px);
+  padding-top: 8px;
+}
+.workspace-account-panel {
+  overflow: hidden;
+  padding: 6px;
+  background: #fcfbffed;
+  border: 1px solid var(--wanwu-border);
+  border-radius: 18px;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 16px 48px #5b46901f,
+    0 2px 8px #5b469008;
+}
+.workspace-account-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 8px 6px;
+  padding: 14px 2px 18px;
+  border-bottom: 1px solid #eeebf5;
+}
+.workspace-account-details {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-wrap: anywhere;
+}
+.workspace-account-details strong {
+  color: var(--wanwu-ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+.workspace-account-details > span,
+.workspace-account-details > small {
+  color: var(--wanwu-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.workspace-account-dropdown .ant-dropdown-menu {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.workspace-account-dropdown .ant-dropdown-menu-item {
+  min-height: 40px;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+.workspace-account-dropdown .ant-dropdown-menu-item-divider {
+  margin: 6px 10px;
+  background: #eeebf5;
+}
+.locale-switch-trigger.ant-btn {
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: #8e77b8;
+  background: transparent;
+}
+.locale-switch-trigger.ant-btn:hover,
+.locale-switch-trigger.ant-btn[aria-expanded='true'] {
+  color: #7860a8;
+  background-color: #eee7f7;
+  border-color: #e5dcf2;
+}
+.locale-switch-trigger .anticon {
+  font-size: 16px;
+}
+.locale-switch-popover {
+  width: 280px;
+  max-width: calc(100vw - 32px);
+}
+.locale-switch-popover .ant-popover-container {
+  padding: 12px;
+  border: 1px solid #e9e2f3;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow:
+    0 12px 36px #6d548d1a,
+    0 2px 8px #6d548d08;
+}
+.locale-switch-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: #433655;
+  font-size: 13px;
+}
+.locale-switch-heading strong {
+  font-weight: 500;
+}
+.locale-switch-heading > span {
+  color: #a99cb9;
+  font-size: 10px;
+}
+.locale-switch-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.locale-switch-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: #433655;
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+}
+.locale-switch-item:hover {
+  background: #f8f5fc;
+}
+.locale-switch-item[aria-checked='true'] {
+  color: #9172bf;
+  background: #f1eafa;
+}
+.locale-switch-names {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  line-height: 18px;
+}
+.locale-switch-names small {
+  color: #a698b8;
+  font-size: 11px;
+  line-height: 15px;
+}
+.locale-switch-error {
+  padding: 8px;
+  color: #b95e73;
+  font-size: 12px;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .workspace-account-name {
+    display: none;
+  }
+  .workspace-account-trigger.ant-btn {
+    gap: 6px;
+    padding-inline: 5px;
+  }
+}

@@ -8,7 +8,6 @@ import type {
 import { ProTable } from '@bubblesjs/antdv-next-pro'
 import { Button, Popconfirm, Space, Tag } from 'antdv-next'
 import { computed, onBeforeUnmount, ref } from 'vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { statusEnum } from '@/components/management/schema'
 import { useWorkspace } from '@/components/management/useWorkspace'
 import { organizationTemplatesApi } from './api'
@@ -122,13 +121,15 @@ async function save(body: CreateOrganizationTemplateRequest) {
 </script>
 
 <template>
-  <PageHeading :title="title" :description="tr('沉淀团队组织与岗位，为新项目提供一致的起点。')" />
   <ProTable
     ref="table"
+    class="adaptive-table"
+    :header-title="title"
     :columns="columns"
+    :search="{ labelWidth: 'auto' }"
     :request="request"
     row-key="id"
-    :scroll="{ x: 1100 }"
+    :scroll="{ x: 1100, y: 'auto' }"
     @request-error="showError"
   >
     <template #toolbar-actions>

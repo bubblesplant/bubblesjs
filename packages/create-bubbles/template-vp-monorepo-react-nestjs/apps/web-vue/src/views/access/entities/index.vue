@@ -4,7 +4,6 @@ import type { AdministratorSummary, CompanyRecord, ProjectRecord } from 'shared/
 import { ProTable } from '@bubblesjs/antdv-next-pro'
 import { Button, Modal, Space, Tag } from 'antdv-next'
 import { computed, h, onBeforeUnmount, ref, watch } from 'vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { descriptionField, statusEnum, textField } from '@/components/management/schema'
 import SchemaDialog from '@/components/management/SchemaDialog.vue'
 import { useWorkspace } from '@/components/management/useWorkspace'
@@ -236,22 +235,15 @@ onBeforeUnmount(() => administratorRevision++)
 </script>
 
 <template>
-  <PageHeading
-    :title="title"
-    :description="
-      tr(
-        platform
-          ? '管理企业及其管理员，建立独立的协作边界。'
-          : '为团队创建项目，并配置项目管理员。',
-      )
-    "
-  />
   <ProTable
     ref="table"
+    class="adaptive-table"
+    :header-title="title"
     :columns="columns"
+    :search="{ labelWidth: 'auto' }"
     :request="request"
     row-key="id"
-    :scroll="{ x: 950 }"
+    :scroll="{ x: 950, y: 'auto' }"
     @request-error="showError"
   >
     <template #toolbar-actions>

@@ -54,7 +54,7 @@ async function check(name, run) {
 /** 等待异步页面及表格稳定，截图仅包含本地虚构数据。 */
 async function visit(path) {
   await page.goto(baseUrl + path)
-  await page.waitForSelector('h1, h2')
+  await page.waitForSelector('h1, h2, [data-pro-table-toolbar-title]')
   await page.locator('#nprogress').waitFor({ state: 'hidden' })
   await page
     .locator('.ant-spin-spinning')
@@ -72,13 +72,13 @@ async function capture(name) {
 try {
   await check('login', async () => {
     await visit('/login')
-    await page.getByRole('button', { name: /^登\s*录$/ }).click()
+    await page.locator('.login-form-content button[type="submit"]').click()
     await page.getByText('请输入账号', { exact: true }).last().waitFor()
     assert.equal(state.writes.length, 0)
     await capture('login.png')
     await page.locator('input').nth(0).fill('vue_qa')
     await page.locator('input').nth(1).fill('FictionalPass2026')
-    await page.getByRole('button', { name: /^登\s*录$/ }).click()
+    await page.locator('.login-form-content button[type="submit"]').click()
     await page.waitForURL('**/workspaces')
     await page.getByText('星屿演示企业', { exact: true }).first().waitFor()
   })
@@ -94,7 +94,15 @@ try {
       .replace(':projectId', 'qa-project')
     await check(definition.routeKey, async () => {
       await visit(path)
-      await page.getByRole('heading', { name: definition.title, exact: true }).waitFor()
+      await page
+        .getByRole('heading', { name: definition.title, exact: true })
+        .or(
+          page
+            .locator('[data-pro-table-toolbar-title]')
+            .getByText(definition.title, { exact: true }),
+        )
+        .first()
+        .waitFor()
       assert.equal(new URL(page.url()).pathname, path)
       if (definition.routeKey === 'company.organization.templates')
         await page.getByText('项目协作模板', { exact: true }).first().waitFor()
@@ -119,17 +127,17 @@ try {
   }
   await check('register-validation', async () => {
     await visit('/register')
-    const fields = page.locator('.auth-form input')
+    const fields = page.locator('.login-form-content input')
     await fields.nth(0).fill('虚构注册用户')
     await fields.nth(1).fill('vue_qa_new')
     await fields.nth(2).fill('FictionalPass2026')
     await fields.nth(3).fill('DifferentPass2026')
     const before = state.writes.length
-    await page.getByRole('button', { name: /^注\s*册$/ }).click()
+    await page.locator('.login-form-content button[type="submit"]').click()
     await page.getByText('两次输入的密码不一致', { exact: true }).waitFor()
     assert.equal(state.writes.length, before)
     await fields.nth(3).fill('FictionalPass2026')
-    await page.getByRole('button', { name: /^注\s*册$/ }).click()
+    await page.locator('.login-form-content button[type="submit"]').click()
     await page.waitForURL('**/login?registered=1')
     assert.equal(state.writes.at(-1).path, '/auth/register')
   })
@@ -138,9 +146,10 @@ try {
     await page
       .locator('.workspace-card')
       .filter({ has: page.getByRole('heading', { name: '星屿演示企业', exact: true }) })
+      .locator('.workspace-enter')
       .click()
     await page.waitForURL('**/companies/qa-company')
-    await page.getByRole('button', { name: '切换空间', exact: true }).click()
+    await page.getByRole('link', { name: '切换空间', exact: true }).click()
     await page.waitForURL('**/workspaces')
   })
   await check('dictionary-write-and-conflict', async () => {
@@ -210,18 +219,30 @@ try {
   })
   await check('member-relations', async () => {
     await visit('/companies/qa-company/members')
-    await page.getByRole('button', { name: '组织归属', exact: true }).click()
+    await page.getByRole('button', { name: '编辑组织', exact: true }).click()
     const dialog = page.getByRole('dialog')
     await dialog.getByText('研发团队', { exact: true }).first().waitFor()
     await dialog.getByRole('button', { name: /^确\s*定$/ }).click()
     await dialog.waitFor({ state: 'hidden' })
-    const body = state.writes.at(-1).body
+    const organizationWrite = state.writes.findLast(
+      (write) =>
+        write.method === 'PUT' &&
+        write.path === '/companies/qa-company/organization/members/qa-user/units',
+    )
+    assert.ok(organizationWrite)
+    const body = organizationWrite.body
     assert.deepEqual(body.relations, [{ organizationUnitId: 'qa-unit', duty: 'member' }])
-    await page.getByRole('button', { name: '岗位任职', exact: true }).click()
+    await page.getByRole('button', { name: '编辑岗位', exact: true }).click()
     await dialog.getByText('开发工程师', { exact: true }).first().waitFor()
     await dialog.getByRole('button', { name: /^确\s*定$/ }).click()
     await dialog.waitFor({ state: 'hidden' })
-    assert.deepEqual(state.writes.at(-1).body.positionIds, ['qa-position'])
+    const positionWrite = state.writes.findLast(
+      (write) =>
+        write.method === 'PUT' &&
+        write.path === '/companies/qa-company/organization/members/qa-user/positions',
+    )
+    assert.ok(positionWrite)
+    assert.deepEqual(positionWrite.body.positionIds, ['qa-position'])
   })
   await check('organization-write-and-assignment', async () => {
     await visit('/companies/qa-company/organization')
@@ -319,10 +340,18 @@ try {
   })
   await check('language-switch', async () => {
     await visit('/companies/qa-company/positions')
-    await page.getByRole('button', { name: 'English', exact: true }).click()
-    await page.getByRole('heading', { name: 'Company Positions', exact: true }).waitFor()
-    await page.getByRole('button', { name: '简体中文', exact: true }).click()
-    await page.getByRole('heading', { name: '企业岗位', exact: true }).waitFor()
+    await page.getByRole('button', { name: '切换语言', exact: true }).click()
+    await page.getByRole('menuitemradio', { name: /English/ }).click()
+    await page
+      .locator('[data-pro-table-toolbar-title]')
+      .getByText('Company Positions', { exact: true })
+      .waitFor()
+    await page.locator('.locale-switch-trigger').click()
+    await page.getByRole('menuitemradio', { name: /简体中文/ }).click()
+    await page
+      .locator('[data-pro-table-toolbar-title]')
+      .getByText('企业岗位', { exact: true })
+      .waitFor()
   })
   await check('mobile-navigation', async () => {
     await page.setViewportSize({ width: 390, height: 844 })

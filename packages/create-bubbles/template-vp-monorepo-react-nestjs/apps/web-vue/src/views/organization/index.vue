@@ -4,7 +4,6 @@ import type { OrganizationScope, OrganizationUnitNode } from 'shared/types'
 import { ProTable } from '@bubblesjs/antdv-next-pro'
 import { Breadcrumb, Button, Space, Tag } from 'antdv-next'
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { descriptionField, statusEnum, textField } from '@/components/management/schema'
 import SchemaDialog from '@/components/management/SchemaDialog.vue'
 import { useWorkspace } from '@/components/management/useWorkspace'
@@ -163,7 +162,6 @@ onBeforeUnmount(() => moveRevision++)
 </script>
 
 <template>
-  <PageHeading :title="title" :description="tr('按层级组织团队，为成员配置归属与职责。')" />
   <Breadcrumb style="margin-bottom: 18px">
     <Breadcrumb.Item><a @click="navigate(0)">{{ tr('全部组织') }}</a></Breadcrumb.Item>
     <Breadcrumb.Item v-for="(unit, index) in path" :key="unit.id">
@@ -172,13 +170,15 @@ onBeforeUnmount(() => moveRevision++)
   </Breadcrumb>
   <ProTable
     ref="table"
+    class="adaptive-table"
+    :header-title="title"
     :columns="columns"
     :request="request"
     :params="{ parentId }"
     row-key="id"
     :search="false"
     :pagination="false"
-    :scroll="{ x: 950 }"
+    :scroll="{ x: 950, y: 'auto' }"
     @request-error="showError"
   >
     <template #toolbar-actions>

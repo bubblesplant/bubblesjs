@@ -5,7 +5,6 @@ defineProps<{ title: string; description?: string }>()
 <template>
   <div class="page-heading">
     <div>
-      <div class="eyebrow">BUBBLES WORKSPACE</div>
       <h1>{{ title }}</h1>
       <p v-if="description">
         {{ description }}

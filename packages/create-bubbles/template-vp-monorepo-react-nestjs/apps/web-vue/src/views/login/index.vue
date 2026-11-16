@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import type { SchemaFormColumn } from '@bubblesjs/antdv-next-pro'
+import { ArrowRightOutlined, LockOutlined, UserOutlined } from '@antdv-next/icons'
 import { SchemaForm } from '@bubblesjs/antdv-next-pro'
 import { useI18n } from '@bubblesjs/i18n-vue'
-import { Alert, App, Button } from 'antdv-next'
+import { Alert, App } from 'antdv-next'
 import { getRequestErrorMessage } from 'shared/utils'
-import { computed, ref } from 'vue'
+import { computed, h, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import LocaleSwitch from '@/components/application/LocaleSwitch.vue'
+import Brand from '@/components/brand/Brand.vue'
 import { buildAuthPath, safeNextPath } from '@/utils/safe-next'
 import { cookie } from '@/utils/storage/cookie'
 import { login } from './api'
+import '@/styles/auth/login.scss'
 
 const route = useRoute()
 const router = useRouter()
@@ -23,6 +26,8 @@ const columns = computed<SchemaFormColumn[]>(() => [
     title: tr('账号'),
     dataIndex: 'account',
     fieldProps: {
+      prefix: h(UserOutlined),
+      size: 'large',
       autocomplete: 'username',
       placeholder: tr('请输入账号'),
     },
@@ -41,6 +46,8 @@ const columns = computed<SchemaFormColumn[]>(() => [
     dataIndex: 'password',
     valueType: 'password',
     fieldProps: {
+      prefix: h(LockOutlined),
+      size: 'large',
       autocomplete: 'current-password',
       placeholder: tr('请输入密码'),
     },
@@ -81,59 +88,68 @@ async function submit(values: Record<string, unknown>) {
 </script>
 
 <template>
-  <div class="auth-page">
-    <div class="auth-language">
-      <LocaleSwitch />
-    </div>
-    <section class="auth-story">
-      <div class="brand-mark">b.</div>
-      <span class="eyebrow">BUBBLES · WORKSPACE</span>
-      <h1>
-        {{ tr('让协作') }}
-        <br />
-        {{ tr('自然发生。') }}
-      </h1>
-      <p>{{ tr('连接团队与项目，构建属于你的工作空间。') }}</p>
-      <div class="auth-orbit">
-        <span />
-        <span />
-        <span />
+  <main class="login-page">
+    <section class="login-brand-panel" :aria-label="tr('万物')">
+      <Brand variant="auth" />
+      <div class="login-story">
+        <div class="login-orbit" aria-hidden="true">
+          <span class="login-pearl" />
+          <span class="login-orbit-ring" />
+          <span class="login-orbit-satellite" />
+        </div>
+        <p class="login-eyebrow">WANWU</p>
+        <h1>{{ tr('万物') }}</h1>
+        <p class="login-story-caption">{{ tr('企业与项目工作空间') }}</p>
       </div>
-      <small>{{ tr('有序工作，自在创造') }}</small>
+      <div class="login-brand-footer">{{ tr('登录后，选择你的工作空间。') }}</div>
     </section>
-    <section class="auth-panel">
-      <div class="auth-form">
-        <span class="eyebrow">WELCOME BACK</span>
-        <h2>{{ tr('欢迎回来') }}</h2>
-        <p>{{ tr('登录以继续使用工作空间') }}</p>
+    <section class="login-form-panel" aria-labelledby="login-title">
+      <div class="login-locale-switch"><LocaleSwitch /></div>
+      <div class="login-form-content">
+        <p class="login-form-eyebrow">{{ tr('账号登录') }}</p>
+        <h2 id="login-title">{{ tr('欢迎回到万物') }}</h2>
+        <p class="login-description">{{ tr('登录账号，进入你的工作空间。') }}</p>
         <Alert
           v-if="route.query.registered"
+          class="login-error"
           type="success"
-          :message="tr('注册成功，请登录')"
+          :message="tr('账号已创建，请登录后继续。')"
           show-icon
         />
-        <Alert v-if="error" type="error" :message="error" show-icon style="margin-bottom: 20px" />
+        <Alert
+          v-if="error"
+          class="login-error"
+          type="error"
+          :message="error"
+          show-icon
+          role="alert"
+        />
         <SchemaForm
           v-model="model"
           :columns="columns"
           layout="vertical"
+          :form-props="{ requiredMark: false }"
           :on-finish="submit"
           :submitter="{
             resetButtonProps: false,
             searchConfig: { submitText: tr('登录') },
-            submitButtonProps: { block: true, loading: busy, size: 'large' },
+            submitButtonProps: {
+              block: true,
+              loading: busy,
+              size: 'large',
+              icon: h(ArrowRightOutlined),
+              iconPlacement: 'end',
+            },
           }"
         />
-        <div class="auth-footer">
+        <p class="login-account-hint">
           {{ tr('还没有账号？') }}
           <RouterLink :to="buildAuthPath('/register', { next: String(route.query.next ?? '/') })">
-            {{ tr('立即注册') }}
+            {{ tr('注册账号') }}
           </RouterLink>
-        </div>
-        <Button type="text" block @click="router.push('/examples/pro-table')">
-          {{ tr('查看组件示例') }} ↗
-        </Button>
+        </p>
       </div>
+      <footer class="login-footer">{{ tr('万物 · 工作空间') }}</footer>
     </section>
-  </div>
+  </main>
 </template>

@@ -4,7 +4,6 @@ import type { PermissionTreeResult, RoleRecord } from 'shared/types'
 import { ProTable } from '@bubblesjs/antdv-next-pro'
 import { Alert, Button, Checkbox, Modal, Popconfirm, Space, Tag } from 'antdv-next'
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { descriptionField, textField } from '@/components/management/schema'
 import SchemaDialog from '@/components/management/SchemaDialog.vue'
 import { useWorkspace } from '@/components/management/useWorkspace'
@@ -159,13 +158,15 @@ async function savePermissions() {
 </script>
 
 <template>
-  <PageHeading :title="title" :description="tr('通过角色配置页面与操作权限。')" />
   <ProTable
     ref="table"
+    class="adaptive-table"
+    :header-title="title"
     :columns="columns"
+    :search="{ labelWidth: 'auto' }"
     :request="request"
     row-key="id"
-    :scroll="{ x: 900 }"
+    :scroll="{ x: 900, y: 'auto' }"
     @request-error="showError"
   >
     <template #toolbar-actions>

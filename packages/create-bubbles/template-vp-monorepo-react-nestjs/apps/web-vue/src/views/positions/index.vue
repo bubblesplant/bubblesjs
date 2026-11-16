@@ -4,7 +4,6 @@ import type { OrganizationScope, PositionRecord } from 'shared/types'
 import { ProTable } from '@bubblesjs/antdv-next-pro'
 import { Button, Space } from 'antdv-next'
 import { computed, ref } from 'vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { descriptionField, statusEnum, textField } from '@/components/management/schema'
 import SchemaDialog from '@/components/management/SchemaDialog.vue'
 import { useWorkspace } from '@/components/management/useWorkspace'
@@ -95,13 +94,15 @@ async function save(values: Record<string, unknown>) {
 </script>
 
 <template>
-  <PageHeading :title="title" :description="tr('维护岗位目录，并为成员配置任职关系。')" />
   <ProTable
     ref="table"
+    class="adaptive-table"
+    :header-title="title"
     :columns="columns"
+    :search="{ labelWidth: 'auto' }"
     :request="request"
     row-key="id"
-    :scroll="{ x: 950 }"
+    :scroll="{ x: 950, y: 'auto' }"
     @request-error="showError"
   >
     <template #toolbar-actions>

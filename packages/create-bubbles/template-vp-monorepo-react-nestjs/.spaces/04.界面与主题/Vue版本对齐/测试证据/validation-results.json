@@ -1,54 +1,87 @@
 {
+  "executedDate": "2026-11-16",
+  "scope": "当前工作树 apps/web-vue 的 React 基准 UI 对齐；不代表整个 monorepo 或真实账号端到端验收。",
   "check": {
-    "command": "vp check",
-    "chunk_id": "0809f5",
-    "wall_time_seconds": 1.7150504,
-    "exit_code": 0,
-    "original_token_count": 37,
-    "output": "pass: All 97 files are correctly formatted (129ms, 24 threads)\npass: Found no warnings, lint errors, or type errors in 86 files (713ms, 24 threads)\n"
+    "command": "pnpm exec vp check --no-fmt",
+    "cwd": "apps/web-vue",
+    "exitCode": 0,
+    "summary": "88 个文件，无警告、代码检查或类型错误。"
+  },
+  "formatCheck": {
+    "command": "pnpm exec vp check",
+    "cwd": "apps/web-vue",
+    "exitCode": 1,
+    "summary": "仅既有自动生成文件 src/types/auto-import.d.ts 格式检查失败；本轮未修改该文件。"
   },
   "test": {
-    "command": "vp test",
-    "chunk_id": "1cf567",
-    "wall_time_seconds": 3.1345502,
-    "exit_code": 0,
-    "original_token_count": 99,
-    "output": "note: You are running `vp test` as a Vite+ built-in command. If you meant to run the test npm script, use `vpr test` instead.\n\n RUN  v5.1.0 C:/malei/stu/bubbles/packages/create-bubbles/template-vp-monorepo-react-nestjs/apps/web-vue\n\n\n Test Files  5 passed (5)\n      Tests  31 passed (31)\n   Start at  12:19:16\n   Duration  660ms (environment 73%, import 20%, tests 4%, transform 2%, worker 1%)\n\n"
+    "command": "pnpm exec vp test",
+    "cwd": "apps/web-vue",
+    "exitCode": 0,
+    "testFiles": 5,
+    "passed": 31,
+    "failed": 0,
+    "durationMs": 844
   },
   "eslint": {
-    "command": "vp exec eslint src test vite.config.ts",
-    "chunk_id": "b43d48",
-    "wall_time_seconds": 5.1240116,
-    "exit_code": 0,
-    "original_token_count": 0,
-    "output": ""
+    "command": "pnpm exec vp exec eslint src test vite.config.ts",
+    "cwd": "apps/web-vue",
+    "exitCode": 0,
+    "summary": "全量 Vue 源码、测试与配置检查通过；此后的侧栏及工作空间页码修复分别再次通过定向 ESLint。"
   },
   "typecheck": {
-    "command": "vp exec vue-tsc -b --pretty false",
-    "chunk_id": "d5bce3",
-    "wall_time_seconds": 3.6113621,
-    "exit_code": 0,
-    "original_token_count": 0,
-    "output": ""
+    "command": "pnpm exec vp exec vue-tsc --noEmit --incremental false --pretty false",
+    "cwd": "apps/web-vue",
+    "exitCode": 0,
+    "summary": "最终源码通过独立 Vue 类型检查，不写入增量缓存。"
   },
   "build": {
-    "command": "vp run build",
-    "exit_code": 0,
-    "summary": "vue-tsc -b 与 vp build 两个任务均实际执行成功，4281 modules transformed；SchemaForm 分包 764.65 kB，构建提示部分分包超过 500 kB。"
+    "command": "pnpm exec vp build",
+    "cwd": "apps/web-vue",
+    "exitCode": 0,
+    "modulesTransformed": 4307,
+    "durationSeconds": 2.21,
+    "summary": "实际生产构建通过；SchemaForm 分包 764.64 kB，保留部分分包超过 500 kB 的体积提示。"
   },
-  "finalRevalidation": {
+  "browser": {
+    "command": "pnpm exec node '.spaces/04.界面与主题/Vue版本对齐/工具/browser-check.mjs'",
+    "cwd": ".",
+    "executedAt": "2026-11-16T06:52:22.725Z",
+    "exitCode": 0,
+    "browser": "Chromium 145.0.7632.6",
+    "baseUrl": "http://127.0.0.1:10000",
+    "mockData": true,
+    "checks": 46,
+    "failures": 0,
+    "runtimeErrors": 0,
+    "unexpectedRequests": 0,
+    "report": "browser-report.json"
+  },
+  "visual": {
+    "command": "pnpm exec node '.spaces/04.界面与主题/Vue版本对齐/工具/visual-check.mjs'",
+    "cwd": ".",
+    "executedAt": "2026-11-16T07:00:46.026Z",
+    "exitCode": 0,
+    "mockData": true,
+    "checks": 22,
+    "screenshots": 20,
+    "comparisonPairs": 10,
+    "interactionChecks": ["locale-keyboard", "sidebar-collapse"],
+    "failures": 0,
+    "runtimeErrors": 0,
+    "unexpectedRequests": 0,
+    "summary": "桌面 1440×1000、手机 390×844 均覆盖登录、注册、空间选择、企业首页及成员；20 张图片均非空、可解码并经过目视检查，无整页横向溢出。手机完整页面截图高度可超过视口。",
+    "report": "visual-report.json"
+  },
+  "historicalBaseline": {
     "date": "2026-11-14",
-    "reason": "移动抽屉由废弃 width 参数迁移为 size 后重新检查。",
-    "check": "vp check 通过：97 个文件格式正确，86 个文件无警告或错误。",
-    "test": "vp test 通过：5 个文件、31 项测试，571ms。",
-    "eslint": "vp exec eslint src test vite.config.ts 退出码为 0。",
-    "build": "vp run build 两个任务均实际执行成功（0/2 cache hit）：vue-tsc -b 及 vp build；4281 modules，2.20s。SchemaForm 764.65 kB，保留超过 500 kB 的体积提示。",
-    "exit_code": 0
+    "status": "历史基线，不作为本轮 UI 验证证据。",
+    "summary": "当时通过 31 项单测、46 个生产预览场景及 shared 构建；本轮未修改共享代码。",
+    "details": "../测试报告.md"
   },
-  "shared": {
-    "command": "vp run build",
-    "cwd": "packages/shared",
-    "exit_code": 0,
-    "summary": "本轮实际执行成功（541ms），确认新增组织与岗位关联工具导出。"
-  }
+  "limitations": [
+    "浏览器业务场景与截图使用虚构接口数据，未使用有效真实账号登录，未验证数据库写入、完整真实服务链路或部署。",
+    "真实 NestJS 代理探测仅覆盖未认证请求及空登录参数校验，详见测试报告。",
+    "完整格式检查仍受既有生成文件格式问题影响，构建保留分包体积提示。",
+    "移动验证使用 Chromium 模拟视口，未覆盖真实触屏设备及其他浏览器。"
+  ]
 }

@@ -1,6 +1,6 @@
 {
-  "executedAt": "2026-11-14T04:29:37.220Z",
-  "baseUrl": "http://127.0.0.1:5197",
+  "executedAt": "2026-11-16T06:52:22.725Z",
+  "baseUrl": "http://127.0.0.1:10000",
   "mockData": true,
   "browser": "145.0.7632.6",
   "checks": [
@@ -60,6 +60,22 @@
       "method": "POST",
       "body": {
         "account": "vue_qa"
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/member-candidates/resolve",
+      "method": "POST",
+      "body": {
+        "userIds": ["qa-user"],
+        "purpose": "browseOrganization"
+      }
+    },
+    {
+      "path": "/companies/qa-company/projects/qa-project/organization/member-candidates/resolve",
+      "method": "POST",
+      "body": {
+        "userIds": ["qa-user"],
+        "purpose": "browseOrganization"
       }
     },
     {
@@ -150,6 +166,14 @@
       }
     },
     {
+      "path": "/companies/qa-company/organization/member-candidates/resolve",
+      "method": "POST",
+      "body": {
+        "userIds": ["qa-user"],
+        "purpose": "browseOrganization"
+      }
+    },
+    {
       "path": "/companies/qa-company/organization/members/qa-user/units",
       "method": "PUT",
       "body": {
@@ -166,6 +190,14 @@
       "method": "POST",
       "body": {
         "userIds": ["qa-user"],
+        "purpose": "browseOrganization"
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/member-candidates/resolve",
+      "method": "POST",
+      "body": {
+        "userIds": ["qa-user"],
         "purpose": "assignPositionMembers"
       }
     },
@@ -174,6 +206,14 @@
       "method": "PUT",
       "body": {
         "positionIds": ["qa-position"]
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/member-candidates/resolve",
+      "method": "POST",
+      "body": {
+        "userIds": ["qa-user"],
+        "purpose": "browseOrganization"
       }
     },
     {
@@ -260,6 +300,14 @@
         "hidden": false,
         "status": "active",
         "type": "directory"
+      }
+    },
+    {
+      "path": "/companies/qa-company/organization/member-candidates/resolve",
+      "method": "POST",
+      "body": {
+        "userIds": ["qa-user"],
+        "purpose": "browseOrganization"
       }
     }
   ]

@@ -1,0 +1,110 @@
+.workspace-body {
+  [data-pro-table] {
+    min-width: 0;
+  }
+  [data-pro-table-search],
+  [data-pro-card],
+  .ant-card {
+    border: 1px solid var(--wanwu-border);
+    border-radius: 18px;
+    background: var(--wanwu-glass);
+    box-shadow: var(--wanwu-shadow);
+  }
+  [data-pro-table-search] {
+    margin-bottom: 16px;
+    padding-top: 24px;
+
+    > .ant-card-body {
+      padding: 0;
+    }
+  }
+  [data-pro-table-toolbar-title] {
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+  }
+  [data-pro-query-row] {
+    width: calc(100% + 24px);
+    margin-inline: -12px;
+  }
+  [data-pro-query-col],
+  [data-pro-query-actions] {
+    padding-inline: 12px;
+  }
+  [data-pro-table-list-toolbar] {
+    padding-block: 4px;
+  }
+  [data-pro-card] [data-pro-card] {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .ant-table,
+  .ant-table-placeholder,
+  .ant-table-placeholder:hover > td {
+    background: transparent;
+  }
+  .ant-table-wrapper .ant-table .ant-table-thead > tr > th {
+    background: #f3f0fa;
+    font-size: 12px;
+    font-weight: 500;
+    padding-block: 16px;
+  }
+  .ant-input,
+  .ant-input-affix-wrapper,
+  .ant-select-selector {
+    background: #ffffff9c;
+  }
+  .ant-btn-primary {
+    background: linear-gradient(120deg, #8976d1, #7460be);
+    border-color: transparent;
+  }
+  .ant-btn-primary:hover {
+    filter: brightness(1.06);
+  }
+  .ant-table-empty .ant-table-placeholder > td {
+    height: 310px;
+  }
+}
+
+/* 列表页与 React 一样让表体填满工作区，详情页继续使用原有正文留白。 */
+.workspace-body:has(> [data-pro-table].adaptive-table) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px;
+
+  > [data-pro-table] {
+    flex: 1;
+    min-height: 0;
+  }
+  > .page-heading,
+  > .ant-breadcrumb,
+  > .ant-tabs {
+    flex-shrink: 0;
+  }
+  [data-pro-table-search] {
+    max-height: 50%;
+    overflow: auto;
+    flex-shrink: 0;
+  }
+  .ant-table-body {
+    overscroll-behavior: contain;
+  }
+}
+@media (max-width: 767px) {
+  .workspace-body [data-pro-query-col] .ant-form-item-label {
+    line-height: 22px;
+
+    > label {
+      height: 22px;
+    }
+  }
+  /* 窄屏查询按钮与 React 的纵向表单操作行保持同样的标签留白。 */
+  .workspace-body [data-pro-query-actions] {
+    padding-top: 30px;
+  }
+  .workspace-body .ant-table-empty .ant-table-placeholder > td {
+    height: 230px;
+  }
+}

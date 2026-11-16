@@ -23,7 +23,6 @@ import {
   Tag,
 } from 'antdv-next'
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import PageHeading from '@/components/management/PageHeading.vue'
 import { useWorkspace } from '@/components/management/useWorkspace'
 import { refreshAccess } from '@/utils/request/workspace'
 import { menuApi } from './api'
@@ -169,10 +168,6 @@ async function cleanup() {
 </script>
 
 <template>
-  <PageHeading
-    :title="title"
-    :description="tr('配置工作空间导航及已发布功能，权限始终由服务端校验。')"
-  />
   <Segmented
     v-model:value="scopeType"
     :options="[
@@ -190,17 +185,20 @@ async function cleanup() {
     </template>
   </Alert>
   <ProTable
+    class="adaptive-table"
+    :header-title="title"
     :columns="columns"
     :data-source="data"
     :loading="loading"
     row-key="id"
     :search="false"
     :pagination="false"
-    :scroll="{ x: 1000 }"
+    :scroll="{ x: 1000, y: 'auto' }"
     :expandable="{ childrenColumnName: '__children' }"
   >
     <template #toolbar-title>
       <Space wrap>
+        <span>{{ title }}</span>
         <Input v-model:value="query" allow-clear :placeholder="tr('搜索')" style="width: 210px" />
         <Select
           v-model:value="status"

@@ -12,23 +12,40 @@ const route = useRoute()
 const theme = {
   token: {
     colorPrimary: '#7864c4',
+    colorInfo: '#7864c4',
     colorBgLayout: '#f5f3fc',
     colorText: '#302b49',
     colorTextSecondary: '#78718e',
     colorBorder: '#e1ddec',
+    colorBorderSecondary: '#eeebf5',
     borderRadius: 12,
     controlHeight: 36,
     fontFamily: '"PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif',
   },
   components: {
+    Button: { primaryShadow: '0 4px 12px rgba(120, 100, 196, 0.18)' },
     Card: { borderRadiusLG: 18 },
-    Menu: { itemBorderRadius: 10 },
+    Table: {
+      headerBg: '#f5f3fb',
+      headerColor: '#67607c',
+      headerSplitColor: 'transparent',
+      rowHoverBg: '#f7f5ff',
+    },
+    Menu: {
+      itemBorderRadius: 12,
+      itemHeight: 46,
+      itemSelectedBg: '#e9e3fa',
+      itemHoverBg: '#eeebf8',
+      itemSelectedColor: '#6853ad',
+      itemColor: '#78718e',
+    },
+    Layout: { headerBg: 'transparent', siderBg: 'transparent' },
   },
 }
 const antdLocale = computed(() => (locale.value === 'en_US' ? enUS : zhCN))
 const proIntl = computed(() => (locale.value === 'en_US' ? enUSIntl : zhCNIntl))
 watchEffect(() => {
-  document.title = `${tr(String(route.meta.title ?? '工作空间'))} · Bubbles`
+  document.title = `${tr(String(route.meta.title ?? '工作空间'))} · ${tr('万物')}`
   document.documentElement.lang = locale.value === 'en_US' ? 'en' : 'zh-CN'
 })
 </script>
