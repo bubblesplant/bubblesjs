@@ -53,7 +53,9 @@ watchEffect(() => {
 <template>
   <ConfigProvider :locale="antdLocale" :theme="theme">
     <ProProvider :intl="proIntl">
-      <AntApp><RouterView /></AntApp>
+      <AntApp>
+        <div class="route-transition-layout"><RouterView /></div>
+      </AntApp>
     </ProProvider>
   </ConfigProvider>
 </template>

@@ -17,9 +17,9 @@ importers:
       '@antdv-next/icons':
         specifier: ^1.1.2
         version: 1.1.2(vue@3.5.45(typescript@6.0.3))
-      '@bubblesjs/antv-next-pro':
-        specifier: ^0.3.1
-        version: 0.3.1(antdv-next@1.8.1(vue@3.5.45(typescript@6.0.3)))(vue@3.5.45(typescript@6.0.3))
+      '@bubblesjs/antdv-next-pro':
+        specifier: 0.3.5
+        version: 0.3.5(antdv-next@1.8.1(vue@3.5.45(typescript@6.0.3)))(vue@3.5.45(typescript@6.0.3))
       '@vueuse/core':
         specifier: ^15.0.0
         version: 15.0.0(vue@3.5.45(typescript@6.0.3))
@@ -311,10 +311,9 @@ packages:
   '@blazediff/core@1.10.0':
     resolution: {integrity: sha512-AOQff0zgR7cGsZL+4E7hVkmujoPUpm0J9xzWGWZj5wCjd3gmxESXAPfKyuzs93VdpQNFhHlBhfOjrcZ+XTERtQ==}
 
-  '@bubblesjs/antv-next-pro@0.3.1':
-    resolution: {integrity: sha512-W2Qfozuol/bZqVh3mDVx4aMSSvGeegnXgyyDU74HeNRYI4j6M5d/DW4MMkagpntgLUrnCiCfiq7iBjc2wALQhQ==}
+  '@bubblesjs/antdv-next-pro@0.3.5':
+    resolution: {integrity: sha512-VcsRFUsHaIUd93EvTThsEcEZVmCs2FY7gZo4ata46cYL/GBNhrXq3/3MsMiNq9Bdc263VTax2t/HyAdST8RNpA==}
     engines: {node: '>=24 <25'}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
       antdv-next: ^1.5.2
       vue: ^3.5.0
@@ -5265,7 +5264,7 @@ snapshots:
 
   '@blazediff/core@1.10.0': {}
 
-  '@bubblesjs/antv-next-pro@0.3.1(antdv-next@1.8.1(vue@3.5.45(typescript@6.0.3)))(vue@3.5.45(typescript@6.0.3))':
+  '@bubblesjs/antdv-next-pro@0.3.5(antdv-next@1.8.1(vue@3.5.45(typescript@6.0.3)))(vue@3.5.45(typescript@6.0.3))':
     dependencies:
       '@antdv-next/icons': 1.1.2(vue@3.5.45(typescript@6.0.3))
       antdv-next: 1.8.1(vue@3.5.45(typescript@6.0.3))

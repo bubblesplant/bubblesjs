@@ -14,7 +14,7 @@
   "dependencies": {
     "@alova/adapter-axios": "catalog:",
     "@antdv-next/icons": "catalog:",
-    "@bubblesjs/antdv-next-pro": "^0.3.4",
+    "@bubblesjs/antdv-next-pro": "0.3.5",
     "@bubblesjs/i18n-core": "workspace:*",
     "@bubblesjs/i18n-vue": "workspace:*",
     "@vue/devtools-api": "catalog:",

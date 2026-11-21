@@ -698,8 +698,8 @@ importers:
         specifier: 'catalog:'
         version: 1.1.2(vue@3.5.45(typescript@6.0.3))
       '@bubblesjs/antdv-next-pro':
-        specifier: ^0.3.4
-        version: 0.3.4(antdv-next@1.8.1(luxon@3.7.2)(vue@3.5.45(typescript@6.0.3)))(vue@3.5.45(typescript@6.0.3))
+        specifier: 0.3.5
+        version: 0.3.5(antdv-next@1.8.1(luxon@3.7.2)(vue@3.5.45(typescript@6.0.3)))(vue@3.5.45(typescript@6.0.3))
       '@bubblesjs/i18n-core':
         specifier: workspace:*
         version: link:../../packages/i18n/core
@@ -1291,8 +1291,8 @@ packages:
   '@borewit/text-codec@0.2.2':
     resolution: {integrity: sha512-DDaRehssg1aNrH4+2hnj1B7vnUGEjU6OIlyRdkMd0aUdIUvKXrJfXsy8LVtXAy7DRvYVluWbMspsRhz2lcW0mQ==}
 
-  '@bubblesjs/antdv-next-pro@0.3.4':
-    resolution: {integrity: sha512-JxdAqEAks+ZO6Z+kWFb0NKeFfHrBqTiWsSA/RcTGGEKjFRXv2DRfQeeMj1f5obfX4aE+wOKFvV7/HEXq7BH8xw==}
+  '@bubblesjs/antdv-next-pro@0.3.5':
+    resolution: {integrity: sha512-VcsRFUsHaIUd93EvTThsEcEZVmCs2FY7gZo4ata46cYL/GBNhrXq3/3MsMiNq9Bdc263VTax2t/HyAdST8RNpA==}
     engines: {node: '>=24 <25'}
     peerDependencies:
       antdv-next: ^1.5.2
@@ -9513,7 +9513,7 @@ snapshots:
 
   '@borewit/text-codec@0.2.2': {}
 
-  '@bubblesjs/antdv-next-pro@0.3.4(antdv-next@1.8.1(luxon@3.7.2)(vue@3.5.45(typescript@6.0.3)))(vue@3.5.45(typescript@6.0.3))':
+  '@bubblesjs/antdv-next-pro@0.3.5(antdv-next@1.8.1(luxon@3.7.2)(vue@3.5.45(typescript@6.0.3)))(vue@3.5.45(typescript@6.0.3))':
     dependencies:
       '@antdv-next/icons': 1.1.2(vue@3.5.45(typescript@6.0.3))
       antdv-next: 1.8.1(luxon@3.7.2)(vue@3.5.45(typescript@6.0.3))

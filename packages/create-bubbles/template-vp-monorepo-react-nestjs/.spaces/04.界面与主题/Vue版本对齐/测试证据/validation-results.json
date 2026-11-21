@@ -1,11 +1,11 @@
 {
   "executedDate": "2026-11-16",
-  "scope": "当前工作树 apps/web-vue 的 React 基准 UI 对齐；不代表整个 monorepo 或真实账号端到端验收。",
+  "scope": "当前工作树 apps/web-vue 的 React 基准 UI 与路由 Transition 对齐；不代表整个 monorepo 或真实账号端到端验收。",
   "check": {
     "command": "pnpm exec vp check --no-fmt",
     "cwd": "apps/web-vue",
     "exitCode": 0,
-    "summary": "88 个文件，无警告、代码检查或类型错误。"
+    "summary": "90 个文件，无警告、代码检查或类型错误。"
   },
   "formatCheck": {
     "command": "pnpm exec vp check",
@@ -17,16 +17,16 @@
     "command": "pnpm exec vp test",
     "cwd": "apps/web-vue",
     "exitCode": 0,
-    "testFiles": 5,
-    "passed": 31,
+    "testFiles": 6,
+    "passed": 50,
     "failed": 0,
-    "durationMs": 844
+    "durationMs": 957
   },
   "eslint": {
     "command": "pnpm exec vp exec eslint src test vite.config.ts",
     "cwd": "apps/web-vue",
     "exitCode": 0,
-    "summary": "全量 Vue 源码、测试与配置检查通过；此后的侧栏及工作空间页码修复分别再次通过定向 ESLint。"
+    "summary": "转场实现与新增测试后，全量 Vue 源码、测试与配置 ESLint 检查通过。"
   },
   "typecheck": {
     "command": "pnpm exec vp exec vue-tsc --noEmit --incremental false --pretty false",
@@ -38,14 +38,14 @@
     "command": "pnpm exec vp build",
     "cwd": "apps/web-vue",
     "exitCode": 0,
-    "modulesTransformed": 4307,
-    "durationSeconds": 2.21,
+    "modulesTransformed": 4309,
+    "durationSeconds": 2.19,
     "summary": "实际生产构建通过；SchemaForm 分包 764.64 kB，保留部分分包超过 500 kB 的体积提示。"
   },
   "browser": {
     "command": "pnpm exec node '.spaces/04.界面与主题/Vue版本对齐/工具/browser-check.mjs'",
     "cwd": ".",
-    "executedAt": "2026-11-16T06:52:22.725Z",
+    "executedAt": "2026-11-16T07:22:38.867Z",
     "exitCode": 0,
     "browser": "Chromium 145.0.7632.6",
     "baseUrl": "http://127.0.0.1:10000",
@@ -55,6 +55,27 @@
     "runtimeErrors": 0,
     "unexpectedRequests": 0,
     "report": "browser-report.json"
+  },
+  "routeTransition": {
+    "command": "node '.spaces/04.界面与主题/Vue版本对齐/工具/route-transition/run.mjs'",
+    "cwd": ".",
+    "executedAt": "2026-11-16T07:40:12.843Z",
+    "finishedAt": "2026-11-16T07:40:54.875Z",
+    "exitCode": 0,
+    "browser": "Chromium 145.0.7632.6",
+    "baseUrl": "http://127.0.0.1:10000",
+    "mockData": true,
+    "checks": 29,
+    "passed": 29,
+    "failures": 0,
+    "runtimeErrors": 0,
+    "unexpectedRequests": 0,
+    "modes": ["normal", "reduced-motion", "unsupported"],
+    "layoutDurationMs": 500,
+    "pageDurationMs": 320,
+    "screenshots": ["../ui/vue-transition-layout.png", "../ui/vue-transition-page.png"],
+    "summary": "真实浏览器验证新旧快照横滑及完成状态、精确动画时长、正文切页时顶栏和侧栏固定，以及历史导航、快速切页、取消、权限重定向、延迟数据、弹窗不重播和降级。截图保留动画中间帧；首次加载不播放转场。",
+    "report": "route-transition-report.json"
   },
   "visual": {
     "command": "pnpm exec node '.spaces/04.界面与主题/Vue版本对齐/工具/visual-check.mjs'",

@@ -1,0 +1,78 @@
+.route-transition-layout {
+  height: 100%;
+  min-height: 100dvh;
+  min-width: 0;
+}
+
+html[data-route-transition='layout'] .route-transition-layout {
+  view-transition-name: route-layout;
+}
+
+html[data-route-transition='page'] .workspace-body {
+  view-transition-name: route-page;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+
+::view-transition-group(route-page),
+::view-transition-group(route-layout) {
+  overflow: clip;
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(route-page),
+::view-transition-new(route-page),
+::view-transition-old(route-layout),
+::view-transition-new(route-layout) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(route-page),
+::view-transition-old(route-layout) {
+  animation: route-page-out 320ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+::view-transition-new(route-page),
+::view-transition-new(route-layout) {
+  animation: route-page-in 320ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+::view-transition-group(route-layout),
+::view-transition-old(route-layout),
+::view-transition-new(route-layout) {
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+@keyframes route-page-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes route-page-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(route-page),
+  ::view-transition-old(route-page),
+  ::view-transition-new(route-page),
+  ::view-transition-group(route-layout),
+  ::view-transition-old(route-layout),
+  ::view-transition-new(route-layout) {
+    animation: none !important;
+  }
+}
