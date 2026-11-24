@@ -1,1 +1,0 @@
-import 'antdv-next/global'

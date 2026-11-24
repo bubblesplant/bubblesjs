@@ -1,1 +1,0 @@
-ALTER TABLE "upload_sessions" ADD COLUMN "object_sha256" varchar(64);

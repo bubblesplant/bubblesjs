@@ -1,8 +1,0 @@
-{
-  "mode": "verify",
-  "controllers": 20,
-  "productionControllers": 18,
-  "handlers": 98,
-  "allOperations": 127,
-  "productionOperations": 121
-}

@@ -1,7 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "types": ["node", "vite-plus/client", "vite-plugin-svgr/client"]
-  },
-  "include": ["./**/*.ts", "./**/*.tsx", "../src/types/auto-imports.d.ts"]
-}

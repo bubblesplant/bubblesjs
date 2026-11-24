@@ -41,7 +41,7 @@
     "@antfu/eslint-config": "catalog:",
     "@types/node": "^26.6.6",
     "@unocss/eslint-plugin": "catalog:",
-    "@vitejs/plugin-vue": "^6.0.10",
+    "@vitejs/plugin-vue": "^6.0.11",
     "@vitest/browser-playwright": "catalog:",
     "bumpp": "^12.3.0",
     "eslint": "catalog:",
@@ -52,7 +52,7 @@
     "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vitest-browser-vue": "catalog:",
-    "vue": "^3.5.45",
+    "vue": "^3.5.46",
     "vue-tsc": "^3.3.14"
   },
   "peerDependencies": {

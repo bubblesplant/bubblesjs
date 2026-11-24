@@ -4,4 +4,4 @@ set -eu
 unset FORCE_COLOR
 export NO_COLOR=1
 
-exec vp staged
+exec node --import=./.vite-hooks/git-output-encoding.mjs ./node_modules/vite-plus/bin/vp staged

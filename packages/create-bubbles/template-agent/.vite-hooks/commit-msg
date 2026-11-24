@@ -1,1 +1,0 @@
-node .vite-hooks/run.mjs commitlint --edit "$1"

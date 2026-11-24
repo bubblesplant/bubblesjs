@@ -17,11 +17,11 @@ catalog:
   '@element-plus/icons-vue': ^2.3.2
   '@flatten-js/interval-tree': ^2.0.3
   '@types/node': ^26.6.6
-  '@unocss/cli': ^66.12.0
-  '@unocss/postcss': ^66.12.0
-  '@unocss/preset-attributify': ^66.12.0
-  '@unocss/preset-wind3': ^66.12.0
-  '@vitejs/plugin-vue': ^6.0.10
+  '@unocss/cli': ^66.13.0
+  '@unocss/postcss': ^66.13.0
+  '@unocss/preset-attributify': ^66.13.0
+  '@unocss/preset-wind3': ^66.13.0
+  '@vitejs/plugin-vue': ^6.0.11
   '@vueuse/core': ^15.0.0
   bumpp: ^12.3.0
   dayjs: ^1.11.23
@@ -32,19 +32,19 @@ catalog:
   sass: ^1.108.2
   swiper: ^14.4.0
   typescript: ^6.0.3
-  unocss: ^66.12.0
+  unocss: ^66.13.0
   unplugin-vue: ^8.0.1
-  vite: npm:@voidzero-dev/vite-plus-core@1.6.0
-  vite-plus: 1.6.0
-  vitest: ^5.1.0
-  '@vitest/browser-playwright': ^5.1.0
-  eslint: ^10.14.0
+  vite: npm:@voidzero-dev/vite-plus-core@8.3.8000
+  vite-plus: 1.7.0
+  vitest: 5.1.0
+  '@vitest/browser-playwright': 5.1.0
+  eslint: ^10.15.0
   '@antfu/eslint-config': ^10.0.0
   eslint-plugin-format: ^2.0.1
-  '@unocss/eslint-plugin': ^66.12.0
-  playwright: ^1.65.0
+  '@unocss/eslint-plugin': ^66.13.0
+  playwright: ^1.65.1
   vitest-browser-vue: ^3.1.0
-  vue: ^3.5.45
+  vue: ^3.5.46
   vue-element-plus-x: ^1.3.98
   vue-tsc: ^3.3.14
   '@types/cross-spawn': ^6.0.6
@@ -58,56 +58,56 @@ minimumReleaseAgeExclude:
   - '@vitest/ui@5.0.4'
   - '@vitest/utils@5.0.4'
   - vitest@5.0.4
-  - '@voidzero-dev/vite-plus-core@1.6.0'
-  - '@voidzero-dev/vite-plus-darwin-arm64@1.6.0'
-  - '@voidzero-dev/vite-plus-darwin-x64@1.6.0'
-  - '@voidzero-dev/vite-plus-linux-arm64-gnu@1.6.0'
-  - '@voidzero-dev/vite-plus-linux-arm64-musl@1.6.0'
-  - '@voidzero-dev/vite-plus-linux-x64-gnu@1.6.0'
-  - '@voidzero-dev/vite-plus-linux-x64-musl@1.6.0'
-  - '@voidzero-dev/vite-plus-win32-arm64-msvc@1.6.0'
-  - '@voidzero-dev/vite-plus-win32-x64-msvc@1.6.0'
-  - vite-plus@1.6.0
-  - '@oxfmt/binding-android-arm-eabi@0.78.0'
-  - '@oxfmt/binding-android-arm64@0.78.0'
-  - '@oxfmt/binding-darwin-arm64@0.78.0'
-  - '@oxfmt/binding-darwin-x64@0.78.0'
-  - '@oxfmt/binding-freebsd-x64@0.78.0'
-  - '@oxfmt/binding-linux-arm-gnueabihf@0.78.0'
-  - '@oxfmt/binding-linux-arm-musleabihf@0.78.0'
-  - '@oxfmt/binding-linux-arm64-gnu@0.78.0'
-  - '@oxfmt/binding-linux-arm64-musl@0.78.0'
-  - '@oxfmt/binding-linux-ppc64-gnu@0.78.0'
-  - '@oxfmt/binding-linux-riscv64-gnu@0.78.0'
-  - '@oxfmt/binding-linux-riscv64-musl@0.78.0'
-  - '@oxfmt/binding-linux-s390x-gnu@0.78.0'
-  - '@oxfmt/binding-linux-x64-gnu@0.78.0'
-  - '@oxfmt/binding-linux-x64-musl@0.78.0'
-  - '@oxfmt/binding-openharmony-arm64@0.78.0'
-  - '@oxfmt/binding-win32-arm64-msvc@0.78.0'
-  - '@oxfmt/binding-win32-ia32-msvc@0.78.0'
-  - '@oxfmt/binding-win32-x64-msvc@0.78.0'
-  - '@oxlint/binding-android-arm-eabi@1.93.0'
-  - '@oxlint/binding-android-arm64@1.93.0'
-  - '@oxlint/binding-darwin-arm64@1.93.0'
-  - '@oxlint/binding-darwin-x64@1.93.0'
-  - '@oxlint/binding-freebsd-x64@1.93.0'
-  - '@oxlint/binding-linux-arm-gnueabihf@1.93.0'
-  - '@oxlint/binding-linux-arm-musleabihf@1.93.0'
-  - '@oxlint/binding-linux-arm64-gnu@1.93.0'
-  - '@oxlint/binding-linux-arm64-musl@1.93.0'
-  - '@oxlint/binding-linux-ppc64-gnu@1.93.0'
-  - '@oxlint/binding-linux-riscv64-gnu@1.93.0'
-  - '@oxlint/binding-linux-riscv64-musl@1.93.0'
-  - '@oxlint/binding-linux-s390x-gnu@1.93.0'
-  - '@oxlint/binding-linux-x64-gnu@1.93.0'
-  - '@oxlint/binding-linux-x64-musl@1.93.0'
-  - '@oxlint/binding-openharmony-arm64@1.93.0'
-  - '@oxlint/binding-win32-arm64-msvc@1.93.0'
-  - '@oxlint/binding-win32-ia32-msvc@1.93.0'
-  - '@oxlint/binding-win32-x64-msvc@1.93.0'
-  - '@oxlint/plugins@1.93.0'
-  - oxfmt@0.78.0
-  - oxlint@1.93.0
+  - '@voidzero-dev/vite-plus-core@8.3.8000'
+  - '@voidzero-dev/vite-plus-darwin-arm64@1.7.0'
+  - '@voidzero-dev/vite-plus-darwin-x64@1.7.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-gnu@1.7.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-musl@1.7.0'
+  - '@voidzero-dev/vite-plus-linux-x64-gnu@1.7.0'
+  - '@voidzero-dev/vite-plus-linux-x64-musl@1.7.0'
+  - '@voidzero-dev/vite-plus-win32-arm64-msvc@1.7.0'
+  - '@voidzero-dev/vite-plus-win32-x64-msvc@1.7.0'
+  - vite-plus@1.7.0
+  - '@oxfmt/binding-android-arm-eabi@0.79.0'
+  - '@oxfmt/binding-android-arm64@0.79.0'
+  - '@oxfmt/binding-darwin-arm64@0.79.0'
+  - '@oxfmt/binding-darwin-x64@0.79.0'
+  - '@oxfmt/binding-freebsd-x64@0.79.0'
+  - '@oxfmt/binding-linux-arm-gnueabihf@0.79.0'
+  - '@oxfmt/binding-linux-arm-musleabihf@0.79.0'
+  - '@oxfmt/binding-linux-arm64-gnu@0.79.0'
+  - '@oxfmt/binding-linux-arm64-musl@0.79.0'
+  - '@oxfmt/binding-linux-ppc64-gnu@0.79.0'
+  - '@oxfmt/binding-linux-riscv64-gnu@0.79.0'
+  - '@oxfmt/binding-linux-riscv64-musl@0.79.0'
+  - '@oxfmt/binding-linux-s390x-gnu@0.79.0'
+  - '@oxfmt/binding-linux-x64-gnu@0.79.0'
+  - '@oxfmt/binding-linux-x64-musl@0.79.0'
+  - '@oxfmt/binding-openharmony-arm64@0.79.0'
+  - '@oxfmt/binding-win32-arm64-msvc@0.79.0'
+  - '@oxfmt/binding-win32-ia32-msvc@0.79.0'
+  - '@oxfmt/binding-win32-x64-msvc@0.79.0'
+  - '@oxlint/binding-android-arm-eabi@1.94.0'
+  - '@oxlint/binding-android-arm64@1.94.0'
+  - '@oxlint/binding-darwin-arm64@1.94.0'
+  - '@oxlint/binding-darwin-x64@1.94.0'
+  - '@oxlint/binding-freebsd-x64@1.94.0'
+  - '@oxlint/binding-linux-arm-gnueabihf@1.94.0'
+  - '@oxlint/binding-linux-arm-musleabihf@1.94.0'
+  - '@oxlint/binding-linux-arm64-gnu@1.94.0'
+  - '@oxlint/binding-linux-arm64-musl@1.94.0'
+  - '@oxlint/binding-linux-ppc64-gnu@1.94.0'
+  - '@oxlint/binding-linux-riscv64-gnu@1.94.0'
+  - '@oxlint/binding-linux-riscv64-musl@1.94.0'
+  - '@oxlint/binding-linux-s390x-gnu@1.94.0'
+  - '@oxlint/binding-linux-x64-gnu@1.94.0'
+  - '@oxlint/binding-linux-x64-musl@1.94.0'
+  - '@oxlint/binding-openharmony-arm64@1.94.0'
+  - '@oxlint/binding-win32-arm64-msvc@1.94.0'
+  - '@oxlint/binding-win32-ia32-msvc@1.94.0'
+  - '@oxlint/binding-win32-x64-msvc@1.94.0'
+  - '@oxlint/plugins@1.94.0'
+  - oxfmt@0.79.0
+  - oxlint@1.94.0
   - sass@1.108.2
   - prettier@3.10.1

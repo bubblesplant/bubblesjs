@@ -57,7 +57,6 @@ minimumReleaseAgeExclude:
   - oxfmt@0.78.0
   - oxlint@1.93.0
   - sass@1.108.2
-  - vue-router@5.5.0
 
 overrides:
   'oxfmt@0.35.0>tinypool': ^2.2.0

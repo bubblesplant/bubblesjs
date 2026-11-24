@@ -1,8 +1,0 @@
-{
-  "passed": true,
-  "mode": "memory filesystem with actual CLI copy functions",
-  "preservedFiles": 6,
-  "excludedFiles": 12,
-  "ignoredSymlink": true,
-  "skippedDependencyOnlyDirectory": true
-}
