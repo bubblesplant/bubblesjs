@@ -15,7 +15,6 @@ import type { Framework } from './interface'
 const colorMap = {
   vue: gradient(['#42B883', '#42B883']),
   react: gradient(['#087EA4', '#087EA4']),
-  nestjs: gradient(['#E0234E', '#E0234E']),
   monorepo: gradient(['#F59E0B', '#FBBF24']),
   taro: gradient(['#0000C2', '#fff']),
   nextjs: gradient(['#000', '#fff']),
@@ -155,23 +154,6 @@ const FRAMEWORKS: Framework[] = [
         name: 'vp-react-shadcn',
         display: 'vp-react-shadcn',
         color: colorMap.react,
-      },
-      {
-        name: 'vp-monorepo-react-nestjs',
-        display: 'vp-monorepo-react-nestjs',
-        color: colorMap.react,
-      },
-    ],
-  },
-  {
-    name: 'nestjs',
-    display: 'NestJS',
-    color: colorMap.nestjs,
-    variants: [
-      {
-        name: 'nestjs',
-        display: 'NestJS + Fastify',
-        color: colorMap.nestjs,
       },
     ],
   },
@@ -608,8 +590,7 @@ const init = async () => {
   if (root !== cwd) {
     doneMessage += `\n cd ${cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName} `
   }
-  const projectPkgManager =
-    template === 'pnpm-vp-monorepo' || template === 'nestjs' ? 'pnpm' : pkgManager
+  const projectPkgManager = template === 'pnpm-vp-monorepo' ? 'pnpm' : pkgManager
   switch (projectPkgManager) {
     case 'yarn':
       doneMessage += `\n yarn`
@@ -617,13 +598,6 @@ const init = async () => {
       break
     default:
       doneMessage += gradient(['pink', 'white'])(`\n  ${projectPkgManager} install`)
-      if (template === 'nestjs') {
-        doneMessage +=
-          '\n  # Copy .env.example to .env and set SESSION_TOKEN_PEPPER (32+ characters)'
-        doneMessage += '\n  # Setup details: .spaces/01.模板使用/NestJS模板/运行说明.md'
-        doneMessage += '\n  docker compose up -d'
-        doneMessage += '\n  pnpm run db:migrate'
-      }
       doneMessage += gradient(['pink', 'white'])(`\n  ${projectPkgManager} run dev`)
       break
   }
