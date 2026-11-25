@@ -1,5 +1,13 @@
 # @bubblesjs/request
 
+## 0.0.13
+
+### Patch Changes
+
+- [`b3eb07d`](https://github.com/bubblesplant/bubblesjs/commit/b3eb07d2547b38b9b18dfc687a1bfdd689a80be6) Thanks [@bubblesplant](https://github.com/bubblesplant)! - 发版测试
+- Updated dependencies [[`b3eb07d`](https://github.com/bubblesplant/bubblesjs/commit/b3eb07d2547b38b9b18dfc687a1bfdd689a80be6)]:
+  - @bubblesjs/utils@0.0.15
+
 ## 0.0.12
 
 ### Patch Changes
