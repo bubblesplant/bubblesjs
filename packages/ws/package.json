@@ -1,6 +1,6 @@
 {
   "name": "@bubblesjs/ws",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "浏览器 WebSocket 客户端封装，提供事件订阅、自动重连和心跳发送。",
   "keywords": [
